@@ -1,0 +1,168 @@
+<html>
+
+<head>
+<style type="text/css">
+.knitr .inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage .left {
+  text-align: left;
+}
+.rimage .right {
+  text-align: right;
+}
+.rimage .center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+<title>rep()</title>
+</head>
+
+<body>
+
+<h2><code>rep(x, times, length.out, each)</code></h2>
+
+<p><code>rep()</code>is pretty useful for simulating data. Here are some common recipes:</p>
+
+<ul>
+  <li>Repeat a single number (1) a number of times (10)
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">10</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 1 1 1 1 1 1 1 1 1
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a series of numbers (1:5) a number of times (2)
+<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl num">2</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 2 3 4 5 1 2 3 4 5
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl kwc">times</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 2 3 4 5 1 2 3 4 5
+</pre></div>
+</div></div>
+  </li>
+  <li>If <code>times</code> is not an integer, it is truncated (not rounded).
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl kwc">times</span><span class="hl std">=</span><span class="hl num">2.9</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 2 3 4 5 1 2 3 4 5
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a series of numbers (1:5) a number of times each  (2)
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl kwc">each</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 1 2 2 3 3 4 4 5 5
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">NA</span><span class="hl std">,</span> <span class="hl num">2</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 1 2 2 3 3 4 4 5 5
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a list of numbers (0, 3, 6) a number of times (2)
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">3</span><span class="hl std">,</span> <span class="hl num">6</span><span class="hl std">),</span> <span class="hl kwc">times</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] 0 3 6 0 3 6
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a list of strings ("a", "b", "c") a number of times (2)
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;a&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;b&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;c&quot;</span><span class="hl std">),</span> <span class="hl kwc">times</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;a&quot; &quot;b&quot; &quot;c&quot;
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a list of strings ("a", "b", "c") a number of times each (2)
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;a&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;b&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;c&quot;</span><span class="hl std">),</span> <span class="hl kwc">each</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;c&quot; &quot;c&quot;
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a list of strings ("a", "b") a number of times each (2) a number of times (3)
+<div class="chunk" id="unnamed-chunk-8"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;a&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;b&quot;</span><span class="hl std">),</span> <span class="hl kwc">each</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">,</span> <span class="hl kwc">times</span><span class="hl std">=</span><span class="hl num">3</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot;
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a series of numbers (1:5) until you have a specific total (12)
+<div class="chunk" id="unnamed-chunk-9"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl kwc">length.out</span><span class="hl std">=</span><span class="hl num">12</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 2 3 4 5 1 2 3 4 5 1 2
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl kwd">rep_len</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl num">12</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 2 3 4 5 1 2 3 4 5 1 2
+</pre></div>
+</div></div>
+  </li>
+  <li><code>length.out</code> overrides <code>times</code>
+<div class="chunk" id="unnamed-chunk-10"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">5</span><span class="hl std">,</span> <span class="hl kwc">length.out</span><span class="hl std">=</span><span class="hl num">12</span><span class="hl std">,</span> <span class="hl kwc">times</span><span class="hl std">=</span><span class="hl num">500</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##  [1] 1 2 3 4 5 1 2 3 4 5 1 2
+</pre></div>
+</div></div>
+  </li>
+  <li>Repeat a sequence of numbers (0:10 by 5s) a number of times (3)
+<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl kwd">seq</span><span class="hl std">(</span><span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">10</span><span class="hl std">,</span> <span class="hl kwc">by</span><span class="hl std">=</span><span class="hl num">5</span><span class="hl std">),</span> <span class="hl num">3</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1]  0  5 10  0  5 10  0  5 10
+</pre></div>
+</div></div>
+  </li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<html>
+
+<head>
+<title>rep()</title>
+</head>
+
+<body>
+
+<h2><code>rep(x, times, length.out, each)</code></h2>
+
+<p><code>rep()</code>is pretty useful for simulating data. Here are some common recipes:</p>
+
+<ul>
+  <li>Repeat a single number (1) a number of times (10)
+<!--begin.rcode
+rep(1, 10)
+end.rcode-->
+  </li>
+  <li>Repeat a series of numbers (1:5) a number of times (2)
+<!--begin.rcode
+rep(1:5, 2)
+rep(1:5, times=2)
+end.rcode-->
+  </li>
+  <li>If <code>times</code> is not an integer, it is truncated (not rounded).
+<!--begin.rcode
+rep(1:5, times=2.9)
+end.rcode-->
+  </li>
+  <li>Repeat a series of numbers (1:5) a number of times each  (2)
+<!--begin.rcode
+rep(1:5, each=2)
+rep(1:5, 1, NA, 2)
+end.rcode-->
+  </li>
+  <li>Repeat a list of numbers (0, 3, 6) a number of times (2)
+<!--begin.rcode
+rep(c(0, 3, 6), times=2)
+end.rcode-->
+  </li>
+  <li>Repeat a list of strings ("a", "b", "c") a number of times (2)
+<!--begin.rcode
+rep(c("a", "b", "c"), times=2)
+end.rcode-->
+  </li>
+  <li>Repeat a list of strings ("a", "b", "c") a number of times each (2)
+<!--begin.rcode
+rep(c("a", "b", "c"), each=2)
+end.rcode-->
+  </li>
+  <li>Repeat a list of strings ("a", "b") a number of times each (2) a number of times (3)
+<!--begin.rcode
+rep(c("a", "b"), each=2, times=3)
+end.rcode-->
+  </li>
+  <li>Repeat a series of numbers (1:5) until you have a specific total (12)
+<!--begin.rcode
+rep(1:5, length.out=12)
+rep_len(1:5, 12)
+end.rcode-->
+  </li>
+  <li><code>length.out</code> overrides <code>times</code>
+<!--begin.rcode
+rep(1:5, length.out=12, times=500)
+end.rcode-->
+  </li>
+  <li>Repeat a sequence of numbers (0:10 by 5s) a number of times (3)
+<!--begin.rcode
+rep(seq(0, 10, by=5), 3)
+end.rcode-->
+  </li>
+</ul>
+
+</body>
+</html>
