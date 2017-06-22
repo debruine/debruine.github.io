@@ -1,0 +1,88 @@
+<html>
+
+<head>
+<title>Coding Schemes</title>
+</head>
+
+<body>
+
+<h2>Coding Schemes</h2>
+
+<p>How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite <a href="http://talklab.psy.gla.ac.uk/tvw/catpred/">tutorial on coding schemes</a> explains things in detail. I'm just adding some concrete examples below.</p>
+
+<p>First, I simulated a data frame of 100 raters rating 100 faces each. Male faces get ratings with a mean of 5 and SD = 2; female faces get ratings with a mean of 6 and SD = 2. (I know, ratings are usually ordinal integers, but let's pretend we used something like a slider.)</p>
+
+<!--begin.rcode
+suppressMessages( library(tidyverse) )
+
+df <- data.frame(
+  face_id = rep(1:100, each=100),
+  rater_id = rep(1:100, times=100),
+  face_sex = rep(c("male", "female"), each=500),
+  rating = c(rnorm(500, 5, 2), rnorm(500, 6, 2))
+)
+
+df %>% group_by(face_sex) %>% summarise(mean = mean(rating), sd = sd(rating))
+
+end.rcode-->
+
+<!--begin.rcode fig.width=7, fig.height=5
+df %>% 
+  ggplot(aes(face_sex, rating)) + 
+  geom_violin() +
+  geom_boxplot(width=0.1)
+end.rcode-->
+
+<p>Recode face sex using treatment, sum, or effect coding.</p>
+<!--begin.rcode
+
+df2 <- df %>%
+  mutate(
+    face_sex.tr = ifelse(face_sex=="female", 0, 1),
+    face_sex.sum = ifelse(face_sex=="female", -1, 1),
+    face_sex.e = ifelse(face_sex=="female", -0.5, +0.5)
+  )
+end.rcode-->
+
+<p>Now we analyse the data using each of the 4 styles of coding. I'm just going to show the table of fixed effects.</p>
+
+<h2>Categorical coding</h2>
+<!--begin.rcode
+suppressMessages( library(lmerTest) )
+
+m1 <- lmer(rating ~ face_sex + (1 | face_id) + (1 | rater_id), df2)
+sum1 <- summary(m1)
+sum1$coefficients
+end.rcode-->
+
+<p>Note that the intercept coefficient is equal to the female mean and the "effect" of face sex is how much less the male mean is.</p>
+
+<h2>Treatment coding</h2>
+<!--begin.rcode
+m.tr <- lmer(rating ~ face_sex.tr + (1 | face_id) + (1 | rater_id), df2)
+sum.tr <- summary(m.tr)
+sum.tr$coefficients
+end.rcode-->
+
+<p>Treatment coding is the same as categorical coding, but gives you more control over what the reference category is.</p>
+
+<h2>Sum coding</h2>
+<!--begin.rcode
+m.sum <- lmer(rating ~ face_sex.sum + (1 | face_id) + (1 | rater_id), df2)
+sum.sum <- summary(m.sum)
+sum.sum$coefficients
+end.rcode-->
+
+<p>With sum coding, the intercept coefficient is equal to the overall mean (ignoring face sex) and the "effect" of face sex is how much above and below that each of the two face sexes differ from the mean.</p>
+
+<h2>Effect coding</h2>
+<!--begin.rcode
+m.e <- lmer(rating ~ face_sex.e + (1 | face_id) + (1 | rater_id), df2)
+sum.e <- summary(m.e)
+sum.e$coefficients
+end.rcode-->
+
+<p>With effect coding, the intercept coefficient is the same as sum coding and the "effect" of face sex is how much the two face sexes differ from each other. Note that this coefficient is double that from the sum coding.</p>
+
+</body>
+</html>

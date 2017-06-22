@@ -1,0 +1,170 @@
+<html>
+
+<head>
+<style type="text/css">
+.knitr .inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage .left {
+  text-align: left;
+}
+.rimage .right {
+  text-align: right;
+}
+.rimage .center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+<title>Coding Schemes</title>
+</head>
+
+<body>
+
+<h2>Coding Schemes</h2>
+
+<p>How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite <a href="http://talklab.psy.gla.ac.uk/tvw/catpred/">tutorial on coding schemes</a> explains things in detail. I'm just adding some concrete examples below.</p>
+
+<p>First, I simulated a data frame of 100 raters rating 100 faces each. Male faces get ratings with a mean of 5 and SD = 2; female faces get ratings with a mean of 6 and SD = 2. (I know, ratings are usually ordinal integers, but let's pretend we used something like a slider.)</p>
+
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">suppressMessages</span><span class="hl std">(</span> <span class="hl kwd">library</span><span class="hl std">(tidyverse) )</span>
+
+<span class="hl std">df</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span>
+  <span class="hl kwc">face_id</span> <span class="hl std">=</span> <span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl kwc">each</span><span class="hl std">=</span><span class="hl num">100</span><span class="hl std">),</span>
+  <span class="hl kwc">rater_id</span> <span class="hl std">=</span> <span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl kwc">times</span><span class="hl std">=</span><span class="hl num">100</span><span class="hl std">),</span>
+  <span class="hl kwc">face_sex</span> <span class="hl std">=</span> <span class="hl kwd">rep</span><span class="hl std">(</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;male&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;female&quot;</span><span class="hl std">),</span> <span class="hl kwc">each</span><span class="hl std">=</span><span class="hl num">500</span><span class="hl std">),</span>
+  <span class="hl kwc">rating</span> <span class="hl std">=</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">500</span><span class="hl std">,</span> <span class="hl num">5</span><span class="hl std">,</span> <span class="hl num">2</span><span class="hl std">),</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">500</span><span class="hl std">,</span> <span class="hl num">6</span><span class="hl std">,</span> <span class="hl num">2</span><span class="hl std">))</span>
+<span class="hl std">)</span>
+
+<span class="hl std">df</span> <span class="hl opt">%&gt;%</span> <span class="hl kwd">group_by</span><span class="hl std">(face_sex)</span> <span class="hl opt">%&gt;%</span> <span class="hl kwd">summarise</span><span class="hl std">(</span><span class="hl kwc">mean</span> <span class="hl std">=</span> <span class="hl kwd">mean</span><span class="hl std">(rating),</span> <span class="hl kwc">sd</span> <span class="hl std">=</span> <span class="hl kwd">sd</span><span class="hl std">(rating))</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## # A tibble: 2 × 3
+##   face_sex     mean       sd
+##     &lt;fctr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1   female 6.034193 1.959132
+## 2     male 5.055827 2.021435
+</pre></div>
+</div></div>
+
+<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">df</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(face_sex, rating))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_violin</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_boxplot</span><span class="hl std">(</span><span class="hl kwc">width</span><span class="hl std">=</span><span class="hl num">0.1</span><span class="hl std">)</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" class="plot" /></div></div>
+
+<p>Recode face sex using treatment, sum, or effect coding.</p>
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">df2</span> <span class="hl kwb">&lt;-</span> <span class="hl std">df</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span>
+    <span class="hl kwc">face_sex.tr</span> <span class="hl std">=</span> <span class="hl kwd">ifelse</span><span class="hl std">(face_sex</span><span class="hl opt">==</span><span class="hl str">&quot;female&quot;</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">),</span>
+    <span class="hl kwc">face_sex.sum</span> <span class="hl std">=</span> <span class="hl kwd">ifelse</span><span class="hl std">(face_sex</span><span class="hl opt">==</span><span class="hl str">&quot;female&quot;</span><span class="hl std">,</span> <span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">),</span>
+    <span class="hl kwc">face_sex.e</span> <span class="hl std">=</span> <span class="hl kwd">ifelse</span><span class="hl std">(face_sex</span><span class="hl opt">==</span><span class="hl str">&quot;female&quot;</span><span class="hl std">,</span> <span class="hl opt">-</span><span class="hl num">0.5</span><span class="hl std">,</span> <span class="hl opt">+</span><span class="hl num">0.5</span><span class="hl std">)</span>
+  <span class="hl std">)</span>
+</pre></div>
+</div></div>
+
+<p>Now we analyse the data using each of the 4 styles of coding. I'm just going to show the table of fixed effects.</p>
+
+<h2>Categorical coding</h2>
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">suppressMessages</span><span class="hl std">(</span> <span class="hl kwd">library</span><span class="hl std">(lmerTest) )</span>
+
+<span class="hl std">m1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">lmer</span><span class="hl std">(rating</span> <span class="hl opt">~</span> <span class="hl std">face_sex</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">face_id)</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">rater_id), df2)</span>
+<span class="hl std">sum1</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">summary</span><span class="hl std">(m1)</span>
+<span class="hl std">sum1</span><span class="hl opt">$</span><span class="hl std">coefficients</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##                Estimate Std. Error        df   t value Pr(&gt;|t|)
+## (Intercept)   6.0341926 0.06594965  117.6814  91.49696        0
+## face_sexmale -0.9783654 0.03796249 9899.0016 -25.77190        0
+</pre></div>
+</div></div>
+
+<p>Note that the intercept coefficient is equal to the female mean and the "effect" of face sex is how much less the male mean is.</p>
+
+<h2>Treatment coding</h2>
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">m.tr</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">lmer</span><span class="hl std">(rating</span> <span class="hl opt">~</span> <span class="hl std">face_sex.tr</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">face_id)</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">rater_id), df2)</span>
+<span class="hl std">sum.tr</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">summary</span><span class="hl std">(m.tr)</span>
+<span class="hl std">sum.tr</span><span class="hl opt">$</span><span class="hl std">coefficients</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##               Estimate Std. Error        df   t value Pr(&gt;|t|)
+## (Intercept)  6.0341926 0.06594965  117.6814  91.49696        0
+## face_sex.tr -0.9783654 0.03796249 9899.0016 -25.77190        0
+</pre></div>
+</div></div>
+
+<p>Treatment coding is the same as categorical coding, but gives you more control over what the reference category is.</p>
+
+<h2>Sum coding</h2>
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">m.sum</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">lmer</span><span class="hl std">(rating</span> <span class="hl opt">~</span> <span class="hl std">face_sex.sum</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">face_id)</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">rater_id), df2)</span>
+<span class="hl std">sum.sum</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">summary</span><span class="hl std">(m.sum)</span>
+<span class="hl std">sum.sum</span><span class="hl opt">$</span><span class="hl std">coefficients</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##                Estimate Std. Error         df   t value Pr(&gt;|t|)
+## (Intercept)   5.5450099 0.06315907   99.00019  87.79436        0
+## face_sex.sum -0.4891827 0.01898125 9898.99947 -25.77190        0
+</pre></div>
+</div></div>
+
+<p>With sum coding, the intercept coefficient is equal to the overall mean (ignoring face sex) and the "effect" of face sex is how much above and below that each of the two face sexes differ from the mean.</p>
+
+<h2>Effect coding</h2>
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">m.e</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">lmer</span><span class="hl std">(rating</span> <span class="hl opt">~</span> <span class="hl std">face_sex.e</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">face_id)</span> <span class="hl opt">+</span> <span class="hl std">(</span><span class="hl num">1</span> <span class="hl opt">|</span> <span class="hl std">rater_id), df2)</span>
+<span class="hl std">sum.e</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">summary</span><span class="hl std">(m.e)</span>
+<span class="hl std">sum.e</span><span class="hl opt">$</span><span class="hl std">coefficients</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##               Estimate Std. Error         df   t value Pr(&gt;|t|)
+## (Intercept)  5.5450099 0.06315906   98.99989  87.79437        0
+## face_sex.e  -0.9783654 0.03796249 9898.99919 -25.77190        0
+</pre></div>
+</div></div>
+
+<p>With effect coding, the intercept coefficient is the same as sum coding and the "effect" of face sex is how much the two face sexes differ from each other. Note that this coefficient is double that from the sum coding.</p>
+
+</body>
+</html>
