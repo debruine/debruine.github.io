@@ -48,6 +48,19 @@ as.vector(scale(x, center=FALSE, scale=3))
 x / 3
 end.rcode-->
   </li>
+  <li>Create new columns in a dataframe with the scaled or centered variable
+<!--begin.rcode
+suppressMessages( library(tidyverse) )
+df <- data.frame(id = seq(1,5), x = x)
+df.s <- df %>%
+  mutate(
+    x.s = as.vector(scale(x)),
+    x.c = as.vector(scale(x, scale=F)),
+    x.z = (x - mean(x)) / sd(x)
+  )
+df.s
+end.rcode-->
+  </li>
   
 </ul>
   

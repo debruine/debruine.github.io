@@ -140,6 +140,26 @@
 </pre></div>
 </div></div>
   </li>
+  <li>Create new columns in a dataframe with the scaled or centered variable
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">suppressMessages</span><span class="hl std">(</span> <span class="hl kwd">library</span><span class="hl std">(tidyverse) )</span>
+<span class="hl std">df</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span><span class="hl kwc">id</span> <span class="hl std">=</span> <span class="hl kwd">seq</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl std">,</span><span class="hl num">5</span><span class="hl std">),</span> <span class="hl kwc">x</span> <span class="hl std">= x)</span>
+<span class="hl std">df.s</span> <span class="hl kwb">&lt;-</span> <span class="hl std">df</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span>
+    <span class="hl kwc">x.s</span> <span class="hl std">=</span> <span class="hl kwd">as.vector</span><span class="hl std">(</span><span class="hl kwd">scale</span><span class="hl std">(x)),</span>
+    <span class="hl kwc">x.c</span> <span class="hl std">=</span> <span class="hl kwd">as.vector</span><span class="hl std">(</span><span class="hl kwd">scale</span><span class="hl std">(x,</span> <span class="hl kwc">scale</span><span class="hl std">=F)),</span>
+    <span class="hl kwc">x.z</span> <span class="hl std">= (x</span> <span class="hl opt">-</span> <span class="hl kwd">mean</span><span class="hl std">(x))</span> <span class="hl opt">/</span> <span class="hl kwd">sd</span><span class="hl std">(x)</span>
+  <span class="hl std">)</span>
+<span class="hl std">df.s</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##   id  x        x.s x.c        x.z
+## 1  1 10 -1.2649111  -4 -1.2649111
+## 2  2 12 -0.6324555  -2 -0.6324555
+## 3  3 14  0.0000000   0  0.0000000
+## 4  4 16  0.6324555   2  0.6324555
+## 5  5 18  1.2649111   4  1.2649111
+</pre></div>
+</div></div>
+  </li>
   
 </ul>
   
