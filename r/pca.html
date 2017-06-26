@@ -1,0 +1,424 @@
+<html>
+
+<head>
+<style type="text/css">
+.knitr .inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+}
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage .left {
+  text-align: left;
+}
+.rimage .right {
+  text-align: right;
+}
+.rimage .center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+</style>
+<title>PCA</title>
+</head>
+
+<body>
+
+<h2>PCA</h2>
+
+<p>I use the <code>psych</code> package for SPSS-style PCA</p>
+
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">suppressMessages</span><span class="hl std">(</span> <span class="hl kwd">library</span><span class="hl std">(tidyverse) )</span>
+<span class="hl kwd">suppressMessages</span><span class="hl std">(</span> <span class="hl kwd">library</span><span class="hl std">(psych) )</span>
+<span class="hl kwd">suppressMessages</span><span class="hl std">(</span> <span class="hl kwd">library</span><span class="hl std">(viridis) )</span>
+</pre></div>
+</div></div>
+
+<p>First, I'll simulate some data with an underlying structure of three factors.</p>
+<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">a</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">)</span>
+<span class="hl std">b</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">)</span>
+<span class="hl std">c</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">)</span>
+
+<span class="hl std">df</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">data.frame</span><span class="hl std">(</span>
+  <span class="hl kwc">id</span> <span class="hl std">=</span> <span class="hl kwd">seq</span><span class="hl std">(</span><span class="hl num">1</span><span class="hl std">,</span><span class="hl num">100</span><span class="hl std">),</span>
+  <span class="hl kwc">a1</span> <span class="hl std">= a</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">),</span>
+  <span class="hl kwc">a2</span> <span class="hl std">= a</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.8</span><span class="hl std">),</span>
+  <span class="hl kwc">a3</span> <span class="hl std">= a</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.8</span><span class="hl std">),</span>
+  <span class="hl kwc">a4</span> <span class="hl std">= a</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.4</span><span class="hl std">),</span>
+  <span class="hl kwc">b1</span> <span class="hl std">= b</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">),</span>
+  <span class="hl kwc">b2</span> <span class="hl std">= b</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.8</span><span class="hl std">),</span>
+  <span class="hl kwc">b3</span> <span class="hl std">= b</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.6</span><span class="hl std">),</span>
+  <span class="hl kwc">b4</span> <span class="hl std">= b</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.4</span><span class="hl std">),</span>
+  <span class="hl kwc">c1</span> <span class="hl std">= c</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">),</span>
+  <span class="hl kwc">c2</span> <span class="hl std">= c</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.8</span><span class="hl std">),</span>
+  <span class="hl kwc">c3</span> <span class="hl std">= c</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.6</span><span class="hl std">),</span>
+  <span class="hl kwc">c4</span> <span class="hl std">= c</span> <span class="hl opt">+</span> <span class="hl kwd">rnorm</span><span class="hl std">(</span><span class="hl num">100</span><span class="hl std">,</span> <span class="hl num">0</span><span class="hl std">,</span> <span class="hl num">.4</span><span class="hl std">)</span>
+<span class="hl std">)</span>
+</pre></div>
+</div></div>
+
+<p>Select just the columns you want for your PCA. You can visualise their correlations with <code>cor()</code> and <code>ggplot()</code>.</p>
+
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">traits</span> <span class="hl kwb">&lt;-</span> <span class="hl std">df</span> <span class="hl opt">%&gt;%</span> <span class="hl kwd">select</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl std">id)</span>
+
+<span class="hl std">traits</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">cor</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">as.data.frame</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">rownames</span><span class="hl std">(.))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">gather</span><span class="hl std">(</span><span class="hl str">&quot;var2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;value&quot;</span><span class="hl std">, a1</span><span class="hl opt">:</span><span class="hl std">c4)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1),</span> <span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">rev</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(var1))))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(var2, var1,</span> <span class="hl kwc">fill</span><span class="hl std">=value))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_tile</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_x_discrete</span><span class="hl std">(</span><span class="hl kwc">position</span> <span class="hl std">=</span> <span class="hl str">&quot;top&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">xlab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span> <span class="hl kwd">ylab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_fill_viridis</span><span class="hl std">(</span><span class="hl kwc">limits</span><span class="hl std">=</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" class="plot" /></div></div>
+
+<p>Determine the number of factors to extract. Here I use the SPSS-style default criterion of  Eigenvalues > 1</p>
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">ev</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">eigen</span><span class="hl std">(</span><span class="hl kwd">cor</span><span class="hl std">(traits));</span>
+<span class="hl std">nfactors</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">length</span><span class="hl std">(ev</span><span class="hl opt">$</span><span class="hl std">values[ev</span><span class="hl opt">$</span><span class="hl std">values</span> <span class="hl opt">&gt;</span> <span class="hl num">1</span><span class="hl std">]);</span>
+<span class="hl std">nfactors</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## [1] 3
+</pre></div>
+</div></div>
+
+
+<h2>Principal components analysis (SPSS-style)</h2>
+
+<h3>principal(rotation = "none")</h3>
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">traits.principal</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">principal</span><span class="hl std">(traits,</span> <span class="hl kwc">nfactors</span><span class="hl std">=nfactors,</span> <span class="hl kwc">rotate</span><span class="hl std">=</span><span class="hl str">&quot;none&quot;</span><span class="hl std">,</span> <span class="hl kwc">scores</span><span class="hl std">=</span><span class="hl num">TRUE</span><span class="hl std">)</span>
+<span class="hl std">traits.principal</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## Principal Components Analysis
+## Call: principal(r = traits, nfactors = nfactors, rotate = &quot;none&quot;, scores = TRUE)
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##      PC1   PC2  PC3   h2   u2 com
+## a1 -0.38 -0.43 0.55 0.64 0.36 2.7
+## a2 -0.56 -0.55 0.38 0.76 0.24 2.7
+## a3 -0.48 -0.44 0.56 0.73 0.27 2.9
+## a4 -0.56 -0.46 0.58 0.86 0.14 2.9
+## b1 -0.23  0.66 0.32 0.58 0.42 1.7
+## b2 -0.28  0.63 0.48 0.71 0.29 2.3
+## b3 -0.10  0.76 0.45 0.78 0.22 1.7
+## b4 -0.20  0.75 0.48 0.83 0.17 1.9
+## c1  0.68 -0.16 0.50 0.74 0.26 2.0
+## c2  0.65 -0.06 0.45 0.62 0.38 1.8
+## c3  0.77 -0.17 0.45 0.83 0.17 1.7
+## c4  0.81 -0.14 0.47 0.90 0.10 1.7
+## 
+##                        PC1  PC2  PC3
+## SS loadings           3.31 2.93 2.74
+## Proportion Var        0.28 0.24 0.23
+## Cumulative Var        0.28 0.52 0.75
+## Proportion Explained  0.37 0.33 0.30
+## Cumulative Proportion 0.37 0.70 1.00
+## 
+## Mean item complexity =  2.2
+## Test of the hypothesis that 3 components are sufficient.
+## 
+## The root mean square of the residuals (RMSR) is  0.06 
+##  with the empirical chi square  43.68  with prob &lt;  0.1 
+## 
+## Fit based upon off diagonal values = 0.97
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">scores.principal</span> <span class="hl kwb">&lt;-</span> <span class="hl std">traits.principal</span><span class="hl opt">$</span><span class="hl std">scores</span>
+</pre></div>
+</div></div>
+
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">cor</span><span class="hl std">(scores.principal, traits)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">as.data.frame</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">rownames</span><span class="hl std">(.))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">gather</span><span class="hl std">(</span><span class="hl str">&quot;var2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;value&quot;</span><span class="hl std">, a1</span><span class="hl opt">:</span><span class="hl std">c4)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1),</span> <span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">rev</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(var1))))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(var2, var1,</span> <span class="hl kwc">fill</span><span class="hl std">=value))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_tile</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_x_discrete</span><span class="hl std">(</span><span class="hl kwc">position</span> <span class="hl std">=</span> <span class="hl str">&quot;top&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">xlab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span> <span class="hl kwd">ylab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_fill_viridis</span><span class="hl std">(</span><span class="hl kwc">limits</span><span class="hl std">=</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" class="plot" /></div></div>
+
+<h3>principal(rotation = "varimax")</h3>
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">traits.varimax</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">principal</span><span class="hl std">(traits,</span> <span class="hl kwc">nfactors</span><span class="hl std">=nfactors,</span> <span class="hl kwc">rotate</span><span class="hl std">=</span><span class="hl str">&quot;varimax&quot;</span><span class="hl std">,</span> <span class="hl kwc">scores</span><span class="hl std">=</span><span class="hl num">TRUE</span><span class="hl std">)</span>
+<span class="hl std">traits.varimax</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## Principal Components Analysis
+## Call: principal(r = traits, nfactors = nfactors, rotate = &quot;varimax&quot;, 
+##     scores = TRUE)
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##      RC1   RC3   RC2   h2   u2 com
+## a1  0.07  0.80  0.02 0.64 0.36 1.0
+## a2 -0.16  0.85 -0.13 0.76 0.24 1.1
+## a3  0.00  0.86  0.04 0.73 0.27 1.0
+## a4 -0.05  0.93  0.05 0.86 0.14 1.0
+## b1 -0.10 -0.04  0.75 0.58 0.42 1.0
+## b2 -0.05  0.11  0.83 0.71 0.29 1.0
+## b3  0.06 -0.08  0.88 0.78 0.22 1.0
+## b4  0.00  0.00  0.91 0.83 0.17 1.0
+## c1  0.86  0.03 -0.02 0.74 0.26 1.0
+## c2  0.78 -0.04  0.04 0.62 0.38 1.0
+## c3  0.91 -0.04 -0.08 0.83 0.17 1.0
+## c4  0.94 -0.07 -0.04 0.90 0.10 1.0
+## 
+##                        RC1  RC3  RC2
+## SS loadings           3.12 2.97 2.90
+## Proportion Var        0.26 0.25 0.24
+## Cumulative Var        0.26 0.51 0.75
+## Proportion Explained  0.35 0.33 0.32
+## Cumulative Proportion 0.35 0.68 1.00
+## 
+## Mean item complexity =  1
+## Test of the hypothesis that 3 components are sufficient.
+## 
+## The root mean square of the residuals (RMSR) is  0.06 
+##  with the empirical chi square  43.68  with prob &lt;  0.1 
+## 
+## Fit based upon off diagonal values = 0.97
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">scores.varimax</span> <span class="hl kwb">&lt;-</span> <span class="hl std">traits.varimax</span><span class="hl opt">$</span><span class="hl std">scores</span>
+</pre></div>
+</div></div>
+
+<div class="chunk" id="unnamed-chunk-8"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">cor</span><span class="hl std">(scores.varimax, traits)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">as.data.frame</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">rownames</span><span class="hl std">(.))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">gather</span><span class="hl std">(</span><span class="hl str">&quot;var2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;value&quot;</span><span class="hl std">, a1</span><span class="hl opt">:</span><span class="hl std">c4)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1),</span> <span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">rev</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(var1))))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(var2, var1,</span> <span class="hl kwc">fill</span><span class="hl std">=value))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_tile</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_x_discrete</span><span class="hl std">(</span><span class="hl kwc">position</span> <span class="hl std">=</span> <span class="hl str">&quot;top&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">xlab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span> <span class="hl kwd">ylab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_fill_viridis</span><span class="hl std">(</span><span class="hl kwc">limits</span><span class="hl std">=</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" class="plot" /></div></div>
+
+<h2>Here are some other functions for PCA/Factor Analysis</h2>
+
+<h3>princomp()</h3>
+<div class="chunk" id="unnamed-chunk-9"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">traits.princomp</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">princomp</span><span class="hl std">(traits)</span>
+<span class="hl std">traits.princomp</span><span class="hl opt">$</span><span class="hl std">loadings[,</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl std">nfactors]</span>
+</pre></div>
+<div class="output"><pre class="knitr r">##         Comp.1     Comp.2      Comp.3
+## a1  0.15820780 -0.4617699 -0.17934642
+## a2  0.26615693 -0.4484868 -0.04290847
+## a3  0.19273122 -0.4152677 -0.16167971
+## a4  0.21263227 -0.4019597 -0.15180848
+## b1  0.12346266  0.2370665 -0.47564975
+## b2  0.11925133  0.1270988 -0.47371478
+## b3  0.02684509  0.1892191 -0.43103531
+## b4  0.06809953  0.1692082 -0.43750275
+## c1 -0.47163555 -0.2202787 -0.17413521
+## c2 -0.40263862 -0.1269636 -0.16972942
+## c3 -0.46174663 -0.1710853 -0.11817103
+## c4 -0.43495168 -0.1445913 -0.12595069
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">scores.princomp</span> <span class="hl kwb">&lt;-</span> <span class="hl std">traits.princomp</span><span class="hl opt">$</span><span class="hl std">scores[,</span><span class="hl num">1</span><span class="hl opt">:</span><span class="hl std">nfactors]</span>
+</pre></div>
+</div></div>
+
+<div class="chunk" id="unnamed-chunk-10"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">cor</span><span class="hl std">(scores.princomp, traits)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">as.data.frame</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">rownames</span><span class="hl std">(.))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">gather</span><span class="hl std">(</span><span class="hl str">&quot;var2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;value&quot;</span><span class="hl std">, a1</span><span class="hl opt">:</span><span class="hl std">c4)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1),</span> <span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">rev</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(var1))))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(var2, var1,</span> <span class="hl kwc">fill</span><span class="hl std">=value))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_tile</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_x_discrete</span><span class="hl std">(</span><span class="hl kwc">position</span> <span class="hl std">=</span> <span class="hl str">&quot;top&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">xlab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span> <span class="hl kwd">ylab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_fill_viridis</span><span class="hl std">(</span><span class="hl kwc">limits</span><span class="hl std">=</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" class="plot" /></div></div>
+
+<h3>factanal(rotation = "none")</h3>
+<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">traits.fa</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">factanal</span><span class="hl std">(traits, nfactors,</span> <span class="hl kwc">rotation</span><span class="hl std">=</span><span class="hl str">&quot;none&quot;</span><span class="hl std">,</span> <span class="hl kwc">scores</span><span class="hl std">=</span><span class="hl str">&quot;regression&quot;</span><span class="hl std">)</span>
+<span class="hl kwd">print</span><span class="hl std">(traits.fa,</span> <span class="hl kwc">digits</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">,</span> <span class="hl kwc">cutoff</span><span class="hl std">=</span><span class="hl num">0</span><span class="hl std">,</span> <span class="hl kwc">sort</span><span class="hl std">=</span><span class="hl num">FALSE</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## 
+## Call:
+## factanal(x = traits, factors = nfactors, scores = &quot;regression&quot;,     rotation = &quot;none&quot;)
+## 
+## Uniquenesses:
+##   a1   a2   a3   a4   b1   b2   b3   b4   c1   c2   c3   c4 
+## 0.57 0.35 0.33 0.06 0.58 0.44 0.27 0.15 0.37 0.51 0.22 0.06 
+## 
+## Loadings:
+##    Factor1 Factor2 Factor3
+## a1 -0.32   -0.03    0.57  
+## a2 -0.53   -0.19    0.57  
+## a3 -0.45    0.01    0.68  
+## a4 -0.56    0.00    0.79  
+## b1 -0.11    0.64   -0.08  
+## b2 -0.15    0.73    0.05  
+## b3  0.02    0.85   -0.04  
+## b4 -0.10    0.92    0.01  
+## c1  0.66    0.03    0.43  
+## c2  0.61    0.11    0.33  
+## c3  0.75    0.00    0.46  
+## c4  0.85    0.03    0.47  
+## 
+##                Factor1 Factor2 Factor3
+## SS loadings       3.05    2.56    2.48
+## Proportion Var    0.25    0.21    0.21
+## Cumulative Var    0.25    0.47    0.67
+## 
+## Test of the hypothesis that 3 factors are sufficient.
+## The chi square statistic is 47.71 on 33 degrees of freedom.
+## The p-value is 0.047
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">scores.fa</span> <span class="hl kwb">&lt;-</span> <span class="hl std">traits.fa</span><span class="hl opt">$</span><span class="hl std">scores</span>
+</pre></div>
+</div></div>
+
+<div class="chunk" id="unnamed-chunk-12"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">cor</span><span class="hl std">(scores.fa, traits)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">as.data.frame</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">rownames</span><span class="hl std">(.))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">gather</span><span class="hl std">(</span><span class="hl str">&quot;var2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;value&quot;</span><span class="hl std">, a1</span><span class="hl opt">:</span><span class="hl std">c4)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1),</span> <span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">rev</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(var1))))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(var2, var1,</span> <span class="hl kwc">fill</span><span class="hl std">=value))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_tile</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_x_discrete</span><span class="hl std">(</span><span class="hl kwc">position</span> <span class="hl std">=</span> <span class="hl str">&quot;top&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">xlab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span> <span class="hl kwd">ylab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_fill_viridis</span><span class="hl std">(</span><span class="hl kwc">limits</span><span class="hl std">=</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" class="plot" /></div></div>
+
+<h3>factanal(rotation = "varimax")</h3>
+<div class="chunk" id="unnamed-chunk-13"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">traits.fa.vm</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">factanal</span><span class="hl std">(traits, nfactors,</span> <span class="hl kwc">rotation</span><span class="hl std">=</span><span class="hl str">&quot;varimax&quot;</span><span class="hl std">,</span> <span class="hl kwc">scores</span><span class="hl std">=</span><span class="hl str">&quot;regression&quot;</span><span class="hl std">)</span>
+<span class="hl kwd">print</span><span class="hl std">(traits.fa.vm,</span> <span class="hl kwc">digits</span><span class="hl std">=</span><span class="hl num">2</span><span class="hl std">,</span> <span class="hl kwc">cutoff</span><span class="hl std">=</span><span class="hl num">0</span><span class="hl std">,</span> <span class="hl kwc">sort</span><span class="hl std">=</span><span class="hl num">FALSE</span><span class="hl std">)</span>
+</pre></div>
+<div class="output"><pre class="knitr r">## 
+## Call:
+## factanal(x = traits, factors = nfactors, scores = &quot;regression&quot;,     rotation = &quot;varimax&quot;)
+## 
+## Uniquenesses:
+##   a1   a2   a3   a4   b1   b2   b3   b4   c1   c2   c3   c4 
+## 0.57 0.35 0.33 0.06 0.58 0.44 0.27 0.15 0.37 0.51 0.22 0.06 
+## 
+## Loadings:
+##    Factor1 Factor2 Factor3
+## a1  0.04    0.65    0.00  
+## a2 -0.15    0.78   -0.14  
+## a3 -0.01    0.82    0.06  
+## a4 -0.04    0.97    0.06  
+## b1 -0.08   -0.04    0.64  
+## b2 -0.04    0.09    0.74  
+## b3  0.07   -0.09    0.85  
+## b4  0.00    0.02    0.92  
+## c1  0.79    0.00   -0.03  
+## c2  0.70   -0.06    0.05  
+## c3  0.88   -0.01   -0.08  
+## c4  0.97   -0.06   -0.05  
+## 
+##                Factor1 Factor2 Factor3
+## SS loadings       2.86    2.65    2.57
+## Proportion Var    0.24    0.22    0.21
+## Cumulative Var    0.24    0.46    0.67
+## 
+## Test of the hypothesis that 3 factors are sufficient.
+## The chi square statistic is 47.71 on 33 degrees of freedom.
+## The p-value is 0.047
+</pre></div>
+<div class="source"><pre class="knitr r"><span class="hl std">scores.fa.vm</span> <span class="hl kwb">&lt;-</span> <span class="hl std">traits.fa.vm</span><span class="hl opt">$</span><span class="hl std">scores</span>
+</pre></div>
+</div></div>
+
+<div class="chunk" id="unnamed-chunk-14"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">cor</span><span class="hl std">(scores.fa.vm, traits)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">as.data.frame</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">rownames</span><span class="hl std">(.))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">gather</span><span class="hl std">(</span><span class="hl str">&quot;var2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;value&quot;</span><span class="hl std">, a1</span><span class="hl opt">:</span><span class="hl std">c4)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1),</span> <span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">rev</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(var1))))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(var2, var1,</span> <span class="hl kwc">fill</span><span class="hl std">=value))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_tile</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_x_discrete</span><span class="hl std">(</span><span class="hl kwc">position</span> <span class="hl std">=</span> <span class="hl str">&quot;top&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">xlab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span> <span class="hl kwd">ylab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_fill_viridis</span><span class="hl std">(</span><span class="hl kwc">limits</span><span class="hl std">=</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" class="plot" /></div></div>
+
+<h2>How do they compare?</h2>
+
+<p>The functions principal(rotation = "varimax") and factanal(rotation = "varimax") are nearly (but not perfectly) identical.</p>
+<div class="chunk" id="unnamed-chunk-15"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl std">scores.fa</span> <span class="hl kwb">&lt;-</span> <span class="hl std">traits.fa</span><span class="hl opt">$</span><span class="hl std">scores</span>
+<span class="hl kwd">colnames</span><span class="hl std">(scores.principal)</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;principal() 1&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;principal() 2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;principal() 3&quot;</span><span class="hl std">)</span>
+<span class="hl kwd">colnames</span><span class="hl std">(scores.varimax)</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;principal(vm) 1&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;principal(vm) 2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;principal(vm) 3&quot;</span><span class="hl std">)</span>
+<span class="hl kwd">colnames</span><span class="hl std">(scores.princomp)</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;princomp() 1&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;princomp() 2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;princomp() 3&quot;</span><span class="hl std">)</span>
+<span class="hl kwd">colnames</span><span class="hl std">(scores.fa)</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;factanal() 1&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;factanal() 2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;factanal() 3&quot;</span><span class="hl std">)</span>
+<span class="hl kwd">colnames</span><span class="hl std">(scores.fa.vm)</span> <span class="hl kwb">&lt;-</span> <span class="hl kwd">c</span><span class="hl std">(</span><span class="hl str">&quot;factanal(vm) 1&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;factanal(vm) 2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;factanal(vm) 3&quot;</span><span class="hl std">)</span>
+
+<span class="hl kwd">cbind</span><span class="hl std">(</span>
+  <span class="hl std">scores.princomp,</span>
+  <span class="hl std">scores.principal,</span>
+  <span class="hl std">scores.fa,</span>
+  <span class="hl std">scores.varimax,</span>
+  <span class="hl std">scores.fa.vm</span>
+<span class="hl std">)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">cor</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">as.data.frame</span><span class="hl std">()</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">rownames</span><span class="hl std">(.))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">gather</span><span class="hl std">(</span><span class="hl str">&quot;var2&quot;</span><span class="hl std">,</span> <span class="hl str">&quot;value&quot;</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl opt">:</span><span class="hl num">15</span><span class="hl std">)</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">mutate</span><span class="hl std">(</span><span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1),</span> <span class="hl kwc">var1</span> <span class="hl std">=</span> <span class="hl kwd">factor</span><span class="hl std">(var1,</span> <span class="hl kwc">levels</span> <span class="hl std">=</span> <span class="hl kwd">rev</span><span class="hl std">(</span><span class="hl kwd">levels</span><span class="hl std">(var1))))</span> <span class="hl opt">%&gt;%</span>
+  <span class="hl kwd">ggplot</span><span class="hl std">(</span><span class="hl kwd">aes</span><span class="hl std">(var2, var1,</span> <span class="hl kwc">fill</span><span class="hl std">=value))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_tile</span><span class="hl std">()</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_x_discrete</span><span class="hl std">(</span><span class="hl kwc">position</span> <span class="hl std">=</span> <span class="hl str">&quot;top&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">xlab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span> <span class="hl kwd">ylab</span><span class="hl std">(</span><span class="hl str">&quot;&quot;</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">scale_fill_viridis</span><span class="hl std">(</span><span class="hl kwc">limits</span><span class="hl std">=</span><span class="hl kwd">c</span><span class="hl std">(</span><span class="hl opt">-</span><span class="hl num">1</span><span class="hl std">,</span> <span class="hl num">1</span><span class="hl std">))</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_hline</span><span class="hl std">(</span><span class="hl kwc">yintercept</span> <span class="hl std">=</span> <span class="hl num">3.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_hline</span><span class="hl std">(</span><span class="hl kwc">yintercept</span> <span class="hl std">=</span> <span class="hl num">6.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_hline</span><span class="hl std">(</span><span class="hl kwc">yintercept</span> <span class="hl std">=</span> <span class="hl num">9.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_hline</span><span class="hl std">(</span><span class="hl kwc">yintercept</span> <span class="hl std">=</span> <span class="hl num">12.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_vline</span><span class="hl std">(</span><span class="hl kwc">xintercept</span> <span class="hl std">=</span> <span class="hl num">3.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_vline</span><span class="hl std">(</span><span class="hl kwc">xintercept</span> <span class="hl std">=</span> <span class="hl num">6.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_vline</span><span class="hl std">(</span><span class="hl kwc">xintercept</span> <span class="hl std">=</span> <span class="hl num">9.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">geom_vline</span><span class="hl std">(</span><span class="hl kwc">xintercept</span> <span class="hl std">=</span> <span class="hl num">12.5</span><span class="hl std">)</span> <span class="hl opt">+</span>
+  <span class="hl kwd">theme</span><span class="hl std">(</span><span class="hl kwc">axis.text.x</span><span class="hl std">=</span><span class="hl kwd">element_text</span><span class="hl std">(</span><span class="hl kwc">angle</span><span class="hl std">=</span><span class="hl num">90</span><span class="hl std">,</span><span class="hl kwc">hjust</span><span class="hl std">=</span><span class="hl num">1</span><span class="hl std">))</span>
+</pre></div>
+</div><div class="rimage default"><img src="figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" class="plot" /></div></div>
+
+</body>
+</html>
