@@ -7,6 +7,7 @@
 <body>
 
 <h2><code>scale(x, center = TRUE, scale = TRUE)</code></h2>
+<h5>2017-06-22</h5>
 
 <p>You can use <code>scale()</code> to center and/or scale (i.e., Z-score) a vector of numbers.</p>
 
@@ -21,7 +22,7 @@ end.rcode-->
   <li>However, the result contains the mean and SD. 
   This can cause problems if you want to assign it to a new column in a data frame, 
   which you can fix using <code>as.vector()</code>
-<!--begin.rcode
+<!--begin.rcode 
 as.vector(scale(x))
 end.rcode-->
   </li>

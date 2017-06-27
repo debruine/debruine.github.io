@@ -7,17 +7,23 @@
 <body>
 
 <h2>PCA</h2>
+<h5>2017-06-26</h5>
+
+<p>Putting together this page made me realise I still don't know anything about PCA and factor analysis.
 
 <p>I use the <code>psych</code> package for SPSS-style PCA</p>
 
-<!--begin.rcode
+<!--begin.rcode pca-libraries
 suppressMessages( library(tidyverse) )
 suppressMessages( library(psych) )
 suppressMessages( library(viridis) )
 end.rcode-->
 
 <p>First, I'll simulate some data with an underlying structure of three factors.</p>
-<!--begin.rcode
+<!--begin.rcode pca-sim-data
+
+set.seed(444)  # for reproducibility
+
 a <- rnorm(100, 0, 1)
 b <- rnorm(100, 0, 1)
 c <- rnorm(100, 0, 1)
@@ -41,7 +47,7 @@ end.rcode-->
 
 <p>Select just the columns you want for your PCA. You can visualise their correlations with <code>cor()</code> and <code>ggplot()</code>.</p>
 
-<!--begin.rcode fig.width=7, fig.height=5
+<!--begin.rcode pca-cor-vars, fig.width=7, fig.height=5
 traits <- df %>% select(-id) 
 
 traits %>%
@@ -59,7 +65,7 @@ traits %>%
 end.rcode-->
 
 <p>Determine the number of factors to extract. Here I use the SPSS-style default criterion of  Eigenvalues > 1</p>
-<!--begin.rcode
+<!--begin.rcode pca-nfactors
 ev <- eigen(cor(traits));
 nfactors <- length(ev$values[ev$values > 1]);
 nfactors
@@ -69,13 +75,13 @@ end.rcode-->
 <h2>Principal components analysis (SPSS-style)</h2>
 
 <h3>principal(rotation = "none")</h3>
-<!--begin.rcode
+<!--begin.rcode 
 traits.principal <- principal(traits, nfactors=nfactors, rotate="none", scores=TRUE)
 traits.principal
 scores.principal <- traits.principal$scores
 end.rcode-->
 
-<!--begin.rcode fig.width=7, fig.height=3
+<!--begin.rcode pca-principal-none, fig.width=7, fig.height=3
 cor(scores.principal, traits) %>%
   as.data.frame() %>%
   mutate(var1 = rownames(.)) %>%
@@ -95,7 +101,7 @@ traits.varimax
 scores.varimax <- traits.varimax$scores
 end.rcode-->
 
-<!--begin.rcode fig.width=7, fig.height=3
+<!--begin.rcode pca-principal-varimax, fig.width=7, fig.height=3
 cor(scores.varimax, traits) %>%
   as.data.frame() %>%
   mutate(var1 = rownames(.)) %>%
@@ -117,7 +123,7 @@ traits.princomp$loadings[,1:nfactors]
 scores.princomp <- traits.princomp$scores[,1:nfactors]
 end.rcode-->
 
-<!--begin.rcode fig.width=7, fig.height=3
+<!--begin.rcode pca-princomp, fig.width=7, fig.height=3
 cor(scores.princomp, traits) %>%
   as.data.frame() %>%
   mutate(var1 = rownames(.)) %>%
@@ -137,7 +143,7 @@ print(traits.fa, digits=2, cutoff=0, sort=FALSE)
 scores.fa <- traits.fa$scores
 end.rcode-->
 
-<!--begin.rcode fig.width=7, fig.height=3
+<!--begin.rcode pca-factanal-none, fig.width=7, fig.height=3
 cor(scores.fa, traits) %>%
   as.data.frame() %>%
   mutate(var1 = rownames(.)) %>%
@@ -157,7 +163,7 @@ print(traits.fa.vm, digits=2, cutoff=0, sort=FALSE)
 scores.fa.vm <- traits.fa.vm$scores
 end.rcode-->
 
-<!--begin.rcode fig.width=7, fig.height=3
+<!--begin.rcode pca-factanal-varimax, fig.width=7, fig.height=3
 cor(scores.fa.vm, traits) %>%
   as.data.frame() %>%
   mutate(var1 = rownames(.)) %>%
@@ -172,8 +178,10 @@ end.rcode-->
 
 <h2>How do they compare?</h2>
 
+<p>Here, I'll plot the absolute value of all the correlations (since the sign on factors/PCs is arbitrary).</p>
+
 <p>The functions principal(rotation = "varimax") and factanal(rotation = "varimax") are nearly (but not perfectly) identical.</p>
-<!--begin.rcode fig.width=7, fig.height=6
+<!--begin.rcode pca-compare-all, fig.width=7, fig.height=6
 scores.fa <- traits.fa$scores
 colnames(scores.principal) <- c("principal() 1", "principal() 2", "principal() 3")
 colnames(scores.varimax) <- c("principal(vm) 1", "principal(vm) 2", "principal(vm) 3")
@@ -193,11 +201,12 @@ cbind(
   mutate(var1 = rownames(.)) %>%
   gather("var2", "value", 1:15) %>%
   mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  mutate(value = abs(value)) %>%
   ggplot(aes(var2, var1, fill=value)) +
   geom_tile() +
   scale_x_discrete(position = "top") +
   xlab("") + ylab("") +
-  scale_fill_viridis(limits=c(-1, 1)) +
+  scale_fill_viridis(limits=c(0, 1)) +
   geom_hline(yintercept = 3.5) +
   geom_hline(yintercept = 6.5) +
   geom_hline(yintercept = 9.5) +
