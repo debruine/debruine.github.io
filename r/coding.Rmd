@@ -57,7 +57,7 @@ Now we analyse the data using each of the 4 styles of coding. I'm just going to 
 ```{r coding-categorical}
 suppressMessages( library(lmerTest) )
 
-m1 <- lmer(rating ~ face_sex + (1 | face_id) + (1 | rater_id), df2)
+m1 <- lmer(rating ~ face_sex + (1 | face_id) + (1 + face_sex | rater_id), df2)
 sum1 <- summary(m1)
 sum1$coefficients
 ```
@@ -66,7 +66,7 @@ Note that the intercept coefficient is equal to the female mean and the "effect"
 
 ## Treatment coding
 ```{r coding-treatment}
-m.tr <- lmer(rating ~ face_sex.tr + (1 | face_id) + (1 | rater_id), df2)
+m.tr <- lmer(rating ~ face_sex.tr + (1 | face_id) + (1 + face_sex.tr | rater_id), df2)
 sum.tr <- summary(m.tr)
 sum.tr$coefficients
 ```
@@ -75,7 +75,7 @@ Treatment coding is the same as categorical coding, but gives you more control o
 
 ## Sum coding
 ```{r coding-sum}
-m.sum <- lmer(rating ~ face_sex.sum + (1 | face_id) + (1 | rater_id), df2)
+m.sum <- lmer(rating ~ face_sex.sum + (1 | face_id) + (1 + face_sex.sum | rater_id), df2)
 sum.sum <- summary(m.sum)
 sum.sum$coefficients
 ```
@@ -83,8 +83,8 @@ sum.sum$coefficients
 With sum coding, the intercept coefficient is equal to the overall mean (ignoring face sex) and the "effect" of face sex is how much above and below that each of the two face sexes differ from the mean.
 
 ## Effect coding
-```{r coding effect}
-m.e <- lmer(rating ~ face_sex.e + (1 | face_id) + (1 | rater_id), df2)
+```{r coding-effect}
+m.e <- lmer(rating ~ face_sex.e + (1 | face_id) + (1 + face_sex.e | rater_id), df2)
 sum.e <- summary(m.e)
 sum.e$coefficients
 ```

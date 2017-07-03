@@ -161,42 +161,42 @@ df &lt;- data.frame(
 <h2>Categorical coding</h2>
 <pre class="r"><code>suppressMessages( library(lmerTest) )
 
-m1 &lt;- lmer(rating ~ face_sex + (1 | face_id) + (1 | rater_id), df2)
+m1 &lt;- lmer(rating ~ face_sex + (1 | face_id) + (1 + face_sex | rater_id), df2)
 sum1 &lt;- summary(m1)
 sum1$coefficients</code></pre>
-<pre><code>##                Estimate Std. Error        df   t value Pr(&gt;|t|)
-## (Intercept)   5.9745855 0.06316784  120.7318  94.58272        0
-## face_sexmale -0.9317424 0.03883879 9899.0006 -23.98999        0</code></pre>
+<pre><code>##                Estimate Std. Error       df  t value     Pr(&gt;|t|)
+## (Intercept)   5.9745855 0.09215043 99.00217 64.83513 0.000000e+00
+## face_sexmale -0.9317424 0.12462646 99.00316 -7.47628 3.119638e-11</code></pre>
 <p>Note that the intercept coefficient is equal to the female mean and the “effect” of face sex is how much less the male mean is.</p>
 </div>
 <div id="treatment-coding" class="section level2">
 <h2>Treatment coding</h2>
-<pre class="r"><code>m.tr &lt;- lmer(rating ~ face_sex.tr + (1 | face_id) + (1 | rater_id), df2)
+<pre class="r"><code>m.tr &lt;- lmer(rating ~ face_sex.tr + (1 | face_id) + (1 + face_sex.tr | rater_id), df2)
 sum.tr &lt;- summary(m.tr)
 sum.tr$coefficients</code></pre>
-<pre><code>##               Estimate Std. Error        df   t value Pr(&gt;|t|)
-## (Intercept)  5.9745855 0.06316784  120.7318  94.58272        0
-## face_sex.tr -0.9317424 0.03883879 9899.0006 -23.98999        0</code></pre>
+<pre><code>##               Estimate Std. Error       df  t value     Pr(&gt;|t|)
+## (Intercept)  5.9745855 0.09215043 99.00217 64.83513 0.000000e+00
+## face_sex.tr -0.9317424 0.12462646 99.00316 -7.47628 3.119638e-11</code></pre>
 <p>Treatment coding is the same as categorical coding, but gives you more control over what the reference category is.</p>
 </div>
 <div id="sum-coding" class="section level2">
 <h2>Sum coding</h2>
-<pre class="r"><code>m.sum &lt;- lmer(rating ~ face_sex.sum + (1 | face_id) + (1 | rater_id), df2)
+<pre class="r"><code>m.sum &lt;- lmer(rating ~ face_sex.sum + (1 | face_id) + (1 + face_sex.sum | rater_id), df2)
 sum.sum &lt;- summary(m.sum)
 sum.sum$coefficients</code></pre>
-<pre><code>##                Estimate Std. Error        df   t value Pr(&gt;|t|)
-## (Intercept)   5.5087143 0.06010875   99.0002  91.64579        0
-## face_sex.sum -0.4658712 0.01941940 9899.0000 -23.98999        0</code></pre>
+<pre><code>##                Estimate Std. Error       df   t value     Pr(&gt;|t|)
+## (Intercept)   5.5087143 0.06010875 99.00036 91.645794 0.000000e+00
+## face_sex.sum -0.4658712 0.06231330 99.00003 -7.476272 3.120215e-11</code></pre>
 <p>With sum coding, the intercept coefficient is equal to the overall mean (ignoring face sex) and the “effect” of face sex is how much above and below that each of the two face sexes differ from the mean.</p>
 </div>
 <div id="effect-coding" class="section level2">
 <h2>Effect coding</h2>
-<pre class="r"><code>m.e &lt;- lmer(rating ~ face_sex.e + (1 | face_id) + (1 | rater_id), df2)
+<pre class="r"><code>m.e &lt;- lmer(rating ~ face_sex.e + (1 | face_id) + (1 + face_sex.e | rater_id), df2)
 sum.e &lt;- summary(m.e)
 sum.e$coefficients</code></pre>
-<pre><code>##               Estimate Std. Error         df   t value Pr(&gt;|t|)
-## (Intercept)  5.5087143 0.06010876   99.00001  91.64579        0
-## face_sex.e  -0.9317424 0.03883879 9898.99912 -23.98999        0</code></pre>
+<pre><code>##               Estimate Std. Error       df   t value     Pr(&gt;|t|)
+## (Intercept)  5.5087143 0.06010875 99.00016 91.645799 0.000000e+00
+## face_sex.e  -0.9317424 0.12462665 99.00064 -7.476269 3.120171e-11</code></pre>
 <p>With effect coding, the intercept coefficient is the same as sum coding and the “effect” of face sex is how much the two face sexes differ from each other. Note that this coefficient is double that from the sum coding.</p>
 </div>
 
