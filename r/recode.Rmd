@@ -29,7 +29,7 @@ df <- data.frame(
 
 I'll graph it to make sure it looks like I expect. This is one of the few times a [bar plot](https://barbarplots.github.io/) is appropriate.
 
-```{r, recoding-orig-data}
+```{r, recode-orig-data}
 
 df %>%
   ggplot(aes(gender)) +
@@ -39,7 +39,7 @@ df %>%
 
 Now I'm going to transform the character variables into numbers and graph it again. As you can see, when a categorical variable is coded with numbers, the missing values are omitted from the graph.
 
-```{r, recoding-numbers}
+```{r, recode-numbers}
 
 df2 <- df %>%
   mutate(
@@ -72,7 +72,7 @@ That didn't work. You'll get an error that looks like:
 
 `recode()` requires that the left side of the equal sign be in quotes. Let's try this again and graph it.
 
-```{r, recoding-characters}
+```{r, recode-characters}
 
 df3 <- df2 %>%
   mutate(
@@ -87,7 +87,7 @@ df3 %>%
 
 What if you want your variables in a different order? You can use the `factor()` function to set the order of the levels.
 
-```{r, recoding-ordered}
+```{r, recode-ordered}
 
 df4 <- df3 %>%
   mutate(
@@ -100,6 +100,25 @@ df4 %>%
 
 ```
 
+Let's put it all together to see how you can go from numeric to character values and get them in the order you want. We'll start with an "original" dataframe of just the numerically coded genders from the previous data. Then we'll make a new data frame by recoding the numeric column into words and then ordering this. 
+
+Note that I've given the new column the name `gender.ordered` and then redefined this column with the reordered levels. This is a nice feature of the tidyverse. You could put all that code on one line with complicated brackets, but it's easier to manipulate a variable in steps and you can use previously created variables in subsequent steps of a `mutate()` function.
+
+```{r, recode-all}
+
+data.original <- df4 %>% select(gender.num)
+
+data.recoded <- data.original %>%
+  mutate(
+    gender.ordered = recode(gender.num, "1" = "male", "2" = "female", "3" = "nonbinary"),
+    gender.ordered = factor(gender.ordered, levels = c("nonbinary", "female", "male"))
+  )
+
+data.recoded %>%
+  ggplot(aes(gender.ordered)) +
+  geom_bar(fill="blue")
+
+```
 
 
 
