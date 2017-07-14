@@ -9,3 +9,4 @@ I'm going to start blogging random things about R and Open Science.
 * [scale()](r/scale.html)
 * [coding schemes](r/coding.html)
 * [pca](r/pca.html)
+* [recode()](r/recode.html)

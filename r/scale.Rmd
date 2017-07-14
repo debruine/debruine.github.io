@@ -1,11 +1,13 @@
 ---
-title: "scale(x, center = TRUE, scale = TRUE)"
+title: "scale()"
 author: "Lisa DeBruine"
 date: "2017-06-22"
 tags: "r, scale"
 output:
   html_document: default
 ---
+
+[Download the Rmd notebook for this example](scale.Rmd)
 
 <p>You can use <code>scale()</code> to center and/or scale (i.e., Z-score) a vector of numbers.</p>
 

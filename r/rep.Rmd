@@ -7,6 +7,8 @@ output:
   html_document: default
 ---
 
+[Download the Rmd notebook for this example](rep.Rmd)
+
 <code>rep(x, times = 1, length.out = NA, each = 1)</code> is pretty useful for simulating data. Here are some common recipes:
 
 * Repeat a single number (1) a number of times (10)

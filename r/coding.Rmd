@@ -7,6 +7,8 @@ output:
   html_document: default
 ---
 
+[Download the Rmd notebook for this example](coding.Rmd)
+
 How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite [tutorial on coding schemes](http://talklab.psy.gla.ac.uk/tvw/catpred/) explains things in detail. I'm just adding some concrete examples below.
 
 First, I simulated a data frame of 100 raters rating 100 faces each. Male faces get ratings with a mean of 5 and SD = 2; female faces get ratings with a mean of 6 and SD = 2. (I know, ratings are usually ordinal integers, but let's pretend we used something like a slider.)
@@ -14,7 +16,7 @@ First, I simulated a data frame of 100 raters rating 100 faces each. Male faces 
 ```{r, coding-sim-data}
 suppressMessages( library(tidyverse) )
 
-set.seed(444)  # for reproducibility
+set.seed(444)  # for reproducibility; delete when running simulations
 
 df <- data.frame(
   face_id = rep(1:100, each=100),
@@ -32,7 +34,7 @@ df %>% group_by(face_sex) %>% summarise(mean = mean(rating), sd = sd(rating))
 
 And always graph your data!
 
-```{r}
+```{r, coding-orig-data}
 df %>% 
   ggplot(aes(face_sex, rating)) + 
   geom_violin() +
@@ -45,9 +47,9 @@ Recode face sex using treatment, sum, or effect coding.
 
 df2 <- df %>%
   mutate(
-    face_sex.tr = ifelse(face_sex=="female", 0, 1),
-    face_sex.sum = ifelse(face_sex=="female", -1, 1),
-    face_sex.e = ifelse(face_sex=="female", -0.5, +0.5)
+    face_sex.tr = recode(face_sex, "female" = 0, "male" = 1),
+    face_sex.sum = recode(face_sex, "female" = -1, "male" = 1),
+    face_sex.e = recode(face_sex, "female" = -0.5, "male" = 0.5)
   )
 ```
 
