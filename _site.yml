@@ -1,0 +1,11 @@
+name: "Lisa_DeBruine"
+output_dir: "."
+author: "Lisa DeBruine"
+navbar:
+  title: "Lisa DeBruine"
+  right:
+    - text: "The Research Cycle"
+      href: research_cycle/index.html
+output:
+  html_document:
+    theme: flatly

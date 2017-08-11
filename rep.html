@@ -9,13 +9,15 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Lisa DeBruine" />
 
+<meta name="date" content="2017-06-21" />
 
-<title>Lisa DeBruine</title>
+<title>rep()</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -97,34 +99,34 @@ button.code-folding-btn:focus {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 60px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 
 .section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 </style>
 
@@ -190,20 +192,76 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Lisa DeBruine</h1>
+<h1 class="title toc-ignore">rep()</h1>
+<h4 class="author"><em>Lisa DeBruine</em></h4>
+<h4 class="date"><em>2017-06-21</em></h4>
 
 </div>
 
 
-<p>I’m going to start blogging random things about R and Open Science.</p>
+<p><a href="rep.Rmd">Download the Rmd notebook for this example</a></p>
+<p><code>rep(x, times = 1, length.out = NA, each = 1)</code> is pretty useful for simulating data. Here are some common recipes:</p>
 <ul>
-<li><a href="rep.html">rep()</a></li>
-<li><a href="scale.html">scale()</a></li>
-<li><a href="coding.html">coding schemes</a></li>
-<li><a href="pca.html">pca</a></li>
-<li><a href="recode.html">recode()</a></li>
-<li><a href="cumulative_p.html">cumulative p</a></li>
+<li>Repeat a single number (1) a number of times (10)</li>
 </ul>
+<pre class="r"><code>rep(1, 10)</code></pre>
+<pre><code>##  [1] 1 1 1 1 1 1 1 1 1 1</code></pre>
+<ul>
+<li>Repeat a series of numbers (1:5) a number of times (2)</li>
+</ul>
+<pre class="r"><code>rep(1:5, 2)</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 1 2 3 4 5</code></pre>
+<pre class="r"><code>rep(1:5, times=2)</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 1 2 3 4 5</code></pre>
+<ul>
+<li>If <code>times</code> is not an integer, it is truncated (not rounded).</li>
+</ul>
+<pre class="r"><code>rep(1:5, times=2.9)</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 1 2 3 4 5</code></pre>
+<ul>
+<li>Repeat a series of numbers (1:5) a number of times each (2)</li>
+</ul>
+<pre class="r"><code>rep(1:5, each=2)</code></pre>
+<pre><code>##  [1] 1 1 2 2 3 3 4 4 5 5</code></pre>
+<pre class="r"><code>rep(1:5, 1, NA, 2)</code></pre>
+<pre><code>##  [1] 1 1 2 2 3 3 4 4 5 5</code></pre>
+<ul>
+<li>Repeat a list of numbers (0, 3, 6) a number of times (2)</li>
+</ul>
+<pre class="r"><code>rep(c(0, 3, 6), times=2)</code></pre>
+<pre><code>## [1] 0 3 6 0 3 6</code></pre>
+<ul>
+<li>Repeat a list of strings (“a”, “b”, “c”) a number of times (2)</li>
+</ul>
+<pre class="r"><code>rep(c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), times=2)</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<ul>
+<li>Repeat a list of strings (“a”, “b”, “c”) a number of times each (2)</li>
+</ul>
+<pre class="r"><code>rep(c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), each=2)</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;c&quot; &quot;c&quot;</code></pre>
+<ul>
+<li>Repeat a list of strings (“a”, “b”) a number of times each (2) a number of times (3)</li>
+</ul>
+<pre class="r"><code>rep(c(&quot;a&quot;, &quot;b&quot;), each=2, times=3)</code></pre>
+<pre><code>##  [1] &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot; &quot;a&quot; &quot;a&quot; &quot;b&quot; &quot;b&quot;</code></pre>
+<ul>
+<li>Repeat a series of numbers (1:5) until you have a specific total (12)</li>
+</ul>
+<pre class="r"><code>rep(1:5, length.out=12)</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 1 2 3 4 5 1 2</code></pre>
+<pre class="r"><code>rep_len(1:5, 12)</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 1 2 3 4 5 1 2</code></pre>
+<ul>
+<li><code>length.out</code> overrides <code>times</code></li>
+</ul>
+<pre class="r"><code>rep(1:5, length.out=12, times=500)</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 1 2 3 4 5 1 2</code></pre>
+<ul>
+<li>Repeat a sequence of numbers (0:10 by 5s) a number of times (3)</li>
+</ul>
+<pre class="r"><code>rep(seq(0, 10, by=5), 3)</code></pre>
+<pre><code>## [1]  0  5 10  0  5 10  0  5 10</code></pre>
 
 
 

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Data visualisation with ggplot</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">The Research Cycle</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="01_intro.html">1: intro</a>
+</li>
+<li>
+  <a href="02_tidy.html">2: tidy</a>
+</li>
+<li>
+  <a href="03_ggplot.html">3: ggplot</a>
+</li>
+<li>
+  <a href="04_dplyr.html">4: dplyr</a>
+</li>
+<li>
+  <a href="05_joins.html">5: joins</a>
+</li>
+<li>
+  <a href="06_functions.html">6: functions</a>
+</li>
+<li>
+  <a href="07_simulation.html">7: simulation</a>
+</li>
+<li>
+  <a href="08_glm.html">8: glm</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Data visualisation with ggplot</h1>
+
+</div>
+
+
+<div id="learning-objectives" class="section level2 tabset">
+<h2>Learning Objectives</h2>
+<div id="basic" class="section level3">
+<h3>Basic</h3>
+<ol style="list-style-type: decimal">
+<li>Understand what types of graphs are best for different types of data</li>
+<li>Create common types of graphs with ggplot2
+<ul>
+<li>bar plot (<code>geom_bar()</code>)</li>
+<li>violin plot (<code>geom_violin()</code>)</li>
+<li>boxplot (<code>geom_boxplot()</code>)</li>
+<li>histogram (<code>geom_histogram()</code>)</li>
+<li>density plot (<code>geom_density()</code>)</li>
+<li>scatter plot (<code>geom_point()</code>)</li>
+<li>line graph (<code>geom_smooth()</code>)</li>
+</ul></li>
+</ol>
+</div>
+<div id="intermediate" class="section level3">
+<h3>Intermediate</h3>
+<ol start="3" style="list-style-type: decimal">
+<li>Represent factorial designs with different colours or facets</li>
+<li>Superimpose different types of graphs
+<ul>
+<li>boxplot on violin plot</li>
+<li>line graph on scatter plot</li>
+</ul></li>
+<li>Add lines to graphs</li>
+<li>Deal with overlapping data</li>
+<li>Use the <code>viridis</code> package to set colours</li>
+<li>Set custom labels</li>
+</ol>
+</div>
+<div id="advanced" class="section level3">
+<h3>Advanced</h3>
+<ol start="9" style="list-style-type: decimal">
+<li>Create less common types of graphs (e.g., heat map)</li>
+<li>Adjust axes (e.g., flip coordinates, set axis limits)</li>
+<li>Change the theme</li>
+<li>Create animated plots with <a href="https://github.com/dgrtwo/gganimate"><code>gganimate</code></a></li>
+</ol>
+</div>
+</div>
+<div id="prep" class="section level2">
+<h2>Prep</h2>
+<ul>
+<li>Read <a href="http://r4ds.had.co.nz/data-visualisation.html">Chapter 3</a> of <em>R for Data Science</em></li>
+</ul>
+</div>
+<div id="resources" class="section level2">
+<h2>Resources</h2>
+<ul>
+<li><a href="https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf">ggplot2 cheat sheet</a></li>
+<li><a href="http://ggplot2.tidyverse.org/reference/">ggplot2 documentation</a></li>
+<li><a href="http://www.r-graph-gallery.com/">The R Graph Gallery</a> (this is really useful)</li>
+<li><a href="http://amzn.com/1449316956?tag=ggplot2-20">R Graphics Cookbook</a> by Winston Chang</li>
+<li><a href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">The viridis color palettes</a></li>
+<li><a href="https://www.ggplot2-exts.org/">ggplot extensions</a></li>
+<li><a href="https://plot.ly/ggplot2/">plotly</a> for creating interactive graphs</li>
+</ul>
+</div>
+<div id="examples" class="section level2 tabset tabset-pills">
+<h2>Examples</h2>
+<pre class="r"><code># libraries needed for these graphs
+library(tidyverse)
+library(viridis)</code></pre>
+<div id="data" class="section level3">
+<h3>Data</h3>
+<p>Here we’ve created some data frames with different types of data.</p>
+<ul>
+<li><code>demog</code> has <code>height</code> and <code>age</code> for 500 men and 500 women.</li>
+<li><code>x_vs_y</code> has two correlated continuous variables (<code>x</code> and <code>y</code>)</li>
+<li><code>overlap</code> has two correlated ordinal variables and 1000 observations so there is a lot of overlap</li>
+</ul>
+<p>First, think about what kinds of graphs are best for representing these different types of data.</p>
+<pre class="r"><code>demog &lt;- data.frame(
+  sex = rep(c(&quot;male&quot;, &quot;female&quot;), each = 500),
+  height = c(rnorm(500, 70, 4), rnorm(500, 65, 3.5)),
+  age = rpois(1000, 3) + 20
+)
+
+x_vs_y &lt;- data.frame(
+  x = rnorm(100)
+) %&gt;%
+  mutate(y = x + rnorm(100, 0, 0.5))
+
+overlap &lt;- data.frame(
+  x = rbinom(1000, 10, 0.5)
+) %&gt;%
+  mutate(y = x + rbinom(1000, 20, 0.5))</code></pre>
+</div>
+<div id="violin-plot" class="section level3">
+<h3>Violin plot</h3>
+<pre class="r"><code>ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_violin(
+    trim = FALSE,
+    draw_quantiles = c(0.25, 0.5, 0.75), 
+    alpha=0.5
+  )</code></pre>
+<p><img src="images/03/violin-1.png" width="768" /></p>
+</div>
+<div id="boxplot" class="section level3">
+<h3>Boxplot</h3>
+<pre class="r"><code>ggplot(demog, aes(sex, height, fill=sex)) +
+  geom_boxplot(alpha=0.5)</code></pre>
+<p><img src="images/03/boxplot-1.png" width="768" /></p>
+</div>
+<div id="violinbox-plot" class="section level3">
+<h3>Violinbox plot</h3>
+<p>To demonstrate the use of <code>facet_grid()</code> for factorial designs, I created a new column called <code>agegroup</code> to split the data into participnats older than the meadian age or younger than the median age. I also got rid of the legend because it was redundant with the x-axis labels and changed the default colours.</p>
+<pre class="r"><code>demog %&gt;%
+  mutate(agegroup = ifelse(age&lt;median(age), &quot;Younger&quot;, &quot;Older&quot;)) %&gt;%
+  ggplot(aes(sex, height, fill=sex)) +
+    geom_violin(trim = FALSE, alpha=0.5) +
+    geom_boxplot(width = 0.25, fill=&quot;white&quot;) +
+    facet_grid(.~agegroup) +
+    scale_fill_manual(values = c(&quot;orange&quot;, &quot;green&quot;), guide=FALSE)</code></pre>
+<p><img src="images/03/violinbox-1.png" width="768" /></p>
+</div>
+<div id="bar-plot" class="section level3">
+<h3>Bar plot</h3>
+<p>I’ll show you how to make these so you can recreate others’ graphs, but we really should <a href="https://barbarplots.github.io/">#barbarplots</a>.</p>
+<pre class="r"><code># calculate mean and SD for each sex
+demog %&gt;%
+  group_by(sex) %&gt;%
+  summarise(
+    mean = mean(height),
+    sd = sd(height)
+  ) %&gt;%
+ggplot(aes(sex, mean, fill=sex)) +
+  geom_bar(stat=&quot;identity&quot;, alpha = 0.5) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), width = 0.25)</code></pre>
+<p><img src="images/03/barplot-1.png" width="768" /></p>
+</div>
+<div id="histogram" class="section level3">
+<h3>Histogram</h3>
+<pre class="r"><code>ggplot(demog, aes(height, fill=sex)) +
+  geom_histogram(binwidth = 1, alpha=0.5)</code></pre>
+<p><img src="images/03/histogram-1.png" width="768" /></p>
+</div>
+<div id="density-plot" class="section level3">
+<h3>Density plot</h3>
+<pre class="r"><code>ggplot(demog, aes(height, fill=sex)) +
+  geom_density(alpha=0.5) +
+  geom_vline(xintercept = mean(demog$height)) +
+  xlim(45, 90) +
+  xlab(&quot;Height (in inches)&quot;)</code></pre>
+<p><img src="images/03/density-1.png" width="768" /></p>
+</div>
+<div id="scatter-plot" class="section level3">
+<h3>Scatter plot</h3>
+<pre class="r"><code>ggplot(x_vs_y, aes(x, y)) +
+  geom_point()</code></pre>
+<p><img src="images/03/scatter-1.png" width="768" /></p>
+</div>
+<div id="line-graph" class="section level3">
+<h3>Line graph</h3>
+<pre class="r"><code>ggplot(x_vs_y, aes(x, y)) +
+  geom_smooth(method=&quot;lm&quot;)</code></pre>
+<p><img src="images/03/line-1.png" width="768" /></p>
+</div>
+<div id="combined-scatter-and-line-graph" class="section level3">
+<h3>Combined scatter and line graph</h3>
+<pre class="r"><code>ggplot(x_vs_y, aes(x, y)) +
+  geom_smooth(method=&quot;lm&quot;) +
+  geom_point()</code></pre>
+<p><img src="images/03/scatter_line-1.png" width="768" /></p>
+</div>
+<div id="overlapping-data" class="section level3">
+<h3>Overlapping Data</h3>
+<p>You can deal with overlapping data points (very common if you’re using Likert scales) by reducing the opacity of the points. You need to use trial and error to adjust these so they look right.</p>
+<pre class="r"><code>ggplot(overlap, aes(x, y)) +
+  geom_point(size = 5, alpha = .05) +
+  geom_smooth(method=&quot;lm&quot;)</code></pre>
+<p><img src="images/03/overlap_alpha-1.png" width="768" /></p>
+<p>Alternatively, you can transform your data to create a count column and use the count to set the dot colour.</p>
+<pre class="r"><code>overlap %&gt;%
+  group_by(x, y) %&gt;%
+  summarise(count = n()) %&gt;%
+  ggplot(aes(x, y, color=count)) +
+  geom_point(size = 5) +
+  scale_color_viridis()</code></pre>
+<p><img src="images/03/overlap_colour-1.png" width="768" /></p>
+</div>
+<div id="heat-map" class="section level3">
+<h3>Heat map</h3>
+<pre class="r"><code># generate two sets of correlated variables (a and b)
+heatmap &lt;- data.frame(
+  a1 = rnorm(100),
+  b1 = rnorm(100)
+) %&gt;% 
+mutate(
+  a2 = a1 + rnorm(100),
+  a3 = a1 + rnorm(100),
+  a4 = a1 + rnorm(100),
+  b2 = b1 + rnorm(100),
+  b3 = b1 + rnorm(100),
+  b4 = b1 + rnorm(100)
+) %&gt;%
+cor() %&gt;% # create the correlation matrix
+as.data.frame() %&gt;% # make it a data frame
+rownames_to_column(var = &quot;V1&quot;) %&gt;% # set rownames as V1
+gather(&quot;V2&quot;, &quot;r&quot;, a1:b4) # wide to long (V2)
+
+ggplot(heatmap, aes(V1, V2, fill=r)) +
+  geom_tile() +
+  scale_fill_viridis()</code></pre>
+<p><img src="images/03/heatmap-1.png" width="768" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

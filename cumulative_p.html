@@ -9,13 +9,15 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Lisa DeBruine" />
 
+<meta name="date" content="2017-07-27" />
 
-<title>Lisa DeBruine</title>
+<title>Cumulative Probability</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -97,34 +99,34 @@ button.code-folding-btn:focus {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 60px;
+  padding-top: 51px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 
 .section h2 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h3 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h4 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h5 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 .section h6 {
-  padding-top: 65px;
-  margin-top: -65px;
+  padding-top: 56px;
+  margin-top: -56px;
 }
 </style>
 
@@ -190,20 +192,43 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Lisa DeBruine</h1>
+<h1 class="title toc-ignore">Cumulative Probability</h1>
+<h4 class="author"><em>Lisa DeBruine</em></h4>
+<h4 class="date"><em>2017-07-27</em></h4>
 
 </div>
 
 
-<p>I’m going to start blogging random things about R and Open Science.</p>
-<ul>
-<li><a href="rep.html">rep()</a></li>
-<li><a href="scale.html">scale()</a></li>
-<li><a href="coding.html">coding schemes</a></li>
-<li><a href="pca.html">pca</a></li>
-<li><a href="recode.html">recode()</a></li>
-<li><a href="cumulative_p.html">cumulative p</a></li>
-</ul>
+<p><a href="cumulatiove_p.Rmd">Download the Rmd notebook for this example</a></p>
+<p>EJ Wagenmakers started an interesting debate last night with a <a href="https://twitter.com/EJWagenmakers/status/889987997046910978">twitter poll on p-values</a>. Some responses suggested you can multiply p-values from several tests to create a sort of <a href="https://twitter.com/VladMalik/status/890246773515722752">cumulative p-value</a> that is the joint probability of the null hypothesis.</p>
+<p>I also used to believe that you could multiply p-values, but am now a bit embarassed at my misunderstanding, common as it is. The p-value is <em>not</em> the probability that the null hypothesis is true, it is the probability of obtaining the current (or more extreme) values under the null hypothesis. This important distinction means you cannot multiply p-values to obtain the joint probability of several tests.</p>
+<p>First, I’ll write a simple function to generate two sets of <code>n</code> samples from a normal distribution with the same mean and SD, then return the p-value for a t-test.</p>
+<pre class="r"><code>suppressMessages( library(tidyverse) )
+
+nullp &lt;- function(n) {
+  a = rnorm(n)
+  b = rnorm(n)
+  t = t.test(a, b)
+  t$p.value
+}</code></pre>
+<p>I’ll run this simulation 10000 times with samples of n = 1000 to get a good distribution of p-values under the null hypothesis. The histogram shows that this is a unifrom distribution.</p>
+<pre class="r"><code>ps &lt;- replicate(10000, nullp(1000))
+
+hist(ps)</code></pre>
+<p><img src="cumulative_p_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Then sample 1000 p-values from this distributions once, twice, thrice, and whatever the word is for four times. This should convince you that the cumulative p-value cannot provide the joint probability of the null hypothesis for multiple tests.</p>
+<pre class="r"><code>data.frame(
+  &quot;x1&quot; = sample(ps, 1000),
+  &quot;x2&quot; = sample(ps, 1000) * sample(ps, 1000),
+  &quot;x3&quot; = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000),
+  &quot;x4&quot; = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000)
+) %&gt;%
+  gather(&quot;n_tests&quot;, &quot;cum_p&quot;, x1:x4) %&gt;%
+  ggplot(aes(cum_p, fill=n_tests)) +
+  geom_density(alpha = 0.5) +
+  labs(x =&quot;Cumulative p-value&quot;,
+  title=&quot;Cumulative p-value distribution under the null hypothesis&quot;)</code></pre>
+<p><img src="cumulative_p_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 
 
 

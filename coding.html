@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Lisa DeBruine" />
+
+<meta name="date" content="2017-06-23" />
+
+<title>Coding Schemes</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Lisa DeBruine</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="research_cycle/index.html">The Research Cycle</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Coding Schemes</h1>
+<h4 class="author"><em>Lisa DeBruine</em></h4>
+<h4 class="date"><em>2017-06-23</em></h4>
+
+</div>
+
+
+<p><a href="coding.Rmd">Download the Rmd notebook for this example</a></p>
+<p>How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite <a href="http://talklab.psy.gla.ac.uk/tvw/catpred/">tutorial on coding schemes</a> explains things in detail. I’m just adding some concrete examples below.</p>
+<p>First, I simulated a data frame of 100 raters rating 100 faces each. Male faces get ratings with a mean of 5 and SD = 2; female faces get ratings with a mean of 6 and SD = 2. (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider.)</p>
+<pre class="r"><code>suppressMessages( library(tidyverse) )
+
+set.seed(444)  # for reproducibility; delete when running simulations
+
+df &lt;- data.frame(
+  face_id = rep(1:100, each=100),
+  rater_id = rep(1:100, times=100),
+  face_sex = rep(c(&quot;male&quot;, &quot;female&quot;), each=500),
+  rating = c(rnorm(500, 5, 2), rnorm(500, 6, 2))
+)</code></pre>
+<p>Calculate the mean and SD to confirm the simulated data.</p>
+<pre class="r"><code>df %&gt;% group_by(face_sex) %&gt;% summarise(mean = mean(rating), sd = sd(rating))</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   face_sex     mean       sd
+##     &lt;fctr&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+## 1   female 5.974585 2.098027
+## 2     male 5.042843 1.944579</code></pre>
+<p>And always graph your data!</p>
+<pre class="r"><code>df %&gt;% 
+  ggplot(aes(face_sex, rating)) + 
+  geom_violin() +
+  geom_boxplot(width=0.1)</code></pre>
+<p><img src="coding_files/figure-html/coding-orig-data-1.png" width="672" /></p>
+<p>Recode face sex using treatment, sum, or effect coding.</p>
+<pre class="r"><code>df2 &lt;- df %&gt;%
+  mutate(
+    face_sex.tr = recode(face_sex, &quot;female&quot; = 0, &quot;male&quot; = 1),
+    face_sex.sum = recode(face_sex, &quot;female&quot; = -1, &quot;male&quot; = 1),
+    face_sex.e = recode(face_sex, &quot;female&quot; = -0.5, &quot;male&quot; = 0.5)
+  )</code></pre>
+<p>Now we analyse the data using each of the 4 styles of coding. I’m just going to show the table of fixed effects.</p>
+<div id="categorical-coding" class="section level2">
+<h2>Categorical coding</h2>
+<pre class="r"><code>suppressMessages( library(lmerTest) )
+
+m1 &lt;- lmer(rating ~ face_sex + (1 | face_id) + (1 + face_sex | rater_id), df2)
+sum1 &lt;- summary(m1)
+sum1$coefficients</code></pre>
+<pre><code>##                Estimate Std. Error       df  t value     Pr(&gt;|t|)
+## (Intercept)   5.9745855 0.09215043 99.00217 64.83513 0.000000e+00
+## face_sexmale -0.9317424 0.12462646 99.00316 -7.47628 3.119638e-11</code></pre>
+<p>Note that the intercept coefficient is equal to the female mean and the “effect” of face sex is how much less the male mean is.</p>
+</div>
+<div id="treatment-coding" class="section level2">
+<h2>Treatment coding</h2>
+<pre class="r"><code>m.tr &lt;- lmer(rating ~ face_sex.tr + (1 | face_id) + (1 + face_sex.tr | rater_id), df2)
+sum.tr &lt;- summary(m.tr)
+sum.tr$coefficients</code></pre>
+<pre><code>##               Estimate Std. Error       df  t value     Pr(&gt;|t|)
+## (Intercept)  5.9745855 0.09215043 99.00217 64.83513 0.000000e+00
+## face_sex.tr -0.9317424 0.12462646 99.00316 -7.47628 3.119638e-11</code></pre>
+<p>Treatment coding is the same as categorical coding, but gives you more control over what the reference category is.</p>
+</div>
+<div id="sum-coding" class="section level2">
+<h2>Sum coding</h2>
+<pre class="r"><code>m.sum &lt;- lmer(rating ~ face_sex.sum + (1 | face_id) + (1 + face_sex.sum | rater_id), df2)
+sum.sum &lt;- summary(m.sum)
+sum.sum$coefficients</code></pre>
+<pre><code>##                Estimate Std. Error       df   t value     Pr(&gt;|t|)
+## (Intercept)   5.5087143 0.06010875 99.00036 91.645794 0.000000e+00
+## face_sex.sum -0.4658712 0.06231330 99.00003 -7.476272 3.120215e-11</code></pre>
+<p>With sum coding, the intercept coefficient is equal to the overall mean (ignoring face sex) and the “effect” of face sex is how much above and below that each of the two face sexes differ from the mean.</p>
+</div>
+<div id="effect-coding" class="section level2">
+<h2>Effect coding</h2>
+<pre class="r"><code>m.e &lt;- lmer(rating ~ face_sex.e + (1 | face_id) + (1 + face_sex.e | rater_id), df2)
+sum.e &lt;- summary(m.e)
+sum.e$coefficients</code></pre>
+<pre><code>##               Estimate Std. Error       df   t value     Pr(&gt;|t|)
+## (Intercept)  5.5087143 0.06010875 99.00016 91.645799 0.000000e+00
+## face_sex.e  -0.9317424 0.12462665 99.00064 -7.476269 3.120171e-11</code></pre>
+<p>With effect coding, the intercept coefficient is the same as sum coding and the “effect” of face sex is how much the two face sexes differ from each other. Note that this coefficient is double that from the sum coding.</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
