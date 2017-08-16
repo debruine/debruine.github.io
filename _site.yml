@@ -6,6 +6,8 @@ navbar:
   right:
     - text: "The Research Cycle"
       href: research_cycle/index.html
+    - text: "Academic Webpages"
+      href: acadweb/index.html
 output:
   html_document:
     theme: flatly
