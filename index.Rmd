@@ -1,7 +1,13 @@
 ---
 title: "Lisa DeBruine"
 ---
-I'm going to start blogging random things about R and Open Science.
+
+Courses
+
+* [The Research Cycle](research_cycle/)
+* [Academic Webpages](acadweb/)
+
+I also blog random things about R and Open Science.
 
 * [rep()](rep.html)
 * [scale()](scale.html)
