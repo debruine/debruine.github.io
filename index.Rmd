@@ -7,8 +7,17 @@ Courses
 * [The Research Cycle](research_cycle/)
 * [Academic Webpages](acadweb/)
 
+Shiny Apps
+
+* [topcentile](http://rstudio2.psy.gla.ac.uk/debruine/topcentile/)  
+
+    This tool calculates the ratio of group A and group B members above a 
+    specificed percentile. You set the means and standard deviations for groups 
+    A and B (only normal distributions for now).
+
 I also blog random things about R and Open Science.
 
+* [psych::alpha()](paych_alpha.html)
 * [rep()](rep.html)
 * [scale()](scale.html)
 * [coding schemes](coding.html)
