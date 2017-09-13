@@ -17,7 +17,11 @@ Shiny Apps
 
 I also blog random things about R and Open Science.
 
+<<<<<<< HEAD
 * [psych::alpha()](psych_alpha.html)
+=======
+* [psych::alpha()](psych_alpha.html)
+>>>>>>> ad7eb9af5a3e764936ac2aab0f9d4f5d448b57e7
 * [rep()](rep.html)
 * [scale()](scale.html)
 * [coding schemes](coding.html)
