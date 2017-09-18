@@ -9,11 +9,25 @@ Courses
 
 Shiny Apps
 
-* [topcentile](http://rstudio2.psy.gla.ac.uk/debruine/topcentile/)  
+* [topcentile]( https://debruine.shinyapps.io/topcentile/)  
 
     This tool calculates the ratio of group A and group B members above a 
     specificed percentile. You set the means and standard deviations for groups 
     A and B (only normal distributions for now).
+    
+* [coinsim]( https://debruine.shinyapps.io/coinsim/)
+
+    This tool lets you flip a virtual coin any number of times (with a bias that 
+    you set) and calculate the exact binomial probability of getting the sequence 
+    with a fair coin.
+
+* [normsim]( https://debruine.shinyapps.io/normsim/)
+
+    This tool lets you simulate a normal distribution of a specified number and 
+    mean (with SD = 1) and to run a one-sample t-test against 0. You can visualise 
+    the distribution of each sample and the distribution of p-values over all 
+    the samples you create.
+
 
 I also blog random things about R and Open Science.
 
