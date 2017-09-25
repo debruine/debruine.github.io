@@ -2,32 +2,49 @@
 title: "Lisa DeBruine"
 ---
 
-Courses
+## Courses
 
 * [The Research Cycle](research_cycle/)
 * [Academic Webpages](acadweb/)
 
-Shiny Apps
 
-* [topcentile]( https://debruine.shinyapps.io/topcentile/)  
+## Open Science Stuff
 
-    This tool calculates the ratio of group A and group B members above a 
-    specificed percentile. You set the means and standard deviations for groups 
-    A and B (only normal distributions for now).
-    
-* [coinsim]( https://debruine.shinyapps.io/coinsim/)
+<img src="https://s3-eu-west-1.amazonaws.com/pfigshare-u-previews/8541955/thumb.png" style="float: right" />
 
-    This tool lets you flip a virtual coin any number of times (with a bias that 
-    you set) and calculate the exact binomial probability of getting the sequence 
-    with a fair coin.
+* [figshare ](https://figshare.com/authors/Lisa_DeBruine/3235773) is where I've 
+  made a few image sets open access, as well as manipulated versions and 
+  [webmorph](http://webmorph.org) template files. 
+* [OSF](https://osf.io/4i578/) is where I post all of my open data and analysis code.
+*	[GitHub](https://github.com/debruine) hosts code for [webmorph](http://webmorph.org) and some other projects
+* I tweet mostly at @[lisadebruine](https://twitter.com/lisadebruine), but also 
+  sometimes at @[kinfaces](https://twitter.com/kinfaces), 
+  @[facefacts_scot](https://twitter.com/facefacts_scot), and
+  @[webmorph_org](https://twitter.com/webmorph_org).
+* [ORCID](http://orcid.org/0000-0002-7523-5539), 
+  [ResearcherID](http://researcherid.com/rid/A-6990-2008), and 
+  [Google Scholar](http://scholar.google.com/citations?user=oLHcVYUAAAAJ) 
+  list my scientific publications (I'm working on making all the data open, but 
+  have a bit of a backlog)
 
-* [normsim]( https://debruine.shinyapps.io/normsim/)
 
-    This tool lets you simulate a normal distribution of a specified number and 
-    mean (with SD = 1) and to run a one-sample t-test against 0. You can visualise 
-    the distribution of each sample and the distribution of p-values over all 
-    the samples you create.
+## Shiny Apps
 
+I just started learning how to make shiny apps. It is fun, but my apps are currently pretty terrible.
+
+* [topcentile]( https://debruine.shinyapps.io/topcentile/): This tool calculates 
+  the ratio of group A and group B members above a specificed percentile. You 
+  set the means and standard deviations for groups A and B (only normal 
+  distributions for now).
+* [coinsim]( https://debruine.shinyapps.io/coinsim/): This tool lets you flip a 
+  virtual coin any number of times (with a bias that you set) and calculate the 
+  exact binomial probability of getting the sequence with a fair coin.
+* [normsim]( https://debruine.shinyapps.io/normsim/): This tool lets you simulate 
+  a normal distribution of a specified number and mean (with SD = 1) and to run 
+  a one-sample t-test against 0. You can visualise the distribution of each sample 
+  and the distribution of p-values over all the samples you create.
+
+## Blogging
 
 I also blog random things about R and Open Science.
 

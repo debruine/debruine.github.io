@@ -3,11 +3,6 @@ output_dir: "."
 author: "Lisa DeBruine"
 navbar:
   title: "Lisa DeBruine"
-  right:
-    - text: "The Research Cycle"
-      href: research_cycle/
-    - text: "Academic Webpages"
-      href: acadweb/
 output:
   html_document:
     theme: flatly
