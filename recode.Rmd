@@ -1,5 +1,5 @@
 ---
-title: "Recode()"
+title: "recode()"
 author: "Lisa DeBruine"
 date: "2017-07-14"
 tags: "r, recoding, categorical"

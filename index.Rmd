@@ -17,6 +17,7 @@ Shiny Apps
 
 I also blog random things about R and Open Science.
 
+* [nest() and irr::icc()](nest.html)
 * [psych::alpha()](psych_alpha.html)
 * [rep()](rep.html)
 * [scale()](scale.html)
