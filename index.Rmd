@@ -4,7 +4,7 @@ title: "Lisa DeBruine"
 
 ## Courses
 
-* [The Research Cycle](research_cycle/)
+* [The Research Cycle](https:/rgup.gitlab.io/research_cycle/)
 * [Academic Webpages](acadweb/)
 
 
