@@ -32,7 +32,7 @@ title: "Lisa DeBruine"
 
 I just started learning how to make shiny apps. It is fun, but my apps are currently pretty terrible.
 
-* [varviz](https://debruine.shinyapps.io/topcentile/): Simulate and visualise a 
+* [varviz](https://debruine.shinyapps.io/varviz/): Simulate and visualise a 
   normal distribution with a specified number, mean and SD. (Present for Phil McAleer)
 * [topcentile](https://debruine.shinyapps.io/topcentile/): Calculates 
   the ratio of group A and group B members above a specificed percentile. You 
@@ -50,6 +50,7 @@ I just started learning how to make shiny apps. It is fun, but my apps are curre
 
 I also blog random things about R and Open Science.
 
+* [internal lab preregistrations](prereg.html)
 * [hidden solutions](hidden_solution.html)
 * [nest() and irr::icc()](nest.html)
 * [psych::alpha()](psych_alpha.html)
