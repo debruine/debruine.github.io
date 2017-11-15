@@ -6,3 +6,6 @@ navbar:
 output:
   html_document:
     theme: flatly
+    css: rguppies.css
+    include:
+      after_body: rguppies.js
