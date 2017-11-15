@@ -12,6 +12,10 @@ output:
 
 [Download the Rmd notebook for this example](solveme.Rmd)
 
+I'd noticed that students were tending to just look at the [hidden solutions](hidden_solutions.html) and not try very hard to understand the exercises, so I wanted a way for them to check if they're right, but not give them the answer immediately. I made a quick way to set up an input box that turns green when you type in the right answer.
+
+What is 2 + 2? <input class="solveme" size="3" answer="4">
+
 Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.
 
 ## Put this at the beginning of your file
@@ -114,7 +118,7 @@ If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_webs
               rnorm(10, mean = 3, sd = 2) :or:
               rnorm(10, 3, sd = 2) :or:
               rnorm(10, sd = 2, mean = 3) :or:
-              rnorm(x = 10, mean = 3, sd = 2)">
+              rnorm(x = 10, mean = 3, sd = 2)" >
       
     ```
     <input class="solveme nospaces" 
@@ -123,7 +127,7 @@ If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_webs
       rnorm(10, mean = 3, sd = 2) :or:
       rnorm(10, 3, sd = 2) :or:
       rnorm(10, sd = 2, mean = 3) :or:
-      rnorm(x = 10, mean = 3, sd = 2)">
+      rnorm(x = 10, mean = 3, sd = 2)" >
     ```
     
     <p class="alert alert-info">You can also skip a line after `:or:`. Whitespace before and after your answer is trimmed off, so your coprrect answer can't require that the student start or end with spaces.</p>
@@ -176,7 +180,7 @@ If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_webs
     </select>
     ```
     
-* You can include a line with the total correct using the following code:
+* You can include a line with automatically updating total correct using the following code:
 
     <span id="total_correct"></span>
     

@@ -58,7 +58,7 @@ Setting this up requires a few lines at the beginning and end of each file, plus
 </style>
 ```
 
-If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put these lines of css into an external stylesheet linked in your `_site.yml` file.
+If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put these lines of css into an external stylesheet linked in your `_site.yml` file (e.g., [rguppies.css](rguppies.css)).
 
 ## Put this at the end of your file
 
@@ -80,7 +80,7 @@ If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_webs
 </script>
 ```
 
-If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put this script into an external footer or script file linked in your `_site.yml` file.
+If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put this script into an external footer or script file linked in your `_site.yml` file (e.g., [rguppies.js](rguppies.js)).
 
 ## Surround your hidden solutions like this
 
