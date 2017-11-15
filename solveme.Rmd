@@ -2,6 +2,12 @@
 title: "Solution Feedback"
 date: "2017-11-15"
 tags: "r, pedagogy"
+output:
+  html_document:
+    theme: flatly
+    css: rguppies.css
+    include:
+      after_body: rguppies.js
 ---
 
 [Download the Rmd notebook for this example](solveme.Rmd)
