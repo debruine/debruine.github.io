@@ -12,7 +12,7 @@ output:
 
 [Download the Rmd notebook for this example](solveme.Rmd)
 
-I'd noticed that students were tending to just look at the [hidden solutions](hidden_solutions.html) and not try very hard to understand the exercises, so I wanted a way for them to check if they're right, but not give them the answer immediately. I made a quick way to set up an input box that turns green when you type in the right answer.
+I'd noticed that students were tending to just look at the [hidden solutions](hidden_solutions.html) and not try very hard to understand the exercises, so I wanted a way for them to check if they're right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.
 
 What is 2 + 2? <input class="solveme" size="3" answer="4">
 
@@ -20,11 +20,13 @@ Setting this up requires a few lines at the beginning and end of each file, plus
 
 ## Put this at the beginning of your file
 
+You can use different colours or line types by changing the border styles.
+
 ```
 <style>
   /* styles for solveme */
-  .solveme { border: 2px solid red; }
-  .solveme.correct { border: 2px solid green; }
+  .solveme { border: 2px dotted red; }
+  .solveme.correct { border: 2px solid blue; }
 </style>
 ```
 

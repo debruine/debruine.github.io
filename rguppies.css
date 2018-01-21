@@ -18,5 +18,5 @@
 }
 
 /* styles for solveme */
-.solveme { border: 2px solid red; }
-.solveme.correct { border: 2px solid green; }
+.solveme { border: 2px dotted red; }
+.solveme.correct { border: 2px solid blue; }

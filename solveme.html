@@ -35,7 +35,7 @@ if (window.hljs) {
   hljs.configure({languages: []});
   hljs.initHighlightingOnLoad();
   if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlightingOnLoad(); }, 0);
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
   }
 }
 </script>
@@ -199,15 +199,16 @@ $(document).ready(function () {
 
 
 <p><a href="solveme.Rmd">Download the Rmd notebook for this example</a></p>
-<p>I’d noticed that students were tending to just look at the <a href="hidden_solutions.html">hidden solutions</a> and not try very hard to understand the exercises, so I wanted a way for them to check if they’re right, but not give them the answer immediately. I made a quick way to set up an input box that turns green when you type in the right answer.</p>
+<p>I’d noticed that students were tending to just look at the <a href="hidden_solutions.html">hidden solutions</a> and not try very hard to understand the exercises, so I wanted a way for them to check if they’re right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.</p>
 <p>What is 2 + 2? <input class="solveme" size="3" answer="4"></p>
 <p>Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.</p>
 <div id="put-this-at-the-beginning-of-your-file" class="section level2">
 <h2>Put this at the beginning of your file</h2>
+<p>You can use different colours or line types by changing the border styles.</p>
 <pre><code>&lt;style&gt;
   /* styles for solveme */
-  .solveme { border: 2px solid red; }
-  .solveme.correct { border: 2px solid green; }
+  .solveme { border: 2px dotted red; }
+  .solveme.correct { border: 2px solid blue; }
 &lt;/style&gt;</code></pre>
 <p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put these lines of css into an external stylesheet linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.css" class="uri">rguppies.css</a>).</p>
 </div>
