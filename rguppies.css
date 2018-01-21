@@ -19,4 +19,4 @@
 
 /* styles for solveme */
 .solveme { border: 2px solid red; }
-.solveme.correct { border: 2px solid green; }
+.solveme.correct { border: 3px dotted blue; }
