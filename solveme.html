@@ -198,12 +198,13 @@ $(document).ready(function () {
 </div>
 
 
-<p><a href="solveme.Rmd">Download the Rmd notebook for this example</a></p>
+<p><a href="solveme.Rmd">Download the Rmd notebook for this example</a> or a simple demo <a href="solveme_demo.Rmd">.rmd</a>/<a href="solveme_demo.html">.html</a>.</p>
 <p>I’d noticed that students were tending to just look at the <a href="hidden_solutions.html">hidden solutions</a> and not try very hard to understand the exercises, so I wanted a way for them to check if they’re right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.</p>
 <p>What is 2 + 2? <input class="solveme" size="3" answer="4"></p>
 <p>Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.</p>
 <div id="put-this-at-the-beginning-of-your-file" class="section level2">
 <h2>Put this at the beginning of your file</h2>
+<p>If you’re making your website in RMarkdown, put it after the second <code>---</code> in the yml header. If you’re writing html directly, put it inside the <code>&lt;head&gt;</code> element.</p>
 <p>You can use different colours or line types by changing the border styles.</p>
 <pre><code>&lt;style&gt;
   /* styles for solveme */
@@ -216,9 +217,11 @@ $(document).ready(function () {
 <h2>Put this at the end of your file</h2>
 <pre><code>&lt;script&gt;
   tc = function() {
-    document.getElementById(&quot;total_correct&quot;).innerHTML =       
-      document.getElementsByClassName(&quot;correct&quot;).length + &quot; of &quot; +
-      document.getElementsByClassName(&quot;solveme&quot;).length + &quot; correct&quot;;
+    if (t = document.getElementById(&quot;total_correct&quot;)) {
+      t.innerHTML =       
+        document.getElementsByClassName(&quot;correct&quot;).length + &quot; of &quot; +
+        document.getElementsByClassName(&quot;solveme&quot;).length + &quot; correct&quot;;
+    }
   }
   window.onload = function() {
     tc();
@@ -289,21 +292,21 @@ $(document).ready(function () {
 You can also skip a line after <code>:or:</code>. Whitespace before and after your answer is trimmed off, so your coprrect answer can’t require that the student start or end with spaces.
 </p></li>
 <li><p>This can’t handle multiple-line answers, but you can embed several input boxes in a paragraph. The formatting can get tricky, though:</p>
-<p>Complete the following function, assuming the number of children follows a poisson distribution and 30% of families have 1 parent and 70% have 2 parents:</p>
+<p>Complete the following function for returning the scaled values of a vector, <code>v</code>.</p>
 <pre>
-family_size <- function(mean_children) {  
-  children <- <input class="solveme" size="6" answer="rpois">(<input class="solveme" answer="mean_children">)
-  parents <- sample(1:2, <input class="solveme" size="1" answer="1">, prob = c(<input class="solveme" size="3" answer="0.3 :or: .3">, <input class="solveme" size="3" answer="0.7 :or: .7">))
+scale_function <- function(v) { 
+  the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
+  the_sd <- sd(<input class="solveme" size="1" answer="v">)
 
-  children + <input class="solveme" answer="parents">
+  (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
 }
 </pre>
 <pre><code>&lt;pre&gt;
-family_size &lt;- function(mean_children) {  
-  children &lt;- &lt;input class=&quot;solveme&quot; size=&quot;6&quot; answer=&quot;rpois&quot;&gt;(&lt;input class=&quot;solveme&quot; answer=&quot;mean_children&quot;&gt;)
-  parents &lt;- sample(1:2, &lt;input class=&quot;solveme&quot; size=&quot;1&quot; answer=&quot;1&quot;&gt;, prob = c(&lt;input class=&quot;solveme&quot; size=&quot;3&quot; answer=&quot;0.3 :or: .3&quot;&gt;, &lt;input class=&quot;solveme&quot; size=&quot;3&quot; answer=&quot;0.7 :or: .7&quot;&gt;))
+scale_function &lt;- function(v) { 
+  the_mean &lt;- &lt;input class=&quot;solveme&quot; size=&quot;6&quot; answer=&quot;mean&quot;&gt;(&lt;input class=&quot;solveme&quot;  size = &quot;2&quot; answer=&quot;v&quot;&gt;)
+  the_sd &lt;- sd(&lt;input class=&quot;solveme&quot; size=&quot;1&quot; answer=&quot;v&quot;&gt;)
 
-  children + &lt;input class=&quot;solveme&quot; answer=&quot;parents&quot;&gt;
+  (v &lt;input class=&quot;solveme&quot; size = &quot;1&quot; answer=&quot;-&quot;&gt; the_mean ) &lt;input class=&quot;solveme&quot; size = &quot;1&quot; answer=&quot;/&quot;&gt; the_sd
 }
 &lt;/pre&gt;</code></pre>
 <p class="alert alert-info">
@@ -345,9 +348,11 @@ hidden_solution_init = function() {
 /* initialise solvemes */
   
 tc = function() {
-  document.getElementById("total_correct").innerHTML =       
-    document.getElementsByClassName("correct").length + " of " +
-    document.getElementsByClassName("solveme").length + " correct";
+  if (t = document.getElementById("total_correct")) {
+    t.innerHTML =       
+      document.getElementsByClassName("correct").length + " of " +
+      document.getElementsByClassName("solveme").length + " correct";
+  }
 }
   
 solveme_init = function() {

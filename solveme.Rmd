@@ -10,7 +10,7 @@ output:
       after_body: rguppies.js
 ---
 
-[Download the Rmd notebook for this example](solveme.Rmd)
+[Download the Rmd notebook for this example](solveme.Rmd) or a simple demo [.rmd](solveme_demo.Rmd)/[.html](solveme_demo.html).
 
 I'd noticed that students were tending to just look at the [hidden solutions](hidden_solutions.html) and not try very hard to understand the exercises, so I wanted a way for them to check if they're right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.
 
@@ -18,7 +18,9 @@ What is 2 + 2? <input class="solveme" size="3" answer="4">
 
 Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.
 
-## Put this at the beginning of your file
+## Put this at the beginning of your file 
+
+If you're making your website in RMarkdown, put it after the second `---` in the yml header. If you're writing html directly, put it inside the `<head>` element.
 
 You can use different colours or line types by changing the border styles.
 
@@ -37,9 +39,11 @@ If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_webs
 ```
 <script>
   tc = function() {
-    document.getElementById("total_correct").innerHTML =       
-      document.getElementsByClassName("correct").length + " of " +
-      document.getElementsByClassName("solveme").length + " correct";
+    if (t = document.getElementById("total_correct")) {
+      t.innerHTML =       
+        document.getElementsByClassName("correct").length + " of " +
+        document.getElementsByClassName("solveme").length + " correct";
+    }
   }
   window.onload = function() {
     tc();
@@ -136,24 +140,24 @@ If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_webs
 
 * This can't handle multiple-line answers, but you can embed several input boxes in a paragraph. The formatting can get tricky, though:
 
-    Complete the following function, assuming the number of children follows a poisson distribution and 30% of families have 1 parent and 70% have 2 parents:
+    Complete the following function for returning the scaled values of a vector, `v`. 
     
     <pre>
-    family_size <- function(mean_children) {  
-      children <- <input class="solveme" size="6" answer="rpois">(<input class="solveme" answer="mean_children">)
-      parents <- sample(1:2, <input class="solveme" size="1" answer="1">, prob = c(<input class="solveme" size="3" answer="0.3 :or: .3">, <input class="solveme" size="3" answer="0.7 :or: .7">))
+    scale_function <- function(v) { 
+      the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
+      the_sd <- sd(<input class="solveme" size="1" answer="v">)
       
-      children + <input class="solveme" answer="parents">
+      (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
     }
     </pre>
     
     ```
     <pre>
-    family_size <- function(mean_children) {  
-      children <- <input class="solveme" size="6" answer="rpois">(<input class="solveme" answer="mean_children">)
-      parents <- sample(1:2, <input class="solveme" size="1" answer="1">, prob = c(<input class="solveme" size="3" answer="0.3 :or: .3">, <input class="solveme" size="3" answer="0.7 :or: .7">))
+    scale_function <- function(v) { 
+      the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme"  size = "2" answer="v">)
+      the_sd <- sd(<input class="solveme" size="1" answer="v">)
       
-      children + <input class="solveme" answer="parents">
+      (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
     }
     </pre>
     ```

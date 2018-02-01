@@ -18,9 +18,11 @@ hidden_solution_init = function() {
 /* initialise solvemes */
   
 tc = function() {
-  document.getElementById("total_correct").innerHTML =       
-    document.getElementsByClassName("correct").length + " of " +
-    document.getElementsByClassName("solveme").length + " correct";
+  if (t = document.getElementById("total_correct")) {
+    t.innerHTML =       
+      document.getElementsByClassName("correct").length + " of " +
+      document.getElementsByClassName("solveme").length + " correct";
+  }
 }
   
 solveme_init = function() {
