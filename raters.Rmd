@@ -19,6 +19,9 @@ If you have a large set of ratings of a type of stimulus, population of rater, a
 
 The example below is for attractiveness ratings using an open-access image set from my lab.
 
+You can cite this method as: 
+[DeBruine, Lisa & Jones, Benedict C. (2018) Determining the number of raters for reliable mean ratings. OSF. doi: 10.17605/OSF.IO/X7FUS](https://osf.io/x7fus/)
+
 ```{r libraries, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(psych)
@@ -119,7 +122,7 @@ sim %>%
     `alpha >= 0.8` = round(mean(alpha >= 0.8), 2),
     `median r` = round(quantile(r, .5), 2),
     `90% r >` = round(quantile(r, .1), 2)
-  )%>%
+  ) %>%
   knitr::kable("html") %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
