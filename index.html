@@ -34,7 +34,7 @@ if (window.hljs) {
   hljs.configure({languages: []});
   hljs.initHighlightingOnLoad();
   if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlightingOnLoad(); }, 0);
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
   }
 }
 </script>
@@ -228,6 +228,7 @@ $(document).ready(function () {
 <h2>Blogging</h2>
 <p>I also blog random things about R and Open Science.</p>
 <ul>
+<li><a href="raters.html">how many raters?</a></li>
 <li><a href="solveme.html">solution feedback</a></li>
 <li><a href="prereg.html">internal lab preregistrations</a></li>
 <li><a href="hidden_solution.html">hidden solutions</a></li>
@@ -262,9 +263,11 @@ hidden_solution_init = function() {
 /* initialise solvemes */
   
 tc = function() {
-  document.getElementById("total_correct").innerHTML =       
-    document.getElementsByClassName("correct").length + " of " +
-    document.getElementsByClassName("solveme").length + " correct";
+  if (t = document.getElementById("total_correct")) {
+    t.innerHTML =       
+      document.getElementsByClassName("correct").length + " of " +
+      document.getElementsByClassName("solveme").length + " correct";
+  }
 }
   
 solveme_init = function() {
