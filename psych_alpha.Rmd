@@ -3,8 +3,6 @@ title: "psych::alpha()"
 author: "Lisa DeBruine"
 date: "2017-09-12"
 tags: "alpha, cronbach"
-output:
-  html_document: default
 ---
 
 [Download the Rmd notebook for this example](psych_alpha.Rmd)

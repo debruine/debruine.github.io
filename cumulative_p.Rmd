@@ -3,8 +3,6 @@ title: "Cumulative Probability"
 author: "Lisa DeBruine"
 date: "2017-07-27"
 tags: "p-values"
-output:
-  html_document: default
 ---
 
 [Download the Rmd notebook for this example](cumulatiove_p.Rmd)

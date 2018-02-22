@@ -3,8 +3,6 @@ title: "PCA"
 author: "Lisa DeBruine"
 date: "2017-06-26"
 tags: "r, pca, princomp, psych, factanal"
-output:
-  html_document: default
 ---
 
 [Download the Rmd notebook for this example](pca.Rmd)

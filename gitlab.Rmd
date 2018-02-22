@@ -3,8 +3,6 @@ title: "GitLab"
 author: "Lisa DeBruine"
 date: "2018-02-08"
 tags: "git"
-output:
-  html_document: default
 ---
 
 Create a GitHub account at https://github.com/

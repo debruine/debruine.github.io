@@ -4,7 +4,13 @@ author: "Lisa DeBruine"
 date: "2018-02-17"
 tags: "alpha, cronbach"
 output:
-  html_document: 
+  html_document:
+    theme: flatly
+    css: rguppies.css
+    include:
+      after_body: rguppies.js
+    lib_dir: site_libs
+    self_contained: no 
     fig_width: 10
     fig_height: 5
 ---

@@ -3,8 +3,6 @@ title: "recode()"
 author: "Lisa DeBruine"
 date: "2017-07-14"
 tags: "r, recoding, categorical"
-output:
-  html_document: default
 ---
 
 [Download the Rmd notebook for this example](recode.Rmd)

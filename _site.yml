@@ -1,11 +1,14 @@
-name: "Lisa_DeBruine"
-output_dir: "."
-author: "Lisa DeBruine"
+name: Lisa_DeBruine
+output_dir: '.'
+author: Lisa DeBruine
 navbar:
-  title: "Lisa DeBruine"
+  title: Lisa DeBruine
 output:
   html_document:
     theme: flatly
     css: rguppies.css
     include:
       after_body: rguppies.js
+    lib_dir: site_libs
+    self_contained: no
+

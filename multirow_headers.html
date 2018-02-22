@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Lisa DeBruine" />
+
+<meta name="date" content="2018-02-22" />
+
+<title>Multi-Row Headers</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="rguppies.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Lisa DeBruine</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Multi-Row Headers</h1>
+<h4 class="author"><em>Lisa DeBruine</em></h4>
+<h4 class="date"><em>2018-02-22</em></h4>
+
+</div>
+
+
+<p><a href="multirow_headers.Rmd">Download the Rmd notebook for this example</a></p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>A student on our help forum recently asked for help making a wide-format dataset long. When I tried to load the data, I realised the first three rows were all header rows. Here’s the code I wrote to deal with it.</p>
+<p>First, I’ll make a small CSV “file” below. In a typical case, you’d read the data in from a file.</p>
+<pre class="r"><code>demo_csv &lt;- &quot;SUB1, SUB1, SUB1, SUB1, SUB2, SUB2, SUB2, SUB2, SUB3, SUB3, SUB3, SUB3
+COND1, COND1, COND2, COND2, COND1, COND1, COND2, COND2, COND1, COND1, COND2, COND2
+X, Y, X, Y, X, Y, X, Y, X, Y, X, Y
+10, 15, 6, 2, 42, 4, 32, 5, 34, 54, 12, 19
+4, 43, 7, 34, 56, 43, 2, 33, 29, 37, 2, 28
+77, 12, 14, 75, 36, 85, 3, 2, 33, 44, 10, 9&quot;</code></pre>
+<p>If you try to read in this data, you’ll get an error message about the duplicate column names.</p>
+<pre class="r"><code>data &lt;- read_csv(demo_csv)</code></pre>
+<p><code>Duplicated column names deduplicated: 'SUB1' =&gt; 'SUB1_1' [2], 'SUB1' =&gt; 'SUB1_2' [3]...</code></p>
+<p>Instead, you should read in just the header rows by setting <code>n_max</code> equal to the number of header rows and <code>col_names</code> to <code>FALSE</code>.</p>
+<pre class="r"><code>data_head &lt;- read_csv(demo_csv, n_max = 3, col_names = FALSE)</code></pre>
+<p>You will get a table that looks like this:</p>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+X1
+</th>
+<th style="text-align:left;">
+X2
+</th>
+<th style="text-align:left;">
+X3
+</th>
+<th style="text-align:left;">
+X4
+</th>
+<th style="text-align:left;">
+X5
+</th>
+<th style="text-align:left;">
+X6
+</th>
+<th style="text-align:left;">
+X7
+</th>
+<th style="text-align:left;">
+X8
+</th>
+<th style="text-align:left;">
+X9
+</th>
+<th style="text-align:left;">
+X10
+</th>
+<th style="text-align:left;">
+X11
+</th>
+<th style="text-align:left;">
+X12
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+</tr>
+</tbody>
+</table>
+<p>You can then transpose the table (rotate it) and make new header names by pasting together the names of the three headers.</p>
+<pre class="r"><code>new_names &lt;- data_head %&gt;%
+  t() %&gt;% # transposes the data and turns it into a matrix
+  as_tibble() %&gt;% # turn it back to a tibble
+  mutate(name = paste(V1, V2, V3, sep = &quot;_&quot;)) %&gt;%
+  pull(name)</code></pre>
+<p>Now you can read in the data without the three header rows. Use <code>skip</code> to skip the headers and set <code>col_names</code> to <code>FALSE</code>.</p>
+<pre class="r"><code>data &lt;- read_csv(demo_csv, skip = 3, col_names = FALSE)</code></pre>
+<p>Then set the column names to the new names.</p>
+<pre class="r"><code>names(data) &lt;- new_names</code></pre>
+<p>If your data are set up with multiple headers, you’ll probably want to change them from wide to long format. Here’s a quick example how to use <code>gather</code>, <code>separate</code>, and <code>spread</code> to do this with variable names like above.</p>
+<pre class="r"><code>data_long &lt;- data %&gt;%
+  # add row IDs if each row doesn&#39;t already have uniquely identifying column(s)
+  mutate(row = 1:nrow(.)) %&gt;% 
+  # gather creates a column of variable names and a column of values
+  gather(&quot;var&quot;, &quot;val&quot;, new_names) %&gt;% 
+  # split the variable names into their three component parts
+  separate(var, c(&quot;subID&quot;, &quot;condition&quot;, &quot;coord&quot;), sep = &quot;_&quot;) %&gt;%
+   # put X and Y in separate columns 
+  spread(coord, val)</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+row
+</th>
+<th style="text-align:left;">
+subID
+</th>
+<th style="text-align:left;">
+condition
+</th>
+<th style="text-align:right;">
+X
+</th>
+<th style="text-align:right;">
+Y
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+15
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+42
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+32
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+34
+</td>
+<td style="text-align:right;">
+54
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+19
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+34
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+56
+</td>
+<td style="text-align:right;">
+43
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+33
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:right;">
+37
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+28
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+77
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+75
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+36
+</td>
+<td style="text-align:right;">
+85
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+33
+</td>
+<td style="text-align:right;">
+44
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB3
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+9
+</td>
+</tr>
+</tbody>
+</table>
+
+<script>
+/* initialise hidden solutions */
+
+hidden_solution_init = function() {  
+  var buttons = document.getElementsByTagName("button");
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].onclick = function() {
+      var cl = this.parentElement.classList;
+      if (cl.contains('open')) {
+        cl.remove("open");
+      } else {
+        cl.add("open");
+      }
+    }
+  }
+}
+
+/* initialise solvemes */
+  
+tc = function() {
+  if (t = document.getElementById("total_correct")) {
+    t.innerHTML =       
+      document.getElementsByClassName("correct").length + " of " +
+      document.getElementsByClassName("solveme").length + " correct";
+  }
+}
+  
+solveme_init = function() {
+  var solveme = document.getElementsByClassName("solveme");
+  for (var i = 0; i < solveme.length; i++) {
+    solveme[i].setAttribute("autocomplete","off");
+    solveme[i].value = "";
+    solveme[i].onkeyup = function(e) {
+      var real_answer = this.getAttribute("answer").trim();
+      var my_answer = this.value;
+      var cl = this.classList;
+      if (cl.contains("nospaces")) {
+        real_answer = real_answer.replace(/ /g, "");
+        my_answer = my_answer.replace(/ /g, "");
+      }
+      if (cl.contains("ignorecase")) {
+        real_answer = real_answer.toLowerCase();
+        my_answer = my_answer.toLowerCase();
+      }
+      var linend = new RegExp(/\s*(:or:)\s*/, 'g')
+      real_answer = real_answer.split(linend);
+      if (my_answer !== "" & real_answer.includes(my_answer)) {
+        cl.add("correct");
+      } else {
+        cl.remove("correct");
+      }
+      tc();
+    }
+    solveme[i].onchange = function() {
+      this.onkeyup();
+    }
+  }
+}
+  
+window.onload = function() {
+  hidden_solution_init();
+  solveme_init();
+}
+
+</script>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

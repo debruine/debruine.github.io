@@ -3,8 +3,6 @@ title: "scale()"
 author: "Lisa DeBruine"
 date: "2017-06-22"
 tags: "r, scale"
-output:
-  html_document: default
 ---
 
 [Download the Rmd notebook for this example](scale.Rmd)

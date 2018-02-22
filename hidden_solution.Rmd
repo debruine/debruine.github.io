@@ -1,13 +1,8 @@
 ---
 title: "Hidden Solutions"
+author: "Lisa DeBruine"
 date: "2017-10-21"
 tags: "r, pedagogy"
-output:
-  html_document:
-    theme: flatly
-    css: rguppies.css
-    include:
-      after_body: rguppies.js
 ---
 
 [Download the Rmd notebook for this example](hidden_solution.Rmd)

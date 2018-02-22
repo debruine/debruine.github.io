@@ -3,8 +3,6 @@ title: "sample()"
 author: "Lisa DeBruine"
 date: "2017-07-26"
 tags: "r, simulation"
-output:
-  html_document: default
 ---
 
 

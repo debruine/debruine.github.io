@@ -50,6 +50,7 @@ I just started learning how to make shiny apps. It is fun, but my apps are curre
 
 I also blog random things about R and Open Science.
 
+* [multi-row headers](multirow_headers.html)
 * [how many raters?](raters.html)
 * [solution feedback](solveme.html)
 * [internal lab preregistrations](prereg.html)

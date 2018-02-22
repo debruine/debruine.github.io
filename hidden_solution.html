@@ -9,6 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Lisa DeBruine" />
 
 <meta name="date" content="2017-10-21" />
 
@@ -35,7 +36,7 @@ if (window.hljs) {
   hljs.configure({languages: []});
   hljs.initHighlightingOnLoad();
   if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlightingOnLoad(); }, 0);
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
   }
 }
 </script>
@@ -193,6 +194,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Hidden Solutions</h1>
+<h4 class="author"><em>Lisa DeBruine</em></h4>
 <h4 class="date"><em>2017-10-21</em></h4>
 
 </div>
@@ -290,9 +292,11 @@ hidden_solution_init = function() {
 /* initialise solvemes */
   
 tc = function() {
-  document.getElementById("total_correct").innerHTML =       
-    document.getElementsByClassName("correct").length + " of " +
-    document.getElementsByClassName("solveme").length + " correct";
+  if (t = document.getElementById("total_correct")) {
+    t.innerHTML =       
+      document.getElementsByClassName("correct").length + " of " +
+      document.getElementsByClassName("solveme").length + " correct";
+  }
 }
   
 solveme_init = function() {

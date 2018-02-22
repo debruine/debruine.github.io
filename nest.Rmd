@@ -3,8 +3,6 @@ title: "nest() and irr::icc()"
 author: "Lisa DeBruine"
 date: "2017-08-21"
 tags: "r, tidyverse, nest"
-output:
-  html_document: default
 ---
 
 I'm going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I'm constantly forgetting exactly how to do it).
