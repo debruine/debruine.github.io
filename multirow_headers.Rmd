@@ -64,6 +64,46 @@ Then set the column names to the new names.
 names(data) <- new_names
 ```
 
+If you have an excel file that merges the duplicate headers across rows, it's a little trickier, but still do-able. 
+
+![](images/multirow-excel.png)
+
+The first steps is the same: read in the first three rows.
+
+```{r}
+data_head <- readxl::read_excel("3headers_demo.xlsx", n_max = 3, col_names = FALSE)
+```
+
+```{r, echo = F, results='asis'}
+knitr::kable(data_head, "html") %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+The function below starts at the top and fills in any missing data with the value in the previous row. You'll have to define this function in your script befor you run the next part.
+
+```{r}
+fillHeaders <- function(header_table) {
+  for (row in 2:nrow(header_table)) {
+    this_row <- header_table[row, ]
+    last_row <- header_table[row-1, ]
+    new_row <- ifelse(is.na(this_row), last_row, this_row)
+    header_table[row, ] <- new_row
+  }
+  header_table
+}
+```
+
+Just run the `fillHeaders()` function after you transpose as re-tibble the header data, then continue generating the pasted name the same as above.
+
+```{r}
+new_names <- data_head %>%
+  t() %>% # transposes the data and turns it into a matrix
+  as_tibble() %>% # turn it back to a tibble
+  fillHeaders() %>% # fill in missing headers 
+  mutate(name = paste(V1, V2, V3, sep = "_")) %>%
+  pull(name)
+```
+
 If your data are set up with multiple headers, you'll probably want to change them from wide to long format. Here's a quick example how to use `gather`, `separate`, and `spread` to do this with variable names like above.
 
 ```{r wide-to-long}
