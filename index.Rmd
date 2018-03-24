@@ -4,8 +4,9 @@ title: "Lisa DeBruine"
 
 ## Courses
 
-* [The Research Cycle](https://rgup.gitlab.io/research_cycle/)
-* [Academic Webpages](acadweb/)
+* [The Research Cycle](https://gupsych.github.io/research_cycle/)
+* [Academic Webpages](https://gupsych.github.io/acadweb/)
+* [Teaching Reproducible Data Analysis in R](https://gupsych.github.io/trdair_workshop/)
 
 
 ## Open Science Stuff
