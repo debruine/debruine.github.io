@@ -79,7 +79,7 @@ knitr::kable(data_head, "html") %>%
   kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
-The function below starts at the top and fills in any missing data with the value in the previous row. You'll have to define this function in your script befor you run the next part.
+The function below starts at the top and fills in any missing data with the value in the previous row. You'll have to define this function in your script before you run the next part.
 
 ```{r}
 fillHeaders <- function(header_table) {

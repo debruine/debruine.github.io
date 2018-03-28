@@ -5,8 +5,8 @@ title: "Lisa DeBruine"
 ## Courses
 
 * [The Research Cycle](https://rgup.gitlab.io/research_cycle/)
-* [Academic Webpages](acadweb/)
-
+* [Academic Webpages](https://rgup.gitlab.io/acadweb/)
+* [Data Collection in Shiny](https://rgup.gitlab.io/tquant/data-input.html)
 
 ## Open Science Stuff
 
@@ -50,6 +50,7 @@ I just started learning how to make shiny apps. It is fun, but my apps are curre
 
 I also blog random things about R and Open Science.
 
+* [plot comparison](plot_comparison.html)
 * [multi-row headers](multirow_headers.html)
 * [how many raters?](raters.html)
 * [solution feedback](solveme.html)
