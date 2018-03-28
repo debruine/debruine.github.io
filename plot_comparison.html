@@ -385,8 +385,8 @@ my_theme &lt;- theme(
   my_theme</code></pre>
 <p><img src="plot_comparison_files/figure-html/plotcomp-bar-range-1.png" width="672" /></p>
 </div>
-<div id="violin-plot" class="section level2">
-<h2>Violin Plot</h2>
+<div id="violinbox-plot" class="section level2">
+<h2>ViolinBox Plot</h2>
 <pre class="r"><code>data %&gt;%
   ggplot(aes(sex, dv, fill = face_sex)) +
   geom_hline(yintercept=0, color=textcolor, size=1) +
@@ -398,7 +398,38 @@ my_theme &lt;- theme(
   scale_fill_manual(values = c(&quot;#3D66CC&quot;, &quot;#892110&quot;)) +
   my_theme</code></pre>
 <p><img src="plot_comparison_files/figure-html/plotcomp-violin-1.png" width="672" /></p>
-<pre class="r"><code>#ggsave(&quot;violin.png&quot;, width=10, height = 6)</code></pre>
+<pre class="r"><code>#ggsave(&quot;violinbox.png&quot;, width=10, height = 6)</code></pre>
+</div>
+<div id="violin-point-plot" class="section level2">
+<h2>Violin-Point Plot</h2>
+<p>The boxplot above showss the median and quartiles, which sometimes isn’t the summary statistic you want to emphasise (HT <span class="citation">[@PaulMinda1]</span>(<a href="https://twitter.com/PaulMinda1" class="uri">https://twitter.com/PaulMinda1</a>)). You can alternatively plot the mean and 95% CI using <code>geom_pointrange</code>. This requires a bit of data wrangling first.</p>
+<pre class="r"><code>summary_data &lt;- data %&gt;%
+  group_by(sex, face_sex) %&gt;%
+  summarise(
+    mean = mean(dv),
+    min = mean(dv) - qnorm(0.975)*sd(dv)/sqrt(n()),
+    max = mean(dv) + qnorm(0.975)*sd(dv)/sqrt(n())
+  )
+
+data %&gt;%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_pointrange(
+    data = summary_data,
+    aes(sex, mean, ymin=min, ymax=max),
+    shape = 20,
+    color = textcolor, 
+    position = position_dodge(width = 0.9)
+  ) +
+  ylab(&quot;DV&quot;) +
+  xlab(&quot;Participant Sex&quot;) +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c(&quot;#3D66CC&quot;, &quot;#892110&quot;)) +
+  scale_color_manual(values = c(&quot;#3D66CC&quot;, &quot;#892110&quot;)) +
+  my_theme</code></pre>
+<p><img src="plot_comparison_files/figure-html/plotcomp-pointrange-1.png" width="672" /></p>
+<pre class="r"><code>#ggsave(&quot;violin_pointrange.png&quot;, width=10, height = 6)</code></pre>
 </div>
 <div id="split-violin-plots" class="section level2">
 <h2>Split-Violin Plots</h2>
@@ -470,6 +501,34 @@ geom_split_violin &lt;- function (mapping = NULL,
   my_theme</code></pre>
 <p><img src="plot_comparison_files/figure-html/plotcomp-split-violin-1.png" width="672" /></p>
 <pre class="r"><code>#ggsave(&quot;split_violin.png&quot;, width=10, height = 6)</code></pre>
+<p>This is a split violin with means and 95% CIs defined.</p>
+<pre class="r"><code>summary_data &lt;- data %&gt;%
+  group_by(sex, face_sex) %&gt;%
+  summarise(
+    mean = mean(dv),
+    min = mean(dv) - qnorm(0.975)*sd(dv)/sqrt(n()),
+    max = mean(dv) + qnorm(0.975)*sd(dv)/sqrt(n())
+  )
+
+data %&gt;%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_split_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_pointrange(
+    data = summary_data,
+    aes(sex, mean, ymin=min, ymax=max),
+    color = textcolor, 
+    shape = 20, # 95,
+    position = position_dodge(width = 0.25)
+  ) +
+  ylab(&quot;DV&quot;) +
+  xlab(&quot;Participant Sex&quot;) +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c(&quot;#3D66CC&quot;, &quot;#892110&quot;)) +
+  scale_color_manual(values = c(&quot;#3D66CC&quot;, &quot;#892110&quot;)) +
+  my_theme</code></pre>
+<p><img src="plot_comparison_files/figure-html/plotcomp-splitpointrange-1.png" width="672" /></p>
+<pre class="r"><code>#ggsave(&quot;split_violin_pointrange.png&quot;, width=10, height = 6)</code></pre>
 </div>
 
 <script>

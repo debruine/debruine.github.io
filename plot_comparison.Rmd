@@ -101,7 +101,7 @@ data %>%
 
 ```
 
-## Violin Plot
+## ViolinBox Plot
 
 ```{r plotcomp-violin}
 data %>%
@@ -115,7 +115,42 @@ data %>%
   scale_fill_manual(values = c("#3D66CC", "#892110")) +
   my_theme
 
-#ggsave("violin.png", width=10, height = 6)
+#ggsave("violinbox.png", width=10, height = 6)
+```
+
+## Violin-Point Plot
+
+The boxplot above showss the median and quartiles, which sometimes isn't the summary statistic you want to emphasise (HT [@PaulMinda1](https://twitter.com/PaulMinda1)). You can alternatively plot the mean and 95% CI using `geom_pointrange`. This requires a bit of data wrangling first.
+
+```{r plotcomp-pointrange}
+
+summary_data <- data %>%
+  group_by(sex, face_sex) %>%
+  summarise(
+    mean = mean(dv),
+    min = mean(dv) - qnorm(0.975)*sd(dv)/sqrt(n()),
+    max = mean(dv) + qnorm(0.975)*sd(dv)/sqrt(n())
+  )
+
+data %>%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_pointrange(
+    data = summary_data,
+    aes(sex, mean, ymin=min, ymax=max),
+    shape = 20,
+    color = textcolor, 
+    position = position_dodge(width = 0.9)
+  ) +
+  ylab("DV") +
+  xlab("Participant Sex") +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c("#3D66CC", "#892110")) +
+  scale_color_manual(values = c("#3D66CC", "#892110")) +
+  my_theme
+
+#ggsave("violin_pointrange.png", width=10, height = 6)
 ```
 
 ## Split-Violin Plots
@@ -197,4 +232,41 @@ data %>%
 
 #ggsave("split_violin.png", width=10, height = 6)
 ```
+
+This is a split violin with means and 95% CIs defined.
+
+```{r plotcomp-splitpointrange}
+
+summary_data <- data %>%
+  group_by(sex, face_sex) %>%
+  summarise(
+    mean = mean(dv),
+    min = mean(dv) - qnorm(0.975)*sd(dv)/sqrt(n()),
+    max = mean(dv) + qnorm(0.975)*sd(dv)/sqrt(n())
+  )
+
+data %>%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_split_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_pointrange(
+    data = summary_data,
+    aes(sex, mean, ymin=min, ymax=max),
+    color = textcolor, 
+    shape = 20, # 95,
+    position = position_dodge(width = 0.25)
+  ) +
+  ylab("DV") +
+  xlab("Participant Sex") +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c("#3D66CC", "#892110")) +
+  scale_color_manual(values = c("#3D66CC", "#892110")) +
+  my_theme
+
+#ggsave("split_violin_pointrange.png", width=10, height = 6)
+```
+
+
+
+
 
