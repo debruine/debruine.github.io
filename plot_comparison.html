@@ -402,7 +402,7 @@ my_theme &lt;- theme(
 </div>
 <div id="violin-point-plot" class="section level2">
 <h2>Violin-Point Plot</h2>
-<p>The boxplot above showss the median and quartiles, which sometimes isn’t the summary statistic you want to emphasise (HT <span class="citation">[@PaulMinda1]</span>(<a href="https://twitter.com/PaulMinda1" class="uri">https://twitter.com/PaulMinda1</a>)). You can alternatively plot the mean and 95% CI using <code>geom_pointrange</code>. This requires a bit of data wrangling first.</p>
+<p>The boxplot above showss the median and quartiles, which sometimes isn’t the summary statistic you want to emphasise (HT <a href="@PaulMinda1">https://twitter.com/PaulMinda1</a>). You can alternatively plot the mean and 95% CI using <code>geom_pointrange</code>. This requires a bit of data wrangling first.</p>
 <pre class="r"><code>summary_data &lt;- data %&gt;%
   group_by(sex, face_sex) %&gt;%
   summarise(

@@ -120,7 +120,7 @@ data %>%
 
 ## Violin-Point Plot
 
-The boxplot above showss the median and quartiles, which sometimes isn't the summary statistic you want to emphasise (HT [@PaulMinda1](https://twitter.com/PaulMinda1)). You can alternatively plot the mean and 95% CI using `geom_pointrange`. This requires a bit of data wrangling first.
+The boxplot above showss the median and quartiles, which sometimes isn't the summary statistic you want to emphasise (HT [https://twitter.com/PaulMinda1](@PaulMinda1)). You can alternatively plot the mean and 95% CI using `geom_pointrange`. This requires a bit of data wrangling first.
 
 ```{r plotcomp-pointrange}
 
