@@ -2,7 +2,7 @@
 title: "Plot Comparison"
 author: "Lisa DeBruine"
 date: "2018-03-28"
-tags: "ggplot, ticyverse, dataviz"
+tags: "ggplot, tidyverse, dataviz"
 output: 
   html_document:
     toc: true
@@ -15,6 +15,8 @@ library(tidyverse)
 ```
 
 I compared bar plots to violin plots in a recent talk to make the point that real data plotted with the full distribution make your effects look less impressive than minimalist bar charts that just show the means and standard errors, but give you a much better idea of what's going on with your data.
+
+I also made a [shiny app](http://shiny.psy.gla.ac.uk/debruine/plotdemo/) where you can set the sample size, main effects, and interaction effect, then view six different visualisations of the simulated data.
 
 I thought I'd post a quick tutorial for anyone who wants to see some code for creating violin-box plots and split-violin plots.
 
@@ -266,6 +268,94 @@ data %>%
 #ggsave("split_violin_pointrange.png", width=10, height = 6)
 ```
 
+## Raincloud Plots
+
+The code for raincloud plots is from [Micah Allen](https://micahallen.org/2018/03/15/introducing-raincloud-plots/) and 
+[Ben Marwick](https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R).
+
+```{r define-raincloud}
+"%||%" <- function(a, b) {
+  if (!is.null(a)) a else b
+}
+
+geom_flat_violin <- function(mapping = NULL, data = NULL, stat = "ydensity",
+                             position = "dodge", trim = TRUE, scale = "area",
+                             show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = GeomFlatViolin,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      trim = trim,
+      scale = scale,
+      ...
+    )
+  )
+}
+
+GeomFlatViolin <-
+  ggproto("GeomFlatViolin", Geom,
+          setup_data = function(data, params) {
+            data$width <- data$width %||%
+              params$width %||% (resolution(data$x, FALSE) * 0.9)
+            
+            # ymin, ymax, xmin, and xmax define the bounding rectangle for each group
+            data %>%
+              group_by(group) %>%
+              mutate(ymin = min(y),
+                     ymax = max(y),
+                     xmin = x,
+                     xmax = x + width / 2)
+            
+          },
+          
+          draw_group = function(data, panel_scales, coord) {
+            # Find the points for the line to go all the way around
+            data <- transform(data, xminv = x,
+                              xmaxv = x + violinwidth * (xmax - x))
+            
+            # Make sure it's sorted properly to draw the outline
+            newdata <- rbind(plyr::arrange(transform(data, x = xminv), y),
+                             plyr::arrange(transform(data, x = xmaxv), -y))
+            
+            # Close the polygon: set first and last point the same
+            # Needed for coord_polar and such
+            newdata <- rbind(newdata, newdata[1,])
+            
+            ggplot2:::ggname("geom_flat_violin", GeomPolygon$draw_panel(newdata, panel_scales, coord))
+          },
+          
+          draw_key = draw_key_polygon,
+          
+          default_aes = aes(weight = 1, colour = "grey20", fill = "white", size = 0.5,
+                            alpha = NA, linetype = "solid"),
+          
+          required_aes = c("x", "y")
+  )
+```
+
+```{r plot-raincloud}
+
+ data %>%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0), 
+                   color=textcolor, trim=FALSE, alpha = 0.75) +
+  geom_point(aes(color = face_sex), 
+             position = position_jitter(width = .2, height = 0), 
+             size = .5, alpha = .75) +
+  ylab("DV") +
+  xlab("Participant Sex") +
+  coord_flip() +
+  scale_fill_manual(values = c("#3D66CC", "#892110")) +
+  scale_color_manual(values = c("#3D66CC", "#892110")) +
+  my_theme
+
+```
 
 
 
