@@ -1,6 +1,6 @@
 library(tidyverse)
 
-# convert r to z`
+# convert r to z
 r2z <- function (r) {
   rplus <- r+1
   rminus <- 1-r
@@ -25,23 +25,21 @@ comp_rs <- function(r1, r2, n1, n2=n1) {
   list(z = zd, p = p)
 }
 
-
-sig_map <- function(r1, r2, n1, n2, alpha = .05) {
-  combos <- expand.grid(r1 = r1, r2 = r2, n1 = n1, n2 = n2)
-  zp <- purrr::pmap_dfr(combos, ~comp_rs(..1, ..2, ..3, ..4) )
+min_n <- function(r1, r2, alpha = .05) {
+  # assume ns are equal
+  combos <- expand.grid(r1 = r1, r2 = r2, n1 = 5:5000)
+  zp <- purrr::pmap_dfr(combos, ~comp_rs(..1, ..2, ..3) )
   
   combos %>%
-    bind_cols(zp) %>%
-    ggplot(aes(n1, n2, fill = p < alpha)) +
-    geom_tile(color = "black") +
-    facet_grid(r1 ~ r2) +
-    scale_fill_manual(values = c("grey", "red"))
-  
+    bind_cols(zp) %>% 
+    mutate(
+      sig = p < alpha,
+      rdif = abs(r1 - r2) 
+    ) %>%
+    filter(sig == TRUE) %>%
+    group_by(r1, r2, rdif) %>%
+    summarise(min_n = min(n1))
 }
 
-# create a map 
-r1 <- seq(.2, .3, .05)
-r2 <- seq(.5, .6, .05)
-n1 <- seq(10, 100, 10)
-n2 <- seq(10, 100, 10)
-sig_map(r1, r2, n1, n2)
+min_n(.2, .5)
+
