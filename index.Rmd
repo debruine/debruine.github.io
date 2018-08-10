@@ -4,9 +4,9 @@ title: "Lisa DeBruine"
 
 ## Courses
 
-* [The Research Cycle](https://rgup.gitlab.io/research_cycle/)
-* [Academic Webpages](https://rgup.gitlab.io/acadweb/)
-* [Data Collection in Shiny](https://rgup.gitlab.io/tquant/data-input.html)
+* [The Research Cycle](https://gupsych.github.io/research_cycle/)
+* [Academic Webpages](https://gupsych.github.io/acadweb/)
+* [Data Collection in Shiny](https://gupsych.github.io/tquant/data-input.html)
 
 ## Open Science Stuff
 

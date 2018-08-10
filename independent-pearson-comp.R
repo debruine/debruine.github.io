@@ -1,6 +1,6 @@
 library(tidyverse)
 
-# convert r to z`
+# convert r to z
 r2z <- function (r) {
   rplus <- r+1
   rminus <- 1-r
@@ -41,74 +41,14 @@ min_n <- function(r1, r2, alpha = .05) {
     summarise(min_n = min(n1))
 }
 
-min_n(.2, .5)
 
+theGrid <- min_n(seq(0,1, .05), seq(0,1, .05))
 
+ggplot(theGrid) +
+  geom_tile(aes(r1, r2, fill = log(min_n)), show.legend=F) +
+  geom_text(aes(r1, r2, label=min_n), color = "white") +
+  theme(legend.title = element_blank(),
+      axis.text.x = element_text(angle=30,hjust=1,vjust=1.0),
+      axis.text.y = element_text(size = 12))
 
-
-
-
-
-
-
-
-
-
-
-
-## Visualisations
-
-sig_map <- function(r1, r2, n1, n2 = 0, alpha = .05) {
-  if (n2 == 0) {
-    # assume ns are equal
-    combos <- expand.grid(r1 = r1, r2 = r2, n1 = n1)
-    zp <- purrr::pmap_dfr(combos, ~comp_rs(..1, ..2, ..3) )
-    
-    combos %>%
-      bind_cols(zp) %>%
-      ggplot(aes(n1, r1, fill = p < alpha)) +
-      geom_tile(color = "black") +
-      facet_grid(. ~ r2) +
-      scale_y_continuous(breaks = r1) +
-      scale_fill_manual(values = c("grey", "red"))
-    
-    combos %>%
-      bind_cols(zp) %>% 
-      mutate(
-        sig = p < alpha,
-        rdif = abs(r1 - r2) 
-      ) %>%
-      filter(sig == TRUE) %>%
-      group_by(r1, r2, rdif) %>%
-      summarise(min_n = min(n1))
-    
-  } else {
-    combos <- expand.grid(r1 = r1, r2 = r2, n1 = n1, n2 = n2)
-    zp <- purrr::pmap_dfr(combos, ~comp_rs(..1, ..2, ..3, ..4) )
-    
-    combos %>%
-      bind_cols(zp) %>%
-      ggplot(aes(n1, n2, fill = p < alpha)) +
-      geom_tile(color = "black") +
-      facet_grid(r1 ~ r2) +
-      scale_y_continuous(breaks = n2) +
-      scale_fill_manual(values = c("grey", "red"))
-  }
-}
-
-# create a map 
-r1 <- seq(.2, .3, .05)
-r2 <- seq(.5, .6, .05)
-n1 <- seq(10, 100, 10)
-n2 <- seq(10, 100, 10)
-sig_map(r1, r2, n1, n2)
-
-# equal ns (n1=n2)
-r1 <- .2
-r2 <- .3
-n1 <- seq(100, 5000, 1)
-sig_map(r1, r2, n1)
-
-
-
-
+ggsave("grid.png", width = 15, height = 15)
