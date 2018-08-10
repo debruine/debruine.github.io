@@ -41,7 +41,6 @@ min_n <- function(r1, r2, alpha = .05) {
     summarise(min_n = min(n1))
 }
 
-
 theGrid <- min_n(seq(0,1, .05), seq(0,1, .05))
 
 ggplot(theGrid) +
@@ -52,3 +51,5 @@ ggplot(theGrid) +
       axis.text.y = element_text(size = 12))
 
 ggsave("grid.png", width = 15, height = 15)
+
+min_n(.2, .5)
