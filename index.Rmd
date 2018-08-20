@@ -4,7 +4,7 @@ title: "Lisa DeBruine"
 
 ## Courses
 
-* [The Research Cycle](https://gupsych.github.io/research_cycle/)
+* [Data Skills](https://gupsych.github.io/data_skills/)
 * [Academic Webpages](https://gupsych.github.io/acadweb/)
 * [Data Collection in Shiny](https://gupsych.github.io/tquant/data-input.html)
 
