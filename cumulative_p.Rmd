@@ -5,7 +5,7 @@ date: "2017-07-27"
 tags: "p-values"
 ---
 
-[Download the Rmd notebook for this example](cumulatiove_p.Rmd)
+[Download the Rmd notebook for this example](cumulative_p.Rmd)
 
 EJ Wagenmakers started an interesting debate last night with a [twitter poll on p-values](https://twitter.com/EJWagenmakers/status/889987997046910978). Some responses suggested you can multiply p-values from several tests to create a sort of [cumulative p-value](https://twitter.com/VladMalik/status/890246773515722752) that is the joint probability of the null hypothesis.
 
