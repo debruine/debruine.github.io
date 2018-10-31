@@ -212,7 +212,7 @@ data &lt;- data.frame(
 t &lt;- t.test(data$a,data$b)
 
 t$p.value</code></pre>
-<pre><code>## [1] 0.05207093</code></pre>
+<pre><code>## [1] 0.26473</code></pre>
 <p>Now let’s repeat that procedure 1000 times. The easiest way to do that is to make a function that returns the information you want.</p>
 <pre class="r"><code>tPower &lt;- function() {
   n = 100
@@ -228,7 +228,7 @@ t$p.value</code></pre>
 }
 
 tPower()</code></pre>
-<pre><code>## [1] 0.7248193</code></pre>
+<pre><code>## [1] 0.8656191</code></pre>
 <pre class="r"><code>mySample &lt;- data.frame(
   p = replicate(10000, tPower())
 ) 
@@ -238,7 +238,7 @@ mySample %&gt;%
   geom_histogram(bins = 20, boundary = 0)</code></pre>
 <p><img src="power_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>mean(mySample$p &lt; .05)</code></pre>
-<pre><code>## [1] 0.0477</code></pre>
+<pre><code>## [1] 0.0494</code></pre>
 <p>What if you induced a small effect of 0.2 SD?</p>
 <pre class="r"><code>tPower2 &lt;- function() {
   n = 100
@@ -254,7 +254,7 @@ mySample %&gt;%
 }
 
 tPower2()</code></pre>
-<pre><code>## [1] 0.771214</code></pre>
+<pre><code>## [1] 0.5956204</code></pre>
 <pre class="r"><code>mySample2 &lt;- data.frame(
   p = replicate(10000, tPower2())
 ) 
@@ -264,7 +264,7 @@ mySample2 %&gt;%
   geom_histogram(bins = 20, boundary = 0)</code></pre>
 <p><img src="power_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>mean(mySample2$p &lt; .05)</code></pre>
-<pre><code>## [1] 0.2906</code></pre>
+<pre><code>## [1] 0.2957</code></pre>
 <p>Hmm, you only get a p-value less than .05 30% of the time. That means that your study would only have 30% power to detect an effect this big with 100 subjects. Let’s make a new function to give you the p-value of a study with any number of subjects (you put the N inside the parentheses of the function).</p>
 <pre class="r"><code>tPowerN &lt;- function(n) {
 
@@ -279,7 +279,7 @@ mySample2 %&gt;%
 }
 
 tPowerN(200)</code></pre>
-<pre><code>## [1] 0.964605</code></pre>
+<pre><code>## [1] 0.003735287</code></pre>
 <pre class="r"><code>mySampleN &lt;- data.frame(
   p200 = replicate(10000, tPowerN(200))
 ) 
@@ -289,7 +289,7 @@ mySampleN %&gt;%
   geom_histogram(bins = 20, boundary = 0)</code></pre>
 <p><img src="power_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>mean(mySampleN$p200 &lt; .05)</code></pre>
-<pre><code>## [1] 0.517</code></pre>
+<pre><code>## [1] 0.513</code></pre>
 <pre class="r"><code>nlist &lt;- seq(200, 1000, by = 100)
 
 remove(mySampleN)

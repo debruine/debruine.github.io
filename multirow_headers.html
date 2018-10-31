@@ -501,7 +501,7 @@ Y
 </tr>
 </tbody>
 </table>
-<p>The function below starts at the top and fills in any missing data with the value in the previous row. You’ll have to define this function in your script befor you run the next part.</p>
+<p>The function below starts at the top and fills in any missing data with the value in the previous row. You’ll have to define this function in your script before you run the next part.</p>
 <pre class="r"><code>fillHeaders &lt;- function(header_table) {
   for (row in 2:nrow(header_table)) {
     this_row &lt;- header_table[row, ]
