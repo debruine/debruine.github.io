@@ -6,10 +6,21 @@
     <description>Recent content in Simulation on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Jul 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>multisim::multirnorm</title>
+      <link>/posts/multisim-multirnorm/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/multisim-multirnorm/</guid>
+      <description>I’m working on a package for simulations called multisim (because I am bad at titling things).
+The first function, multirnorm, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
+ n = the number of samples required (required) vars = the number of variables to return (default = 3) cors = the correlations among the variables (can be a single number, vars*vars matrix, vars*vars vector, or a vars*(vars-1)/2 vector; default = 0) mu = a vector giving the means of the variables (numeric vector of length 1 or vars; default = 0) sd = the standard deviations of the variables (numeric vector of length 1 or vars; default = 1) varnames = optional names for the variables (string vector of length vars; default = NULL) empirical = logical.</description>
+    </item>
     
     <item>
       <title>sample()</title>

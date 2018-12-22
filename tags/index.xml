@@ -39,6 +39,15 @@
     </item>
     
     <item>
+      <title>Correlated Data</title>
+      <link>/tags/correlated-data/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/correlated-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Courses</title>
       <link>/tags/courses/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -107,15 +116,6 @@
       <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/ggplot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Git</title>
-      <link>/tags/git/</link>
-      <pubDate>Thu, 08 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/git/</guid>
       <description></description>
     </item>
     
@@ -284,7 +284,7 @@
     <item>
       <title>Simulation</title>
       <link>/tags/simulation/</link>
-      <pubDate>Wed, 26 Jul 2017 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/simulation/</guid>
       <description></description>

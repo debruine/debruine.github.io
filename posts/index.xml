@@ -22,6 +22,17 @@ Let’s say you have a small data table with 10 participant IDs, two columns wit
     </item>
     
     <item>
+      <title>multisim::multirnorm</title>
+      <link>/posts/multisim-multirnorm/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/multisim-multirnorm/</guid>
+      <description>I’m working on a package for simulations called multisim (because I am bad at titling things).
+The first function, multirnorm, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
+ n = the number of samples required (required) vars = the number of variables to return (default = 3) cors = the correlations among the variables (can be a single number, vars*vars matrix, vars*vars vector, or a vars*(vars-1)/2 vector; default = 0) mu = a vector giving the means of the variables (numeric vector of length 1 or vars; default = 0) sd = the standard deviations of the variables (numeric vector of length 1 or vars; default = 1) varnames = optional names for the variables (string vector of length vars; default = NULL) empirical = logical.</description>
+    </item>
+    
+    <item>
       <title>Plot Comparison</title>
       <link>/posts/plot-comparison/</link>
       <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
@@ -51,16 +62,6 @@ demo_csv &amp;lt;- &amp;quot;SUB1, SUB1, SUB1, SUB1, SUB2, SUB2, SUB2, SUB2 COND
       <description>I’ve often wondered how many raters I need to sample to get reliable stimulus ratings.
 This will obviously depend on the stimuli and what they’re being rated for. If there is a lot of inter-rater variation or very little inter-stimulus variation, you will need more raters to generate mean ratings with any reliability.
 If you have a large set of ratings of a type of stimulus, population of rater, and type of rating you’re interested in, you can use the script below to figure out how many raters you need to sample to get mean stimulus ratings that are well-correlated with mean ratings from very large samples.</description>
-    </item>
-    
-    <item>
-      <title>GitLab</title>
-      <link>/posts/gitlab/</link>
-      <pubDate>Thu, 08 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/gitlab/</guid>
-      <description>Create a GitHub account at https://github.com/
-Log into GitLab with your GitHub</description>
     </item>
     
     <item>
