@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on debruine</title>
+    <title>Categories on Lisa DeBruine</title>
     <link>/categories/</link>
-    <description>Recent content in Categories on debruine</description>
+    <description>Recent content in Categories on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     
@@ -11,20 +11,29 @@
     
     
     <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Coding</title>
+      <link>/categories/coding/</link>
+      <pubDate>Thu, 08 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/categories/r/</guid>
+      <guid>/categories/coding/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Shiny</title>
-      <link>/categories/shiny/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <title>Prereg</title>
+      <link>/categories/prereg/</link>
+      <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/categories/shiny/</guid>
+      <guid>/categories/prereg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rstats</title>
+      <link>/categories/rstats/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/rstats/</guid>
       <description></description>
     </item>
     

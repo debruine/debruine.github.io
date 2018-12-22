@@ -1,0 +1,71 @@
+---
+title: "psych::alpha()"
+author: ~
+date: "2017-09-12"
+slug: psych-alpha
+categories: ["rstats"]
+tags: ["R", "alpha", "psych-r-package", "cronbach", "SPSS"]
+---
+
+This is a tutorial in progress on how to calculate Cronbach's alphas using the `psych` package in R.
+
+```{r, message=FALSE}
+
+library(tidyverse)
+library(psych)
+
+disgust <- read_csv("https://gupsych.github.io/data_skills/data/disgust.csv")
+
+```
+
+
+## SPSS
+
+* Under the `Analyze` menu, choose `Scale` and `Reliability Analysis...`
+* Choose the 7 moral disgust items
+* Make sure the Model is "Alpha"
+* Under `Statistics`, add descriptives for Item, Scale, and Scale if Item Deleted
+
+![](/images/moral_alpha.png)
+
+## psych::alpha()
+
+`alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,`  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`check.keys=FALSE, n.iter=1, delete=TRUE, use="pairwise", warnings=TRUE, n.obs=NULL)`
+
+### Arguments
+
+* `x`	 A data.frame or matrix of data, or a covariance or correlation matrix
+* `keys`	If some items are to be reversed keyed, then either specify the direction of all items or just a vector of which items to reverse
+* `title`	Any text string to identify this run
+* `cumulative`	should means reflect the sum of items or the mean of the items. The default value is means.
+* `max`	the number of categories/item to consider if reporting category frequencies. Defaults to 10, passed to link{response.frequencies}
+* `na.rm`	The default is to remove missing values and find pairwise correlations
+* `check.keys`	if TRUE, then find the first principal component and reverse key items with negative loadings. Give a warning if this happens.
+* `n.iter`	Number of iterations if bootstrapped confidence intervals are desired
+* `delete`	Delete items with no variance and issue a warning
+* `use`	Options to pass to the cor function: "everything", "all.obs", "complete.obs", "na.or.complete", or "pairwise.complete.obs". The default is "pairwise"
+* `warnings`	By default print a warning and a message that items were reversed. Suppress the message if warnings = FALSE
+* `n.obs`	If using correlation matrices as input, by specify the number of observations, we can find confidence intervals
+
+
+```{r}
+disgust %>%
+  select(moral1:moral7) %>%
+  psych::alpha(title = "moral")
+```
+
+
+```{r}
+disgust %>%
+  select(sexual1:sexual7) %>%
+  psych::alpha(title = "sexual disgust")
+```
+
+
+
+```{r}
+disgust %>%
+  select(pathogen1:pathogen7) %>%
+  psych::alpha(title = "pathogen disgust")
+```

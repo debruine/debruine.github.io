@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lisa DeBruine">
+    <meta name="description" content="Lisa DeBruine&#39;s coding website">
+    <meta name="keywords" content="blog,code">
+
+    <base href="/">
+    <title>
+  Solution Feedback Demo · debruine
+</title>
+
+    <link rel="canonical" href="/posts/solveme_demo/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:300,700|Source+Code+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.c0766be37b3d64c5732085d15feb8425eced799622df3b434a9e1e70e4584f4e.css" integrity="sha256-wHZr43s9ZMVzIIXRX&#43;uEJezteZYi3ztDSp4ecORYT04=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.52" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      debruine
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">About</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Projects</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Solution Feedback Demo</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='0001-01-01T00:00:00Z'>
+                0001-01-01
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              One minute read
+            </span>
+          </div>
+          
+          
+        </div>
+      </header>
+
+      <div>
+        
+
+
+<style>
+  /* styles for solveme */
+  .solveme { border: 2px dotted red; }
+  .solveme.correct { border: 2px solid blue; }
+</style>
+<p><span id="total_correct"></span></p>
+<p>What is 2 + 2? <input class="solveme" size="3" answer="4"></p>
+<p>What is <span class="math inline">\(5 + 5\)</span>? <input class="solveme" answer="10" ></p>
+<p>What is the letter after B? <input class="solveme ignorecase" size="1" answer="c" ></p>
+<p>Type a vowel <input class="solveme ignorecase" size="1" 
+  answer="a :or: e :or: i :or: o :or: u" ></p>
+<p>Draw 10 random numbers from a normal distribution with a mean of 3 and SD of 2: <input class="solveme nospaces" 
+      size="30"
+      answer="rnorm(10, 3, 2) :or:
+              rnorm(10, mean = 3, sd = 2) :or:
+              rnorm(10, 3, sd = 2) :or:
+              rnorm(10, sd = 2, mean = 3) :or:
+              rnorm(x = 10, mean = 3, sd = 2)" ></p>
+<p>Complete the following function for returning the scaled values of a vector, <code>v</code>.</p>
+<pre>
+scale_function <- function(v) { 
+  the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
+  the_sd <- sd(<input class="solveme" size="1" answer="v">)
+  
+  (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
+}
+</pre>
+<p>How would you model a distribution of coin flips?</p>
+<p><select class="solveme" answer="rbinom"> <option></option> <option>rnorm</option> <option>runif</option> <option>rpois</option> <option>rbinom</option> </select></p>
+<script>
+  tc = function() {
+    if (t = document.getElementById("total_correct")) {
+      t.innerHTML =       
+        document.getElementsByClassName("correct").length + " of " +
+        document.getElementsByClassName("solveme").length + " correct";
+    }
+  }
+  window.onload = function() {
+    tc();
+    var solveme = document.getElementsByClassName("solveme");
+    for (var i = 0; i < solveme.length; i++) {
+      solveme[i].setAttribute("autocomplete","off");
+      solveme[i].value = "";
+      solveme[i].onkeyup = function(e) {
+        var real_answer = this.getAttribute("answer").trim();
+        var my_answer = this.value;
+        var cl = this.classList;
+        if (cl.contains("nospaces")) {
+          real_answer = real_answer.replace(/ /g, "");
+          my_answer = my_answer.replace(/ /g, "");
+        }
+        if (cl.contains("ignorecase")) {
+          real_answer = real_answer.toLowerCase();
+          my_answer = my_answer.toLowerCase();
+        }
+        var linend = new RegExp(/\s*(:or:)\s*/, 'g')
+        real_answer = real_answer.split(linend);
+        if (my_answer !== "" & real_answer.includes(my_answer)) {
+          cl.add("correct");
+        } else {
+          cl.remove("correct");
+        }
+        tc();
+      }
+      solveme[i].onchange = function() {
+        this.onkeyup();
+      }
+    }
+  }
+</script>
+
+      </div>
+
+      <footer>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lisadebruine" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+     © 2018
+    
+       · 
+      Powered by <a href="https://gohugo.io/">Hugo</a> & <a href="https://github.com/luizdepra/hugo-coder/">Coder</a>.
+    
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lisa DeBruine">
+    <meta name="description" content="Lisa DeBruine&#39;s coding website">
+    <meta name="keywords" content="blog,code">
+
+    <base href="/">
+    <title>
+  psych::alpha() · Lisa DeBruine
+</title>
+
+    <link rel="canonical" href="/posts/psych-alpha/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:300,700|Source+Code+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.cd087ace86754b082dec94545567f8361cba42e84f8e15edbc4a9f6e52bd1f6a.css" integrity="sha256-zQh6zoZ1Swgt7JRUVWf4Nhy6QuhPjhXtvEqfblK9H2o=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="/css/github-gist.css">
+    
+      <link rel="stylesheet" href="/css/style.css">
+    
+      <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.52" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Lisa DeBruine
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Projects</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">About</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">psych::alpha()</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2017-09-12T00:00:00Z'>
+                2017-09-12
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              6 minutes read
+            </span>
+          </div>
+          <div class="categories">
+  <i class="fas fa-folder"></i>
+    <a href="/categories/rstats/">rstats</a></div>
+
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="/tags/r/">R</a>
+      <span class="separator">•</span>
+    <a href="/tags/alpha/">alpha</a>
+      <span class="separator">•</span>
+    <a href="/tags/psych-r-package/">psych-r-package</a>
+      <span class="separator">•</span>
+    <a href="/tags/cronbach/">cronbach</a>
+      <span class="separator">•</span>
+    <a href="/tags/spss/">SPSS</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+
+<p>This is a tutorial in progress on how to calculate Cronbach’s alphas using the <code>psych</code> package in R.</p>
+<pre class="r"><code>library(tidyverse)
+library(psych)
+
+disgust &lt;- read_csv(&quot;https://gupsych.github.io/data_skills/data/disgust.csv&quot;)</code></pre>
+<div id="spss" class="section level2">
+<h2>SPSS</h2>
+<ul>
+<li>Under the <code>Analyze</code> menu, choose <code>Scale</code> and <code>Reliability Analysis...</code></li>
+<li>Choose the 7 moral disgust items</li>
+<li>Make sure the Model is “Alpha”</li>
+<li>Under <code>Statistics</code>, add descriptives for Item, Scale, and Scale if Item Deleted</li>
+</ul>
+<div class="figure">
+<img src="/images/moral_alpha.png" />
+
+</div>
+</div>
+<div id="psychalpha" class="section level2">
+<h2>psych::alpha()</h2>
+<p><code>alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,</code><br />
+      <code>check.keys=FALSE, n.iter=1, delete=TRUE, use=&quot;pairwise&quot;, warnings=TRUE, n.obs=NULL)</code></p>
+<div id="arguments" class="section level3">
+<h3>Arguments</h3>
+<ul>
+<li><code>x</code> A data.frame or matrix of data, or a covariance or correlation matrix</li>
+<li><code>keys</code> If some items are to be reversed keyed, then either specify the direction of all items or just a vector of which items to reverse</li>
+<li><code>title</code> Any text string to identify this run</li>
+<li><code>cumulative</code> should means reflect the sum of items or the mean of the items. The default value is means.</li>
+<li><code>max</code> the number of categories/item to consider if reporting category frequencies. Defaults to 10, passed to link{response.frequencies}</li>
+<li><code>na.rm</code> The default is to remove missing values and find pairwise correlations</li>
+<li><code>check.keys</code> if TRUE, then find the first principal component and reverse key items with negative loadings. Give a warning if this happens.</li>
+<li><code>n.iter</code> Number of iterations if bootstrapped confidence intervals are desired</li>
+<li><code>delete</code> Delete items with no variance and issue a warning</li>
+<li><code>use</code> Options to pass to the cor function: “everything”, “all.obs”, “complete.obs”, “na.or.complete”, or “pairwise.complete.obs”. The default is “pairwise”</li>
+<li><code>warnings</code> By default print a warning and a message that items were reversed. Suppress the message if warnings = FALSE</li>
+<li><code>n.obs</code> If using correlation matrices as input, by specify the number of observations, we can find confidence intervals</li>
+</ul>
+<pre class="r"><code>disgust %&gt;%
+  select(moral1:moral7) %&gt;%
+  psych::alpha(title = &quot;moral&quot;)</code></pre>
+<pre><code>## 
+## Reliability analysis  moral  
+## Call: psych::alpha(x = ., title = &quot;moral&quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.85      0.85    0.84      0.45 5.8 0.0016  3.8 1.3     0.46
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.85 0.85 0.85 
+## 
+##  Reliability if an item is dropped:
+##        raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## moral1      0.83      0.83    0.81      0.45 4.9   0.0019 0.0035  0.45
+## moral2      0.82      0.82    0.80      0.43 4.6   0.0019 0.0033  0.42
+## moral3      0.83      0.83    0.81      0.45 5.0   0.0019 0.0040  0.45
+## moral4      0.84      0.84    0.82      0.47 5.3   0.0017 0.0023  0.48
+## moral5      0.83      0.83    0.81      0.44 4.8   0.0019 0.0038  0.45
+## moral6      0.84      0.84    0.82      0.47 5.4   0.0017 0.0033  0.49
+## moral7      0.82      0.83    0.81      0.44 4.8   0.0019 0.0043  0.44
+## 
+##  Item statistics 
+##            n raw.r std.r r.cor r.drop mean  sd
+## moral1 19668  0.74  0.73  0.67   0.62  3.1 1.9
+## moral2 19662  0.77  0.78  0.75   0.68  4.6 1.5
+## moral3 19681  0.74  0.73  0.67   0.62  3.2 1.8
+## moral4 19656  0.66  0.68  0.60   0.54  4.5 1.5
+## moral5 19668  0.76  0.75  0.70   0.64  3.8 1.9
+## moral6 19679  0.68  0.67  0.58   0.54  3.8 1.8
+## moral7 19665  0.76  0.76  0.70   0.65  3.7 1.7
+## 
+## Non missing response frequency for each item
+##           0    1    2    3    4    5    6 miss
+## moral1 0.11 0.13 0.14 0.18 0.18 0.15 0.12 0.02
+## moral2 0.03 0.03 0.05 0.09 0.18 0.28 0.34 0.02
+## moral3 0.10 0.11 0.13 0.17 0.20 0.17 0.12 0.02
+## moral4 0.03 0.03 0.06 0.11 0.19 0.29 0.30 0.02
+## moral5 0.07 0.08 0.10 0.15 0.17 0.21 0.23 0.02
+## moral6 0.07 0.07 0.10 0.14 0.20 0.22 0.20 0.02
+## moral7 0.06 0.08 0.10 0.17 0.21 0.22 0.16 0.02</code></pre>
+<pre class="r"><code>disgust %&gt;%
+  select(sexual1:sexual7) %&gt;%
+  psych::alpha(title = &quot;sexual disgust&quot;)</code></pre>
+<pre><code>## 
+## Reliability analysis  sexual disgust  
+## Call: psych::alpha(x = ., title = &quot;sexual disgust&quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.81      0.81     0.8      0.38 4.3 0.0021  2.6 1.4      0.4
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.8 0.81 0.81 
+## 
+##  Reliability if an item is dropped:
+##         raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## sexual1      0.77      0.78    0.76      0.37 3.5   0.0025 0.0073  0.38
+## sexual2      0.79      0.79    0.77      0.38 3.7   0.0023 0.0043  0.40
+## sexual3      0.77      0.77    0.74      0.36 3.3   0.0025 0.0045  0.38
+## sexual4      0.79      0.80    0.77      0.39 3.9   0.0023 0.0073  0.40
+## sexual5      0.77      0.78    0.76      0.37 3.5   0.0025 0.0077  0.37
+## sexual6      0.80      0.80    0.78      0.40 4.0   0.0022 0.0052  0.40
+## sexual7      0.79      0.79    0.77      0.38 3.7   0.0024 0.0078  0.40
+## 
+##  Item statistics 
+##             n raw.r std.r r.cor r.drop mean  sd
+## sexual1 19693  0.71  0.72  0.66   0.59  2.4 1.9
+## sexual2 19664  0.65  0.67  0.59   0.52  1.4 1.8
+## sexual3 19690  0.74  0.75  0.71   0.63  1.6 1.9
+## sexual4 19703  0.64  0.64  0.54   0.49  3.0 2.0
+## sexual5 19695  0.73  0.72  0.66   0.59  2.7 2.1
+## sexual6 19670  0.62  0.62  0.52   0.46  3.9 2.1
+## sexual7 19684  0.69  0.67  0.59   0.53  2.9 2.2
+## 
+## Non missing response frequency for each item
+##            0    1    2    3    4    5    6 miss
+## sexual1 0.20 0.19 0.16 0.16 0.13 0.09 0.07 0.02
+## sexual2 0.47 0.19 0.10 0.09 0.05 0.04 0.05 0.02
+## sexual3 0.41 0.20 0.11 0.10 0.07 0.05 0.06 0.02
+## sexual4 0.14 0.13 0.14 0.15 0.16 0.14 0.13 0.01
+## sexual5 0.20 0.16 0.13 0.14 0.11 0.11 0.14 0.02
+## sexual6 0.10 0.08 0.08 0.11 0.12 0.19 0.33 0.02
+## sexual7 0.21 0.15 0.11 0.11 0.10 0.12 0.20 0.02</code></pre>
+<pre class="r"><code>disgust %&gt;%
+  select(pathogen1:pathogen7) %&gt;%
+  psych::alpha(title = &quot;pathogen disgust&quot;)</code></pre>
+<pre><code>## 
+## Reliability analysis  pathogen disgust  
+## Call: psych::alpha(x = ., title = &quot;pathogen disgust&quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.74      0.74    0.72      0.29 2.9 0.0028  3.7 1.1      0.3
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.73 0.74 0.74 
+## 
+##  Reliability if an item is dropped:
+##           raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## pathogen1      0.71      0.71    0.69      0.29 2.5   0.0032 0.0042  0.26
+## pathogen2      0.70      0.71    0.68      0.29 2.5   0.0032 0.0033  0.30
+## pathogen3      0.70      0.70    0.67      0.28 2.4   0.0033 0.0028  0.26
+## pathogen4      0.71      0.72    0.69      0.30 2.5   0.0032 0.0042  0.30
+## pathogen5      0.70      0.70    0.67      0.28 2.4   0.0033 0.0030  0.26
+## pathogen6      0.72      0.72    0.70      0.30 2.6   0.0031 0.0042  0.31
+## pathogen7      0.71      0.72    0.69      0.30 2.6   0.0031 0.0037  0.30
+## 
+##  Item statistics 
+##               n raw.r std.r r.cor r.drop mean  sd
+## pathogen1 19668  0.60  0.63  0.53   0.45  4.4 1.5
+## pathogen2 19683  0.64  0.63  0.54   0.46  3.3 1.7
+## pathogen3 19687  0.65  0.66  0.58   0.49  3.2 1.6
+## pathogen4 19683  0.62  0.62  0.52   0.44  3.7 1.8
+## pathogen5 19678  0.64  0.67  0.59   0.50  4.3 1.4
+## pathogen6 19655  0.61  0.59  0.48   0.41  3.8 1.9
+## pathogen7 19692  0.63  0.61  0.50   0.43  3.5 1.9
+## 
+## Non missing response frequency for each item
+##              0    1    2    3    4    5    6 miss
+## pathogen1 0.01 0.04 0.07 0.11 0.22 0.26 0.29 0.02
+## pathogen2 0.07 0.12 0.14 0.18 0.22 0.16 0.11 0.02
+## pathogen3 0.05 0.14 0.17 0.19 0.24 0.14 0.08 0.02
+## pathogen4 0.04 0.11 0.12 0.15 0.21 0.19 0.18 0.02
+## pathogen5 0.01 0.04 0.08 0.13 0.24 0.27 0.23 0.02
+## pathogen6 0.06 0.10 0.10 0.13 0.18 0.19 0.25 0.02
+## pathogen7 0.08 0.12 0.12 0.13 0.17 0.17 0.20 0.02</code></pre>
+</div>
+</div>
+
+      </div>
+
+      <footer>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lisadebruine" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+     © 2018
+    
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

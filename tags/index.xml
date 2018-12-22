@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on debruine</title>
+    <title>Tags on Lisa DeBruine</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on debruine</description>
+    <description>Recent content in Tags on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Feb 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Alpha</title>
+      <link>/tags/alpha/</link>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/alpha/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Categorical</title>
+      <link>/tags/categorical/</link>
+      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/categorical/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Coding</title>
@@ -21,11 +39,101 @@
     </item>
     
     <item>
+      <title>Courses</title>
+      <link>/tags/courses/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/courses/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cronbach</title>
+      <link>/tags/cronbach/</link>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/cronbach/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Import</title>
+      <link>/tags/data-import/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-import/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Skills</title>
+      <link>/tags/data-skills/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-skills/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dataviz</title>
+      <link>/tags/dataviz/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/dataviz/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Effect</title>
       <link>/tags/effect/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/effect/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Factanal</title>
+      <link>/tags/factanal/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/factanal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ggplot</title>
+      <link>/tags/ggplot/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ggplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>/tags/git/</link>
+      <pubDate>Thu, 08 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/git/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Headers</title>
+      <link>/tags/headers/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/headers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Icc</title>
+      <link>/tags/icc/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/icc/</guid>
       <description></description>
     </item>
     
@@ -48,6 +156,15 @@
     </item>
     
     <item>
+      <title>Nest</title>
+      <link>/tags/nest/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/nest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>P Value</title>
       <link>/tags/p-value/</link>
       <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
@@ -57,20 +174,128 @@
     </item>
     
     <item>
+      <title>Pca</title>
+      <link>/tags/pca/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pca/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pedagogy</title>
+      <link>/tags/pedagogy/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pedagogy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Preregistration</title>
+      <link>/tags/preregistration/</link>
+      <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/preregistration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Princomp</title>
+      <link>/tags/princomp/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/princomp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Psych</title>
+      <link>/tags/psych/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/psych/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Psych R Package</title>
+      <link>/tags/psych-r-package/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/psych-r-package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>Recoding</title>
+      <link>/tags/recoding/</link>
+      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/recoding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rep</title>
+      <link>/tags/rep/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rep/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scale</title>
+      <link>/tags/scale/</link>
+      <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/scale/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shiny</title>
+      <link>/tags/shiny/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Simulation</title>
       <link>/tags/simulation/</link>
-      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 26 Jul 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/simulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Spss</title>
+      <link>/tags/spss/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/spss/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tidyverse</title>
+      <link>/tags/tidyverse/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tidyverse/</guid>
       <description></description>
     </item>
     
@@ -80,6 +305,15 @@
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>/tags/treatment/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>/tags/web/</link>
+      <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/web/</guid>
       <description></description>
     </item>
     

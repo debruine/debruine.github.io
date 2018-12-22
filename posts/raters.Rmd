@@ -1,0 +1,124 @@
+---
+title: "How many raters do I need?"
+author: ~
+date: "2018-02-17"
+slug: how-many-raters
+categories: ["rstats"]
+tags: ["alpha", "cronbach"]
+---
+
+I've often wondered how many raters I need to sample to get reliable stimulus ratings. 
+
+This will obviously depend on the stimuli and what they're being rated for. If there is a lot of inter-rater variation or very little inter-stimulus variation, you will need more raters to generate mean ratings with any reliability.
+
+If you have a large set of ratings of a type of stimulus, population of rater, and type of rating you're interested in, you can use the script below to figure out how many raters you need to sample to get mean stimulus ratings that are well-correlated with mean ratings from very large samples. 
+
+The example below is for attractiveness ratings using an open-access image set from my lab.
+
+You can cite this method as: 
+[DeBruine, Lisa & Jones, Benedict C. (2018) Determining the number of raters for reliable mean ratings. OSF. doi: 10.17605/OSF.IO/X7FUS](https://osf.io/x7fus/)
+
+```{r libraries, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(psych)
+```
+
+Read data from DeBruine, Lisa; Jones, Benedict (2017): Face Research Lab London Set. figshare. [doi: 10.6084/m9.figshare.5047666](https://doi.org/10.6084/m9.figshare.5047666)
+
+![](images/facelab_london.jpg)
+
+```{r load-data, message=FALSE}
+data <- read_csv("https://ndownloader.figshare.com/files/8542045")
+```
+
+Calculate canonical mean ratings (average of all available ratings)
+
+```{r calc-canon}
+canon <- data %>%
+  select(X001:X173) %>%
+  group_by() %>%
+  summarise_all(mean) %>%
+  t()
+```
+
+Below is a function to sample n raters from the set and calculate Cronbach's `alpha` and `r` from the Pearson's correlation with the canonical ratings.
+
+```{r sim_function}
+get_alpha <- function(data, n) {
+  # sample your full dataset
+  data_sample <- data %>%
+    sample_n(n) %>%
+    select(X001:X173) # select only columns with your stimuli
+  
+  # calculate cronbach's alpha
+  capture.output(suppressWarnings(a <- alpha(t(data_sample))))
+  alpha <- a$total["std.alpha"] %>% pluck(1)
+
+  # calculate mean sample ratings
+  sample_means <- data_sample %>%
+    group_by() %>%
+    summarise_all(mean) %>%
+    t()
+  
+  # calculate correlation between sample mean ratings and canon
+  r <- cor(sample_means, canon)[[1,1]]
+  
+  # return relevant data
+  tibble(
+    n = n,
+    alpha = alpha,
+    r = r
+  )
+}
+```
+
+Generate 100 samples for 5 to 50 raters. 
+
+```{r}
+n_samples <- 100
+n_raters <- seq(5, 50, by = 5)
+
+sim <- rep(n_raters, each = n_samples) %>% 
+  purrr::map_df( function(n) { 
+    get_alpha(data, n)
+  })
+```
+
+This graph of the distribution of Cronbach's alphas shows that alphas tend to be fairly "high" (>.8) after about 15 raters for this stimulus set and rating.
+
+```{r alphas, echo= FALSE}
+ggplot(sim) + 
+  geom_vline(xintercept = 0.8, color = "grey50" ) +
+  geom_density(aes(alpha, colour = as.factor(n))) + 
+  xlim(0, 1) +
+  labs(title = "Distribution of Alphas by Rater N\n", 
+       color = "Number of raters\n") +
+  theme_minimal()
+```
+
+Here is a graph of the distribution of correlations between sample means and canonical mean ratings. Again, the sample mean ratings are very highly correlated with the canonical ratings from the full set of 2513 raters after about 15 raters.
+
+```{r cors, echo= FALSE}
+ggplot(sim) + 
+  geom_density(aes(r, colour = as.factor(n))) + 
+  xlim(0, 1) +
+  labs(title = "Distribution of Rating Correlations by Rater N\n", 
+       color = "Number of raters\n") +
+  theme_minimal()
+```
+
+This table gives the median and 10th percentiles for `alpha` and `r`, as well as the proportion of `alpha`s over 0.8 (typically considered high).
+
+```{r alpha-table, echo=FALSE, rows.print=10}
+sim %>%
+  group_by(n) %>%
+  summarise(
+    `median alpha` = round(quantile(alpha, .5), 2),
+    `90% alpha >` = round(quantile(alpha, .1), 2),
+    `alpha >= 0.8` = round(mean(alpha >= 0.8), 2),
+    `median r` = round(quantile(r, .5), 2),
+    `90% r >` = round(quantile(r, .1), 2)
+  ) %>%
+  knitr::kable("html") %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```

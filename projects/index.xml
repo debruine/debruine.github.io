@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on debruine</title>
+    <title>Projects on Lisa DeBruine</title>
     <link>/projects/</link>
-    <description>Recent content in Projects on debruine</description>
+    <description>Recent content in Projects on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     
@@ -11,14 +11,23 @@
     
     
     <item>
-      <title>Shiny Apps</title>
+      <title>Projects</title>
+      <link>/projects/projects/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/projects/</guid>
+      <description>Courses  Data Skills: An MSc course I teach with Dale Barr introducing data wrangling in R Academic Webpages: An MSc course in creating github webpages with rmarkdown Shiny: Basic tutorials on making shiny apps   Shiny Apps I just started learning how to make shiny apps. It’s a fun way to demo data visualisations and statistical concepts.
+ plot demo Set the sample size, main effects, and interaction effect for a 2x2 design, then view six different</description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
       <link>/projects/shiny-apps/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/shiny-apps/</guid>
-      <description>I just started learning how to make shiny apps. It’s a fun way to demo data visualisations and statistical concepts.
- plot demo Set the sample size, main effects, and interaction effect for a 2x2 design, then view six different
-visualisations of the simulated data. varviz: Simulate and visualise a normal distribution with a specified number, mean and SD. (Present for Phil McAleer) topcentile: Calculates the ratio of group A and group B members above a specificed percentile.</description>
+      <description>Courses  Data Skills: An MSc course I teach with Dale Barr introducing data wrangling in R Academic Webpages: An MSc course in creating github webpages with rmarkdown Shiny: Basic tutorials on making shiny apps   Shiny Apps I just started learning how to make shiny apps. It’s a fun way to demo data visualisations and statistical concepts.
+ plot demo Set the sample size, main effects, and interaction effect for a 2x2 design, then view six different</description>
     </item>
     
   </channel>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Psych on Lisa DeBruine</title>
+    <link>/tags/psych/</link>
+    <description>Recent content in Psych on Lisa DeBruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/psych/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PCA</title>
+      <link>/posts/pca/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/pca/</guid>
+      <description>Download the Rmd notebook for this example
+Putting together this page made me realise I still don’t know anything about PCA and factor analysis.
+I use the psych package for SPSS-style PCA.
+library(tidyverse) library(psych) library(viridis) First, I’ll simulate some data with an underlying structure of three factors.
+set.seed(444) # for reproducibility; delete when running simulations a &amp;lt;- rnorm(100, 0, 1) b &amp;lt;- rnorm(100, 0, 1) c &amp;lt;- rnorm(100, 0, 1) df &amp;lt;- data.</description>
+    </item>
+    
+  </channel>
+</rss>
