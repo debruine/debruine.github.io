@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on debruine</title>
+    <link>/tags/</link>
+    <description>Recent content in Tags on debruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 23 Jun 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Coding</title>
+      <link>/tags/coding/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/coding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Effect</title>
+      <link>/tags/effect/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/effect/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Lmer</title>
+      <link>/tags/lmer/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/lmer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mixed Effects</title>
+      <link>/tags/mixed-effects/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/mixed-effects/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>P Value</title>
+      <link>/tags/p-value/</link>
+      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/p-value/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Simulation</title>
+      <link>/tags/simulation/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/simulation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Treatment</title>
+      <link>/tags/treatment/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/treatment/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

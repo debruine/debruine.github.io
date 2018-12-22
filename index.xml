@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>debruine</title>
+    <link>/</link>
+    <description>Recent content on debruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 27 Jul 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cumulative p</title>
+      <link>/posts/cumulative-p/</link>
+      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/cumulative-p/</guid>
+      <description>EJ Wagenmakers started an interesting debate last night with a twitter poll on p-values. Some responses suggested you can multiply p-values from several tests to create a sort of cumulative p-value that is the joint probability of the null hypothesis.
+I also used to believe that you could multiply p-values, but am now a bit embarassed at my misunderstanding, common as it is. The p-value is not the probability that the null hypothesis is true, it is the probability of obtaining the current (or more extreme) values under the null hypothesis.</description>
+    </item>
+    
+    <item>
+      <title>Coding Schemes</title>
+      <link>/posts/coding-schemes/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/coding-schemes/</guid>
+      <description>How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
+First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider).</description>
+    </item>
+    
+    <item>
+      <title>Lisa DeBruine</title>
+      <link>/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Courses  Data Skills Academic Webpages Shiny App Tutorials  Open Science Stuff  figshare  is where I&amp;rsquo;ve made a few image sets open access, as well as manipulated versions and webmorph template files. OSF is where I post all of my open data and analysis code. GitHub hosts code for webmorph and some other projects I tweet mostly at @lisadebruine, but also sometimes at @kinfaces, @facefacts_scot, and @webmorph_org.</description>
+    </item>
+    
+    <item>
+      <title>Shiny Apps</title>
+      <link>/projects/shiny-apps/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/shiny-apps/</guid>
+      <description>I just started learning how to make shiny apps. It’s a fun way to demo data visualisations and statistical concepts.
+ plot demo Set the sample size, main effects, and interaction effect for a 2x2 design, then view six different
+visualisations of the simulated data. varviz: Simulate and visualise a normal distribution with a specified number, mean and SD. (Present for Phil McAleer) topcentile: Calculates the ratio of group A and group B members above a specificed percentile.</description>
+    </item>
+    
+  </channel>
+</rss>

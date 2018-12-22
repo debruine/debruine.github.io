@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/posts/cumulative-p/</loc>
+    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/coding-schemes/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/coding/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/effect/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/lmer/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/mixed-effects/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/p-value/</loc>
+    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/posts/</loc>
+    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/projects/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/r/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/shiny/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/projects/shiny-apps/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/simulation/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/stats/</loc>
+    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/treatment/</loc>
+    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+</urlset>

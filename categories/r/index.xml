@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R on debruine</title>
+    <link>/categories/r/</link>
+    <description>Recent content in R on debruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    
+	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Shiny Apps</title>
+      <link>/projects/shiny-apps/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/projects/shiny-apps/</guid>
+      <description>I just started learning how to make shiny apps. It’s a fun way to demo data visualisations and statistical concepts.
+ plot demo Set the sample size, main effects, and interaction effect for a 2x2 design, then view six different
+visualisations of the simulated data. varviz: Simulate and visualise a normal distribution with a specified number, mean and SD. (Present for Phil McAleer) topcentile: Calculates the ratio of group A and group B members above a specificed percentile.</description>
+    </item>
+    
+  </channel>
+</rss>
