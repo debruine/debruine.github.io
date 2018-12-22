@@ -161,53 +161,53 @@ data &lt;- rename(data_spread, A_mean = A, B_mean = B)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">-0.6391769</td>
-<td align="right">2.356523</td>
+<td align="right">-0.1059490</td>
+<td align="right">2.481433</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">0.7700322</td>
-<td align="right">3.125829</td>
+<td align="right">0.0908191</td>
+<td align="right">3.291860</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">-0.1730579</td>
-<td align="right">2.974620</td>
+<td align="right">0.7873863</td>
+<td align="right">2.848866</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">0.2833149</td>
-<td align="right">2.160920</td>
+<td align="right">0.9122373</td>
+<td align="right">1.024491</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">1.4754289</td>
-<td align="right">2.081779</td>
+<td align="right">1.4042111</td>
+<td align="right">1.680077</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">0.0158986</td>
-<td align="right">3.016351</td>
+<td align="right">0.3378759</td>
+<td align="right">3.390295</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">1.2237055</td>
-<td align="right">3.456511</td>
+<td align="right">0.5937691</td>
+<td align="right">1.823090</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">-0.3154021</td>
-<td align="right">3.612622</td>
+<td align="right">0.4792143</td>
+<td align="right">1.931593</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">0.2121373</td>
-<td align="right">3.438731</td>
+<td align="right">1.0050004</td>
+<td align="right">1.981522</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">1.5257709</td>
-<td align="right">2.079001</td>
+<td align="right">-1.5453696</td>
+<td align="right">2.469128</td>
 </tr>
 </tbody>
 </table>
@@ -229,7 +229,7 @@ data &lt;- rename(
               A1 = rnorm(10, 0),
               A2 = rnorm(10, 1),
               B1 = rnorm(10, 2),
-              B2 = rnorm(10,3)), 
+              B2 = rnorm(10, 3)), 
             variable, value, A1:B2), 
           variable, c(&quot;var&quot;, &quot;var_n&quot;), sep = 1), 
         id, var), 
@@ -243,7 +243,7 @@ data &lt;- tibble(
   A1 = rnorm(10, 0),
   A2 = rnorm(10, 1),
   B1 = rnorm(10, 2),
-  B2 = rnorm(10,3)
+  B2 = rnorm(10, 3)
 ) %&gt;%
   gather(variable, value, A1:B2) %&gt;%
   separate(variable, c(&quot;var&quot;, &quot;var_n&quot;), sep=1) %&gt;%
@@ -256,10 +256,10 @@ data &lt;- tibble(
 <li>Make a tibble called <code>data</code> with
 <ul>
 <li>id of 1 to 10,</li>
-<li>A1 of 10 random numbers from a normal distribution,</li>
-<li>A2 of 10 random numbers from a normal distribution,</li>
-<li>B1 of 10 random numbers from a normal distribution,</li>
-<li>B2 of 10 random numbers from a normal distribution; and then</li>
+<li>A1 of 10 random numbers from a normal distribution with a mean of 0,</li>
+<li>A2 of 10 random numbers from a normal distribution with a mean of 1,</li>
+<li>B1 of 10 random numbers from a normal distribution with a mean of 2,</li>
+<li>B2 of 10 random numbers from a normal distribution with a mean of 3; and then</li>
 </ul></li>
 <li>Gather to create <code>variable</code> and <code>value</code> column from columns <code>A_1</code> to <code>B_2</code>; and then</li>
 <li>Separate the column <code>variable</code> into 2 new columns called <code>var</code>and <code>var_n</code>, separate at character 1; and then</li>

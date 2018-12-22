@@ -74,7 +74,7 @@ data <- rename(
               A1 = rnorm(10, 0),
               A2 = rnorm(10, 1),
               B1 = rnorm(10, 2),
-              B2 = rnorm(10,3)), 
+              B2 = rnorm(10, 3)), 
             variable, value, A1:B2), 
           variable, c("var", "var_n"), sep = 1), 
         id, var), 
@@ -93,7 +93,7 @@ data <- tibble(
   A1 = rnorm(10, 0),
   A2 = rnorm(10, 1),
   B1 = rnorm(10, 2),
-  B2 = rnorm(10,3)
+  B2 = rnorm(10, 3)
 ) %>%
   gather(variable, value, A1:B2) %>%
   separate(variable, c("var", "var_n"), sep=1) %>%
@@ -108,10 +108,10 @@ You can read this code from top to bottom as follows:
 
 1. Make a tibble called `data` with
     - id of 1 to 10,
-    - A1 of 10 random numbers from a normal distribution,
-    - A2 of 10 random numbers from a normal distribution,
-    - B1 of 10 random numbers from a normal distribution, 
-    - B2 of 10 random numbers from a normal distribution; and then
+    - A1 of 10 random numbers from a normal distribution with a mean of 0,
+    - A2 of 10 random numbers from a normal distribution with a mean of 1,
+    - B1 of 10 random numbers from a normal distribution with a mean of 2, 
+    - B2 of 10 random numbers from a normal distribution with a mean of 3; and then
 2. Gather to create `variable` and `value` column from columns `A_1` to `B_2`; and then
 3. Separate the column `variable` into 2 new columns called `var`and `var_n`, separate at character 1; and then
 4. Group by columns `id` and `var`; and then
