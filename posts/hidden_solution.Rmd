@@ -7,6 +7,10 @@ categories: ["rstats"]
 tags: ["r", "pedagogy", "web"]
 ---
 
+```{r setup, message=FALSE}
+library(tidyverse)
+```
+
 The [R for Reproducible Scientific Analysis](http://swcarpentry.github.io/r-novice-gapminder/) pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I've created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
 
 ## Example
@@ -17,8 +21,7 @@ Graph the relationship between speed and distance for the `cars` dataset.
 
 You can put some text inside the solution, as well as code cunks.
 
-```{r cars, message = FALSE}
-library(tidyverse)
+```{r cars}
 ggplot(cars, aes(speed, dist)) +
   geom_point(color = "purple") +
   geom_smooth(method = "lm", color = "purple")

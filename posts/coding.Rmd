@@ -7,7 +7,7 @@ categories: ["rstats"]
 tags: ["r", "coding", "effect", "treatment", "lmer", "mixed effects", "simulation"]
 ---
 
-```{r setup, include=FALSE}
+```{r setup, message=FALSE}
 library(tidyverse)
 library(lmerTest)
 ```

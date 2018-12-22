@@ -6,10 +6,20 @@
     <description>Recent content in Tidyverse on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/tidyverse/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pipes</title>
+      <link>/posts/pipes/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/pipes/</guid>
+      <description>library(tidyverse) Pipes are a way to order your code in a more readable format.
+Let’s say you have a small data table with 10 participant IDs, two columns with variable type A, and 2 columns with variable type B. You want to calculate the mean of the A variables and the mean of the B variables and return a table with 10 rows (1 for each participant) and 3 columns (id, A_mean and B_mean).</description>
+    </item>
     
     <item>
       <title>Plot Comparison</title>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pipes on Lisa DeBruine</title>
+    <link>/tags/pipes/</link>
+    <description>Recent content in Pipes on Lisa DeBruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 22 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/pipes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Pipes</title>
+      <link>/posts/pipes/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/pipes/</guid>
+      <description>library(tidyverse) Pipes are a way to order your code in a more readable format.
+Let’s say you have a small data table with 10 participant IDs, two columns with variable type A, and 2 columns with variable type B. You want to calculate the mean of the A variables and the mean of the B variables and return a table with 10 rows (1 for each participant) and 3 columns (id, A_mean and B_mean).</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -28,7 +28,7 @@ What is 2 + 2?</description>
       <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/posts/hidden-solutions/</guid>
-      <description>The R for Reproducible Scientific Analysis pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
+      <description>library(tidyverse) The R for Reproducible Scientific Analysis pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
 Example Graph the relationship between speed and distance for the cars dataset.
  Solution  You can put some text inside the solution, as well as code cunks.</description>
     </item>

@@ -33,7 +33,7 @@
     
 
     
-      <link rel="stylesheet" href="/css/github-gist.css">
+      <link rel="stylesheet" href="/css/xcode.css">
     
       <link rel="stylesheet" href="/css/style.css">
     
@@ -119,6 +119,7 @@
         
 
 
+<pre class="r"><code>library(tidyverse)</code></pre>
 <p>The <a href="http://swcarpentry.github.io/r-novice-gapminder/">R for Reproducible Scientific Analysis</a> pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).</p>
 <div id="example" class="section level2">
 <h2>Example</h2>
@@ -128,8 +129,7 @@
 Solution
 </button>
 <p>You can put some text inside the solution, as well as code cunks.</p>
-<pre class="r"><code>library(tidyverse)
-ggplot(cars, aes(speed, dist)) +
+<pre class="r"><code>ggplot(cars, aes(speed, dist)) +
   geom_point(color = &quot;purple&quot;) +
   geom_smooth(method = &quot;lm&quot;, color = &quot;purple&quot;)</code></pre>
 <p><img src="/posts/hidden_solution_files/figure-html/cars-1.png" width="672" /></p>

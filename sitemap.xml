@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/posts/pipes/</loc>
+    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/posts/plot-comparison/</loc>
     <lastmod>2018-03-28T00:00:00+00:00</lastmod>
   </url>
@@ -185,7 +190,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -226,8 +231,14 @@
   </url>
   
   <url>
+    <loc>/tags/pipes/</loc>
+    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/posts/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -267,7 +278,7 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -285,7 +296,7 @@
   
   <url>
     <loc>/categories/rstats/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -326,7 +337,7 @@
   
   <url>
     <loc>/tags/tidyverse/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

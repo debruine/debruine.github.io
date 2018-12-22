@@ -6,10 +6,20 @@
     <description>Recent content in R on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pipes</title>
+      <link>/posts/pipes/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/pipes/</guid>
+      <description>library(tidyverse) Pipes are a way to order your code in a more readable format.
+Let’s say you have a small data table with 10 participant IDs, two columns with variable type A, and 2 columns with variable type B. You want to calculate the mean of the A variables and the mean of the B variables and return a table with 10 rows (1 for each participant) and 3 columns (id, A_mean and B_mean).</description>
+    </item>
     
     <item>
       <title>Plot Comparison</title>
@@ -49,7 +59,7 @@ What is 2 + 2?</description>
       <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>/posts/hidden-solutions/</guid>
-      <description>The R for Reproducible Scientific Analysis pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
+      <description>library(tidyverse) The R for Reproducible Scientific Analysis pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
 Example Graph the relationship between speed and distance for the cars dataset.
  Solution  You can put some text inside the solution, as well as code cunks.</description>
     </item>
@@ -115,7 +125,7 @@ set.seed(444) # for reproducibility; delete when running simulations a &amp;lt;-
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>/posts/coding-schemes/</guid>
-      <description>How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
+      <description>library(tidyverse) library(lmerTest) How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
 First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider).</description>
     </item>
     
