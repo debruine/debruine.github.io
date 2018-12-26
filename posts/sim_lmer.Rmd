@@ -76,7 +76,7 @@ trials <- expand.grid(
 
 ## Calculate DV
 
-Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we're not including an interaction between condition and version here). We set these effects in raw units (ms) and [effect-code](coding-schemes.html) the subject condition and stimulus version. It's usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.
+Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we're not including an interaction between condition and version here). We set these effects in raw units (ms) and [effect-code](/posts/coding-schemes.html) the subject condition and stimulus version. It's usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.
 
 ```{r sim-dv}
 # set variables to use in calculations below

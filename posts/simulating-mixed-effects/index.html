@@ -168,7 +168,7 @@ stim &lt;- tibble(
 </div>
 <div id="calculate-dv" class="section level2">
 <h2>Calculate DV</h2>
-<p>Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we’re not including an interaction between condition and version here). We set these effects in raw units (ms) and <a href="coding-schemes.html">effect-code</a> the subject condition and stimulus version. It’s usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.</p>
+<p>Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we’re not including an interaction between condition and version here). We set these effects in raw units (ms) and <a href="/posts/coding-schemes.html">effect-code</a> the subject condition and stimulus version. It’s usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.</p>
 <pre class="r"><code># set variables to use in calculations below
 grand_i &lt;- 400
 sub_cond_eff &lt;- 50
@@ -189,7 +189,7 @@ dat &lt;- trials %&gt;%
   geom_violin(alpha = 0.5) +
   geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
 <p><img src="/posts/sim_lmer_files/figure-html/plot-dv-1.png" width="672" /></p>
-<p>In this simulated dataset, the grand intercept is 393.9, the mean difference between subject conditions A and B is 43.6, and the mean difference between stimulus versions is 47.7.</p>
+<p>In this simulated dataset, the grand intercept is 398.6, the mean difference between subject conditions A and B is 58.1, and the mean difference between stimulus versions is 47.4.</p>
 <div id="more-complicated-patterns" class="section level3">
 <h3>More Complicated Patterns</h3>
 <p>If you want to simulate an interaction, it can be tricky to figure out what to set the main effects and interaction effect to. It’s usually easier to think about the simple main effects for each cell. Create four new variables and set them to the deviations from the overall mean you’d expect for each condition (so they should add up to 0).</p>
@@ -235,13 +235,13 @@ dat &lt;- trials %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">A</td>
-<td align="right">-28.56929</td>
-<td align="right">19.56794</td>
+<td align="right">-31.10998</td>
+<td align="right">17.65559</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
-<td align="right">-58.23719</td>
-<td align="right">39.85261</td>
+<td align="right">-47.45405</td>
+<td align="right">52.14477</td>
 </tr>
 </tbody>
 </table>
@@ -263,25 +263,25 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115562.6
+## REML criterion at convergence: 115520.2
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.4702 -0.6666 -0.0127  0.6820  4.0021 
+## -3.9113 -0.6606  0.0021  0.6700  4.4627 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 11019    104.97  
-##  stim_id  (Intercept)  2504     50.04  
-##  Residual              5688     75.42  
+##  sub_id   (Intercept) 10662    103.26  
+##  stim_id  (Intercept)  2581     50.81  
+##  Residual              5665     75.27  
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                393.154     12.683  145.716  30.999   &lt;2e-16
-## sub_cond.e                  -4.692     21.049   98.000  -0.223    0.824
-## stim_version.e              73.114      1.508 9849.000  48.470   &lt;2e-16
-## sub_cond.e:stim_version.e   49.953      3.017 9849.000  16.558   &lt;2e-16
+## (Intercept)                397.809     12.602  145.934  31.567   &lt;2e-16
+## sub_cond.e                   9.073     20.706   98.000   0.438    0.662
+## stim_version.e              74.182      1.505 9849.000  49.280   &lt;2e-16
+## sub_cond.e:stim_version.e   50.833      3.011 9849.000  16.884   &lt;2e-16
 ##                              
 ## (Intercept)               ***
 ## sub_cond.e                   
@@ -390,25 +390,25 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115256.2
+## REML criterion at convergence: 115704.4
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.0554 -0.6628 -0.0037  0.6799  3.4003 
+## -4.2152 -0.6768 -0.0027  0.6750  4.1328 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 12285    110.84  
-##  stim_id  (Intercept)  2599     50.98  
-##  Residual              5507     74.21  
+##  sub_id   (Intercept) 9859     99.29   
+##  stim_id  (Intercept) 2114     45.98   
+##  Residual             5782     76.04   
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                400.655     13.243  145.290  30.254   &lt;2e-16
-## sub_cond.e                   5.346     22.218   98.000   0.241     0.81
-## stim_version.e              72.223      1.484 9849.000  48.661   &lt;2e-16
-## sub_cond.e:stim_version.e   45.592      2.968 9849.000  15.359   &lt;2e-16
+## (Intercept)                398.756     11.893  145.154   33.53   &lt;2e-16
+## sub_cond.e                  22.704     19.917   98.000    1.14    0.257
+## stim_version.e              74.213      1.521 9849.000   48.80   &lt;2e-16
+## sub_cond.e:stim_version.e   50.324      3.042 9849.000   16.55   &lt;2e-16
 ##                              
 ## (Intercept)               ***
 ## sub_cond.e                   
@@ -482,25 +482,25 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115517.3
+## REML criterion at convergence: 115272.6
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.4145 -0.6568 -0.0054  0.6712  3.4954 
+## -4.2915 -0.6666  0.0006  0.6777  3.8638 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 12681    112.61  
-##  stim_id  (Intercept)  1829     42.76  
-##  Residual              5663     75.25  
+##  sub_id   (Intercept) 8885     94.26   
+##  stim_id  (Intercept) 2421     49.20   
+##  Residual             5536     74.41   
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                417.790     12.804  138.762  32.629   &lt;2e-16
-## sub_cond.e                   1.540     22.572   98.000   0.068    0.946
-## stim_version.e              74.810      1.505 9849.000  49.705   &lt;2e-16
-## sub_cond.e:stim_version.e   42.834      3.010 9849.000  14.230   &lt;2e-16
+## (Intercept)                387.325     11.740  145.549  32.993   &lt;2e-16
+## sub_cond.e                  28.349     18.911   98.000   1.499    0.137
+## stim_version.e              73.320      1.488 9849.000  49.271   &lt;2e-16
+## sub_cond.e:stim_version.e   54.411      2.976 9849.000  18.282   &lt;2e-16
 ##                              
 ## (Intercept)               ***
 ## sub_cond.e                   
@@ -524,29 +524,29 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115643.4
+## REML criterion at convergence: 115263.3
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.7156 -0.6595 -0.0177  0.6766  3.8256 
+## -4.1995 -0.6621 -0.0151  0.6622  3.6223 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 11000    104.88  
-##  stim_id  (Intercept)  2157     46.44  
-##  Residual              5740     75.76  
+##  sub_id   (Intercept) 9783     98.91   
+##  stim_id  (Intercept) 3660     60.50   
+##  Residual             5514     74.26   
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                            Estimate Std. Error        df t value Pr(&gt;|t|)
-## (Intercept)                389.5586    12.3984  144.2846  31.420   &lt;2e-16
-## sub_cond.e                  48.3096    21.0312   98.0000   2.297   0.0237
-## stim_version.e               2.5881     1.5152 9849.0000   1.708   0.0877
-## sub_cond.e:stim_version.e    0.3897     3.0304 9849.0000   0.129   0.8977
+## (Intercept)                426.6896    13.0988  140.3470  32.575   &lt;2e-16
+## sub_cond.e                   7.9892    19.8376   98.0000   0.403    0.688
+## stim_version.e               0.2574     1.4852 9849.0000   0.173    0.862
+## sub_cond.e:stim_version.e    0.7570     2.9703 9849.0000   0.255    0.799
 ##                              
 ## (Intercept)               ***
-## sub_cond.e                *  
-## stim_version.e            .  
+## sub_cond.e                   
+## stim_version.e               
 ## sub_cond.e:stim_version.e    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
