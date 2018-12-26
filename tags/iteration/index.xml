@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Iteration on Lisa DeBruine</title>
+    <link>/tags/iteration/</link>
+    <description>Recent content in Iteration on Lisa DeBruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 26 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/iteration/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Simulating mixed effects</title>
+      <link>/posts/simulating-mixed-effects/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/simulating-mixed-effects/</guid>
+      <description>library(tidyverse) library(lmerTest) Here is one pattern for simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli of two versions (congruent and incongruent). The DV is reaction time.
+Subjects First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept sub_i).</description>
+    </item>
+    
+  </channel>
+</rss>

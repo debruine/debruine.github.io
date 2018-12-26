@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lisa DeBruine">
+    <meta name="description" content="Lisa DeBruine&#39;s coding website">
+    <meta name="keywords" content="blog,code">
+
+    <base href="/">
+    <title>
+  Simulating mixed effects · Lisa DeBruine
+</title>
+
+    <link rel="canonical" href="/posts/simulating-mixed-effects/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:300,700|Source+Code+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.cd087ace86754b082dec94545567f8361cba42e84f8e15edbc4a9f6e52bd1f6a.css" integrity="sha256-zQh6zoZ1Swgt7JRUVWf4Nhy6QuhPjhXtvEqfblK9H2o=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="/css/xcode.css">
+    
+      <link rel="stylesheet" href="/css/style.css">
+    
+      <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.52" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Lisa DeBruine
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Projects</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">About</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Simulating mixed effects</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2018-12-26T00:00:00Z'>
+                2018-12-26
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              11 minutes read
+            </span>
+          </div>
+          <div class="categories">
+  <i class="fas fa-folder"></i>
+    <a href="/categories/rstats/">rstats</a></div>
+
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="/tags/r/">R</a>
+      <span class="separator">•</span>
+    <a href="/tags/simulation/">simulation</a>
+      <span class="separator">•</span>
+    <a href="/tags/lmer/">lmer</a>
+      <span class="separator">•</span>
+    <a href="/tags/lme4/">lme4</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+
+<pre class="r"><code>library(tidyverse)
+library(lmerTest)</code></pre>
+<p>I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli of two versions (congruent and incongruent). The DV is reaction time.</p>
+<div id="subjects" class="section level2">
+<h2>Subjects</h2>
+<p>First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept <code>sub_i</code>). We’ll model it from a normal distribution with a mean of 0 and SD of 100ms. We also add between-subject variable here. Each subject is in only one condition, so we assign half <code>A</code> and half <code>B</code>. Set the number of subjects as <code>sub_n</code> at the beginning so you can change this in the future with only one edit.]</p>
+<pre class="r"><code>sub_n &lt;- 100
+sub_sd &lt;- 100
+
+sub &lt;- tibble(
+  sub_id = 1:sub_n,
+  sub_i  = rnorm(sub_n, 0, sub_sd),
+  sub_cond = rep(c(&quot;A&quot;,&quot;B&quot;), each = sub_n/2)
+)</code></pre>
+<p>I like to check my simulations at every step with a graph. We expect subjects in conditions <code>A</code> and <code>B</code> to have approximately equal intercepts.</p>
+<pre class="r"><code>ggplot(sub, aes(sub_i, color = sub_cond)) +
+  geom_density()</code></pre>
+<p><img src="/posts/purrr_files/figure-html/plot-subject-1.png" width="672" /></p>
+</div>
+<div id="stimuli" class="section level2">
+<h2>Stimuli</h2>
+<p>Now, we generate a sample of stimuli. Each stimulus will have slightly faster or slower reaction times on average; this is their random intercept (<code>stim_i</code>). We’ll model it from a normal distribution with a mean of 0 and SD of 50ms. Stimulus version (congruent vs incongruent) is a within-stimulus variable, so we don’t need to add it here.</p>
+<pre class="r"><code>stim_n &lt;- 50
+stim_sd &lt;- 50
+
+stim &lt;- tibble(
+  stim_id = 1:stim_n,
+  stim_i = rnorm(stim_n, 0, stim_sd)
+)</code></pre>
+<p>Plot the random intercepts to double-check they look like you expect.</p>
+<pre class="r"><code>ggplot(stim, aes(stim_i)) +
+  geom_density()</code></pre>
+<p><img src="/posts/purrr_files/figure-html/plot-stimuli-1.png" width="672" /></p>
+</div>
+<div id="trials" class="section level2">
+<h2>Trials</h2>
+<p>Now we put the subjects and stimuli together. In this study, all subjects respond to all stimuli in both upright and inverted versions, but subjects are in only one condition. The function <code>expand.grid</code> gives you a data frame with all possible combinations of the arguments. Add the data specific to each subject and stimulus by left joining the <code>sub</code> and <code>stim</code> data frames.</p>
+<pre class="r"><code>trials &lt;- expand.grid(
+  sub_id = sub$sub_id,
+  stim_id = stim$stim_id,
+  stim_version = c(&quot;congruent&quot;, &quot;incongruent&quot;)
+) %&gt;%
+  left_join(sub, by = &quot;sub_id&quot;) %&gt;%
+  left_join(stim, by = &quot;stim_id&quot;)</code></pre>
+</div>
+<div id="calculate-dv" class="section level2">
+<h2>Calculate DV</h2>
+<p>Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we’re not including an interaction between condition and version here). We set these effects in raw units (ms) and <a href="coding.html">effect-code</a> the subject condition and stimulus version. It’s usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.</p>
+<pre class="r"><code># set variables to use in calculations below
+grand_i &lt;- 400
+sub_cond_eff &lt;- 50
+stim_version_eff &lt;- 50
+error_sd &lt;- 75
+
+dat &lt;- trials %&gt;%
+  mutate(
+    sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
+    stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
+    err = rnorm(nrow(.), 0, error_sd),
+    eff = (sub_cond.e * sub_cond_eff) + (stim_version.e * stim_version_eff),
+    dv = grand_i + sub_i + stim_i + eff + err
+  )</code></pre>
+<p>Graph to make sure you’ve simulated what you expected.</p>
+<pre class="r"><code>ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
+  geom_hline(yintercept = grand_i) +
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
+<p><img src="/posts/purrr_files/figure-html/plot-dv-1.png" width="672" /></p>
+<p>In this simulated dataset, the grand intercept is 397.8, the mean difference between subject conditions A and B is 30.1, and the mean difference between stimulus versions is 50.1.</p>
+<div id="more-complicated-patterns" class="section level3">
+<h3>More Complicated Patterns</h3>
+<p>If you want to simulate an interaction, it can be tricky to figure out what to set the main effects and interaction effect to. It’s usually easier to think about the simple main effects for each cell. Create four new variables and set them to the deviations from the overall mean you’d expect for each condition (so they should add up to 0).</p>
+<pre class="r"><code># set variables to use in calculations below
+grand_i &lt;- 400
+cond_a_version_c &lt;- -25
+cond_a_version_i &lt;- +25
+cond_b_version_c &lt;- -50
+cond_b_version_i &lt;- +50
+error_sd &lt;- 75
+
+dat &lt;- trials %&gt;%
+  mutate(
+    sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
+    stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
+    err = rnorm(nrow(.), 0, error_sd),
+    eff = case_when(
+      sub_cond == &quot;A&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_a_version_c,
+      sub_cond == &quot;B&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_b_version_c,
+      sub_cond == &quot;A&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_a_version_i,
+      sub_cond == &quot;B&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_b_version_i
+    ),
+    dv = grand_i + sub_i + stim_i + eff + err
+  )</code></pre>
+<pre class="r"><code>ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
+  geom_hline(yintercept = grand_i) +
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
+<p><img src="/posts/purrr_files/figure-html/plot-ixn-1.png" width="672" /></p>
+<pre class="r"><code>group_by(dat, sub_cond, stim_version) %&gt;%
+  summarise(m = mean(dv) - grand_i %&gt;% round(1)) %&gt;%
+  ungroup() %&gt;%
+  spread(stim_version, m) %&gt;%
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">sub_cond</th>
+<th align="right">congruent</th>
+<th align="right">incongruent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">-14.99174</td>
+<td align="right">31.89575</td>
+</tr>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">-61.91689</td>
+<td align="right">37.70356</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<p>New we will run a linear mixed effects model with <code>lmer</code> and look at the summary.</p>
+<pre class="r"><code>mod &lt;- lmer(dv ~ sub_cond.e * stim_version.e +
+              (1 | sub_id) + 
+              (1 | stim_id),
+            data = dat)
+
+mod.sum &lt;- summary(mod)
+
+mod.sum</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
+##    Data: dat
+## 
+## REML criterion at convergence: 115200.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -4.2076 -0.6707 -0.0091  0.6842  3.5469 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  sub_id   (Intercept) 13437    115.92  
+##  stim_id  (Intercept)  1778     42.17  
+##  Residual              5481     74.04  
+## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+## 
+## Fixed effects:
+##                           Estimate Std. Error       df t value Pr(&gt;|t|)
+## (Intercept)                398.173     13.057  136.861  30.495   &lt;2e-16
+## sub_cond.e                 -20.559     23.231   98.000  -0.885    0.378
+## stim_version.e              73.254      1.481 9849.000  49.471   &lt;2e-16
+## sub_cond.e:stim_version.e   52.733      2.961 9849.000  17.806   &lt;2e-16
+##                              
+## (Intercept)               ***
+## sub_cond.e                   
+## stim_version.e            ***
+## sub_cond.e:stim_version.e ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) sb_cn. stm_v.
+## sub_cond.e  0.000               
+## stim_versn. 0.000  0.000        
+## sb_cnd.:s_. 0.000  0.000  0.000</code></pre>
+<p>First, alwasy check that your groups make sense. The number of obs should be the total nuber of trials analysed. <code>sub_id</code> should be what we set <code>sub_n</code> to above (100) and <code>stim_id</code> should be what we set <code>stim_n</code> to above (50).</p>
+<p>Next, look at the random effects. * The SD for <code>sub_id</code> should be near the <code>sub_sd</code> of 100. * he SD for <code>stim_id</code> should be near the <code>stim_sd</code> off 50. * The residual SD should be near the <code>error_sd</code> of 75.</p>
+<p>Finally, look at the fixed effects.</p>
+<ul>
+<li>The estimate for the Intercept should be near the <code>grand_i</code> of 400.</li>
+<li>The main effect of <code>sub_cond</code> should be near the difference between the two B conditions (-50 + 50 = 0) and the two A conditions (-25 + 25 = 0).</li>
+<li>The main effect of <code>stim_version</code> should be near the difference between the two incongruent versions(25 + 50 = 75) and the two congruent versions (-25 + -50 = -75).</li>
+</ul>
+<div id="random-effects" class="section level3">
+<h3>Random effects</h3>
+<p>Plot the subject intercepts from our code above (<code>sub$sub_i</code>) against the subject intercepts calculcated by <code>lmer</code> (<code>ranef(mod)$sub_id</code>).</p>
+<pre class="r"><code>ranef(mod)$sub_id %&gt;%
+  as_tibble(rownames = &quot;sub_id&quot;) %&gt;%
+  rename(mod_sub_i = `(Intercept)`) %&gt;%
+  mutate(sub_id = as.integer(sub_id)) %&gt;%
+  left_join(sub, by = &quot;sub_id&quot;) %&gt;%
+  ggplot(aes(sub_i,mod_sub_i)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="/posts/purrr_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>Plot the stimulus intercepts from our code above (<code>stim$stim_i</code>) against the stimulus intercepts calculcated by <code>lmer</code> (<code>ranef(mod)$stim_id</code>).</p>
+<pre class="r"><code>ranef(mod)$stim_id %&gt;%
+  as_tibble(rownames = &quot;stim_id&quot;) %&gt;%
+  rename(mod_stim_i = `(Intercept)`) %&gt;%
+  mutate(stim_id = as.integer(stim_id)) %&gt;%
+  left_join(stim, by = &quot;stim_id&quot;) %&gt;%
+  ggplot(aes(stim_i,mod_stim_i)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<p><img src="/posts/purrr_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+</div>
+<div id="putting-it-all-together" class="section level2">
+<h2>Putting it all together</h2>
+<p>I’ve repeated the relevant code above, putting all of the variables at the top. Copy the code and run it a few times. Try changing the variables at the top and finding what they change in the <code>lmer</code> summary.</p>
+<pre class="r"><code>sub_n &lt;- 100
+sub_sd &lt;- 100
+stim_n &lt;- 50
+stim_sd &lt;- 50
+grand_i &lt;- 400
+cond_a_version_c &lt;- -25
+cond_a_version_i &lt;- +25
+cond_b_version_c &lt;- -50
+cond_b_version_i &lt;- +50
+error_sd &lt;- 75
+
+sub &lt;- tibble(
+  sub_id = 1:sub_n,
+  sub_i  = rnorm(sub_n, 0, sub_sd),
+  sub_cond = rep(c(&quot;A&quot;,&quot;B&quot;), each = sub_n/2)
+)
+
+stim &lt;- tibble(
+  stim_id = 1:stim_n,
+  stim_i = rnorm(stim_n, 0, stim_sd)
+)
+
+dat &lt;- expand.grid(
+  sub_id = sub$sub_id,
+  stim_id = stim$stim_id,
+  stim_version = c(&quot;congruent&quot;, &quot;incongruent&quot;)
+) %&gt;%
+  left_join(sub, by = &quot;sub_id&quot;) %&gt;%
+  left_join(stim, by = &quot;stim_id&quot;) %&gt;%
+  mutate(
+    sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
+    stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
+    err = rnorm(nrow(.), 0, error_sd),
+    eff = case_when(
+      sub_cond == &quot;A&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_a_version_c,
+      sub_cond == &quot;B&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_b_version_c,
+      sub_cond == &quot;A&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_a_version_i,
+      sub_cond == &quot;B&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_b_version_i
+    ),
+    dv = grand_i + sub_i + stim_i + eff + err
+  )
+
+ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
+  geom_hline(yintercept = grand_i) +
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
+<p><img src="/posts/purrr_files/figure-html/together-1.png" width="672" /></p>
+<pre class="r"><code>mod &lt;- lmer(dv ~ sub_cond.e * stim_version.e +
+              (1 | sub_id) + 
+              (1 | stim_id),
+            data = dat)
+
+mod.sum &lt;- summary(mod)
+
+mod.sum</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
+##    Data: dat
+## 
+## REML criterion at convergence: 115597.2
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.8948 -0.6729  0.0003  0.6692  3.8289 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  sub_id   (Intercept) 9550     97.73   
+##  stim_id  (Intercept) 2064     45.43   
+##  Residual             5722     75.64   
+## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+## 
+## Fixed effects:
+##                           Estimate Std. Error       df t value Pr(&gt;|t|)
+## (Intercept)                400.320     11.720  145.200  34.157   &lt;2e-16
+## sub_cond.e                  -8.199     19.604   98.000  -0.418    0.677
+## stim_version.e              74.279      1.513 9849.000  49.098   &lt;2e-16
+## sub_cond.e:stim_version.e   45.227      3.026 9849.000  14.947   &lt;2e-16
+##                              
+## (Intercept)               ***
+## sub_cond.e                   
+## stim_version.e            ***
+## sub_cond.e:stim_version.e ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) sb_cn. stm_v.
+## sub_cond.e  0.000               
+## stim_versn. 0.000  0.000        
+## sb_cnd.:s_. 0.000  0.000  0.000</code></pre>
+<div id="function" class="section level3">
+<h3>Function</h3>
+<p>You can put the above in a function so you can run it more easily. I removed the plot and set the argument defaults to the same as the examples above, but you can set them to other patterns.</p>
+<pre class="r"><code>sim_lmer &lt;- function( sub_n = 100,
+                      sub_sd = 100,
+                      stim_n = 50,
+                      stim_sd = 50,
+                      grand_i = 400,
+                      cond_a_version_c = -25,
+                      cond_a_version_i = +25,
+                      cond_b_version_c = -50,
+                      cond_b_version_i = +50,
+                      error_sd = 75) {
+  sub &lt;- tibble(
+    sub_id = 1:sub_n,
+    sub_i  = rnorm(sub_n, 0, sub_sd),
+    sub_cond = rep(c(&quot;A&quot;,&quot;B&quot;), each = sub_n/2)
+  )
+  
+  stim &lt;- tibble(
+    stim_id = 1:stim_n,
+    stim_i = rnorm(stim_n, 0, stim_sd)
+  )
+  
+  dat &lt;- expand.grid(
+    sub_id = sub$sub_id,
+    stim_id = stim$stim_id,
+    stim_version = c(&quot;congruent&quot;, &quot;incongruent&quot;)
+  ) %&gt;%
+    left_join(sub, by = &quot;sub_id&quot;) %&gt;%
+    left_join(stim, by = &quot;stim_id&quot;) %&gt;%
+    mutate(
+      sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
+      stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
+      err = rnorm(nrow(.), 0, error_sd),
+      eff = case_when(
+        sub_cond == &quot;A&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_a_version_c,
+        sub_cond == &quot;B&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_b_version_c,
+        sub_cond == &quot;A&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_a_version_i,
+        sub_cond == &quot;B&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_b_version_i
+      ),
+      dv = grand_i + sub_i + stim_i + eff + err
+    )
+  
+  mod &lt;- lmer(dv ~ sub_cond.e * stim_version.e +
+                (1 | sub_id) + 
+                (1 | stim_id),
+              data = dat)
+  
+  mod.sum &lt;- summary(mod)
+  
+  return(mod.sum)
+}</code></pre>
+<p>Run the function with the default values.</p>
+<pre class="r"><code>sim_lmer()</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
+##    Data: dat
+## 
+## REML criterion at convergence: 115609.5
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.7478 -0.6711 -0.0009  0.6751  3.5954 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  sub_id   (Intercept) 8632     92.91   
+##  stim_id  (Intercept) 2215     47.07   
+##  Residual             5733     75.72   
+## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+## 
+## Fixed effects:
+##                           Estimate Std. Error       df t value Pr(&gt;|t|)
+## (Intercept)                389.277     11.454  145.689  33.985   &lt;2e-16
+## sub_cond.e                  10.498     18.644   98.000   0.563    0.575
+## stim_version.e              73.420      1.514 9849.000  48.484   &lt;2e-16
+## sub_cond.e:stim_version.e   52.766      3.029 9849.000  17.422   &lt;2e-16
+##                              
+## (Intercept)               ***
+## sub_cond.e                   
+## stim_version.e            ***
+## sub_cond.e:stim_version.e ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) sb_cn. stm_v.
+## sub_cond.e  0.000               
+## stim_versn. 0.000  0.000        
+## sb_cnd.:s_. 0.000  0.000  0.000</code></pre>
+<p>Try changing some variables to simulate null effects.</p>
+<pre class="r"><code>sim_lmer(cond_a_version_c = 0,
+         cond_a_version_i = 0,
+         cond_b_version_c = 0,
+         cond_b_version_i = 0)</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
+##    Data: dat
+## 
+## REML criterion at convergence: 115314.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.7024 -0.6881  0.0023  0.6610  3.4437 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  sub_id   (Intercept) 9498     97.46   
+##  stim_id  (Intercept) 2274     47.68   
+##  Residual             5558     74.55   
+## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+## 
+## Fixed effects:
+##                           Estimate Std. Error       df t value Pr(&gt;|t|)
+## (Intercept)                384.355     11.875  145.804  32.367   &lt;2e-16
+## sub_cond.e                  18.627     19.549   98.000   0.953   0.3430
+## stim_version.e               3.296      1.491 9849.000   2.211   0.0271
+## sub_cond.e:stim_version.e   -1.393      2.982 9849.000  -0.467   0.6403
+##                              
+## (Intercept)               ***
+## sub_cond.e                   
+## stim_version.e            *  
+## sub_cond.e:stim_version.e    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) sb_cn. stm_v.
+## sub_cond.e  0.000               
+## stim_versn. 0.000  0.000        
+## sb_cnd.:s_. 0.000  0.000  0.000</code></pre>
+</div>
+</div>
+
+      </div>
+
+      <footer>
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lisadebruine" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+     © 2018
+    
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>
+n>
+
+    
+
+  </body>
+
+</html>

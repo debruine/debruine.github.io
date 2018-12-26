@@ -138,9 +138,18 @@
     </item>
     
     <item>
+      <title>Lme4</title>
+      <link>/tags/lme4/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/lme4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Lmer</title>
       <link>/tags/lmer/</link>
-      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/lmer/</guid>
       <description></description>
@@ -239,7 +248,7 @@
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -284,7 +293,7 @@
     <item>
       <title>Simulation</title>
       <link>/tags/simulation/</link>
-      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/simulation/</guid>
       <description></description>

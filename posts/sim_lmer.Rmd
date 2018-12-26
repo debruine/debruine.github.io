@@ -1,0 +1,366 @@
+---
+title: "Simulating mixed effects"
+author: ~
+date: "2018-12-26"
+slug: simulating-mixed-effects
+categories: ["rstats"]
+tags: ["R", "simulation", "lmer", "lme4"]
+---
+
+```{r libraries, message = FALSE}
+library(tidyverse)
+library(lmerTest)
+```
+
+I'm going to walk through one example of simulating a dataset with random effects. I'll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli of two versions (congruent and incongruent). The DV is reaction time.
+
+## Subjects
+
+First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept `sub_i`). We'll model it from a normal distribution with a mean of 0 and SD of 100ms. We also add between-subject variable here. Each subject is in only one condition, so we assign half `A` and half `B`. Set the number of subjects as `sub_n` at the beginning so you can change this in the future with only one edit.]
+
+
+```{r sim-subject}
+sub_n <- 100
+sub_sd <- 100
+
+sub <- tibble(
+  sub_id = 1:sub_n,
+  sub_i  = rnorm(sub_n, 0, sub_sd),
+  sub_cond = rep(c("A","B"), each = sub_n/2)
+)
+```
+
+I like to check my simulations at every step with a graph. We expect subjects in conditions `A` and `B` to have approximately equal intercepts.
+
+```{r plot-subject}
+ggplot(sub, aes(sub_i, color = sub_cond)) +
+  geom_density()
+```
+
+## Stimuli
+
+Now, we generate a sample of stimuli. Each stimulus will have slightly faster or slower reaction times on average; this is their random intercept (`stim_i`). We'll model it from a normal distribution with a mean of 0 and SD of 50ms. Stimulus version (congruent vs incongruent) is a within-stimulus variable, so we don't need to add it here.
+
+```{r sim-stimuli}
+
+stim_n <- 50
+stim_sd <- 50
+
+stim <- tibble(
+  stim_id = 1:stim_n,
+  stim_i = rnorm(stim_n, 0, stim_sd)
+)
+
+```
+
+Plot the random intercepts to double-check they look like you expect.
+
+```{r plot-stimuli}
+ggplot(stim, aes(stim_i)) +
+  geom_density()
+```
+
+## Trials
+
+Now we put the subjects and stimuli together. In this study, all subjects respond to all stimuli in both upright and inverted versions, but subjects are in only one condition. The function `expand.grid` gives you a data frame with all possible combinations of the arguments. Add the data specific to each subject and stimulus by left joining the `sub` and `stim` data frames.
+
+```{r expand-grid}
+trials <- expand.grid(
+  sub_id = sub$sub_id,
+  stim_id = stim$stim_id,
+  stim_version = c("congruent", "incongruent")
+) %>%
+  left_join(sub, by = "sub_id") %>%
+  left_join(stim, by = "stim_id")
+```
+
+## Calculate DV
+
+Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we're not including an interaction between condition and version here). We set these effects in raw units (ms) and [effect-code](coding.html) the subject condition and stimulus version. It's usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.
+
+```{r sim-dv}
+# set variables to use in calculations below
+grand_i <- 400
+sub_cond_eff <- 50
+stim_version_eff <- 50
+error_sd <- 75
+
+dat <- trials %>%
+  mutate(
+    sub_cond.e = recode(sub_cond, "A" = -0.5, "B" = +0.5),
+    stim_version.e = recode(stim_version, "congruent" = -0.5, "incongruent" = +0.5),
+    err = rnorm(nrow(.), 0, error_sd),
+    eff = (sub_cond.e * sub_cond_eff) + (stim_version.e * stim_version_eff),
+    dv = grand_i + sub_i + stim_i + eff + err
+  )
+
+```
+
+Graph to make sure you've simulated what you expected.
+
+```{r plot-dv}
+ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
+  geom_hline(yintercept = grand_i) +
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))
+```
+
+```{r calc-dv, include = F}
+# function for calculating the difference between the means of two groups
+mean_diff <- function(dat, dv, groupby) {
+  dat %>%
+    select(grp = one_of(groupby), dv = one_of(dv)) %>%
+    group_by(grp) %>%
+    summarise(m = mean(dv)) %>%
+    ungroup() %>%
+    spread(grp, m) %>%
+    rename_at(1:2, ~ c("A", "B")) %>%
+    mutate(eff = B - A) %>%
+    pull(eff) %>%
+    round(1)
+}
+
+sim_grand_i <- mean(dat$dv) %>% round(1)
+sim_cond_eff <- mean_diff(dat, "dv", "sub_cond")
+sim_version_eff <- mean_diff(dat, "dv", "stim_version")
+```
+
+In this simulated dataset, the grand intercept is `r sim_grand_i`, the mean difference between subject conditions A and B is `r sim_cond_eff`, and the mean difference between stimulus versions is `r sim_version_eff`.
+
+### More Complicated Patterns
+
+If you want to simulate an interaction, it can be tricky to figure out what to set the main effects and interaction effect to. It's usually easier to think about the simple main effects for each cell. Create four new variables and set them to the deviations from the overall mean you'd expect for each condition (so they should add up to 0).
+
+```{r sim-ixn}
+# set variables to use in calculations below
+grand_i <- 400
+cond_a_version_c <- -25
+cond_a_version_i <- +25
+cond_b_version_c <- -50
+cond_b_version_i <- +50
+error_sd <- 75
+
+dat <- trials %>%
+  mutate(
+    sub_cond.e = recode(sub_cond, "A" = -0.5, "B" = +0.5),
+    stim_version.e = recode(stim_version, "congruent" = -0.5, "incongruent" = +0.5),
+    err = rnorm(nrow(.), 0, error_sd),
+    eff = case_when(
+      sub_cond == "A" & stim_version == "congruent" ~ cond_a_version_c,
+      sub_cond == "B" & stim_version == "congruent" ~ cond_b_version_c,
+      sub_cond == "A" & stim_version == "incongruent" ~ cond_a_version_i,
+      sub_cond == "B" & stim_version == "incongruent" ~ cond_b_version_i
+    ),
+    dv = grand_i + sub_i + stim_i + eff + err
+  )
+
+```
+
+```{r plot-ixn}
+ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
+  geom_hline(yintercept = grand_i) +
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))
+```
+
+```{r table-ixn, results='asis'}
+group_by(dat, sub_cond, stim_version) %>%
+  summarise(m = mean(dv) - grand_i %>% round(1)) %>%
+  ungroup() %>%
+  spread(stim_version, m) %>%
+  knitr::kable()
+```
+
+## Analysis
+
+New we will run a linear mixed effects model with `lmer` and look at the summary.
+
+```{r lmer}
+mod <- lmer(dv ~ sub_cond.e * stim_version.e +
+              (1 | sub_id) + 
+              (1 | stim_id),
+            data = dat)
+
+mod.sum <- summary(mod)
+
+mod.sum
+```
+
+First, alwasy check that your groups make sense. The number of obs should be the total nuber of trials analysed. `sub_id` should be what we set `sub_n` to above (`r sub_n`) and `stim_id` should be what we set `stim_n` to above (`r stim_n`).
+
+Next, look at the random effects. 
+* The SD for `sub_id` should be near the `sub_sd` of `r sub_sd`.
+* he SD for `stim_id` should be near the `stim_sd` off `r stim_sd`. 
+* The residual SD should be near the `error_sd` of `r error_sd`.
+
+Finally, look at the fixed effects. 
+
+* The estimate for the Intercept should be near the `grand_i` of `r grand_i`. 
+* The main effect of `sub_cond` should be near the difference between the two B conditions (`r cond_b_version_c` + `r cond_b_version_i` = `r cond_b_version_c+cond_b_version_i`) and the two A conditions (`r cond_a_version_c` + `r cond_a_version_i` = `r cond_a_version_c+cond_a_version_i`). 
+* The main effect of `stim_version` should be near the difference between the two incongruent versions(`r cond_a_version_i` + `r cond_b_version_i` = `r cond_a_version_i+cond_b_version_i`) 
+and the two congruent versions (`r cond_a_version_c` + `r cond_b_version_c` = `r cond_a_version_c+cond_b_version_c`). 
+
+### Random effects
+
+Plot the subject intercepts from our code above (`sub$sub_i`) against the subject intercepts calculcated by `lmer` (`ranef(mod)$sub_id`).
+
+```{r}
+ranef(mod)$sub_id %>%
+  as_tibble(rownames = "sub_id") %>%
+  rename(mod_sub_i = `(Intercept)`) %>%
+  mutate(sub_id = as.integer(sub_id)) %>%
+  left_join(sub, by = "sub_id") %>%
+  ggplot(aes(sub_i,mod_sub_i)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+Plot the stimulus intercepts from our code above (`stim$stim_i`) against the stimulus intercepts calculcated by `lmer` (`ranef(mod)$stim_id`).
+
+```{r}
+ranef(mod)$stim_id %>%
+  as_tibble(rownames = "stim_id") %>%
+  rename(mod_stim_i = `(Intercept)`) %>%
+  mutate(stim_id = as.integer(stim_id)) %>%
+  left_join(stim, by = "stim_id") %>%
+  ggplot(aes(stim_i,mod_stim_i)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Putting it all together
+
+I've repeated the relevant code above, putting all of the variables at the top. Copy the code and run it a few times. Try changing the variables at the top and finding what they change in the `lmer` summary.
+
+```{r together}
+
+sub_n <- 100
+sub_sd <- 100
+stim_n <- 50
+stim_sd <- 50
+grand_i <- 400
+cond_a_version_c <- -25
+cond_a_version_i <- +25
+cond_b_version_c <- -50
+cond_b_version_i <- +50
+error_sd <- 75
+
+sub <- tibble(
+  sub_id = 1:sub_n,
+  sub_i  = rnorm(sub_n, 0, sub_sd),
+  sub_cond = rep(c("A","B"), each = sub_n/2)
+)
+
+stim <- tibble(
+  stim_id = 1:stim_n,
+  stim_i = rnorm(stim_n, 0, stim_sd)
+)
+
+dat <- expand.grid(
+  sub_id = sub$sub_id,
+  stim_id = stim$stim_id,
+  stim_version = c("congruent", "incongruent")
+) %>%
+  left_join(sub, by = "sub_id") %>%
+  left_join(stim, by = "stim_id") %>%
+  mutate(
+    sub_cond.e = recode(sub_cond, "A" = -0.5, "B" = +0.5),
+    stim_version.e = recode(stim_version, "congruent" = -0.5, "incongruent" = +0.5),
+    err = rnorm(nrow(.), 0, error_sd),
+    eff = case_when(
+      sub_cond == "A" & stim_version == "congruent" ~ cond_a_version_c,
+      sub_cond == "B" & stim_version == "congruent" ~ cond_b_version_c,
+      sub_cond == "A" & stim_version == "incongruent" ~ cond_a_version_i,
+      sub_cond == "B" & stim_version == "incongruent" ~ cond_b_version_i
+    ),
+    dv = grand_i + sub_i + stim_i + eff + err
+  )
+
+ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
+  geom_hline(yintercept = grand_i) +
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))
+
+mod <- lmer(dv ~ sub_cond.e * stim_version.e +
+              (1 | sub_id) + 
+              (1 | stim_id),
+            data = dat)
+
+mod.sum <- summary(mod)
+
+mod.sum
+
+```
+
+### Function
+
+You can put the above in a function so you can run it more easily. I removed the plot and set the argument defaults to the same as the examples above, but you can set them to other patterns.
+
+```{r sim-function}
+sim_lmer <- function( sub_n = 100,
+                      sub_sd = 100,
+                      stim_n = 50,
+                      stim_sd = 50,
+                      grand_i = 400,
+                      cond_a_version_c = -25,
+                      cond_a_version_i = +25,
+                      cond_b_version_c = -50,
+                      cond_b_version_i = +50,
+                      error_sd = 75) {
+  sub <- tibble(
+    sub_id = 1:sub_n,
+    sub_i  = rnorm(sub_n, 0, sub_sd),
+    sub_cond = rep(c("A","B"), each = sub_n/2)
+  )
+  
+  stim <- tibble(
+    stim_id = 1:stim_n,
+    stim_i = rnorm(stim_n, 0, stim_sd)
+  )
+  
+  dat <- expand.grid(
+    sub_id = sub$sub_id,
+    stim_id = stim$stim_id,
+    stim_version = c("congruent", "incongruent")
+  ) %>%
+    left_join(sub, by = "sub_id") %>%
+    left_join(stim, by = "stim_id") %>%
+    mutate(
+      sub_cond.e = recode(sub_cond, "A" = -0.5, "B" = +0.5),
+      stim_version.e = recode(stim_version, "congruent" = -0.5, "incongruent" = +0.5),
+      err = rnorm(nrow(.), 0, error_sd),
+      eff = case_when(
+        sub_cond == "A" & stim_version == "congruent" ~ cond_a_version_c,
+        sub_cond == "B" & stim_version == "congruent" ~ cond_b_version_c,
+        sub_cond == "A" & stim_version == "incongruent" ~ cond_a_version_i,
+        sub_cond == "B" & stim_version == "incongruent" ~ cond_b_version_i
+      ),
+      dv = grand_i + sub_i + stim_i + eff + err
+    )
+  
+  mod <- lmer(dv ~ sub_cond.e * stim_version.e +
+                (1 | sub_id) + 
+                (1 | stim_id),
+              data = dat)
+  
+  mod.sum <- summary(mod)
+  
+  return(mod.sum)
+}
+```
+
+Run the function with the default values.
+
+```{r sim-lmer-default}
+sim_lmer()
+```
+
+Try changing some variables to simulate null effects.
+
+```{r sim-lmer-changes}
+sim_lmer(cond_a_version_c = 0,
+         cond_a_version_i = 0,
+         cond_b_version_c = 0,
+         cond_b_version_i = 0)
+```
+
