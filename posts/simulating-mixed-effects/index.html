@@ -123,7 +123,7 @@
 
 <pre class="r"><code>library(tidyverse)
 library(lmerTest)</code></pre>
-<p>I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli of two versions (congruent and incongruent). The DV is reaction time.</p>
+<p>I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli show in each of two versions (congruent and incongruent). The DV is reaction time.</p>
 <div id="subjects" class="section level2">
 <h2>Subjects</h2>
 <p>First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept <code>sub_i</code>). We’ll model it from a normal distribution with a mean of 0 and SD of 100ms. We also add between-subject variable here. Each subject is in only one condition, so we assign half <code>A</code> and half <code>B</code>. Set the number of subjects as <code>sub_n</code> at the beginning so you can change this in the future with only one edit.]</p>
@@ -138,7 +138,7 @@ sub &lt;- tibble(
 <p>I like to check my simulations at every step with a graph. We expect subjects in conditions <code>A</code> and <code>B</code> to have approximately equal intercepts.</p>
 <pre class="r"><code>ggplot(sub, aes(sub_i, color = sub_cond)) +
   geom_density()</code></pre>
-<p><img src="/posts/purrr_files/figure-html/plot-subject-1.png" width="672" /></p>
+<p><img src="/posts/sim_lmer_files/figure-html/plot-subject-1.png" width="672" /></p>
 </div>
 <div id="stimuli" class="section level2">
 <h2>Stimuli</h2>
@@ -153,7 +153,7 @@ stim &lt;- tibble(
 <p>Plot the random intercepts to double-check they look like you expect.</p>
 <pre class="r"><code>ggplot(stim, aes(stim_i)) +
   geom_density()</code></pre>
-<p><img src="/posts/purrr_files/figure-html/plot-stimuli-1.png" width="672" /></p>
+<p><img src="/posts/sim_lmer_files/figure-html/plot-stimuli-1.png" width="672" /></p>
 </div>
 <div id="trials" class="section level2">
 <h2>Trials</h2>
@@ -188,8 +188,8 @@ dat &lt;- trials %&gt;%
   geom_hline(yintercept = grand_i) +
   geom_violin(alpha = 0.5) +
   geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
-<p><img src="/posts/purrr_files/figure-html/plot-dv-1.png" width="672" /></p>
-<p>In this simulated dataset, the grand intercept is 397.8, the mean difference between subject conditions A and B is 30.1, and the mean difference between stimulus versions is 50.1.</p>
+<p><img src="/posts/sim_lmer_files/figure-html/plot-dv-1.png" width="672" /></p>
+<p>In this simulated dataset, the grand intercept is 384.1, the mean difference between subject conditions A and B is 57.4, and the mean difference between stimulus versions is 47.3.</p>
 <div id="more-complicated-patterns" class="section level3">
 <h3>More Complicated Patterns</h3>
 <p>If you want to simulate an interaction, it can be tricky to figure out what to set the main effects and interaction effect to. It’s usually easier to think about the simple main effects for each cell. Create four new variables and set them to the deviations from the overall mean you’d expect for each condition (so they should add up to 0).</p>
@@ -218,7 +218,7 @@ dat &lt;- trials %&gt;%
   geom_hline(yintercept = grand_i) +
   geom_violin(alpha = 0.5) +
   geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
-<p><img src="/posts/purrr_files/figure-html/plot-ixn-1.png" width="672" /></p>
+<p><img src="/posts/sim_lmer_files/figure-html/plot-ixn-1.png" width="672" /></p>
 <pre class="r"><code>group_by(dat, sub_cond, stim_version) %&gt;%
   summarise(m = mean(dv) - grand_i %&gt;% round(1)) %&gt;%
   ungroup() %&gt;%
@@ -235,13 +235,13 @@ dat &lt;- trials %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">A</td>
-<td align="right">-14.99174</td>
-<td align="right">31.89575</td>
+<td align="right">-45.47231</td>
+<td align="right">5.252038</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
-<td align="right">-61.91689</td>
-<td align="right">37.70356</td>
+<td align="right">-61.09760</td>
+<td align="right">39.097390</td>
 </tr>
 </tbody>
 </table>
@@ -263,25 +263,25 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115200.4
+## REML criterion at convergence: 115319.3
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -4.2076 -0.6707 -0.0091  0.6842  3.5469 
+## -3.6960 -0.6644  0.0031  0.6550  3.5500 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 13437    115.92  
-##  stim_id  (Intercept)  1778     42.17  
-##  Residual              5481     74.04  
+##  sub_id   (Intercept) 9588     97.92   
+##  stim_id  (Intercept) 2062     45.41   
+##  Residual             5563     74.58   
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                398.173     13.057  136.861  30.495   &lt;2e-16
-## sub_cond.e                 -20.559     23.231   98.000  -0.885    0.378
-## stim_version.e              73.254      1.481 9849.000  49.471   &lt;2e-16
-## sub_cond.e:stim_version.e   52.733      2.961 9849.000  17.806   &lt;2e-16
+## (Intercept)                384.445     11.734  145.193  32.764   &lt;2e-16
+## sub_cond.e                   9.110     19.641   98.000   0.464    0.644
+## stim_version.e              75.460      1.492 9849.000  50.588   &lt;2e-16
+## sub_cond.e:stim_version.e   49.471      2.983 9849.000  16.582   &lt;2e-16
 ##                              
 ## (Intercept)               ***
 ## sub_cond.e                   
@@ -314,7 +314,7 @@ mod.sum</code></pre>
   ggplot(aes(sub_i,mod_sub_i)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="/posts/purrr_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p><img src="/posts/sim_lmer_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
 <p>Plot the stimulus intercepts from our code above (<code>stim$stim_i</code>) against the stimulus intercepts calculcated by <code>lmer</code> (<code>ranef(mod)$stim_id</code>).</p>
 <pre class="r"><code>ranef(mod)$stim_id %&gt;%
   as_tibble(rownames = &quot;stim_id&quot;) %&gt;%
@@ -324,7 +324,7 @@ mod.sum</code></pre>
   ggplot(aes(stim_i,mod_stim_i)) +
   geom_point() +
   geom_smooth(method = &quot;lm&quot;)</code></pre>
-<p><img src="/posts/purrr_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/posts/sim_lmer_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 </div>
 <div id="putting-it-all-together" class="section level2">
@@ -376,7 +376,7 @@ ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
   geom_hline(yintercept = grand_i) +
   geom_violin(alpha = 0.5) +
   geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
-<p><img src="/posts/purrr_files/figure-html/together-1.png" width="672" /></p>
+<p><img src="/posts/sim_lmer_files/figure-html/together-1.png" width="672" /></p>
 <pre class="r"><code>mod &lt;- lmer(dv ~ sub_cond.e * stim_version.e +
               (1 | sub_id) + 
               (1 | stim_id),
@@ -390,28 +390,28 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115597.2
+## REML criterion at convergence: 115503
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.8948 -0.6729  0.0003  0.6692  3.8289 
+## -3.9208 -0.6534 -0.0064  0.6632  3.5016 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 9550     97.73   
-##  stim_id  (Intercept) 2064     45.43   
-##  Residual             5722     75.64   
+##  sub_id   (Intercept) 11968    109.4   
+##  stim_id  (Intercept)  2016     44.9   
+##  Residual              5656     75.2   
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                400.320     11.720  145.200  34.157   &lt;2e-16
-## sub_cond.e                  -8.199     19.604   98.000  -0.418    0.677
-## stim_version.e              74.279      1.513 9849.000  49.098   &lt;2e-16
-## sub_cond.e:stim_version.e   45.227      3.026 9849.000  14.947   &lt;2e-16
+## (Intercept)                400.642     12.672  141.923  31.617   &lt;2e-16
+## sub_cond.e                 -45.045     21.932   98.000  -2.054   0.0427
+## stim_version.e              76.872      1.504 9849.000  51.109   &lt;2e-16
+## sub_cond.e:stim_version.e   55.434      3.008 9849.000  18.428   &lt;2e-16
 ##                              
 ## (Intercept)               ***
-## sub_cond.e                   
+## sub_cond.e                *  
 ## stim_version.e            ***
 ## sub_cond.e:stim_version.e ***
 ## ---
@@ -482,25 +482,25 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115609.5
+## REML criterion at convergence: 115512.7
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.7478 -0.6711 -0.0009  0.6751  3.5954 
+## -3.9327 -0.6698  0.0016  0.6721  4.0448 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 8632     92.91   
-##  stim_id  (Intercept) 2215     47.07   
-##  Residual             5733     75.72   
+##  sub_id   (Intercept) 7658     87.51   
+##  stim_id  (Intercept) 2192     46.82   
+##  Residual             5684     75.39   
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                389.277     11.454  145.689  33.985   &lt;2e-16
-## sub_cond.e                  10.498     18.644   98.000   0.563    0.575
-## stim_version.e              73.420      1.514 9849.000  48.484   &lt;2e-16
-## sub_cond.e:stim_version.e   52.766      3.029 9849.000  17.422   &lt;2e-16
+## (Intercept)                381.127     10.999  144.961  34.650   &lt;2e-16
+## sub_cond.e                   5.084     17.567   98.000   0.289    0.773
+## stim_version.e              74.012      1.508 9849.000  49.085   &lt;2e-16
+## sub_cond.e:stim_version.e   48.951      3.016 9849.000  16.232   &lt;2e-16
 ##                              
 ## (Intercept)               ***
 ## sub_cond.e                   
@@ -524,29 +524,29 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115314.4
+## REML criterion at convergence: 115459.3
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.7024 -0.6881  0.0023  0.6610  3.4437 
+## -3.9791 -0.6638  0.0067  0.6734  3.7591 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 9498     97.46   
-##  stim_id  (Intercept) 2274     47.68   
-##  Residual             5558     74.55   
+##  sub_id   (Intercept) 10581    102.86  
+##  stim_id  (Intercept)  3624     60.20  
+##  Residual              5621     74.97  
 ## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
 ## 
 ## Fixed effects:
 ##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                384.355     11.875  145.804  32.367   &lt;2e-16
-## sub_cond.e                  18.627     19.549   98.000   0.953   0.3430
-## stim_version.e               3.296      1.491 9849.000   2.211   0.0271
-## sub_cond.e:stim_version.e   -1.393      2.982 9849.000  -0.467   0.6403
+## (Intercept)                397.527     13.373  142.589  29.726   &lt;2e-16
+## sub_cond.e                   1.194     20.627   98.000   0.058    0.954
+## stim_version.e              -2.030      1.499 9849.000  -1.353    0.176
+## sub_cond.e:stim_version.e    3.325      2.999 9849.000   1.109    0.268
 ##                              
 ## (Intercept)               ***
 ## sub_cond.e                   
-## stim_version.e            *  
+## stim_version.e               
 ## sub_cond.e:stim_version.e    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
@@ -600,13 +600,6 @@ mod.sum</code></pre>
 </footer>
 
     </main>
-
-    
-
-  </body>
-
-</html>
-n>
 
     
 
