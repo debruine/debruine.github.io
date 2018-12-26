@@ -12,11 +12,11 @@ library(tidyverse)
 library(lmerTest)
 ```
 
-I'm going to walk through one example of simulating a dataset with random effects. I'll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli show in each of two versions (congruent and incongruent). The DV is reaction time.
+I'm going to walk through one example of simulating a dataset with random effects. I'll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli shown in each of two versions (congruent and incongruent). The DV is reaction time.
 
 ## Subjects
 
-First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept `sub_i`). We'll model it from a normal distribution with a mean of 0 and SD of 100ms. We also add between-subject variable here. Each subject is in only one condition, so we assign half `A` and half `B`. Set the number of subjects as `sub_n` at the beginning so you can change this in the future with only one edit.]
+First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept `sub_i`). We'll model it from a normal distribution with a mean of 0 and SD of 100ms. We also add between-subject variables here. Each subject is in only one condition, so assign half `A` and half `B`. Set the number of subjects as `sub_n` at the beginning so you can change this in the future with only one edit.
 
 
 ```{r sim-subject}
@@ -76,7 +76,7 @@ trials <- expand.grid(
 
 ## Calculate DV
 
-Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we're not including an interaction between condition and version here). We set these effects in raw units (ms) and [effect-code](coding.html) the subject condition and stimulus version. It's usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.
+Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we're not including an interaction between condition and version here). We set these effects in raw units (ms) and [effect-code](coding-schemes.html) the subject condition and stimulus version. It's usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.
 
 ```{r sim-dv}
 # set variables to use in calculations below
