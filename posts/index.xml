@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 26 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 27 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Simulate from Existing Data</title>
+      <link>/posts/multisim-simdf/</link>
+      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/multisim-simdf/</guid>
+      <description># devtools::install_github(&amp;quot;debruine/multisim&amp;quot;) library(multisim) library(tidyverse) I added a new function to the package multisim to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
+For example, here is the relationship between speed and distance in the built-in dataset cars.
+cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code simdf(cars, 500).</description>
+    </item>
     
     <item>
       <title>Simulating mixed effects</title>
