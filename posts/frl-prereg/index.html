@@ -375,9 +375,18 @@ P-values, confidence intervals, and effect sizes are standard means for making a
       <footer>
         <div id="disqus_thread"></div>
 <script>
-(function() {
+
+
+
+
+var disqus_config = function () {
+this.page.url = "/posts/frl-prereg/";  
+this.page.identifier = "/posts/frl-prereg/"; 
+};
+
+(function() { 
 var d = document, s = d.createElement('script');
-s.src = 'https://lisadebruine.disqus.com/embed.js';
+s.src = 'https://debruine.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();

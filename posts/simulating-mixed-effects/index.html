@@ -564,9 +564,18 @@ mod.sum</code></pre>
       <footer>
         <div id="disqus_thread"></div>
 <script>
-(function() {
+
+
+
+
+var disqus_config = function () {
+this.page.url = "/posts/simulating-mixed-effects/";  
+this.page.identifier = "/posts/simulating-mixed-effects/"; 
+};
+
+(function() { 
 var d = document, s = d.createElement('script');
-s.src = 'https://lisadebruine.disqus.com/embed.js';
+s.src = 'https://debruine.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();

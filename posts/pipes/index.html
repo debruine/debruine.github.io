@@ -278,9 +278,18 @@ You can debug a pipe by running just the first few functions by highlighting fro
       <footer>
         <div id="disqus_thread"></div>
 <script>
-(function() {
+
+
+
+
+var disqus_config = function () {
+this.page.url = "/posts/pipes/";  
+this.page.identifier = "/posts/pipes/"; 
+};
+
+(function() { 
 var d = document, s = d.createElement('script');
-s.src = 'https://lisadebruine.disqus.com/embed.js';
+s.src = 'https://debruine.disqus.com/embed.js';
 s.setAttribute('data-timestamp', +new Date());
 (d.head || d.body).appendChild(s);
 })();
