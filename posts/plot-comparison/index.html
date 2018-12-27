@@ -430,12 +430,12 @@ GeomFlatViolin &lt;-
 
 var disqus_config = function () {
   this.page.url = location.pathname;  
-  
+  this.page.identifier = location.pathname; 
 };
 
 (function() { 
   var d = document, s = d.createElement('script');
-  s.src = 'https://debruine.disqus.com/embed.js';
+  s.src = '//debruine.disqus.com/embed.js';
   s.setAttribute('data-timestamp', +new Date());
   (d.head || d.body).appendChild(s);
 })();
