@@ -48,3 +48,12 @@ p.info {
   border: 1px solid hsla(80, 100%, 50%, 100%);
   background-color: hsla(80, 100%, 50%, 5%);
 }
+
+li a i { color: #cc1616; }
+li + li a i { color: #dd9606; }
+li + li + li a i { color: #ead320; }
+li + li + li + li a i { color: #1cb22d; }
+li + li + li + li + li a i { color: #1c83b2; }
+li + li + li + li + li + li a i { color: #7a22c1; }
+li + li + li + li + li + li + li a i { color: #c121b3; }
+li a:hover i { color: #212121; }
