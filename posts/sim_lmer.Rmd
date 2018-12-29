@@ -1,5 +1,5 @@
 ---
-title: "Simulating mixed effects"
+title: Simulating Mixed Effects
 author: ~
 date: "2018-12-26"
 slug: simulating-mixed-effects

@@ -6,24 +6,24 @@
     <description>Recent content in Rstats on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 27 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 29 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/rstats/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Simulate from Existing Data</title>
-      <link>/posts/multisim-simdf/</link>
-      <pubDate>Thu, 27 Dec 2018 00:00:00 +0000</pubDate>
+      <link>/posts/simdf/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/multisim-simdf/</guid>
-      <description># devtools::install_github(&amp;quot;debruine/multisim&amp;quot;) library(multisim) library(tidyverse) I added a new function to the package multisim to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
+      <guid>/posts/simdf/</guid>
+      <description># devtools::install_github(&amp;quot;debruine/ersatz&amp;quot;) library(ersatz) library(tidyverse) I added a new function to the package ersatz to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
 For example, here is the relationship between speed and distance in the built-in dataset cars.
 cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code simdf(cars, 500).</description>
     </item>
     
     <item>
-      <title>Simulating mixed effects</title>
+      <title>Simulating Mixed Effects</title>
       <link>/posts/simulating-mixed-effects/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -43,13 +43,13 @@ Let’s say you have a small data table with 10 participant IDs, two columns wit
     </item>
     
     <item>
-      <title>multisim::multirnorm</title>
-      <link>/posts/multisim-multirnorm/</link>
+      <title>Simulating Multiple Vectors</title>
+      <link>/posts/rnorm_multi/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/multisim-multirnorm/</guid>
-      <description>I’m working on a package for simulations called multisim (because I am bad at titling things).
-The first function, multirnorm, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
+      <guid>/posts/rnorm_multi/</guid>
+      <description># devtools::install_github(&amp;quot;debruine/ersatz&amp;quot;) library(tidyverse) library(ersatz) I’m working on a package for simulations called ersatz.
+The first function, rnorm_multi, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
  n = the number of samples required (required) vars = the number of variables to return (default = 3) cors = the correlations among the variables (can be a single number, vars*vars matrix, vars*vars vector, or a vars*(vars-1)/2 vector; default = 0) mu = a vector giving the means of the variables (numeric vector of length 1 or vars; default = 0) sd = the standard deviations of the variables (numeric vector of length 1 or vars; default = 1) varnames = optional names for the variables (string vector of length vars; default = NULL) empirical = logical.</description>
     </item>
     
