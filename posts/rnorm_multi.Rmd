@@ -8,7 +8,7 @@ tags: ["R", "correlated data", "simulation", "faux"]
 ---
 
 ```{r load-libraries, message = FALSE}
-# devtools::install_github("debruine/ersatz")
+# devtools::install_github("debruine/faux")
 library(tidyverse)
 library(faux)
 ```
