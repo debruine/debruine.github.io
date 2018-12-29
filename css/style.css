@@ -49,11 +49,32 @@ p.info {
   background-color: hsla(80, 100%, 50%, 5%);
 }
 
-li a i { color: #cc1616; }
-li + li a i { color: #dd9606; }
-li + li + li a i { color: #ead320; }
-li + li + li + li a i { color: #1cb22d; }
-li + li + li + li + li a i { color: #1c83b2; }
-li + li + li + li + li + li a i { color: #7a22c1; }
-li + li + li + li + li + li + li a i { color: #c121b3; }
+:root {
+    --rainbow1: #cc1616; 
+    --rainbow2: #dd9606;
+    --rainbow3: #ead320;
+    --rainbow4: #1cb22d;
+    --rainbow5: #1c83b2;
+    --rainbow6: #7a22c1;
+    --rainbow7: #c121b3;
+}
+
+li a i { color: var(--rainbow1); }
+li + li a i { color: var(--rainbow2); }
+li + li + li a i { color: var(--rainbow3); }
+li + li + li + li a i { color: var(--rainbow4); }
+li + li + li + li + li a i { color: var(--rainbow5); }
+li + li + li + li + li + li a i { color: var(--rainbow6); }
+li + li + li + li + li + li + li a i { color: var(--rainbow7); }
 li a:hover i { color: #212121; }
+
+
+
+div.avatar img {
+  box-shadow: 0 0 0 2px var(--rainbow6),
+              0 0 0 4px var(--rainbow5),
+              0 0 0 6px var(--rainbow4),
+              0 0 0 8px var(--rainbow3),
+              0 0 0 10px var(--rainbow2),
+              0 0 0 12px var(--rainbow1);
+}
