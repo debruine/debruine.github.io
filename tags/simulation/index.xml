@@ -17,7 +17,7 @@
       <pubDate>Sat, 29 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/posts/simdf/</guid>
-      <description># devtools::install_github(&amp;quot;debruine/ersatz&amp;quot;) library(ersatz) library(tidyverse) I added a new function to the package ersatz to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
+      <description># devtools::install_github(&amp;quot;debruine/ersatz&amp;quot;) library(faux) library(tidyverse) I added a new function to the package faux to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
 For example, here is the relationship between speed and distance in the built-in dataset cars.
 cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code simdf(cars, 500).</description>
     </item>
@@ -38,7 +38,7 @@ Subjects First, we need to generate a sample of subjects. Each subject will have
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/posts/rnorm_multi/</guid>
-      <description># devtools::install_github(&amp;quot;debruine/ersatz&amp;quot;) library(tidyverse) library(ersatz) I’m working on a package for simulations called ersatz.
+      <description># devtools::install_github(&amp;quot;debruine/ersatz&amp;quot;) library(tidyverse) library(faux) I’m working on a package for simulations called faux.
 The first function, rnorm_multi, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
  n = the number of samples required (required) vars = the number of variables to return (default = 3) cors = the correlations among the variables (can be a single number, vars*vars matrix, vars*vars vector, or a vars*(vars-1)/2 vector; default = 0) mu = a vector giving the means of the variables (numeric vector of length 1 or vars; default = 0) sd = the standard deviations of the variables (numeric vector of length 1 or vars; default = 1) varnames = optional names for the variables (string vector of length vars; default = NULL) empirical = logical.</description>
     </item>

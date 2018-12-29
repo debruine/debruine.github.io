@@ -4,16 +4,16 @@ author: ~
 date: '2018-12-22'
 slug: rnorm_multi
 categories: ["rstats"]
-tags: ["R", "correlated data", "simulation", "erstaz"]
+tags: ["R", "correlated data", "simulation", "faux"]
 ---
 
 ```{r load-libraries, message = FALSE}
 # devtools::install_github("debruine/ersatz")
 library(tidyverse)
-library(ersatz)
+library(faux)
 ```
 
-I'm working on a package for simulations called [ersatz](https://github.com/debruine/ersatz).
+I'm working on a package for simulations called [faux](https://github.com/debruine/faux).
 
 The first function, `rnorm_multi`, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
 

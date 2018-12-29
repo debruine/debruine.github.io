@@ -110,7 +110,7 @@
       <span class="separator">•</span>
     <a href="/tags/simulation/">simulation</a>
       <span class="separator">•</span>
-    <a href="/tags/ersatz/">ersatz</a></div>
+    <a href="/tags/faux/">faux</a></div>
 
         </div>
       </header>
@@ -120,9 +120,9 @@
 
 
 <pre class="r"><code># devtools::install_github(&quot;debruine/ersatz&quot;)
-library(ersatz)
+library(faux)
 library(tidyverse)</code></pre>
-<p>I added a new function to the package <a href="https://github.com/debruine/ersatz"><code>ersatz</code></a> to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.</p>
+<p>I added a new function to the package <a href="https://github.com/debruine/faux"><code>faux</code></a> to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.</p>
 <p>For example, here is the relationship between speed and distance in the built-in dataset <code>cars</code>.</p>
 <pre class="r"><code>cars %&gt;%
   ggplot(aes(speed, dist)) + 

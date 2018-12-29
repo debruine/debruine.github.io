@@ -112,7 +112,7 @@
       <span class="separator">•</span>
     <a href="/tags/simulation/">simulation</a>
       <span class="separator">•</span>
-    <a href="/tags/erstaz/">erstaz</a></div>
+    <a href="/tags/faux/">faux</a></div>
 
         </div>
       </header>
@@ -123,8 +123,8 @@
 
 <pre class="r"><code># devtools::install_github(&quot;debruine/ersatz&quot;)
 library(tidyverse)
-library(ersatz)</code></pre>
-<p>I’m working on a package for simulations called <a href="https://github.com/debruine/ersatz">ersatz</a>.</p>
+library(faux)</code></pre>
+<p>I’m working on a package for simulations called <a href="https://github.com/debruine/faux">faux</a>.</p>
 <p>The first function, <code>rnorm_multi</code>, makes multiple normally distributed vectors with specified relationships and takes the following arguments:</p>
 <ul>
 <li><code>n</code> = the number of samples required (required)</li>
@@ -154,19 +154,19 @@ library(ersatz)</code></pre>
 <tr class="odd">
 <td>A</td>
 <td align="right">1.0000000</td>
-<td align="right">0.1423958</td>
-<td align="right">-0.5278862</td>
+<td align="right">0.3101798</td>
+<td align="right">-0.3726928</td>
 </tr>
 <tr class="even">
 <td>B</td>
-<td align="right">0.1423958</td>
+<td align="right">0.3101798</td>
 <td align="right">1.0000000</td>
-<td align="right">0.5462390</td>
+<td align="right">0.5711041</td>
 </tr>
 <tr class="odd">
 <td>C</td>
-<td align="right">-0.5278862</td>
-<td align="right">0.5462390</td>
+<td align="right">-0.3726928</td>
+<td align="right">0.5711041</td>
 <td align="right">1.0000000</td>
 </tr>
 </tbody>
@@ -246,29 +246,29 @@ iris_sim &lt;- rnorm_multi(
 <tr class="odd">
 <td>Sepal.Length</td>
 <td align="right">1.0000000</td>
-<td align="right">-0.1091806</td>
-<td align="right">0.8834174</td>
-<td align="right">0.8361393</td>
+<td align="right">-0.1668810</td>
+<td align="right">0.8977421</td>
+<td align="right">0.8560029</td>
 </tr>
 <tr class="even">
 <td>Sepal.Width</td>
-<td align="right">-0.1091806</td>
+<td align="right">-0.1668810</td>
 <td align="right">1.0000000</td>
-<td align="right">-0.3594782</td>
-<td align="right">-0.2695271</td>
+<td align="right">-0.4720849</td>
+<td align="right">-0.4203363</td>
 </tr>
 <tr class="odd">
 <td>Petal.Length</td>
-<td align="right">0.8834174</td>
-<td align="right">-0.3594782</td>
+<td align="right">0.8977421</td>
+<td align="right">-0.4720849</td>
 <td align="right">1.0000000</td>
-<td align="right">0.9623095</td>
+<td align="right">0.9614653</td>
 </tr>
 <tr class="even">
 <td>Petal.Width</td>
-<td align="right">0.8361393</td>
-<td align="right">-0.2695271</td>
-<td align="right">0.9623095</td>
+<td align="right">0.8560029</td>
+<td align="right">-0.4203363</td>
+<td align="right">0.9614653</td>
 <td align="right">1.0000000</td>
 </tr>
 </tbody>

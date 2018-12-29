@@ -169,20 +169,14 @@
   </url>
   
   <url>
-    <loc>/tags/ersatz/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/erstaz/</loc>
-    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/factanal/</loc>
     <lastmod>2017-06-26T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/faux/</loc>
+    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
