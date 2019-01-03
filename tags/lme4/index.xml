@@ -17,8 +17,9 @@
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/posts/simulating-mixed-effects/</guid>
-      <description>library(tidyverse) library(lmerTest) I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli shown in each of two versions (congruent and incongruent). The DV is reaction time.
-Subjects First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept sub_i).</description>
+      <description>[Updated 2019-01-03]
+library(tidyverse) library(lmerTest) I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli shown in each of two versions (congruent and incongruent). The DV is reaction time.
+Subjects First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept (sub_i).</description>
     </item>
     
   </channel>

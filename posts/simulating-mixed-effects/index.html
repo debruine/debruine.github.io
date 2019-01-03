@@ -97,7 +97,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              11 minutes read
+              16 minutes read
             </span>
           </div>
           <div class="categories">
@@ -121,20 +121,32 @@
         
 
 
+<p>[Updated 2019-01-03]</p>
 <pre class="r"><code>library(tidyverse)
 library(lmerTest)</code></pre>
 <p>I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli shown in each of two versions (congruent and incongruent). The DV is reaction time.</p>
 <div id="subjects" class="section level2">
 <h2>Subjects</h2>
-<p>First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept <code>sub_i</code>). We’ll model it from a normal distribution with a mean of 0 and SD of 100ms. We also add between-subject variables here. Each subject is in only one condition, so assign half <code>A</code> and half <code>B</code>. Set the number of subjects as <code>sub_n</code> at the beginning so you can change this in the future with only one edit.</p>
-<pre class="r"><code>sub_n &lt;- 100
-sub_sd &lt;- 100
+<p>First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept (<code>sub_i</code>). We’ll model it from a normal distribution with a mean of 0 and SD of 100ms (you can choose a reasonable SD for your design from pilot data by calculating each subject’s mean DV and using the SD).</p>
+<p>We also add between-subject variables here. Each subject is in only one condition, so assign half <code>A</code> and half <code>B</code>. Set the number of subjects as <code>sub_n</code> at the beginning so you can change this in the future with only one edit.</p>
+<pre class="r"><code>sub_n  &lt;- 200 # number of subjects in this simulation
+sub_sd &lt;- 100 # SD for the subjects&#39; random intercept
 
 sub &lt;- tibble(
   sub_id = 1:sub_n,
-  sub_i  = rnorm(sub_n, 0, sub_sd),
+  sub_i  = rnorm(sub_n, 0, sub_sd) %&gt;% round(), # random intercept
   sub_cond = rep(c(&quot;A&quot;,&quot;B&quot;), each = sub_n/2)
 )</code></pre>
+<div class="info">
+If you already have pilot data, you can estimate an SD for the subjects’ random intercepts using the following code.
+</div>
+<pre class="r"><code>pilot_data &lt;- read_csv(&quot;pilot_data.csv&quot;)
+pilot_mod &lt;- lmer(dv ~ 1 + (1 | sub_id) + (1 | stim_id), data = pilot_data)
+
+sub_sd &lt;- VarCorr(pilot_mod) %&gt;% 
+  as.data.frame() %&gt;%
+  filter(grp == &quot;sub_id&quot;) %&gt;% 
+  pull(sdcor)</code></pre>
 <p>I like to check my simulations at every step with a graph. We expect subjects in conditions <code>A</code> and <code>B</code> to have approximately equal intercepts.</p>
 <pre class="r"><code>ggplot(sub, aes(sub_i, color = sub_cond)) +
   geom_density()</code></pre>
@@ -142,14 +154,23 @@ sub &lt;- tibble(
 </div>
 <div id="stimuli" class="section level2">
 <h2>Stimuli</h2>
-<p>Now, we generate a sample of stimuli. Each stimulus will have slightly faster or slower reaction times on average; this is their random intercept (<code>stim_i</code>). We’ll model it from a normal distribution with a mean of 0 and SD of 50ms. Stimulus version (congruent vs incongruent) is a within-stimulus variable, so we don’t need to add it here.</p>
-<pre class="r"><code>stim_n &lt;- 50
-stim_sd &lt;- 50
+<p>Now, we generate a sample of stimuli. Each stimulus will have slightly faster or slower reaction times on average; this is their random intercept (<code>stim_i</code>). We’ll model it from a normal distribution with a mean of 0 and SD of 50ms. As above, you can calculate the mean Dv for each stimulus from pilot data and use the SD. Stimulus version (congruent vs incongruent) is a within-stimulus variable, so we don’t need to add it here.</p>
+<pre class="r"><code>stim_n  &lt;- 50 # number of stimuli in this simulation
+stim_sd &lt;- 50 # SD for the stimuli&#39;s random intercept
 
 stim &lt;- tibble(
   stim_id = 1:stim_n,
-  stim_i = rnorm(stim_n, 0, stim_sd)
+  stim_i = rnorm(stim_n, 0, stim_sd) %&gt;% round()
 )</code></pre>
+<div class="info">
+If you want to simulate data using the exact stimuli you already have pilot data for, you can calculate their random intercepts using the following code and use that instead of generating a random sample with the same SD.
+</div>
+<pre class="r"><code>pilot_data &lt;- read_csv(&quot;pilot_data.csv&quot;)
+pilot_mod &lt;- lmer(dv ~ 1 + (1 | sub_id) + (1 | stim_id), data = pilot_data)
+
+stim &lt;- ranef(pilot_mod)$stim_id %&gt;%
+  as_tibble(rownames = &#39;stim_id&#39;) %&gt;%
+  rename(stim_i = `(Intercept)`)</code></pre>
 <p>Plot the random intercepts to double-check they look like you expect.</p>
 <pre class="r"><code>ggplot(stim, aes(stim_i)) +
   geom_density()</code></pre>
@@ -159,61 +180,236 @@ stim &lt;- tibble(
 <h2>Trials</h2>
 <p>Now we put the subjects and stimuli together. In this study, all subjects respond to all stimuli in both upright and inverted versions, but subjects are in only one condition. The function <code>expand.grid</code> gives you a data frame with all possible combinations of the arguments. Add the data specific to each subject and stimulus by left joining the <code>sub</code> and <code>stim</code> data frames.</p>
 <pre class="r"><code>trials &lt;- expand.grid(
-  sub_id = sub$sub_id,
-  stim_id = stim$stim_id,
-  stim_version = c(&quot;congruent&quot;, &quot;incongruent&quot;)
+  sub_id = sub$sub_id, # get subject IDs from the sub data table
+  stim_id = stim$stim_id, # get stimulus IDs from the stim data table
+  stim_version = c(&quot;congruent&quot;, &quot;incongruent&quot;) # all subjects see both congruent and incongruent versions of all stimuli
 ) %&gt;%
-  left_join(sub, by = &quot;sub_id&quot;) %&gt;%
-  left_join(stim, by = &quot;stim_id&quot;)</code></pre>
+  left_join(sub, by = &quot;sub_id&quot;) %&gt;% # includes the intercept and conditin for each subject
+  left_join(stim, by = &quot;stim_id&quot;)   # includes the intercept for each stimulus</code></pre>
+<table>
+<caption><span id="tab:expand-grid">Table 1: </span>Subject- and stimulus-specific random intercepts for 2 subjects and 2 stimuli</caption>
+<thead>
+<tr class="header">
+<th align="right">sub_id</th>
+<th align="right">stim_id</th>
+<th align="left">stim_version</th>
+<th align="right">sub_i</th>
+<th align="left">sub_cond</th>
+<th align="right">stim_i</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">congruent</td>
+<td align="right">100</td>
+<td align="left">A</td>
+<td align="right">-36</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">congruent</td>
+<td align="right">141</td>
+<td align="left">A</td>
+<td align="right">-36</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">congruent</td>
+<td align="right">100</td>
+<td align="left">A</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="left">congruent</td>
+<td align="right">141</td>
+<td align="left">A</td>
+<td align="right">16</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">incongruent</td>
+<td align="right">100</td>
+<td align="left">A</td>
+<td align="right">-36</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">incongruent</td>
+<td align="right">141</td>
+<td align="left">A</td>
+<td align="right">-36</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">incongruent</td>
+<td align="right">100</td>
+<td align="left">A</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="left">incongruent</td>
+<td align="right">141</td>
+<td align="left">A</td>
+<td align="right">16</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="calculate-dv" class="section level2">
 <h2>Calculate DV</h2>
-<p>Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we’re not including an interaction between condition and version here). We set these effects in raw units (ms) and <a href="/posts/coding-schemes.html">effect-code</a> the subject condition and stimulus version. It’s usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5.</p>
+<p>Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the effect of stimulus version, and an error term (we’re not including an interaction between condition and version here).</p>
+<p>We set these effects in raw units (ms) and <a href="/posts/coding-schemes.html">effect-code</a> the subject condition and stimulus version. It’s usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5. So when we set the effect of subject condition (<code>sub_cond_eff</code>) to 50, that means the average difference between condition A and condition B is 50ms. Condition A is effect-coded as -0.5 and condition B is effect-coded as +0.5, which means that trials in condition A have -0.5 * 50ms (i.e., -25ms) added to their reaction time, while trials in condition B have +0.5 * 50ms (i.e., +25ms) added to their reaction time.</p>
 <pre class="r"><code># set variables to use in calculations below
-grand_i &lt;- 400
-sub_cond_eff &lt;- 50
-stim_version_eff &lt;- 50
-error_sd &lt;- 75
+grand_i          &lt;- 400 # overall mean DV
+sub_cond_eff     &lt;- 50  # mean difference between conditions B and A
+stim_version_eff &lt;- 50  # mean difference between versions incongruent and congruent
+error_sd         &lt;- 25  # residual (error) SD</code></pre>
+<div class="info">
+We set the error SD fairly low here so that it’s easier to see how the parameters we set map onto the analysis output. You can calculate a realistic error SD from pilot data with the code below.
+</div>
+<pre class="r"><code>pilot_data &lt;- read_csv(&quot;pilot_data.csv&quot;)
+pilot_mod &lt;- lmer(dv ~ 1 + (1 | sub_id) + (1 | stim_id), data = pilot_data)
 
-dat &lt;- trials %&gt;%
+error_sd &lt;- VarCorr(pilot_mod) %&gt;% 
+  as.data.frame() %&gt;%
+  filter(grp == &quot;Residual&quot;) %&gt;% 
+  pull(sdcor)</code></pre>
+<pre class="r"><code>dat &lt;- trials %&gt;%
   mutate(
+    # effect-code subject condition and stimulus version
     sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
     stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
-    err = rnorm(nrow(.), 0, error_sd),
-    eff = (sub_cond.e * sub_cond_eff) + (stim_version.e * stim_version_eff),
-    dv = grand_i + sub_i + stim_i + eff + err
+    # calculate error term (normally distributed residual with SD set above)
+    err = rnorm(nrow(.), 0, error_sd) %&gt;% round(),
+    # calculate DV from intercepts, effects, and error
+    dv = grand_i + sub_i + stim_i + 
+         (sub_cond.e * sub_cond_eff) + 
+         (stim_version.e * stim_version_eff) + 
+         err
   )</code></pre>
-<p>Graph to make sure you’ve simulated what you expected.</p>
+<p>Let’s take a concrete example.</p>
+<table>
+<caption><span id="tab:sim-dv">Table 2: </span>Subject 1’s reaction time to stimulus 1 in the congruent condition</caption>
+<thead>
+<tr class="header">
+<th align="right">sub_id</th>
+<th align="right">stim_id</th>
+<th align="left">stim_version</th>
+<th align="right">sub_i</th>
+<th align="left">sub_cond</th>
+<th align="right">stim_i</th>
+<th align="right">sub_cond.e</th>
+<th align="right">stim_version.e</th>
+<th align="right">err</th>
+<th align="right">dv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">congruent</td>
+<td align="right">100</td>
+<td align="left">A</td>
+<td align="right">-36</td>
+<td align="right">-0.5</td>
+<td align="right">-0.5</td>
+<td align="right">-2</td>
+<td align="right">412</td>
+</tr>
+</tbody>
+</table>
+<p>The DV is equal to the grand intercept (400) plus the subject’s intercept (100) plus the stimulus’ intercept (-36) plus the effect code for the subject’s condition (A = -0.5) times the effect size for subject condition (50) plus the effect code for stimulus version (congruent = -0.5) times the effect size for stimulus version (50) plus some random error (-2).</p>
+<p>400 + 100 + -36 + (-0.5 * 50) + (-0.5 * 50) + -2 = 412</p>
+<p>As always, graph to make sure you’ve simulated the general pattern you expected.</p>
 <pre class="r"><code>ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
   geom_hline(yintercept = grand_i) +
   geom_violin(alpha = 0.5) +
   geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
 <p><img src="/posts/sim_lmer_files/figure-html/plot-dv-1.png" width="672" /></p>
-<p>In this simulated dataset, the grand intercept is 390.9, the mean difference between subject conditions A and B is 74.4, and the mean difference between stimulus versions is 49.</p>
+<p>In this simulated dataset, the grand intercept is 398.4, the mean difference between subject conditions A and B is 57.4, and the mean difference between stimulus versions is 49.7.</p>
 <div id="more-complicated-patterns" class="section level3">
 <h3>More Complicated Patterns</h3>
-<p>If you want to simulate an interaction, it can be tricky to figure out what to set the main effects and interaction effect to. It’s usually easier to think about the simple main effects for each cell. Create four new variables and set them to the deviations from the overall mean you’d expect for each condition (so they should add up to 0).</p>
+<p>If you want to simulate an interaction, it can be tricky to figure out what to set the main effects and interaction effect to. It can be easier to think about the simple main effects for each cell. Create four new variables and set them to the deviations from the overall mean you’d expect for each condition (so they should add up to 0). Here, we’re simulating a small effect of version in condition A (50ms difference) and double that effect of version in condition B (100ms difference).</p>
 <pre class="r"><code># set variables to use in calculations below
-grand_i &lt;- 400
+grand_i          &lt;- 400
 cond_a_version_c &lt;- -25
 cond_a_version_i &lt;- +25
 cond_b_version_c &lt;- -50
 cond_b_version_i &lt;- +50
-error_sd &lt;- 75
+error_sd         &lt;-  25</code></pre>
+<p>Use the code below to transform the simple main effects above into main effects and interactions for use in the equations below.</p>
+<pre class="r"><code># calculate main effects and interactions from simple effects above
 
-dat &lt;- trials %&gt;%
+# mean difference between conditions B and A
+sub_cond_eff     &lt;- (cond_b_version_c + cond_b_version_i)/2 -
+                    (cond_a_version_c + cond_a_version_i)/2
+# mean difference between versions incongruent and congruent
+stim_version_eff &lt;- (cond_a_version_i + cond_b_version_i)/2 - 
+                    (cond_a_version_c + cond_b_version_c)/2  
+# interaction between version and condition
+cond_version_ixn &lt;- (cond_b_version_i - cond_b_version_c) -
+                    (cond_a_version_i - cond_a_version_c) </code></pre>
+<p>Then generate the DV the same way we did above, but also add the interaction effect multiplied by the effect-coded subject condition and stimulus version.</p>
+<pre class="r"><code>dat &lt;- trials %&gt;%
   mutate(
+    # effect-code subject condition and stimulus version
     sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
     stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
-    err = rnorm(nrow(.), 0, error_sd),
-    eff = case_when(
-      sub_cond == &quot;A&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_a_version_c,
-      sub_cond == &quot;B&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_b_version_c,
-      sub_cond == &quot;A&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_a_version_i,
-      sub_cond == &quot;B&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_b_version_i
-    ),
-    dv = grand_i + sub_i + stim_i + eff + err
+    # calculate error term (normally distributed residual with SD set above)
+    err = rnorm(nrow(.), 0, error_sd) %&gt;% round(),
+    # calculate DV from intercepts, effects, and error
+    dv = grand_i + sub_i + stim_i + 
+         (sub_cond.e * sub_cond_eff) + 
+         (stim_version.e * stim_version_eff) + 
+         (sub_cond.e * stim_version.e * cond_version_ixn) +
+         err
   )</code></pre>
+<p>Let’s look at subject 1’s reaction time to stimulus 1 in the congruent condition in more detail again.</p>
+<table>
+<caption><span id="tab:sim-ixn">Table 3: </span>Subject 1’s reaction time to stimulus 1 in the congruent condition</caption>
+<thead>
+<tr class="header">
+<th align="right">sub_id</th>
+<th align="right">stim_id</th>
+<th align="left">stim_version</th>
+<th align="right">sub_i</th>
+<th align="left">sub_cond</th>
+<th align="right">stim_i</th>
+<th align="right">sub_cond.e</th>
+<th align="right">stim_version.e</th>
+<th align="right">err</th>
+<th align="right">dv</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">congruent</td>
+<td align="right">100</td>
+<td align="left">A</td>
+<td align="right">-36</td>
+<td align="right">-0.5</td>
+<td align="right">-0.5</td>
+<td align="right">40</td>
+<td align="right">479</td>
+</tr>
+</tbody>
+</table>
+<p>The DV is equal to the grand intercept (400) plus the subject’s intercept (100) plus the stimulus’ intercept (-36) plus the effect code for the subject’s condition (A = -0.5) times the effect size for subject condition (0) plus the effect code for stimulus version (congruent = -0.5) times the effect size for stimulus version(75) plus the effect code for the subject’s condition (A = -0.5) times the effect code for stimulus version (congruent = -0.5) times the effect size for the interaction (50) plus some random error (40).</p>
+<p>400 + 100 + -36 + (-0.5 * 0) + (-0.5 * 75) + (-0.5 * -0.5 * 50) + 40 = 479</p>
 <pre class="r"><code>ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
   geom_hline(yintercept = grand_i) +
   geom_violin(alpha = 0.5) +
@@ -235,13 +431,13 @@ dat &lt;- trials %&gt;%
 <tbody>
 <tr class="odd">
 <td align="left">A</td>
-<td align="right">-41.9408</td>
-<td align="right">5.27734</td>
+<td align="right">-29.4792</td>
+<td align="right">19.4652</td>
 </tr>
 <tr class="even">
 <td align="left">B</td>
-<td align="right">-47.9457</td>
-<td align="right">50.70745</td>
+<td align="right">-47.5418</td>
+<td align="right">52.6348</td>
 </tr>
 </tbody>
 </table>
@@ -263,25 +459,25 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115451.2
+## REML criterion at convergence: 187019.7
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.6108 -0.6712 -0.0013  0.6724  4.2502 
+## -4.8418 -0.6687  0.0013  0.6684  3.9863 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 6259     79.11   
-##  stim_id  (Intercept) 2951     54.32   
-##  Residual             5651     75.18   
-## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+##  sub_id   (Intercept) 11580    107.61  
+##  stim_id  (Intercept)  1585     39.81  
+##  Residual               615     24.80  
+## Number of obs: 20000, groups:  sub_id, 200; stim_id, 50
 ## 
 ## Fixed effects:
-##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                391.525     11.053  131.911   35.42   &lt;2e-16
-## sub_cond.e                  19.713     15.894   98.000    1.24    0.218
-## stim_version.e              72.936      1.504 9849.000   48.51   &lt;2e-16
-## sub_cond.e:stim_version.e   51.435      3.007 9849.000   17.11   &lt;2e-16
+##                            Estimate Std. Error        df t value Pr(&gt;|t|)
+## (Intercept)               3.988e+02  9.467e+00 2.143e+02  42.123   &lt;2e-16
+## sub_cond.e                7.553e+00  1.522e+01 1.980e+02   0.496     0.62
+## stim_version.e            7.456e+01  3.507e-01 1.975e+04 212.599   &lt;2e-16
+## sub_cond.e:stim_version.e 5.123e+01  7.014e-01 1.975e+04  73.041   &lt;2e-16
 ##                              
 ## (Intercept)               ***
 ## sub_cond.e                   
@@ -295,13 +491,19 @@ mod.sum</code></pre>
 ## sub_cond.e  0.000               
 ## stim_versn. 0.000  0.000        
 ## sb_cnd.:s_. 0.000  0.000  0.000</code></pre>
-<p>First, alwasy check that your groups make sense. The number of obs should be the total nuber of trials analysed. <code>sub_id</code> should be what we set <code>sub_n</code> to above (100) and <code>stim_id</code> should be what we set <code>stim_n</code> to above (50).</p>
-<p>Next, look at the random effects. * The SD for <code>sub_id</code> should be near the <code>sub_sd</code> of 100. * he SD for <code>stim_id</code> should be near the <code>stim_sd</code> off 50. * The residual SD should be near the <code>error_sd</code> of 75.</p>
+<p>First, always check that your groups make sense. The number of obs should be the total nuber of trials analysed. <code>sub_id</code> should be what we set <code>sub_n</code> to above (200) and <code>stim_id</code> should be what we set <code>stim_n</code> to above (50).</p>
+<p>Next, look at the random effects.</p>
+<ul>
+<li>The SD for <code>sub_id</code> should be near the <code>sub_sd</code> of 100.</li>
+<li>he SD for <code>stim_id</code> should be near the <code>stim_sd</code> off 50.</li>
+<li>The residual SD should be near the <code>error_sd</code> of 25.</li>
+</ul>
 <p>Finally, look at the fixed effects.</p>
 <ul>
 <li>The estimate for the Intercept should be near the <code>grand_i</code> of 400.</li>
-<li>The main effect of <code>sub_cond</code> should be near the difference between the two B conditions (-50 + 50 = 0) and the two A conditions (-25 + 25 = 0).</li>
-<li>The main effect of <code>stim_version</code> should be near the difference between the two incongruent versions(25 + 50 = 75) and the two congruent versions (-25 + -50 = -75).</li>
+<li>The main effect of <code>sub_cond.e</code> should be near what we calculated for <code>sub_cond_eff</code> (0).</li>
+<li>The main effect of <code>stim_version.e</code> should be near what we calculated for <code>stim_version_eff</code> (75)</li>
+<li>The interaction between <code>sub_cond.e</code>:<code>stim_version.e</code> should be near what we calculated for <code>cond_version_ixn</code> (50).</li>
 </ul>
 <div id="random-effects" class="section level3">
 <h3>Random effects</h3>
@@ -330,7 +532,7 @@ mod.sum</code></pre>
 <div id="putting-it-all-together" class="section level2">
 <h2>Putting it all together</h2>
 <p>I’ve repeated the relevant code above, putting all of the variables at the top. Copy the code and run it a few times. Try changing the variables at the top and finding what they change in the <code>lmer</code> summary.</p>
-<pre class="r"><code>sub_n &lt;- 100
+<pre class="r"><code>sub_n &lt;- 200
 sub_sd &lt;- 100
 stim_n &lt;- 50
 stim_sd &lt;- 50
@@ -339,7 +541,19 @@ cond_a_version_c &lt;- -25
 cond_a_version_i &lt;- +25
 cond_b_version_c &lt;- -50
 cond_b_version_i &lt;- +50
-error_sd &lt;- 75
+error_sd &lt;- 25
+
+# calculate main effects and interactions from simple effects above
+
+# mean difference between conditions B and A
+sub_cond_eff     &lt;- (cond_b_version_c + cond_b_version_i)/2 -
+                    (cond_a_version_c + cond_a_version_i)/2
+# mean difference between versions incongruent and congruent
+stim_version_eff &lt;- (cond_a_version_i + cond_b_version_i)/2 - 
+                    (cond_a_version_c + cond_b_version_c)/2  
+# interaction between version and condition
+cond_version_ixn &lt;- (cond_b_version_i - cond_b_version_c) -
+                    (cond_a_version_i - cond_a_version_c) 
 
 sub &lt;- tibble(
   sub_id = 1:sub_n,
@@ -360,16 +574,17 @@ dat &lt;- expand.grid(
   left_join(sub, by = &quot;sub_id&quot;) %&gt;%
   left_join(stim, by = &quot;stim_id&quot;) %&gt;%
   mutate(
+    # effect-code subject condition and stimulus version
     sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
     stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
-    err = rnorm(nrow(.), 0, error_sd),
-    eff = case_when(
-      sub_cond == &quot;A&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_a_version_c,
-      sub_cond == &quot;B&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_b_version_c,
-      sub_cond == &quot;A&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_a_version_i,
-      sub_cond == &quot;B&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_b_version_i
-    ),
-    dv = grand_i + sub_i + stim_i + eff + err
+    # calculate error term (normally distributed residual with SD set above)
+    err = rnorm(nrow(.), 0, error_sd) %&gt;% round(),
+    # calculate DV from intercepts, effects, and error
+    dv = grand_i + sub_i + stim_i + 
+         (sub_cond.e * sub_cond_eff) + 
+         (stim_version.e * stim_version_eff) + 
+         (sub_cond.e * stim_version.e * cond_version_ixn) +
+         err
   )
 
 ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
@@ -390,28 +605,28 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115235.4
+## REML criterion at convergence: 187525.6
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.8272 -0.6641  0.0110  0.6766  3.9172 
+## -3.6808 -0.6761  0.0060  0.6693  3.9998 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 8228     90.71   
-##  stim_id  (Intercept) 1922     43.84   
-##  Residual             5526     74.33   
-## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+##  sub_id   (Intercept) 9061.7   95.19   
+##  stim_id  (Intercept) 2975.3   54.55   
+##  Residual              631.5   25.13   
+## Number of obs: 20000, groups:  sub_id, 200; stim_id, 50
 ## 
 ## Fixed effects:
-##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                407.052     11.012  145.553  36.965   &lt;2e-16
-## sub_cond.e                  -3.326     18.202   98.000  -0.183    0.855
-## stim_version.e              76.096      1.487 9849.000  51.184   &lt;2e-16
-## sub_cond.e:stim_version.e   54.882      2.973 9849.000  18.458   &lt;2e-16
+##                            Estimate Std. Error        df t value Pr(&gt;|t|)
+## (Intercept)               3.985e+02  1.024e+01 1.329e+02  38.915   &lt;2e-16
+## sub_cond.e                2.602e+01  1.347e+01 1.980e+02   1.932   0.0548
+## stim_version.e            7.490e+01  3.554e-01 1.975e+04 210.761   &lt;2e-16
+## sub_cond.e:stim_version.e 5.105e+01  7.108e-01 1.975e+04  71.824   &lt;2e-16
 ##                              
 ## (Intercept)               ***
-## sub_cond.e                   
+## sub_cond.e                .  
 ## stim_version.e            ***
 ## sub_cond.e:stim_version.e ***
 ## ---
@@ -425,7 +640,7 @@ mod.sum</code></pre>
 <div id="function" class="section level3">
 <h3>Function</h3>
 <p>You can put the above in a function so you can run it more easily. I removed the plot and set the argument defaults to the same as the examples above, but you can set them to other patterns.</p>
-<pre class="r"><code>sim_lmer &lt;- function( sub_n = 100,
+<pre class="r"><code>sim_lmer &lt;- function( sub_n = 200,
                       sub_sd = 100,
                       stim_n = 50,
                       stim_sd = 50,
@@ -434,7 +649,7 @@ mod.sum</code></pre>
                       cond_a_version_i = +25,
                       cond_b_version_c = -50,
                       cond_b_version_i = +50,
-                      error_sd = 75) {
+                      error_sd = 25) {
   sub &lt;- tibble(
     sub_id = 1:sub_n,
     sub_i  = rnorm(sub_n, 0, sub_sd),
@@ -446,6 +661,18 @@ mod.sum</code></pre>
     stim_i = rnorm(stim_n, 0, stim_sd)
   )
   
+  # calculate main effects and interactions from simple effects above
+  
+  # mean difference between conditions B and A
+  sub_cond_eff     &lt;- (cond_b_version_c + cond_b_version_i)/2 -
+                      (cond_a_version_c + cond_a_version_i)/2
+  # mean difference between versions incongruent and congruent
+  stim_version_eff &lt;- (cond_a_version_i + cond_b_version_i)/2 - 
+                      (cond_a_version_c + cond_b_version_c)/2  
+  # interaction between version and condition
+  cond_version_ixn &lt;- (cond_b_version_i - cond_b_version_c) -
+                      (cond_a_version_i - cond_a_version_c) 
+  
   dat &lt;- expand.grid(
     sub_id = sub$sub_id,
     stim_id = stim$stim_id,
@@ -454,16 +681,17 @@ mod.sum</code></pre>
     left_join(sub, by = &quot;sub_id&quot;) %&gt;%
     left_join(stim, by = &quot;stim_id&quot;) %&gt;%
     mutate(
+      # effect-code subject condition and stimulus version
       sub_cond.e = recode(sub_cond, &quot;A&quot; = -0.5, &quot;B&quot; = +0.5),
       stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
-      err = rnorm(nrow(.), 0, error_sd),
-      eff = case_when(
-        sub_cond == &quot;A&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_a_version_c,
-        sub_cond == &quot;B&quot; &amp; stim_version == &quot;congruent&quot; ~ cond_b_version_c,
-        sub_cond == &quot;A&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_a_version_i,
-        sub_cond == &quot;B&quot; &amp; stim_version == &quot;incongruent&quot; ~ cond_b_version_i
-      ),
-      dv = grand_i + sub_i + stim_i + eff + err
+      # calculate error term (normally distributed residual with SD set above)
+      err = rnorm(nrow(.), 0, error_sd) %&gt;% round(),
+      # calculate DV from intercepts, effects, and error
+      dv = grand_i + sub_i + stim_i + 
+           (sub_cond.e * sub_cond_eff) + 
+           (stim_version.e * stim_version_eff) + 
+           (sub_cond.e * stim_version.e * cond_version_ixn) +
+           err
     )
   
   mod &lt;- lmer(dv ~ sub_cond.e * stim_version.e +
@@ -482,30 +710,30 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115373.9
+## REML criterion at convergence: 187209.7
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.7649 -0.6641 -0.0027  0.6632  4.1036 
+## -3.7533 -0.6749  0.0085  0.6730  3.6414 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 11380    106.68  
-##  stim_id  (Intercept)  1969     44.37  
-##  Residual              5585     74.73  
-## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+##  sub_id   (Intercept) 10589.6  102.91  
+##  stim_id  (Intercept)  2380.4   48.79  
+##  Residual               620.9   24.92  
+## Number of obs: 20000, groups:  sub_id, 200; stim_id, 50
 ## 
 ## Fixed effects:
-##                           Estimate Std. Error       df t value Pr(&gt;|t|)
-## (Intercept)                400.447     12.399  142.381  32.296   &lt;2e-16
-## sub_cond.e                  17.309     21.388   98.000   0.809     0.42
-## stim_version.e              76.629      1.495 9849.000  51.267   &lt;2e-16
-## sub_cond.e:stim_version.e   48.655      2.989 9849.000  16.276   &lt;2e-16
-##                              
-## (Intercept)               ***
-## sub_cond.e                   
-## stim_version.e            ***
-## sub_cond.e:stim_version.e ***
+##                             Estimate Std. Error         df t value
+## (Intercept)                 387.3428    10.0293   167.2615  38.621
+## sub_cond.e                  -10.2696    14.5574   197.9999  -0.705
+## stim_version.e               74.7929     0.3524 19749.0000 212.250
+## sub_cond.e:stim_version.e    48.8034     0.7048 19749.0000  69.248
+##                           Pr(&gt;|t|)    
+## (Intercept)                 &lt;2e-16 ***
+## sub_cond.e                   0.481    
+## stim_version.e              &lt;2e-16 ***
+## sub_cond.e:stim_version.e   &lt;2e-16 ***
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -524,30 +752,30 @@ mod.sum</code></pre>
 ## Formula: dv ~ sub_cond.e * stim_version.e + (1 | sub_id) + (1 | stim_id)
 ##    Data: dat
 ## 
-## REML criterion at convergence: 115376.6
+## REML criterion at convergence: 187384.4
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -3.5649 -0.6744  0.0098  0.6785  3.8469 
+## -4.5453 -0.6666 -0.0032  0.6650  4.1039 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  sub_id   (Intercept) 10180    100.90  
-##  stim_id  (Intercept)  2407     49.06  
-##  Residual              5588     74.75  
-## Number of obs: 10000, groups:  sub_id, 100; stim_id, 50
+##  sub_id   (Intercept) 9228.9   96.07   
+##  stim_id  (Intercept) 2377.6   48.76   
+##  Residual              627.2   25.04   
+## Number of obs: 20000, groups:  sub_id, 200; stim_id, 50
 ## 
 ## Fixed effects:
-##                            Estimate Std. Error        df t value Pr(&gt;|t|)
-## (Intercept)                412.8955    12.2677  145.8357  33.657   &lt;2e-16
-## sub_cond.e                  40.9592    20.2346   98.0000   2.024   0.0457
-## stim_version.e              -0.0998     1.4950 9849.0000  -0.067   0.9468
-## sub_cond.e:stim_version.e   -1.1628     2.9900 9849.0000  -0.389   0.6974
-##                              
-## (Intercept)               ***
-## sub_cond.e                *  
-## stim_version.e               
-## sub_cond.e:stim_version.e    
+##                             Estimate Std. Error         df t value
+## (Intercept)                 376.5824     9.6814   154.1834  38.898
+## sub_cond.e                    7.2677    13.5906   197.9998   0.535
+## stim_version.e               -0.1039     0.3542 19749.0000  -0.293
+## sub_cond.e:stim_version.e    -0.4978     0.7084 19749.0000  -0.703
+##                           Pr(&gt;|t|)    
+## (Intercept)                 &lt;2e-16 ***
+## sub_cond.e                   0.593    
+## stim_version.e               0.769    
+## sub_cond.e:stim_version.e    0.482    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
@@ -593,7 +821,7 @@ var disqus_config = function () {
       <footer class="footer">
   <section class="container">
     
-     © 2018
+     © 2019
     
     
   </section>
