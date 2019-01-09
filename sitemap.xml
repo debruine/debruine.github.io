@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/posts/simulating-random-slopes/</loc>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/posts/simdf/</loc>
     <lastmod>2018-12-29T00:00:00+00:00</lastmod>
   </url>
@@ -200,19 +205,19 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/lme4/</loc>
-    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/lmer/</loc>
-    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -254,7 +259,7 @@
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -294,7 +299,7 @@
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -312,7 +317,7 @@
   
   <url>
     <loc>/categories/rstats/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -329,7 +334,7 @@
   
   <url>
     <loc>/tags/simulation/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

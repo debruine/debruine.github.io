@@ -97,7 +97,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              One minute read
+              13 minutes read
             </span>
           </div>
           <div class="categories">
@@ -121,8 +121,553 @@
         
 
 
+<p>This tutorial follows on from <a href="simulating-mixed-effects">Simulating Mixed Effects</a> and expands it by simulating random slopes. You’ll want to look at that tutorial to get an idea of how the example study is set up. To summarise:</p>
+<ul>
+<li>stim_version is a within-subject and within-stimulus factor (stimuli are shown in both of two versions: <code>congruent</code> and <code>incongruent</code>)</li>
+<li>sub_cond is a between-subject and within-stimulus factor (subjects are in one of two conditions: <code>easy</code> and <code>hard</code>)</li>
+</ul>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
 <pre class="r"><code>library(tidyverse)
-library(lmerTest)</code></pre>
+library(lmerTest)
+library(GGally) # makes it easy to plot relationships between variables
+options(&quot;scipen&quot;=10, &quot;digits&quot;=4)
+set.seed(8675309) # Jenny, I&#39;ve got your number</code></pre>
+</div>
+<div id="simulate-random-effects" class="section level2">
+<h2>Simulate Random Effects</h2>
+<p>In the previous tutorial, the example used the following parameters:</p>
+<pre class="r"><code>sub_n            &lt;- 200 # number of subjects in this simulation
+sub_sd           &lt;- 100 # SD for the subjects&#39; random intercept
+stim_n           &lt;- 50  # number of stimuli in this simulation
+stim_sd          &lt;- 50  # SD for the stimuli&#39;s random intercept
+grand_i          &lt;- 400 # overall mean DV
+sub_cond_eff     &lt;- 50  # mean difference between conditions: hard - easy
+stim_version_eff &lt;- 50  # mean difference between versions: incongruent - congruent
+cond_version_ixn &lt;-  0  # interaction between version and condition
+error_sd         &lt;- 25  # residual (error) SD</code></pre>
+<div id="subjects" class="section level3">
+<h3>Subjects</h3>
+<p>In addition to generating a random intercept for each subject, we will also generate a random slope for any within-subject factors. The only within-subject factor in this design is <code>stim_version</code>. The main effect of <code>stim_version</code> is set to 50 above, but different subjects will show variation in the size of this effect. We’ll set <code>sub_version_sd</code> below to the SD of this variation and use this to calculate the random slope (<code>sub_version_slope</code>) for each subject.</p>
+<p>Also, it’s likely that the variation between subjects in the size of the effect of condition is related in some way to between-subject variation in the intercept. So we want the random intercept and slope to be correlated.</p>
+<p>I’m writing a package that has functions to easily create correlated variables for simulations. The function <code>rnorm_multi</code> generates <code>n</code> observations of <code>vars</code> variables with <code>mu</code> means and <code>sd</code> standard deviations with <code>cors</code> specific correlations.</p>
+<p>You can learn more about this function at my <a href="rnorm_multi">Simulating Multiple Vectors</a> tutorial. You can use <code>devtools::install_github(&quot;debruine/faux&quot;)</code> to install the package.</p>
+<pre class="r"><code># devtools::install_github(&quot;debruine/faux&quot;)
+library(faux)</code></pre>
+<p>If you don’t want to install the package, you can just include the simplified function in the code chunk below. (The function in the package has more error-checking to prevent you from entering impossible values like correlations &gt; 1)</p>
+<pre class="r"><code>rnorm_multi &lt;- function (n, vars = 3, cors = 0, mu = 0, sd = 1, 
+                         varnames = NULL, empirical = FALSE) {
+    if (length(mu) == 1) { mu &lt;- rep(mu, vars) }
+    if (length(sd) == 1) { sd &lt;- rep(sd, vars) }
+    if (class(cors) == &quot;numeric&quot; &amp; length(cors) == 1) {
+      cors = rep(cors, vars * (vars - 1)/2)
+    }
+    if (class(cors) == &quot;matrix&quot;) { 
+      cor_mat &lt;- cors 
+    } else if (length(cors) == vars * vars) {
+      cor_mat &lt;- matrix(cors, vars)
+    } else if (length(cors) == vars * (vars - 1)/2) {
+      cor_mat &lt;- matrix(nrow = vars, ncol = vars)
+      upcounter = 1
+      lowcounter = 1
+      for (col in 1:vars) {
+        for (row in 1:vars) {
+          if (row == col) {
+            cor_mat[row, col] = 1
+          }
+          else if (row &lt; col) {
+            cor_mat[row, col] = cors[upcounter]
+            upcounter &lt;- upcounter + 1
+          }
+          else {
+            cor_mat[row, col] = cors[lowcounter]
+            lowcounter &lt;- lowcounter + 1
+          }
+        }
+      }
+    }
+    sigma &lt;- (sd %*% t(sd)) * cor_mat
+    bvn &lt;- MASS::mvrnorm(n, mu, sigma, empirical = empirical)
+    df &lt;- data.frame(bvn)
+    if (length(varnames) == vars) { names(df) &lt;- varnames }
+    
+    return(df)
+}</code></pre>
+<p>Here, we’ll simulate a case where subjects who have slower (larger) reaction times across the board show a smaller effect of condition, so we set <code>sub_i_version_cor</code> to a negative number (-0.2).</p>
+<pre class="r"><code>sub_version_sd &lt;- 20
+sub_i_version_cor &lt;- -0.2
+
+sub &lt;- rnorm_multi(
+  n = sub_n, 
+  vars = 2, 
+  cors = sub_i_version_cor,
+  mu = 0, # means of random intercepts and slopes are always 0
+  sd = c(sub_sd, sub_version_sd),
+  varnames = c(&quot;sub_i&quot;, &quot;sub_version_slope&quot;)
+) %&gt;%
+  mutate(
+    sub_id = 1:sub_n,
+    sub_cond = rep(c(&quot;easy&quot;,&quot;hard&quot;), each = sub_n/2) # between-subjects factor
+  )</code></pre>
+<p>Plot to double-check it looks sensible.</p>
+<pre class="r"><code>ggplot(sub, aes(sub_i, sub_version_slope, color = sub_cond)) +
+  geom_point() +
+  geom_smooth(method = lm)</code></pre>
+<div class="figure"><span id="fig:plot-subject-slope-cor"></span>
+<img src="/posts/sim_slopes_files/figure-html/plot-subject-slope-cor-1.png" alt="Double-check slope-intercept correlations" width="1152" />
+<p class="caption">
+Figure 1: Double-check slope-intercept correlations
+</p>
+</div>
+</div>
+<div id="stimuli" class="section level3">
+<h3>Stimuli</h3>
+<p>In addition to generating a random intercept for each stimulus, we will also generate a random slope for any within-stimulus factors. Both <code>stim_version</code> and <code>sub_condition</code> are within-stimulus factors (i.e., all stimuli are seen in both <code>congruent</code> and <code>incongruent</code> versions and both <code>easy</code> and <code>hard</code> conditions). So the main effects of version and condition (and their interaction) will have some variance depending on the stimulus.</p>
+<p>They will also be correlated, but in a more complex way than above. You need to set the correlations for all pairs of slopes and intercept. Let’s set the correlation between the random intercept and each of the slopes to -0.4 and the slopes all correlate with each other +0.2 (You could set each of the six correlations separately if you want, though).</p>
+<p class="info">
+See the <a href="rnorm_multi">Simulating Multiple Vectors</a> tutorial for more other ways to set the correlations.
+</p>
+<pre class="r"><code>stim_version_sd &lt;- 10 # SD for the stimuli&#39;s random slope for stim_version
+stim_cond_sd &lt;- 30 # SD for the stimuli&#39;s random slope for sub_cond
+stim_cond_version_sd &lt;- 15 # SD for the stimuli&#39;s random slope for sub_cond:stim_version
+stim_i_cor &lt;- -0.4 # correlations between intercept and slopes
+stim_s_cor &lt;- +0.2 # correlations among slopes
+
+# specify correlations for rnorm_multi (one of several methods)
+stim_cors &lt;- c(stim_i_cor, stim_i_cor, stim_i_cor,
+                           stim_s_cor, stim_s_cor,
+                                       stim_s_cor)
+stim &lt;- rnorm_multi(
+  n = stim_n, 
+  vars = 4, 
+  cors = stim_cors, 
+  mu = 0, # means of random intercepts and slopes are always 0
+  sd = c(stim_sd, stim_version_sd, stim_cond_sd, stim_cond_version_sd),
+  varnames = c(&quot;stim_i&quot;, &quot;stim_version_slope&quot;, &quot;stim_cond_slope&quot;, &quot;stim_cond_version_slope&quot;)
+) %&gt;%
+  mutate(
+    stim_id = 1:stim_n
+  )</code></pre>
+<p>Here, we’re simulating different SDs for different effects, so our plot should reflect this.</p>
+<pre class="r"><code>GGally::ggpairs(stim, columns = 1:4, 
+                lower = list(continuous = &quot;smooth&quot;),
+                progress = FALSE)</code></pre>
+<div class="figure"><span id="fig:plot-stim-slope-cor"></span>
+<img src="/posts/sim_slopes_files/figure-html/plot-stim-slope-cor-1.png" alt="Double-check slope-intercept correlations" width="768" />
+<p class="caption">
+Figure 2: Double-check slope-intercept correlations
+</p>
+</div>
+</div>
+<div id="trials" class="section level3">
+<h3>Trials</h3>
+<p>Now we put the subjects and stimuli together in the same way as before.</p>
+<pre class="r"><code>trials &lt;- expand.grid(
+  sub_id = sub$sub_id, # get subject IDs from the sub data table
+  stim_id = stim$stim_id, # get stimulus IDs from the stim data table
+  stim_version = c(&quot;congruent&quot;, &quot;incongruent&quot;) # all subjects see both congruent and incongruent versions of all stimuli
+) %&gt;%
+  left_join(sub, by = &quot;sub_id&quot;) %&gt;% # includes the intercept, slope, and conditin for each subject
+  left_join(stim, by = &quot;stim_id&quot;)   # includes the intercept and slopes for each stimulus</code></pre>
+<table>
+<caption><span id="tab:expand-grid">Table 1: </span>Subject- and stimulus-specific random intercepts and slopes for 2 subjects and 2 stimuli</caption>
+<thead>
+<tr class="header">
+<th align="right">sub_id</th>
+<th align="right">stim_id</th>
+<th align="left">stim_version</th>
+<th align="right">sub_i</th>
+<th align="right">sub_version_slope</th>
+<th align="left">sub_cond</th>
+<th align="right">stim_i</th>
+<th align="right">stim_version_slope</th>
+<th align="right">stim_cond_slope</th>
+<th align="right">stim_cond_version_slope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">congruent</td>
+<td align="right">99.73</td>
+<td align="right">-2.416</td>
+<td align="left">easy</td>
+<td align="right">-2.811</td>
+<td align="right">-14.525</td>
+<td align="right">-27.87</td>
+<td align="right">-5.104</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">congruent</td>
+<td align="right">-72.25</td>
+<td align="right">1.415</td>
+<td align="left">easy</td>
+<td align="right">-2.811</td>
+<td align="right">-14.525</td>
+<td align="right">-27.87</td>
+<td align="right">-5.104</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">congruent</td>
+<td align="right">99.73</td>
+<td align="right">-2.416</td>
+<td align="left">easy</td>
+<td align="right">-1.477</td>
+<td align="right">-2.104</td>
+<td align="right">15.44</td>
+<td align="right">31.061</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="left">congruent</td>
+<td align="right">-72.25</td>
+<td align="right">1.415</td>
+<td align="left">easy</td>
+<td align="right">-1.477</td>
+<td align="right">-2.104</td>
+<td align="right">15.44</td>
+<td align="right">31.061</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">incongruent</td>
+<td align="right">99.73</td>
+<td align="right">-2.416</td>
+<td align="left">easy</td>
+<td align="right">-2.811</td>
+<td align="right">-14.525</td>
+<td align="right">-27.87</td>
+<td align="right">-5.104</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">incongruent</td>
+<td align="right">-72.25</td>
+<td align="right">1.415</td>
+<td align="left">easy</td>
+<td align="right">-2.811</td>
+<td align="right">-14.525</td>
+<td align="right">-27.87</td>
+<td align="right">-5.104</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">2</td>
+<td align="left">incongruent</td>
+<td align="right">99.73</td>
+<td align="right">-2.416</td>
+<td align="left">easy</td>
+<td align="right">-1.477</td>
+<td align="right">-2.104</td>
+<td align="right">15.44</td>
+<td align="right">31.061</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="left">incongruent</td>
+<td align="right">-72.25</td>
+<td align="right">1.415</td>
+<td align="left">easy</td>
+<td align="right">-1.477</td>
+<td align="right">-2.104</td>
+<td align="right">15.44</td>
+<td align="right">31.061</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="calculate-dv" class="section level2">
+<h2>Calculate DV</h2>
+<p>Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the stimulus-specific slope for condition, the interaction between condition and version (set to 0 for this example), the effect of stimulus version, the stimulus-specific slope for version, the subject-specific slope for version, and an error term.</p>
+<pre class="r"><code>dat &lt;- trials %&gt;%
+  mutate(
+    # effect-code subject condition and stimulus version
+    sub_cond.e = recode(sub_cond, &quot;hard&quot; = -0.5, &quot;easy&quot; = +0.5),
+    stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
+    # calculate trial-specific effects by adding overall effects and slopes
+    version_eff = stim_version_eff + stim_version_slope + sub_version_slope,
+    cond_eff = sub_cond_eff + stim_cond_slope,
+    cond_version_eff = cond_version_ixn + stim_cond_version_slope,
+    # calculate error term (normally distributed residual with SD set above)
+    err = rnorm(nrow(.), 0, error_sd),
+    # calculate DV from intercepts, effects, and error
+    dv = grand_i + sub_i + stim_i + err +
+         (sub_cond.e * cond_eff) + 
+         (stim_version.e * version_eff) + 
+         (sub_cond.e * stim_version.e * cond_version_eff)
+  )</code></pre>
+<p>As always, graph to make sure you’ve simulated the general pattern you expected.</p>
+<pre class="r"><code>ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
+  geom_hline(yintercept = grand_i) +
+  geom_violin(alpha = 0.5) +
+  geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
+<div class="figure"><span id="fig:plot-dv"></span>
+<img src="/posts/sim_slopes_files/figure-html/plot-dv-1.png" alt="Double-check the simulated pattern" width="672" />
+<p class="caption">
+Figure 3: Double-check the simulated pattern
+</p>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<p>New we will run a linear mixed effects model with <code>lmer</code> and look at the summary. You specify random slopes by adding the within-level effects to the random intercept specifications. Since the only within-subject factor is version, the random effects specification for subjects is <code>(1 + stim_version.e | sub_id)</code>. Since both condition and version are within-stimuli factors, the random effects specification for stimuli is <code>(1 + stim_version.e*sub_cond.e | stim_id)</code>.</p>
+<p class="info">
+<a href="http://talklab.psy.gla.ac.uk/KeepItMaximalR2.pdf">Keep It Maximal</a> is a great paper on how and why to set random slopes <em>maximally</em> like this.
+</p>
+<p>This model will take a lot longer to run than one without random slopes specified.</p>
+<pre class="r"><code>mod &lt;- lmer(dv ~ sub_cond.e * stim_version.e +
+              (1 + stim_version.e | sub_id) + 
+              (1 + stim_version.e*sub_cond.e | stim_id),
+            data = dat)
+
+mod.sum &lt;- summary(mod)
+
+mod.sum</code></pre>
+<pre><code>## Linear mixed model fit by REML. t-tests use Satterthwaite&#39;s method [
+## lmerModLmerTest]
+## Formula: 
+## dv ~ sub_cond.e * stim_version.e + (1 + stim_version.e | sub_id) +  
+##     (1 + stim_version.e * sub_cond.e | stim_id)
+##    Data: dat
+## 
+## REML criterion at convergence: 188436
+## 
+## Scaled residuals: 
+##    Min     1Q Median     3Q    Max 
+## -4.215 -0.670 -0.008  0.661  3.729 
+## 
+## Random effects:
+##  Groups   Name                      Variance Std.Dev. Corr             
+##  sub_id   (Intercept)               9203     95.93                     
+##           stim_version.e             429     20.70    -0.27            
+##  stim_id  (Intercept)               2412     49.11                     
+##           stim_version.e              77      8.77    -0.29            
+##           sub_cond.e                1350     36.74    -0.42  0.45      
+##           stim_version.e:sub_cond.e  342     18.49    -0.36  0.30  0.33
+##  Residual                            627     25.05                     
+## Number of obs: 20000, groups:  sub_id, 200; stim_id, 50
+## 
+## Fixed effects:
+##                           Estimate Std. Error     df t value Pr(&gt;|t|)    
+## (Intercept)                 396.38       9.71 152.57   40.82   &lt;2e-16 ***
+## sub_cond.e                   43.68      14.53 239.33    3.01   0.0029 ** 
+## stim_version.e               52.36       1.95 175.65   26.84   &lt;2e-16 ***
+## sub_cond.e:stim_version.e     1.92       3.99 167.11    0.48   0.6301    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Correlation of Fixed Effects:
+##             (Intr) sb_cn. stm_v.
+## sub_cond.e  -0.107              
+## stim_versn. -0.275  0.102       
+## sb_cnd.:s_. -0.170 -0.109  0.127</code></pre>
+<div id="sense-checks" class="section level3">
+<h3>Sense Checks</h3>
+<p>First, check that your groups make sense (<code>mod.sum$ngrps</code>).</p>
+<ul>
+<li>The number of obs should be the total number of trials analysed.</li>
+<li><code>sub_id</code> should be what we set <code>sub_n</code> to above (200).</li>
+<li><code>stim_id</code> should be what we set <code>stim_n</code> to above (50).</li>
+</ul>
+<pre><code>##  sub_id stim_id 
+##     200      50</code></pre>
+<p>Next, look at the SDs for the random effects (<code>mod.sum$varcor</code>).</p>
+<ul>
+<li>Group:<code>sub_id</code></li>
+<li><code>(Intercept)</code> ~= <code>sub_sd</code> (100)</li>
+<li><code>stim_version.e</code> ~= <code>sub_version_sd</code> (20)</li>
+<li>Group: <code>stim_id</code></li>
+<li><code>(Intercept)</code> ~= <code>stim_sd</code> (50)</li>
+<li><code>stim_version.e</code> ~= <code>stim_version_sd</code> (10)</li>
+<li><code>sub_cond.e</code> ~= <code>stim_cond_sd</code> (30)</li>
+<li><code>stim_version.e:sub_cond.e</code> ~= <code>stim_cond_version_sd</code> (15)</li>
+<li>Residual ~= <code>error_sd</code> (25)</li>
+</ul>
+<pre><code>##  Groups   Name                      Std.Dev. Corr             
+##  sub_id   (Intercept)               95.93                     
+##           stim_version.e            20.70    -0.27            
+##  stim_id  (Intercept)               49.11                     
+##           stim_version.e             8.77    -0.29            
+##           sub_cond.e                36.74    -0.42  0.45      
+##           stim_version.e:sub_cond.e 18.49    -0.36  0.30  0.33
+##  Residual                           25.05</code></pre>
+<p>The correlations are a bit more difficult to parse. The first column under <code>Corr</code> shows the correlation between the random slope for that row and the random intercept. So for <code>stim_version.e</code> under <code>sub_id</code>, the correlation should be close to <code>sub_i_version_cor</code> (-0.2). For all three random slopes under <code>stim_id</code>, the correlation with the random intercept should be near <code>stim_i_cor</code> (-0.4) and their correlations with each other should be near <code>stim_s_cor</code> (0.2).</p>
+<pre><code>##  Groups   Name                      Std.Dev. Corr             
+##  sub_id   (Intercept)               95.93                     
+##           stim_version.e            20.70    -0.27            
+##  stim_id  (Intercept)               49.11                     
+##           stim_version.e             8.77    -0.29            
+##           sub_cond.e                36.74    -0.42  0.45      
+##           stim_version.e:sub_cond.e 18.49    -0.36  0.30  0.33
+##  Residual                           25.05</code></pre>
+<p>Finally, look at the fixed effects (<code>mod.sum$coefficients</code>).</p>
+<ul>
+<li><code>(Intercept)</code> ~= <code>grand_i</code> (400).</li>
+<li><code>sub_cond.e</code> ~= <code>sub_cond_eff</code> (50).</li>
+<li><code>stim_version.e</code> ~= <code>stim_version_eff</code> (50)</li>
+<li><code>sub_cond.e</code>:<code>stim_version.e</code> ~= <code>cond_version_ixn</code> (0).</li>
+</ul>
+<pre><code>##                           Estimate Std. Error    df t value  Pr(&gt;|t|)
+## (Intercept)                396.376      9.710 152.6 40.8203 5.233e-84
+## sub_cond.e                  43.676     14.532 239.3  3.0055 2.934e-03
+## stim_version.e              52.365      1.951 175.7 26.8359 4.814e-64
+## sub_cond.e:stim_version.e    1.925      3.989 167.1  0.4825 6.301e-01</code></pre>
+</div>
+<div id="random-effects" class="section level3">
+<h3>Random effects</h3>
+<p>Plot the subject intercepts from our code above (<code>sub$sub_i</code>) against the subject intercepts calculcated by <code>lmer</code> (<code>ranef(mod)$sub_id</code>).</p>
+<pre class="r"><code>ranef(mod)$sub_id %&gt;%
+  as_tibble(rownames = &quot;sub_id&quot;) %&gt;%
+  rename(mod_i = `(Intercept)`,
+         mod_version_slope = stim_version.e) %&gt;%
+  mutate(sub_id = as.integer(sub_id)) %&gt;%
+  left_join(sub, by = &quot;sub_id&quot;) %&gt;%
+  select(mod_i, sim_i = sub_i, 
+         mod_version_slope, sim_version_slope = sub_version_slope) %&gt;%
+  GGally::ggpairs(lower = list(continuous = &quot;smooth&quot;),
+                progress = FALSE)</code></pre>
+<div class="figure"><span id="fig:plot-sub-ranef"></span>
+<img src="/posts/sim_slopes_files/figure-html/plot-sub-ranef-1.png" alt="Compare simulated subject random effects to those from the model" width="768" />
+<p class="caption">
+Figure 4: Compare simulated subject random effects to those from the model
+</p>
+</div>
+<p>Plot the stimulus intercepts from our code above (<code>stim$stim_i</code>) against the stimulus intercepts calculcated by <code>lmer</code> (<code>ranef(mod)$stim_id</code>).</p>
+<pre class="r"><code>ranef(mod)$stim_id %&gt;%
+  as_tibble(rownames = &quot;stim_id&quot;) %&gt;%
+  rename(mod_i = `(Intercept)`,
+         mod_version_slope = stim_version.e,
+         mod_cond_slope = sub_cond.e,
+         mod_cond_version_slope = `stim_version.e:sub_cond.e`) %&gt;%
+  mutate(stim_id = as.integer(stim_id)) %&gt;%
+  left_join(stim, by = &quot;stim_id&quot;) %&gt;%
+  select(mod_i, sim_i = stim_i, 
+         mod_version_slope, sim_version_slope = stim_version_slope, 
+         mod_cond_slope, sim_cond_slope = stim_cond_slope, 
+         mod_cond_version_slope, sim_cond_version_slope = stim_cond_version_slope) %&gt;%
+  GGally::ggpairs(lower = list(continuous = &quot;smooth&quot;),
+                progress = FALSE)</code></pre>
+<div class="figure"><span id="fig:plot-stim-ranef"></span>
+<img src="/posts/sim_slopes_files/figure-html/plot-stim-ranef-1.png" alt="Compare simulated stimulus random effects to those from the model" width="1536" />
+<p class="caption">
+Figure 5: Compare simulated stimulus random effects to those from the model
+</p>
+</div>
+</div>
+</div>
+<div id="function" class="section level2">
+<h2>Function</h2>
+<p>You can put the code above in a function so you can run it more easily and change the parameters. I removed the plot and set the argument defaults to the same as the example above, but you can set them to other patterns.</p>
+<pre class="r"><code>sim_lmer &lt;- function( sub_n = 200,
+                      sub_sd = 100,
+                      sub_version_sd = 20, 
+                      sub_i_version_cor = -0.2,
+                      stim_n = 50,
+                      stim_sd = 50,
+                      stim_version_sd = 10,
+                      stim_cond_sd = 30,
+                      stim_cond_version_sd = 15,
+                      stim_i_cor = -0.4,
+                      stim_s_cor = +0.2,
+                      grand_i = 400,
+                      hard_congr = -25,
+                      hard_incon = +25,
+                      easy_congr = -50,
+                      easy_incon = +50,
+                      error_sd = 25) {
+  sub &lt;- rnorm_multi(
+    n = sub_n, 
+    vars = 2, 
+    cors = sub_i_version_cor,
+    mu = 0, # means of random intercepts and slopes are always 0
+    sd = c(sub_sd, sub_version_sd),
+    varnames = c(&quot;sub_i&quot;, &quot;sub_version_slope&quot;)
+  ) %&gt;%
+    mutate(
+      sub_id = 1:sub_n,
+      sub_cond = rep(c(&quot;easy&quot;,&quot;hard&quot;), each = sub_n/2) # between-subjects factor
+    )
+  
+  stim_cors &lt;- c(stim_i_cor, stim_i_cor, stim_i_cor,
+                             stim_s_cor, stim_s_cor,
+                                         stim_s_cor)
+  stim &lt;- rnorm_multi(
+    n = stim_n, 
+    vars = 4, 
+    cors = stim_cors, 
+    mu = 0, # means of random intercepts and slopes are always 0
+    sd = c(stim_sd, stim_version_sd, stim_cond_sd, stim_cond_version_sd),
+    varnames = c(&quot;stim_i&quot;, &quot;stim_version_slope&quot;, &quot;stim_cond_slope&quot;, &quot;stim_cond_version_slope&quot;)
+  ) %&gt;%
+    mutate(
+      stim_id = 1:stim_n
+    )
+  
+  # mean difference between easy and hard conditions
+  sub_cond_eff     &lt;- (easy_congr + easy_incon)/2 -
+                      (hard_congr + hard_incon)/2
+  # mean difference between incongruent and congruent versions
+  stim_version_eff &lt;- (hard_incon + easy_incon)/2 - 
+                      (hard_congr + easy_congr)/2  
+  # interaction between version and condition
+  cond_version_ixn &lt;- (easy_incon - easy_congr) -
+                      (hard_incon - hard_congr) 
+  
+  trials &lt;- expand.grid(
+    sub_id = sub$sub_id, # get subject IDs from the sub data table
+    stim_id = stim$stim_id, # get stimulus IDs from the stim data table
+    stim_version = c(&quot;congruent&quot;, &quot;incongruent&quot;) # all subjects see both congruent and incongruent versions of all stimuli
+  ) %&gt;%
+    left_join(sub, by = &quot;sub_id&quot;) %&gt;% # includes the intercept, slope, and conditin for each subject
+    left_join(stim, by = &quot;stim_id&quot;)   # includes the intercept and slopes for each stimulus
+  
+  dat &lt;- trials %&gt;%
+    mutate(
+      # effect-code subject condition and stimulus version
+      sub_cond.e = recode(sub_cond, &quot;hard&quot; = -0.5, &quot;easy&quot; = +0.5),
+      stim_version.e = recode(stim_version, &quot;congruent&quot; = -0.5, &quot;incongruent&quot; = +0.5),
+      # calculate trial-specific effects by adding overall effects and slopes
+      version_eff = stim_version_eff + stim_version_slope + sub_version_slope,
+      cond_eff = sub_cond_eff + stim_cond_slope,
+      cond_version_eff = cond_version_ixn + stim_cond_version_slope,
+      # calculate error term (normally distributed residual with SD set above)
+      err = rnorm(nrow(.), 0, error_sd),
+      # calculate DV from intercepts, effects, and error
+      dv = grand_i + sub_i + stim_i + err +
+           (sub_cond.e * cond_eff) + 
+           (stim_version.e * version_eff) + 
+           (sub_cond.e * stim_version.e * cond_version_eff)
+    )
+  
+  mod &lt;- lmer(dv ~ sub_cond.e * stim_version.e +
+                (1 + stim_version.e | sub_id) + 
+                (1 + stim_version.e*sub_cond.e | stim_id),
+              data = dat)
+
+  mod.sum &lt;- summary(mod)
+  
+  return(mod.sum)
+}</code></pre>
+<p>Run the function with the default values.</p>
+<pre class="r"><code>sim_lmer()</code></pre>
+<p>See what happens when you increase the SD for the effect of version within subjects.</p>
+<pre class="r"><code>sim_lmer(sub_version_sd = 50)</code></pre>
+<p>Try changing some variables to simulate null effects.</p>
+<pre class="r"><code>sim_lmer(hard_congr = 0,
+         hard_incon = 0,
+         easy_congr = 0,
+         easy_incon = 0)</code></pre>
+</div>
 
       </div>
 

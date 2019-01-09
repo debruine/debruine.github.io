@@ -9,10 +9,6 @@ tags: ["R", "simulation", "lmer", "lme4"]
 
 [Updated 2019-01-09]
 
-```{r libraries, message = FALSE}
-
-```
-
 I'm going to walk through one example of simulating a dataset with random effects. I'll generate data for a Stroop task where people (`subjects`) say the colour of  colour words (`stimuli`) shown in each of two versions (`congruent` and `incongruent`). Subjects are in one of two conditions (`hard` and `easy`). The dependent variable (`DV`) is reaction time. 
 
 * congruent: <span style="color: red;">RED</span>, <span style="color: orange;">ORANGE</span>, <span style="color: #ead21e;">YELLOW</span>, <span style="color: green;">GREEN</span>, <span style="color: blue;">BLUE</span>, <span style="color: purple;">PURPLE</span>
