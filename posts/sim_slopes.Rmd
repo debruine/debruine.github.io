@@ -1,0 +1,13 @@
+---
+title: Simulating Mixed Effects with Random Slopes
+author: ~
+date: "2019-01-09"
+slug: simulating-random-slopes
+categories: ["rstats"]
+tags: ["R", "simulation", "lmer", "lme4"]
+---
+
+```{r libraries, message = FALSE}
+library(tidyverse)
+library(lmerTest)
+```

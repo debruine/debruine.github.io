@@ -17,9 +17,9 @@
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/posts/simulating-mixed-effects/</guid>
-      <description>[Updated 2019-01-03]
-library(tidyverse) library(lmerTest) I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a study where subjects are in one of two conditions (A and B) and respond to stimuli shown in each of two versions (congruent and incongruent). The DV is reaction time.
-Subjects First, we need to generate a sample of subjects. Each subject will have slightly faster or slower reaction times on average; this is their random intercept (sub_i).</description>
+      <description>[Updated 2019-01-09]
+I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a Stroop task where people (subjects) say the colour of colour words (stimuli) shown in each of two versions (congruent and incongruent). Subjects are in one of two conditions (hard and easy). The dependent variable (DV) is reaction time.
+ congruent: RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE incongruent: RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE  We expect people to have faster reaction times for congruent stimuli than incongruent stimuli (main effect of version) and to be faster in the easy condition than the hard condition (main effect of condition).</description>
     </item>
     
     <item>
