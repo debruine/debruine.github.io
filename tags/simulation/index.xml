@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Simulation on Lisa DeBruine</title>
-    <link>/tags/simulation/</link>
+    <link>https://debruine.github.io/tags/simulation/</link>
     <description>Recent content in Simulation on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 09 Jan 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Simulating Mixed Effects with Random Slopes</title>
-      <link>/posts/simulating-random-slopes/</link>
+      <title>Simulating Random Slopes</title>
+      <link>https://debruine.github.io/posts/simulating-random-slopes/</link>
       <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/posts/simulating-random-slopes/</guid>
+      <guid>https://debruine.github.io/posts/simulating-random-slopes/</guid>
       <description>This tutorial follows on from Simulating Mixed Effects and expands it by simulating random slopes. You’ll want to look at that tutorial to get an idea of how the example study is set up. To summarise:
  stim_version is a within-subject and within-stimulus factor (stimuli are shown in both of two versions: congruent and incongruent) sub_cond is a between-subject and within-stimulus factor (subjects are in one of two conditions: easy and hard)  Setup library(tidyverse) library(lmerTest) library(GGally) # makes it easy to plot relationships between variables options(&amp;quot;scipen&amp;quot;=10, &amp;quot;digits&amp;quot;=4) set.</description>
     </item>
     
     <item>
       <title>Simulate from Existing Data</title>
-      <link>/posts/simdf/</link>
+      <link>https://debruine.github.io/posts/simdf/</link>
       <pubDate>Sat, 29 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/simdf/</guid>
+      <guid>https://debruine.github.io/posts/simdf/</guid>
       <description># devtools::install_github(&amp;quot;debruine/faux&amp;quot;) library(faux) library(tidyverse) I added a new function to the package faux to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
 For example, here is the relationship between speed and distance in the built-in dataset cars.
 cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code simdf(cars, 500).</description>
@@ -34,10 +34,10 @@ cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &
     
     <item>
       <title>Simulating Mixed Effects</title>
-      <link>/posts/simulating-mixed-effects/</link>
+      <link>https://debruine.github.io/posts/simulating-mixed-effects/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/simulating-mixed-effects/</guid>
+      <guid>https://debruine.github.io/posts/simulating-mixed-effects/</guid>
       <description>[Updated 2019-01-09]
 I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a Stroop task where people (subjects) say the colour of colour words (stimuli) shown in each of two versions (congruent and incongruent). Subjects are in one of two conditions (hard and easy). The dependent variable (DV) is reaction time.
  congruent: RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE incongruent: RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE  We expect people to have faster reaction times for congruent stimuli than incongruent stimuli (main effect of version) and to be faster in the easy condition than the hard condition (main effect of condition).</description>
@@ -45,10 +45,10 @@ I’m going to walk through one example of simulating a dataset with random effe
     
     <item>
       <title>Simulating Multiple Vectors</title>
-      <link>/posts/rnorm_multi/</link>
+      <link>https://debruine.github.io/posts/rnorm_multi/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/rnorm_multi/</guid>
+      <guid>https://debruine.github.io/posts/rnorm_multi/</guid>
       <description># devtools::install_github(&amp;quot;debruine/faux&amp;quot;) library(tidyverse) library(faux) I’m working on a package for simulations called faux.
 The first function, rnorm_multi, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
  n = the number of samples required (required) vars = the number of variables to return (default = 3) cors = the correlations among the variables (can be a single number, vars*vars matrix, vars*vars vector, or a vars*(vars-1)/2 vector; default = 0) mu = a vector giving the means of the variables (numeric vector of length 1 or vars; default = 0) sd = the standard deviations of the variables (numeric vector of length 1 or vars; default = 1) varnames = optional names for the variables (string vector of length vars; default = NULL) empirical = logical.</description>
@@ -56,20 +56,20 @@ The first function, rnorm_multi, makes multiple normally distributed vectors wit
     
     <item>
       <title>sample()</title>
-      <link>/posts/sample/</link>
+      <link>https://debruine.github.io/posts/sample/</link>
       <pubDate>Wed, 26 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/sample/</guid>
+      <guid>https://debruine.github.io/posts/sample/</guid>
       <description>First, let’s make a data frame with two variables, a and b that are both sampled from a normal distribution with a mean of 0 and SD of 1. The variablle n will be how many samples we’ll take (100). Then we can run a t-test to see if they are different.
-library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.1.0 ✔ purrr 0.2.5 ## ✔ tibble 1.</description>
+library(tidyverse) ## ── Attaching packages ──────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.1.0 ✔ purrr 0.3.0 ## ✔ tibble 2.</description>
     </item>
     
     <item>
       <title>Coding Schemes</title>
-      <link>/posts/coding-schemes/</link>
+      <link>https://debruine.github.io/posts/coding-schemes/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/coding-schemes/</guid>
+      <guid>https://debruine.github.io/posts/coding-schemes/</guid>
       <description>library(tidyverse) library(lmerTest) How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
 First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider).</description>
     </item>

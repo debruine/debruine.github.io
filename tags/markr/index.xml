@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Markr on Lisa DeBruine</title>
+    <link>https://debruine.github.io/tags/markr/</link>
+    <description>Recent content in Markr on Lisa DeBruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 21 Jan 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://debruine.github.io/tags/markr/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Markr</title>
+      <link>https://debruine.github.io/posts/markr/</link>
+      <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://debruine.github.io/posts/markr/</guid>
+      <description> Install markr Install markr from github using the commented code below. Load the markr and tidyverse libraries.
+# devtools::install_github(&amp;quot;debruine/markr&amp;quot;) library(markr) library(tidyverse)  </description>
+    </item>
+    
+  </channel>
+</rss>

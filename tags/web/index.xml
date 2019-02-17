@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Web on Lisa DeBruine</title>
-    <link>/tags/web/</link>
+    <link>https://debruine.github.io/tags/web/</link>
     <description>Recent content in Web on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 21 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/web/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/web/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Hidden Solutions</title>
-      <link>/posts/hidden-solutions/</link>
+      <link>https://debruine.github.io/posts/hidden-solutions/</link>
       <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/hidden-solutions/</guid>
+      <guid>https://debruine.github.io/posts/hidden-solutions/</guid>
       <description>library(tidyverse) The R for Reproducible Scientific Analysis pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
 Example Graph the relationship between speed and distance for the cars dataset.
  Solution  You can put some text inside the solution, as well as code cunks.</description>

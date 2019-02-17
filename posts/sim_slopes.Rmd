@@ -1,5 +1,5 @@
 ---
-title: Simulating Mixed Effects with Random Slopes
+title: Simulating Random Slopes
 author: ~
 date: "2019-01-09"
 slug: simulating-random-slopes
@@ -40,20 +40,18 @@ error_sd         <- 25  # residual (error) SD
 
 ### Subjects
 
-In addition to generating a random intercept for each subject, we will also generate a random slope for any within-subject factors. The only within-subject factor in this design is `stim_version`. The main effect of `stim_version` is set to 50 above, but different subjects will show variation in the size of this effect. We'll set `sub_version_sd` below to the SD of this variation and use this to calculate the random slope (`sub_version_slope`) for each subject.
+In addition to generating a random intercept for each subject, we will also generate a random slope for any within-subject factors. The only within-subject factor in this design is `stim_version`. The main effect of `stim_version` is set to 50 above, but different subjects will show variation in the size of this effect. That's what the random slope captures. We'll set `sub_version_sd` below to the SD of this variation and use this to calculate the random slope (`sub_version_slope`) for each subject.
 
-Also, it's likely that the variation between subjects in the size of the effect of condition is related in some way to between-subject variation in the intercept. So we want the random intercept and slope to be correlated. 
+Also, it's likely that the variation between subjects in the size of the effect of version is related in some way to between-subject variation in the intercept. So we want the random intercept and slope to be correlated. Here, we'll simulate a case where subjects who have slower (larger) reaction times across the board show a smaller effect of condition, so we set `sub_i_version_cor` below to a negative number (-0.2).
 
-I'm writing a package that has functions to easily create correlated variables for simulations.  The function `rnorm_multi` generates `n` observations of `vars` variables with `mu` means and `sd` standard deviations with `cors` specific correlations. 
-
-You can learn more about this function at my [Simulating Multiple Vectors](rnorm_multi) tutorial. You can use `devtools::install_github("debruine/faux")` to install the package.
+I'm writing a package that has functions to easily create correlated variables for simulations.  The function `rnorm_multi` generates `n` observations of `vars` variables with `mu` means and `sd` standard deviations with `cors` specific correlations. You can learn more about this function at my [Simulating Multiple Vectors](rnorm_multi) tutorial. You can use `devtools::install_github("debruine/faux")` to install the package.
 
 ```{r faux}
 # devtools::install_github("debruine/faux")
 library(faux)
 ```
 
-If you don't want to install the package, you can just include the simplified function in the code chunk below. (The function in the package has more error-checking to prevent you from entering impossible values like correlations > 1)
+<p class="info">If you don't want to install the package, you can just include the simplified function in the code chunk below. (The function in the package has more error-checking to prevent you from entering impossible values like correlations > 1)</p>
 
 ```{r rnorm_multi, eval = F}
 
@@ -97,7 +95,7 @@ rnorm_multi <- function (n, vars = 3, cors = 0, mu = 0, sd = 1,
 }
 ```
 
-Here, we'll simulate a case where subjects who have slower (larger) reaction times across the board show a smaller effect of condition, so we set `sub_i_version_cor` to a negative number (-0.2).
+The code below creates two variables (`sub_i`, `sub_version_slope`) that are correlated with r = -0.2, means of 0, and SDs equal to what we set `sub_sd` above and `sub_version_sd` below.
 
 ```{r sim-subject-cor}
 sub_version_sd <- 20
@@ -128,11 +126,11 @@ ggplot(sub, aes(sub_i, sub_version_slope, color = sub_cond)) +
 
 ### Stimuli
 
-In addition to generating a random intercept for each stimulus, we will also generate a random slope for any within-stimulus factors. Both `stim_version` and `sub_condition` are within-stimulus factors (i.e., all stimuli are seen in both `congruent` and `incongruent` versions and both `easy` and `hard` conditions). So the main effects of version and condition (and their interaction) will have some variance depending on the stimulus.
+In addition to generating a random intercept for each stimulus, we will also generate a random slope for any within-stimulus factors. Both `stim_version` and `sub_condition` are within-stimulus factors (i.e., all stimuli are seen in both `congruent` and `incongruent` versions and both `easy` and `hard` conditions). So the main effects of version and condition (and their interaction) will vary depending on the stimulus.
 
 They will also be correlated, but in a more complex way than above. You need to set the correlations for all pairs of slopes and intercept. Let's set the correlation between the random intercept and each of the slopes to -0.4 and the slopes all correlate with each other +0.2 (You could set each of the six correlations separately if you want, though). 
 
-<p class="info">See the [Simulating Multiple Vectors](rnorm_multi) tutorial for more other ways to set the correlations.</p>
+<p class="info">See the [Simulating Multiple Vectors](rnorm_multi) tutorial for other ways to set the correlations.</p>
 
 ```{r sim-stimuli}
 
@@ -160,7 +158,7 @@ stim <- rnorm_multi(
 
 ```
 
-Here, we're simulating different SDs for different effects, so our plot should reflect this.
+Here, we're simulating different SDs for different effects, so our plot should reflect this. The graph below uses the ``ggpairs` function fromt he `GGally` package to quickly visualise correlated variables.
 
 ```{r plot-stim-slope-cor, fig.width = 8, fig.height = 8, fig.cap="Double-check slope-intercept correlations"}
 
@@ -189,7 +187,7 @@ trials <- expand.grid(
 
 ## Calculate DV
 
-Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the stimulus-specific slope for condition, the interaction between condition and version (set to 0 for this example), the effect of stimulus version, the stimulus-specific slope for version, the subject-specific slope for version, and an error term. 
+Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the stimulus-specific slope for condition, the effect of stimulus version, the stimulus-specific slope for version, the subject-specific slope for condition, the interaction between condition and version (set to 0 for this example), the stimulus-specific slope for the interaction between condition and version, and an error term. 
 
 ```{r sim-dv}
 dat <- trials %>%
@@ -198,8 +196,8 @@ dat <- trials %>%
     sub_cond.e = recode(sub_cond, "hard" = -0.5, "easy" = +0.5),
     stim_version.e = recode(stim_version, "congruent" = -0.5, "incongruent" = +0.5),
     # calculate trial-specific effects by adding overall effects and slopes
-    version_eff = stim_version_eff + stim_version_slope + sub_version_slope,
     cond_eff = sub_cond_eff + stim_cond_slope,
+    version_eff = stim_version_eff + stim_version_slope + sub_version_slope,
     cond_version_eff = cond_version_ixn + stim_cond_version_slope,
     # calculate error term (normally distributed residual with SD set above)
     err = rnorm(nrow(.), 0, error_sd),
@@ -223,7 +221,7 @@ ggplot(dat, aes(sub_cond, dv, color = stim_version)) +
 
 ## Analysis
 
-New we will run a linear mixed effects model with `lmer` and look at the summary. You specify random slopes by adding the within-level effects to the random intercept specifications. Since the only within-subject factor is version, the random effects specification for subjects is `(1 + stim_version.e | sub_id)`. Since both condition and version are within-stimuli factors, the random effects specification for stimuli is `(1 + stim_version.e*sub_cond.e | stim_id)`.
+New we'll run a linear mixed effects model with `lmer` and look at the summary. You specify random slopes by adding the within-level effects to the random intercept specifications. Since the only within-subject factor is version, the random effects specification for subjects is `(1 + stim_version.e | sub_id)`. Since both condition and version are within-stimuli factors, the random effects specification for stimuli is `(1 + stim_version.e*sub_cond.e | stim_id)`.
 
 <p class="info">[Keep It Maximal](http://talklab.psy.gla.ac.uk/KeepItMaximalR2.pdf) is a great paper on how and why to set random slopes *maximally* like this.</p>
 
@@ -244,9 +242,8 @@ mod.sum
 
 First, check that your groups make sense (`mod.sum$ngrps`). 
 
-* The number of obs should be the total number of trials analysed. 
-* `sub_id` should be what we set `sub_n` to above (`r sub_n`).
-* `stim_id` should be what we set `stim_n` to above (`r stim_n`).
+* `sub_id` = `sub_n` (`r sub_n`)
+* `stim_id` = `stim_n` (`r stim_n`)
 
 ```{r mod-ngrps, echo = FALSE}
 mod.sum$ngrps
@@ -255,13 +252,13 @@ mod.sum$ngrps
 Next, look at the SDs for the random effects (`mod.sum$varcor`). 
 
 * Group:`sub_id`
-  * `(Intercept)` ~= `sub_sd` (`r sub_sd`)
-  * `stim_version.e` ~= `sub_version_sd` (`r sub_version_sd`)
+   * `(Intercept)` ~= `sub_sd` (`r sub_sd`)
+   * `stim_version.e` ~= `sub_version_sd` (`r sub_version_sd`)
 * Group: `stim_id`
-  * `(Intercept)` ~= `stim_sd` (`r stim_sd`)
-  * `stim_version.e` ~= `stim_version_sd` (`r stim_version_sd`)
-  * `sub_cond.e` ~= `stim_cond_sd` (`r stim_cond_sd`)
-  * `stim_version.e:sub_cond.e` ~= `stim_cond_version_sd` (`r stim_cond_version_sd`)
+   * `(Intercept)` ~= `stim_sd` (`r stim_sd`)
+   * `stim_version.e` ~= `stim_version_sd` (`r stim_version_sd`)
+   * `sub_cond.e` ~= `stim_cond_sd` (`r stim_cond_sd`)
+   * `stim_version.e:sub_cond.e` ~= `stim_cond_version_sd` (`r stim_cond_version_sd`)
 * Residual ~= `error_sd` (`r error_sd`)
 
 ```{r mod-varcor, echo = FALSE}
@@ -276,10 +273,10 @@ mod.sum$varcor
 
 Finally, look at the fixed effects (`mod.sum$coefficients`). 
 
-* `(Intercept)` ~= `grand_i` (`r grand_i`). 
-* `sub_cond.e` ~= `sub_cond_eff` (`r sub_cond_eff`). 
+* `(Intercept)` ~= `grand_i` (`r grand_i`)
+* `sub_cond.e` ~= `sub_cond_eff` (`r sub_cond_eff`)
 * `stim_version.e` ~= `stim_version_eff` (`r stim_version_eff`)
-* `sub_cond.e`:`stim_version.e` ~= `cond_version_ixn` (`r cond_version_ixn`).
+* `sub_cond.e`:`stim_version.e` ~= `cond_version_ixn` (`r cond_version_ixn`)
 
 ```{r mod-coef, echo = FALSE}
 mod.sum$coefficients
@@ -287,7 +284,7 @@ mod.sum$coefficients
 
 ### Random effects
 
-Plot the subject intercepts from our code above (`sub$sub_i`) against the subject intercepts calculcated by `lmer` (`ranef(mod)$sub_id`).
+Plot the subject intercepts and slopes from our code above (`sub$sub_i`) against the subject intercepts and slopes calculcated by `lmer` (`ranef(mod)$sub_id`).
 
 ```{r plot-sub-ranef, fig.width = 8, fig.height = 8, fig.cap = "Compare simulated subject random effects to those from the model"}
 ranef(mod)$sub_id %>%
@@ -296,13 +293,13 @@ ranef(mod)$sub_id %>%
          mod_version_slope = stim_version.e) %>%
   mutate(sub_id = as.integer(sub_id)) %>%
   left_join(sub, by = "sub_id") %>%
-  select(mod_i, sim_i = sub_i, 
-         mod_version_slope, sim_version_slope = sub_version_slope) %>%
+  select(mod_i, sub_i, 
+         mod_version_slope,  sub_version_slope) %>%
   GGally::ggpairs(lower = list(continuous = "smooth"),
                 progress = FALSE)
 ```
 
-Plot the stimulus intercepts from our code above (`stim$stim_i`) against the stimulus intercepts calculcated by `lmer` (`ranef(mod)$stim_id`).
+Plot the stimulus intercepts and slopes from our code above (`stim$stim_i`) against the stimulus intercepts and slopes calculcated by `lmer` (`ranef(mod)$stim_id`).
 
 ```{r plot-stim-ranef, fig.width = 16, fig.height = 16, fig.cap = "Compare simulated stimulus random effects to those from the model"}
 ranef(mod)$stim_id %>%
@@ -313,10 +310,10 @@ ranef(mod)$stim_id %>%
          mod_cond_version_slope = `stim_version.e:sub_cond.e`) %>%
   mutate(stim_id = as.integer(stim_id)) %>%
   left_join(stim, by = "stim_id") %>%
-  select(mod_i, sim_i = stim_i, 
-         mod_version_slope, sim_version_slope = stim_version_slope, 
-         mod_cond_slope, sim_cond_slope = stim_cond_slope, 
-         mod_cond_version_slope, sim_cond_version_slope = stim_cond_version_slope) %>%
+  select(mod_i, stim_i, 
+         mod_version_slope, stim_version_slope, 
+         mod_cond_slope, stim_cond_slope, 
+         mod_cond_version_slope, stim_cond_version_slope) %>%
   GGally::ggpairs(lower = list(continuous = "smooth"),
                 progress = FALSE)
 ```
@@ -395,8 +392,8 @@ sim_lmer <- function( sub_n = 200,
       sub_cond.e = recode(sub_cond, "hard" = -0.5, "easy" = +0.5),
       stim_version.e = recode(stim_version, "congruent" = -0.5, "incongruent" = +0.5),
       # calculate trial-specific effects by adding overall effects and slopes
-      version_eff = stim_version_eff + stim_version_slope + sub_version_slope,
       cond_eff = sub_cond_eff + stim_cond_slope,
+      version_eff = stim_version_eff + stim_version_slope + sub_version_slope,
       cond_version_eff = cond_version_ixn + stim_cond_version_slope,
       # calculate error term (normally distributed residual with SD set above)
       err = rnorm(nrow(.), 0, error_sd),
@@ -424,13 +421,6 @@ Run the function with the default values.
 ```{r sim-lmer-default, eval=FALSE}
 sim_lmer()
 ```
-
-See what happens when you increase the SD for the effect of version within subjects.
-
-```{r sim-lmer-changes, eval=FALSE}
-sim_lmer(sub_version_sd = 50)
-```
-
 
 Try changing some variables to simulate null effects.
 
