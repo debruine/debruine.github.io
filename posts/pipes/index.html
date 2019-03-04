@@ -9,23 +9,23 @@
     <meta name="description" content="Lisa DeBruine&#39;s coding website">
     <meta name="keywords" content="blog,code">
 
-    <base href="https://debruine.github.io">
+    <base href="/">
     <title>
   Pipes · Lisa DeBruine
 </title>
 
-    <link rel="canonical" href="https://debruine.github.io/posts/pipes/">
+    <link rel="canonical" href="/posts/pipes/">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:300,700|Source+Code+Pro:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
-    <script src="https://debruine.github.io/js/highlight.pack.js"></script>
+    <script src="/js/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
     
       
       
-      <link rel="stylesheet" href="https://debruine.github.io/css/coder.min.cd087ace86754b082dec94545567f8361cba42e84f8e15edbc4a9f6e52bd1f6a.css" integrity="sha256-zQh6zoZ1Swgt7JRUVWf4Nhy6QuhPjhXtvEqfblK9H2o=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.cd087ace86754b082dec94545567f8361cba42e84f8e15edbc4a9f6e52bd1f6a.css" integrity="sha256-zQh6zoZ1Swgt7JRUVWf4Nhy6QuhPjhXtvEqfblK9H2o=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -33,15 +33,15 @@
     
 
     
-      <link rel="stylesheet" href="https://debruine.github.io/css/xcode.css">
+      <link rel="stylesheet" href="/css/xcode.css">
     
-      <link rel="stylesheet" href="https://debruine.github.io/css/style.css">
+      <link rel="stylesheet" href="/css/style.css">
     
       <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
     
 
-    <link rel="icon" type="image/png" href="https://debruine.github.io/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://debruine.github.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
 
     
 
@@ -52,7 +52,7 @@
     <main class="wrapper">
       <nav class="navigation">
   <section class="container">
-    <a class="navigation-title" href="https://debruine.github.io">
+    <a class="navigation-title" href="/">
       Lisa DeBruine
     </a>
     <input type="checkbox" id="menu-toggle" />
@@ -61,15 +61,15 @@
       
         
           <li class="navigation-item">
-            <a class="navigation-link" href="https://debruine.github.io/posts/">Blog</a>
+            <a class="navigation-link" href="/posts/">Blog</a>
           </li>
         
           <li class="navigation-item">
-            <a class="navigation-link" href="https://debruine.github.io/projects/">Projects</a>
+            <a class="navigation-link" href="/projects/">Projects</a>
           </li>
         
           <li class="navigation-item">
-            <a class="navigation-link" href="https://debruine.github.io/about/">About</a>
+            <a class="navigation-link" href="/about/">About</a>
           </li>
         
       
@@ -102,15 +102,15 @@
           </div>
           <div class="categories">
   <i class="fas fa-folder"></i>
-    <a href="https://debruine.github.io/categories/rstats/">rstats</a></div>
+    <a href="/categories/rstats/">rstats</a></div>
 
           <div class="tags">
   <i class="fas fa-tag"></i>
-    <a href="https://debruine.github.io/tags/r/">r</a>
+    <a href="/tags/r/">r</a>
       <span class="separator">•</span>
-    <a href="https://debruine.github.io/tags/tidyverse/">tidyverse</a>
+    <a href="/tags/tidyverse/">tidyverse</a>
       <span class="separator">•</span>
-    <a href="https://debruine.github.io/tags/pipes/">pipes</a></div>
+    <a href="/tags/pipes/">pipes</a></div>
 
         </div>
       </header>
@@ -120,7 +120,7 @@
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<p><img src="https://debruine.github.io/images/pipe_sticker.png" style="width: 200px; float: right;"></p>
+<p><img src="/images/pipe_sticker.png" style="width: 200px; float: right;"></p>
 <p>Pipes are a way to order your code in a more readable format.</p>
 <p>Let’s say you have a small data table with 10 participant IDs, two columns with variable type A, and 2 columns with variable type B. You want to calculate the mean of the A variables and the mean of the B variables and return a table with 10 rows (1 for each participant) and 3 columns (<code>id</code>, <code>A_mean</code> and <code>B_mean</code>).</p>
 <p>One way you could do this is by creating a new object at every step and using that object in the next step. This is pretty clear, but you’ve created 6 unnecessary data objects in your environment. This can get confusing in very long scripts.</p>
@@ -283,8 +283,8 @@ You can debug a pipe by running just the first few functions by highlighting fro
 
 
 var disqus_config = function () {
-  this.page.url = 'https://debruine.github.io' + "https://debruine.github.io/posts/pipes/";  
-  this.page.identifier = "https://debruine.github.io/posts/pipes/"; 
+  this.page.url = 'https://debruine.github.io' + "/posts/pipes/";  
+  this.page.identifier = "/posts/pipes/"; 
 };
 
 

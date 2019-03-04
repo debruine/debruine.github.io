@@ -9,23 +9,23 @@
     <meta name="description" content="Lisa DeBruine&#39;s coding website">
     <meta name="keywords" content="blog,code">
 
-    <base href="https://debruine.github.io">
+    <base href="/">
     <title>
   Simulating Mixed Effects · Lisa DeBruine
 </title>
 
-    <link rel="canonical" href="https://debruine.github.io/posts/simulating-mixed-effects/">
+    <link rel="canonical" href="/posts/simulating-mixed-effects/">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:300,700|Source+Code+Pro:400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
-    <script src="https://debruine.github.io/js/highlight.pack.js"></script>
+    <script src="/js/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 
     
       
       
-      <link rel="stylesheet" href="https://debruine.github.io/css/coder.min.cd087ace86754b082dec94545567f8361cba42e84f8e15edbc4a9f6e52bd1f6a.css" integrity="sha256-zQh6zoZ1Swgt7JRUVWf4Nhy6QuhPjhXtvEqfblK9H2o=" crossorigin="anonymous" media="screen" />
+      <link rel="stylesheet" href="/css/coder.min.cd087ace86754b082dec94545567f8361cba42e84f8e15edbc4a9f6e52bd1f6a.css" integrity="sha256-zQh6zoZ1Swgt7JRUVWf4Nhy6QuhPjhXtvEqfblK9H2o=" crossorigin="anonymous" media="screen" />
     
 
     
@@ -33,15 +33,15 @@
     
 
     
-      <link rel="stylesheet" href="https://debruine.github.io/css/xcode.css">
+      <link rel="stylesheet" href="/css/xcode.css">
     
-      <link rel="stylesheet" href="https://debruine.github.io/css/style.css">
+      <link rel="stylesheet" href="/css/style.css">
     
       <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
     
 
-    <link rel="icon" type="image/png" href="https://debruine.github.io/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://debruine.github.io/images/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
 
     
 
@@ -52,7 +52,7 @@
     <main class="wrapper">
       <nav class="navigation">
   <section class="container">
-    <a class="navigation-title" href="https://debruine.github.io">
+    <a class="navigation-title" href="/">
       Lisa DeBruine
     </a>
     <input type="checkbox" id="menu-toggle" />
@@ -61,15 +61,15 @@
       
         
           <li class="navigation-item">
-            <a class="navigation-link" href="https://debruine.github.io/posts/">Blog</a>
+            <a class="navigation-link" href="/posts/">Blog</a>
           </li>
         
           <li class="navigation-item">
-            <a class="navigation-link" href="https://debruine.github.io/projects/">Projects</a>
+            <a class="navigation-link" href="/projects/">Projects</a>
           </li>
         
           <li class="navigation-item">
-            <a class="navigation-link" href="https://debruine.github.io/about/">About</a>
+            <a class="navigation-link" href="/about/">About</a>
           </li>
         
       
@@ -102,17 +102,17 @@
           </div>
           <div class="categories">
   <i class="fas fa-folder"></i>
-    <a href="https://debruine.github.io/categories/rstats/">rstats</a></div>
+    <a href="/categories/rstats/">rstats</a></div>
 
           <div class="tags">
   <i class="fas fa-tag"></i>
-    <a href="https://debruine.github.io/tags/r/">R</a>
+    <a href="/tags/r/">R</a>
       <span class="separator">•</span>
-    <a href="https://debruine.github.io/tags/simulation/">simulation</a>
+    <a href="/tags/simulation/">simulation</a>
       <span class="separator">•</span>
-    <a href="https://debruine.github.io/tags/lmer/">lmer</a>
+    <a href="/tags/lmer/">lmer</a>
       <span class="separator">•</span>
-    <a href="https://debruine.github.io/tags/lme4/">lme4</a></div>
+    <a href="/tags/lme4/">lme4</a></div>
 
         </div>
       </header>
@@ -155,7 +155,7 @@ sub &lt;- tibble(
   sub_cond = rep(c(&quot;easy&quot;,&quot;hard&quot;), each = sub_n/2) # between-subjects factor
 )</code></pre>
 <p class="info">
-If you already have <a href="https://debruine.github.io/data/pilot_data.csv">pilot data</a>, you can estimate a realistic SD for the subjects’ random intercepts using the following code.
+If you already have <a href="/data/pilot_data.csv">pilot data</a>, you can estimate a realistic SD for the subjects’ random intercepts using the following code.
 </p>
 <pre class="r"><code>pilot_data &lt;- read_csv(&quot;pilot_data.csv&quot;)
 pilot_mod &lt;- lmer(dv ~ 1 + (1 | sub_id) + (1 | stim_id), data = pilot_data)
@@ -168,7 +168,7 @@ sub_sd &lt;- VarCorr(pilot_mod) %&gt;%
 <pre class="r"><code>ggplot(sub, aes(sub_i, color = sub_cond)) +
   geom_density()</code></pre>
 <div class="figure"><span id="fig:plot-subject"></span>
-<img src="https://debruine.github.io/posts/sim_lmer_files/figure-html/plot-subject-1.png" alt="Double-check subject intercepts" width="672" />
+<img src="/posts/sim_lmer_files/figure-html/plot-subject-1.png" alt="Double-check subject intercepts" width="672" />
 <p class="caption">
 Figure 1: Double-check subject intercepts
 </p>
@@ -197,7 +197,7 @@ stim &lt;- ranef(pilot_mod)$stim_id %&gt;%
 <pre class="r"><code>ggplot(stim, aes(stim_i)) +
   geom_density()</code></pre>
 <div class="figure"><span id="fig:plot-stimuli"></span>
-<img src="https://debruine.github.io/posts/sim_lmer_files/figure-html/plot-stimuli-1.png" alt="Double-check stimulus intercepts" width="672" />
+<img src="/posts/sim_lmer_files/figure-html/plot-stimuli-1.png" alt="Double-check stimulus intercepts" width="672" />
 <p class="caption">
 Figure 2: Double-check stimulus intercepts
 </p>
@@ -299,7 +299,7 @@ Figure 2: Double-check stimulus intercepts
 <p>Now we can calculate the DV by adding together an overall intercept (mean RT for all trials), the subject-specific intercept, the stimulus-specific intercept, the effect of subject condition, the interaction between condition and version (set to 0 for this first example), the effect of stimulus version, and an error term.</p>
 <div id="simulating-fixed-effects" class="section level3">
 <h3>Simulating Fixed Effects</h3>
-<p>We set these effects in raw units (ms) and <a href="https://debruine.github.io/posts/coding-schemes.html">effect-code</a> the subject condition and stimulus version. It’s usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5. So when we set the effect of subject condition (<code>sub_cond_eff</code>) to 50, that means the average difference between the easy and hard condition is 50ms. <code>Easy</code> is effect-coded as -0.5 and <code>hard</code> is effect-coded as +0.5, which means that trials in the easy condition have -0.5 * 50ms (i.e., -25ms) added to their reaction time, while trials in the hard condition have +0.5 * 50ms (i.e., +25ms) added to their reaction time.</p>
+<p>We set these effects in raw units (ms) and <a href="/posts/coding-schemes.html">effect-code</a> the subject condition and stimulus version. It’s usually easiest to interpret if you recode the level that you predict will be larger as +0.5 and the level you predict will be smaller as -0.5. So when we set the effect of subject condition (<code>sub_cond_eff</code>) to 50, that means the average difference between the easy and hard condition is 50ms. <code>Easy</code> is effect-coded as -0.5 and <code>hard</code> is effect-coded as +0.5, which means that trials in the easy condition have -0.5 * 50ms (i.e., -25ms) added to their reaction time, while trials in the hard condition have +0.5 * 50ms (i.e., +25ms) added to their reaction time.</p>
 <pre class="r"><code># set variables to use in calculations below
 grand_i          &lt;- 400 # overall mean DV
 sub_cond_eff     &lt;- 50  # mean difference between conditions: hard - easy
@@ -336,7 +336,7 @@ error_sd &lt;- VarCorr(pilot_mod) %&gt;%
   geom_violin(alpha = 0.5) +
   geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
 <div class="figure"><span id="fig:plot-dv"></span>
-<img src="https://debruine.github.io/posts/sim_lmer_files/figure-html/plot-dv-1.png" alt="Double-check the simulated pattern" width="672" />
+<img src="/posts/sim_lmer_files/figure-html/plot-dv-1.png" alt="Double-check the simulated pattern" width="672" />
 <p class="caption">
 Figure 3: Double-check the simulated pattern
 </p>
@@ -418,7 +418,7 @@ cond_version_ixn &lt;- (easy_incon - easy_congr) -
   geom_violin(alpha = 0.5) +
   geom_boxplot(width = 0.2, position = position_dodge(width = 0.9))</code></pre>
 <div class="figure"><span id="fig:plot-ixn"></span>
-<img src="https://debruine.github.io/posts/sim_lmer_files/figure-html/plot-ixn-1.png" alt="Double-check the interaction between condition and version" width="672" />
+<img src="/posts/sim_lmer_files/figure-html/plot-ixn-1.png" alt="Double-check the interaction between condition and version" width="672" />
 <p class="caption">
 Figure 4: Double-check the interaction between condition and version
 </p>
@@ -580,7 +580,7 @@ mod.sum</code></pre>
   xlab(&quot;Simulated random intercepts (sub_i)&quot;) +
   ylab(&quot;Modeled random intercepts&quot;)</code></pre>
 <div class="figure"><span id="fig:plot-sub-ranef"></span>
-<img src="https://debruine.github.io/posts/sim_lmer_files/figure-html/plot-sub-ranef-1.png" alt="Compare simulated subject random intercepts to those from the model" width="672" />
+<img src="/posts/sim_lmer_files/figure-html/plot-sub-ranef-1.png" alt="Compare simulated subject random intercepts to those from the model" width="672" />
 <p class="caption">
 Figure 5: Compare simulated subject random intercepts to those from the model
 </p>
@@ -597,7 +597,7 @@ Figure 5: Compare simulated subject random intercepts to those from the model
   xlab(&quot;Simulated random intercepts (stim_i)&quot;) +
   ylab(&quot;Modeled random intercepts&quot;)</code></pre>
 <div class="figure"><span id="fig:plot-stim-ranef"></span>
-<img src="https://debruine.github.io/posts/sim_lmer_files/figure-html/plot-stim-ranef-1.png" alt="Compare simulated stimulus random intercepts to those from the model" width="672" />
+<img src="/posts/sim_lmer_files/figure-html/plot-stim-ranef-1.png" alt="Compare simulated stimulus random intercepts to those from the model" width="672" />
 <p class="caption">
 Figure 6: Compare simulated stimulus random intercepts to those from the model
 </p>
@@ -765,8 +765,8 @@ Figure 6: Compare simulated stimulus random intercepts to those from the model
 
 
 var disqus_config = function () {
-  this.page.url = 'https://debruine.github.io' + "https://debruine.github.io/posts/simulating-mixed-effects/";  
-  this.page.identifier = "https://debruine.github.io/posts/simulating-mixed-effects/"; 
+  this.page.url = 'https://debruine.github.io' + "/posts/simulating-mixed-effects/";  
+  this.page.identifier = "/posts/simulating-mixed-effects/"; 
 };
 
 

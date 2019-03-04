@@ -2,38 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Lisa DeBruine</title>
-    <link>https://debruine.github.io/categories/</link>
+    <link>/categories/</link>
     <description>Recent content in Categories on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     
-	<atom:link href="https://debruine.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Prereg</title>
-      <link>https://debruine.github.io/categories/prereg/</link>
+      <link>/categories/prereg/</link>
       <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/categories/prereg/</guid>
+      <guid>/categories/prereg/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Rstats</title>
-      <link>https://debruine.github.io/categories/rstats/</link>
-      <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
+      <link>/categories/rstats/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/categories/rstats/</guid>
+      <guid>/categories/rstats/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Stats</title>
-      <link>https://debruine.github.io/categories/stats/</link>
+      <link>/categories/stats/</link>
       <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/categories/stats/</guid>
+      <guid>/categories/stats/</guid>
       <description></description>
     </item>
     

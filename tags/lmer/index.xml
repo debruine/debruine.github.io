@@ -2,31 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Lmer on Lisa DeBruine</title>
-    <link>https://debruine.github.io/tags/lmer/</link>
+    <link>/tags/lmer/</link>
     <description>Recent content in Lmer on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://debruine.github.io/tags/lmer/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/lmer/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>What&#39;s wrong with aggregating data?</title>
+      <link>/posts/aggregating/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/aggregating/</guid>
+      <description>library(tidyverse) library(lmerTest) set.seed(90210) Imagine you want to find out if Armenian women born on an even-numbered day are taller than women born on an odd-numbered day. (I’ve chosen Armenian women because they’re the first row in this paper.)
+First, let’s simulate a group of 20 women born on even-numbered days and 20 women born on odd-numbered days.
+stim_n &amp;lt;- 20 # height stats from https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0018962 height_m &amp;lt;- 158.1 height_sd &amp;lt;- 5.</description>
+    </item>
+    
+    <item>
+      <title>LMER vs ANOVA</title>
+      <link>/posts/lmer-vs-anova/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/lmer-vs-anova/</guid>
+      <description>This tutorial will walk you through generating a dataset using a function modified from [Simulating Random Slopes][simulating-random-slopes] and comparing the output of a mixed effects model with the output of ANOVAs run on the data aggregated by subjects or by stimuli. We’ll use the afex package to run our ANOVAs.
+library(tidyverse) library(lmerTest) library(afex) library(faux) options(&amp;quot;scipen&amp;quot;=10, &amp;quot;digits&amp;quot;=4) set.seed(8675309) # Jenny, I&amp;#39;ve got your number Functions Generate Data This function is just the dataset generating code from the function in [Simulating Random Slopes][simulating-random-slopes].</description>
+    </item>
+    
+    <item>
       <title>Simulating Random Slopes</title>
-      <link>https://debruine.github.io/posts/simulating-random-slopes/</link>
+      <link>/posts/simulating-random-slopes/</link>
       <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/simulating-random-slopes/</guid>
+      <guid>/posts/simulating-random-slopes/</guid>
       <description>This tutorial follows on from Simulating Mixed Effects and expands it by simulating random slopes. You’ll want to look at that tutorial to get an idea of how the example study is set up. To summarise:
  stim_version is a within-subject and within-stimulus factor (stimuli are shown in both of two versions: congruent and incongruent) sub_cond is a between-subject and within-stimulus factor (subjects are in one of two conditions: easy and hard)  Setup library(tidyverse) library(lmerTest) library(GGally) # makes it easy to plot relationships between variables options(&amp;quot;scipen&amp;quot;=10, &amp;quot;digits&amp;quot;=4) set.</description>
     </item>
     
     <item>
       <title>Simulating Mixed Effects</title>
-      <link>https://debruine.github.io/posts/simulating-mixed-effects/</link>
+      <link>/posts/simulating-mixed-effects/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/simulating-mixed-effects/</guid>
+      <guid>/posts/simulating-mixed-effects/</guid>
       <description>[Updated 2019-01-09]
 I’m going to walk through one example of simulating a dataset with random effects. I’ll generate data for a Stroop task where people (subjects) say the colour of colour words (stimuli) shown in each of two versions (congruent and incongruent). Subjects are in one of two conditions (hard and easy). The dependent variable (DV) is reaction time.
  congruent: RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE incongruent: RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE  We expect people to have faster reaction times for congruent stimuli than incongruent stimuli (main effect of version) and to be faster in the easy condition than the hard condition (main effect of condition).</description>
@@ -34,10 +55,10 @@ I’m going to walk through one example of simulating a dataset with random effe
     
     <item>
       <title>Coding Schemes</title>
-      <link>https://debruine.github.io/posts/coding-schemes/</link>
+      <link>/posts/coding-schemes/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/coding-schemes/</guid>
+      <guid>/posts/coding-schemes/</guid>
       <description>library(tidyverse) library(lmerTest) How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
 First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider).</description>
     </item>

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Cronbach on Lisa DeBruine</title>
-    <link>https://debruine.github.io/tags/cronbach/</link>
+    <link>/tags/cronbach/</link>
     <description>Recent content in Cronbach on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 17 Feb 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://debruine.github.io/tags/cronbach/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/cronbach/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>How many raters do I need?</title>
-      <link>https://debruine.github.io/posts/how-many-raters/</link>
+      <link>/posts/how-many-raters/</link>
       <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/how-many-raters/</guid>
+      <guid>/posts/how-many-raters/</guid>
       <description>I’ve often wondered how many raters I need to sample to get reliable stimulus ratings.
 This will obviously depend on the stimuli and what they’re being rated for. If there is a lot of inter-rater variation or very little inter-stimulus variation, you will need more raters to generate mean ratings with any reliability.
 If you have a large set of ratings of a type of stimulus, population of rater, and type of rating you’re interested in, you can use the script below to figure out how many raters you need to sample to get mean stimulus ratings that are well-correlated with mean ratings from very large samples.</description>
@@ -24,10 +24,10 @@ If you have a large set of ratings of a type of stimulus, population of rater, a
     
     <item>
       <title>psych::alpha()</title>
-      <link>https://debruine.github.io/posts/psych-alpha/</link>
+      <link>/posts/psych-alpha/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/psych-alpha/</guid>
+      <guid>/posts/psych-alpha/</guid>
       <description>This is a tutorial in progress on how to calculate Cronbach’s alphas using the psych package in R.
 library(tidyverse) library(psych) disgust &amp;lt;- read_csv(&amp;quot;https://gupsych.github.io/data_skills/data/disgust.csv&amp;quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis... Choose the 7 moral disgust items Make sure the Model is “Alpha” Under Statistics, add descriptives for Item, Scale, and Scale if Item Deleted    psych::alpha() alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,
 check.keys=FALSE, n.</description>

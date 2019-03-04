@@ -2,21 +2,32 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Mixed Effects on Lisa DeBruine</title>
-    <link>https://debruine.github.io/tags/mixed-effects/</link>
+    <link>/tags/mixed-effects/</link>
     <description>Recent content in Mixed Effects on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 23 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://debruine.github.io/tags/mixed-effects/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/mixed-effects/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>What&#39;s wrong with aggregating data?</title>
+      <link>/posts/aggregating/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/aggregating/</guid>
+      <description>library(tidyverse) library(lmerTest) set.seed(90210) Imagine you want to find out if Armenian women born on an even-numbered day are taller than women born on an odd-numbered day. (I’ve chosen Armenian women because they’re the first row in this paper.)
+First, let’s simulate a group of 20 women born on even-numbered days and 20 women born on odd-numbered days.
+stim_n &amp;lt;- 20 # height stats from https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0018962 height_m &amp;lt;- 158.1 height_sd &amp;lt;- 5.</description>
+    </item>
+    
+    <item>
       <title>Coding Schemes</title>
-      <link>https://debruine.github.io/posts/coding-schemes/</link>
+      <link>/posts/coding-schemes/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/coding-schemes/</guid>
+      <guid>/posts/coding-schemes/</guid>
       <description>library(tidyverse) library(lmerTest) How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
 First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider).</description>
     </item>
