@@ -2,6 +2,7 @@
 title: "What's wrong with aggregating data?"
 author: ~
 date: "2019-03-04"
+bibliography: [_bib.bib]
 slug: aggregating
 categories: ["rstats"]
 tags: ["r", "lmer", "mixed effects", "anova", "aggregation", "simulation"]
@@ -129,16 +130,16 @@ dat_agg_by_rater <- dat %>%
 t.test(dat_agg_by_rater$odd, dat_agg_by_rater$even, paired = TRUE)
 ```
 
-Now the difference between the odd- and even-birthday groups is highly significant! What's going is that you now have a relatively accurate estimate of the chance mean difference between the 20 women in the odd-birthday group and the 20 women in the even-birthday group. Since raters are the unit of analysis, this effect is likely to generalise to the larger population of potential raters, but only when they are rating **these exact stimuli**. Your conclusions cannot generalise beyond the stimulus set used here.
+Now the difference between the odd- and even-birthday groups is highly significant! What's going is that you now have a relatively accurate estimate of the chance mean difference between the `r stim_n` women in the odd-birthday group and the `r stim_n` women in the even-birthday group. Since raters are the unit of analysis, this effect is likely to generalise to the larger population of potential raters, but only when they are rating **these exact stimuli**. Your conclusions cannot generalise beyond the stimulus set used here.
 
-While this seems like an obvious problem when the question is whether Armenian women with odd birthdays are taller or shorter than Armenian women with even birthdays, the problem is not so obvious for other questions, like whether boxers who won their last match have more masculine faces than fighters who lost their last match. The point of this tutorial isn't to call out any particular studies (I've certainly done this wrong myself plenty of times in the past), but to illustrate the enormous problem with this method and to explain the solution.
+While this seems like an obvious problem when the question is whether Armenian women with odd birthdays are taller or shorter than Armenian women with even birthdays, the problem is not so obvious for other questions, like whether boxers who won their last match have more masculine faces than boxers who lost their last match. The point of this tutorial isn't to call out any particular studies (I've certainly done this wrong myself plenty of times in the past), but to illustrate the enormous problem with this method and to explain the solution.
 
-The larger the number of raters, the larger this false positive problem becomes. You can play around with how changing parameters changes the power and false positive rates for by-stimulus, by-rater, and mixed effect designs at [this shiny app](http://shiny.psy.gla.ac.uk/debruine/anova_vs_lmer/).
+The larger the number of raters, the larger this false positive problem becomes because you're increasing power to detect the small chance diffference between the two groups. You can play around with how changing parameters changes the power and false positive rates for by-stimulus, by-rater, and mixed effect designs at [this shiny app](http://shiny.psy.gla.ac.uk/debruine/anova_vs_lmer/).
 
 
 ### Mixed Effect Model
 
-In the particular case above, we're only interested in the between-stimulus and within-rater main effect of birthday oddness. Therefore, aggregating by stimuli doesn't inflate your false positive rate, while aggregating by rater does. However, other designs might have increased false positives for aggregating by stimuli but not by rater, or when aggregating by either.
+In the particular case above, we're only interested in the between-stimulus (and within-rater) main effect of birthday oddness. Therefore, aggregating by stimuli doesn't inflate your false positive rate, while aggregating by rater does. However, other designs might have increased false positives for aggregating by stimuli but not by rater, or when aggregating by either.
 
 A mixed effects model avoids the problems of aggregation completely by modelling random variation for both the stimuli and raters, as well as random variation in the size of within-group effects. 
 
@@ -150,7 +151,7 @@ dat$birthday.e <- recode(dat$birthday, "odd" = 0.5, "even" = -0.5)
 
 mod <- lmer(estimate ~ birthday.e +
               # random slope for effect of birthday, random intercept for rater bias
-              (1 + birthday.e | rater_id) + 
+              (1 + birthday.e || rater_id) + 
               # random intercept for variation in stim height
               (1 | stim_id), 
             data = dat)
@@ -162,3 +163,9 @@ summary(mod)
 The estimate for `(Intercept)` is just the mean height estimate (`r fixef(mod)[["(Intercept)"]] %>% round(2)` cm) and the estimate for `birthday.e` is the mean difference between the odd and even birthday groups (`r fixef(mod)[["birthday.e"]] %>% round(2)` cm). You can now generalise the conclusions of this mixed effects model to both the population of raters and the population of stimuli.
 
 <p class="info">Thanks to [Liam Satchell](https://twitter.com/lpsatchell), [Alex Jones](https://twitter.com/AlexJonesPhD), and [Ben Jones](https://twitter.com/Ben_C_J) for the stimulating late-night Twitter discussion that prompted this blog post!</p>
+
+### References
+
+Plenty of papers have made this point much more thoroughly [@KeepItMaximal, @Coleman1964, @Judd2012, @Wolsiefer2017]. 
+
+

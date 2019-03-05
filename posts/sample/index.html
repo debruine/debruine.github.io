@@ -122,7 +122,7 @@
 <pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.1.0       ✔ purrr   0.3.0  
 ## ✔ tibble  2.0.1       ✔ dplyr   0.8.0.1
-## ✔ tidyr   0.8.2       ✔ stringr 1.3.1  
+## ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
 ## ✔ readr   1.3.1       ✔ forcats 0.3.0</code></pre>
 <pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
@@ -137,7 +137,7 @@ data &lt;- data.frame(
 t &lt;- t.test(data$a,data$b)
 
 t$p.value</code></pre>
-<pre><code>## [1] 0.4573494</code></pre>
+<pre><code>## [1] 0.4094208</code></pre>
 <p>Now let’s repeat that procedure 1000 times. The easiest way to do that is to make a function that returns the information you want.</p>
 <pre class="r"><code>tPower &lt;- function() {
   n = 100
@@ -153,7 +153,7 @@ t$p.value</code></pre>
 }
 
 tPower()</code></pre>
-<pre><code>## [1] 0.6814315</code></pre>
+<pre><code>## [1] 0.5535339</code></pre>
 <pre class="r"><code>mySample &lt;- data.frame(
   p = replicate(10000, tPower())
 ) 
@@ -163,7 +163,7 @@ mySample %&gt;%
   geom_histogram(bins = 20, boundary = 0)</code></pre>
 <p><img src="/posts/power_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>mean(mySample$p &lt; .05)</code></pre>
-<pre><code>## [1] 0.0495</code></pre>
+<pre><code>## [1] 0.0511</code></pre>
 <p>What if you induced a small effect of 0.2 SD?</p>
 <pre class="r"><code>tPower2 &lt;- function() {
   n = 100
@@ -179,7 +179,7 @@ mySample %&gt;%
 }
 
 tPower2()</code></pre>
-<pre><code>## [1] 0.155059</code></pre>
+<pre><code>## [1] 0.282526</code></pre>
 <pre class="r"><code>mySample2 &lt;- data.frame(
   p = replicate(10000, tPower2())
 ) 
@@ -189,7 +189,7 @@ mySample2 %&gt;%
   geom_histogram(bins = 20, boundary = 0)</code></pre>
 <p><img src="/posts/power_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>mean(mySample2$p &lt; .05)</code></pre>
-<pre><code>## [1] 0.2955</code></pre>
+<pre><code>## [1] 0.288</code></pre>
 <p>Hmm, you only get a p-value less than .05 30% of the time. That means that your study would only have 30% power to detect an effect this big with 100 subjects. Let’s make a new function to give you the p-value of a study with any number of subjects (you put the N inside the parentheses of the function).</p>
 <pre class="r"><code>tPowerN &lt;- function(n) {
 
@@ -204,7 +204,7 @@ mySample2 %&gt;%
 }
 
 tPowerN(200)</code></pre>
-<pre><code>## [1] 0.01809118</code></pre>
+<pre><code>## [1] 0.002144613</code></pre>
 <pre class="r"><code>mySampleN &lt;- data.frame(
   p200 = replicate(10000, tPowerN(200))
 ) 
@@ -214,7 +214,7 @@ mySampleN %&gt;%
   geom_histogram(bins = 20, boundary = 0)</code></pre>
 <p><img src="/posts/power_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>mean(mySampleN$p200 &lt; .05)</code></pre>
-<pre><code>## [1] 0.5152</code></pre>
+<pre><code>## [1] 0.5117</code></pre>
 <pre class="r"><code>nlist &lt;- seq(200, 1000, by = 100)
 
 remove(mySampleN)
