@@ -2,34 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Anova on Lisa DeBruine</title>
-    <link>/tags/anova/</link>
+    <link>https://debruine.github.io/tags/anova/</link>
     <description>Recent content in Anova on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/anova/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/anova/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>What&#39;s wrong with aggregating data?</title>
-      <link>/posts/aggregating/</link>
+      <link>https://debruine.github.io/posts/aggregating/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/posts/aggregating/</guid>
+      <guid>https://debruine.github.io/posts/aggregating/</guid>
       <description>Shiny app for a face-rating example. library(tidyverse) library(lmerTest) set.seed(90210) Imagine you want to find out if Armenian women born on an even-numbered day are taller than women born on an odd-numbered day. (I’ve chosen Armenian women because they’re the first row in this paper.)
 First, let’s simulate a group of 20 women born on even-numbered days and 20 women born on odd-numbered days.
 stim_n &amp;lt;- 20 # height stats from https://journals.</description>
-    </item>
-    
-    <item>
-      <title>LMER vs ANOVA</title>
-      <link>/drafts/lmer-vs-anova/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/drafts/lmer-vs-anova/</guid>
-      <description>This tutorial will walk you through generating a dataset using a function modified from [Simulating Random Slopes][simulating-random-slopes] and comparing the output of a mixed effects model with the output of ANOVAs run on the data aggregated by subjects or by stimuli. We’ll use the afex package to run our ANOVAs.
-library(tidyverse) library(lmerTest) library(afex) library(faux) options(&amp;quot;scipen&amp;quot;=10, &amp;quot;digits&amp;quot;=4) set.seed(8675309) # Jenny, I&amp;#39;ve got your number Functions Generate Data This function is just the dataset generating code from the function in [Simulating Random Slopes][simulating-random-slopes].</description>
     </item>
     
   </channel>

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rep on Lisa DeBruine</title>
-    <link>/tags/rep/</link>
+    <link>https://debruine.github.io/tags/rep/</link>
     <description>Recent content in Rep on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 21 Jun 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/rep/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/rep/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>rep()</title>
-      <link>/posts/rep/</link>
+      <link>https://debruine.github.io/posts/rep/</link>
       <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/rep/</guid>
+      <guid>https://debruine.github.io/posts/rep/</guid>
       <description>rep(x, times = 1, length.out = NA, each = 1) is pretty useful for simulating data. Here are some common recipes:
  Repeat a single number (1) a number of times (10)  rep(1, 10) ## [1] 1 1 1 1 1 1 1 1 1 1  Repeat a series of numbers (1:5) a number of times (2)  rep(1:5, 2) ## [1] 1 2 3 4 5 1 2 3 4 5 rep(1:5, times=2) ## [1] 1 2 3 4 5 1 2 3 4 5  If times is not an integer, it is truncated (not rounded).</description>
     </item>

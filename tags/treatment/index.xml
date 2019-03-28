@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Treatment on Lisa DeBruine</title>
-    <link>/tags/treatment/</link>
+    <link>https://debruine.github.io/tags/treatment/</link>
     <description>Recent content in Treatment on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 23 Jun 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/treatment/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/treatment/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Coding Schemes</title>
-      <link>/posts/coding-schemes/</link>
+      <link>https://debruine.github.io/posts/coding-schemes/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/coding-schemes/</guid>
+      <guid>https://debruine.github.io/posts/coding-schemes/</guid>
       <description>library(tidyverse) library(lmerTest) How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
 First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider).</description>
     </item>
