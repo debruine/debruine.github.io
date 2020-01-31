@@ -13,10 +13,10 @@
     
     <item>
       <title>Markr</title>
-      <link>/posts/markr/</link>
+      <link>/drafts/markr/</link>
       <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/posts/markr/</guid>
+      <guid>/drafts/markr/</guid>
       <description> Install markr Install markr from github using the commented code below. Load the markr and tidyverse libraries.
 # devtools::install_github(&amp;quot;debruine/markr&amp;quot;) library(markr) library(tidyverse)  </description>
     </item>

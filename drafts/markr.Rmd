@@ -1,0 +1,19 @@
+---
+title: "Markr"
+author: ~
+date: "2019-01-21"
+slug: markr
+categories: ["rstats"]
+tags: ["r", "markr", "teaching"]
+---
+
+## Install markr
+
+Install markr from github using the commented code below. Load the `markr` and `tidyverse` libraries. 
+
+```{r install-markr, message=FALSE}
+# devtools::install_github("debruine/markr")
+library(markr)
+library(tidyverse)
+```
+

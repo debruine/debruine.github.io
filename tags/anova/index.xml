@@ -28,8 +28,7 @@ stim_n &amp;lt;- 20 # height stats from https://journals.</description>
       <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>/drafts/lmer-vs-anova/</guid>
-      <description>This tutorial will walk you through generating a dataset using a function modified from [Simulating Random Slopes][simulating-random-slopes] and comparing the output of a mixed effects model with the output of ANOVAs run on the data aggregated by subjects or by stimuli. We’ll use the afex package to run our ANOVAs.
-library(tidyverse) library(lmerTest) library(afex) library(faux) options(&amp;quot;scipen&amp;quot;=10, &amp;quot;digits&amp;quot;=4) set.seed(8675309) # Jenny, I&amp;#39;ve got your number Functions Generate Data This function is just the dataset generating code from the function in [Simulating Random Slopes][simulating-random-slopes].</description>
+      <description>This tutorial will walk you through generating a dataset using a function modified from [Simulating Random Slopes][simulating-random-slopes] and comparing the output of a mixed effects model with the output of ANOVAs run on the data aggregated by subjects or by stimuli. We’ll use the afex package to run our ANOVAs.</description>
     </item>
     
   </channel>
