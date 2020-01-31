@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://debruine.github.io/posts/composite-images/</loc>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://debruine.github.io/posts/aggregating/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
   </url>
@@ -223,7 +228,7 @@
   
   <url>
     <loc>https://debruine.github.io/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -242,6 +247,18 @@
   <url>
     <loc>https://debruine.github.io/tags/markr/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://debruine.github.io/tags/methods/</loc>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://debruine.github.io/categories/methods/</loc>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -283,7 +300,7 @@
   
   <url>
     <loc>https://debruine.github.io/posts/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -349,7 +366,7 @@
   
   <url>
     <loc>https://debruine.github.io/tags/simulation/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

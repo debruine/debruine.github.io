@@ -134,7 +134,7 @@
   .solveme { border: 2px dotted red; }
   .solveme.correct { border: 2px solid blue; }
 &lt;/style&gt;</code></pre>
-<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put these lines of css into an external stylesheet linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.css" class="uri">rguppies.css</a>).</p>
+<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put these lines of css into an external stylesheet linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.css">rguppies.css</a>).</p>
 </div>
 <div id="put-this-at-the-end-of-your-file" class="section level2">
 <h2>Put this at the end of your file</h2>
@@ -179,31 +179,34 @@
     }
   }
 &lt;/script&gt;</code></pre>
-<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put this script into an external footer or script file linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.js" class="uri">rguppies.js</a>).</p>
+<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put this script into an external footer or script file linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.js">rguppies.js</a>).</p>
 </div>
 <div id="set-up-the-input-boxes" class="section level2">
 <h2>Set up the input boxes</h2>
 <ul>
 <li><p>Set up a basic input box like below. It needs to have <code>solveme</code> as the class and the correct answer in <code>answer</code>.</p>
-<p>What is <span class="math inline">\(5 + 5\)</span>? <input class="solveme" answer="10" ></p>
+<p>What is <span class="math inline">\(5 + 5\)</span>?
+<input class="solveme" answer="10" ></p>
 <pre><code>&lt;input class=&quot;solveme&quot; answer=&quot;10&quot; &gt;</code></pre></li>
 <li><p>If you don’t care about uppercase vs lowercase letters, add <code>ignorecase</code> to the input style. You can also change the width of theinput box with <code>size</code>.</p>
-<p>What is the letter after B? <input class="solveme ignorecase" size="1" answer="c" ></p>
+<p>What is the letter after B?
+<input class="solveme ignorecase" size="1" answer="c" ></p>
 <pre><code>&lt;input class=&quot;solveme ignorecase&quot; size=&quot;1&quot; answer=&quot;c&quot; &gt;</code></pre></li>
 <li><p>You can also put multiple correct answer possibilities separated by <code>:or:</code>.</p>
-<p>Type a vowel <input class="solveme ignorecase" size="1" 
-       answer="a :or: e :or: i :or: o :or: u" ></p>
+<p>Type a vowel
+<input class="solveme ignorecase" size="1" 
+         answer="a :or: e :or: i :or: o :or: u" ></p>
 <pre><code>&lt;input class=&quot;solveme ignorecase&quot; size=&quot;1&quot; 
        answer=&quot;a :or: e :or: i :or: o :or: u&quot; &gt;</code></pre></li>
 <li><p>If you’re asking for simple code where the spaces don’t matter, add the class <code>nospaces</code>.</p>
 <p>Draw 10 random numbers from a normal distribution with a mean of 3 and SD of 2:</p>
 <p><input class="solveme nospaces" 
-  size="30"
-  answer="rnorm(10, 3, 2) :or:
-          rnorm(10, mean = 3, sd = 2) :or:
-          rnorm(10, 3, sd = 2) :or:
-          rnorm(10, sd = 2, mean = 3) :or:
-          rnorm(x = 10, mean = 3, sd = 2)" ></p>
+    size="30"
+    answer="rnorm(10, 3, 2) :or:
+            rnorm(10, mean = 3, sd = 2) :or:
+            rnorm(10, 3, sd = 2) :or:
+            rnorm(10, sd = 2, mean = 3) :or:
+            rnorm(x = 10, mean = 3, sd = 2)" ></p>
 <pre><code>&lt;input class=&quot;solveme nospaces&quot; 
   size=&quot;30&quot;
   answer=&quot;rnorm(10, 3, 2) :or:
@@ -217,13 +220,13 @@ You can also skip a line after <code>:or:</code>. Whitespace before and after yo
 <li><p>This can’t handle multiple-line answers, but you can embed several input boxes in a paragraph. The formatting can get tricky, though:</p>
 <p>Complete the following function for returning the scaled values of a vector, <code>v</code>.</p>
 <pre>
-scale_function <- function(v) { 
-  the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
-  the_sd <- sd(<input class="solveme" size="1" answer="v">)
+  scale_function <- function(v) { 
+    the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
+    the_sd <- sd(<input class="solveme" size="1" answer="v">)
 
-  (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
-}
-</pre>
+    (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
+  }
+  </pre>
 <pre><code>&lt;pre&gt;
 scale_function &lt;- function(v) { 
   the_mean &lt;- &lt;input class=&quot;solveme&quot; size=&quot;6&quot; answer=&quot;mean&quot;&gt;(&lt;input class=&quot;solveme&quot;  size = &quot;2&quot; answer=&quot;v&quot;&gt;)
@@ -237,7 +240,13 @@ I wrapped the text in <code>&lt;pre&gt;</code> tags to format it like code, whil
 </p></li>
 <li><p>You can also use this for a multiple choice drop-down menu.</p>
 <p>How would you model a distribution of coin flips?</p>
-<p><select class="solveme" answer="rbinom"> <option></option> <option>rnorm</option> <option>runif</option> <option>rpois</option> <option>rbinom</option> </select></p>
+<p><select class="solveme" answer="rbinom">
+<option></option>
+<option>rnorm</option>
+<option>runif</option>
+<option>rpois</option>
+<option>rbinom</option>
+</select></p>
 <pre><code>&lt;select class=&quot;solveme&quot; answer=&quot;rbinom&quot;&gt;
   &lt;option&gt;&lt;/option&gt;
   &lt;option&gt;rnorm&lt;/option&gt;
@@ -285,7 +294,7 @@ var disqus_config = function () {
       <footer class="footer">
   <section class="container">
     
-     © 2019
+     © 2020
     
     
   </section>

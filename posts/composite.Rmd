@@ -1,0 +1,122 @@
+---
+title: Composite Images
+author: ~
+date: '2020-01-31'
+slug: composite-images
+categories: ["methods"]
+tags: ["methods", "simulation"]
+---
+
+```{r load-libraries, include = FALSE}
+library(tidyverse)
+
+# calculate n for binomial test
+# adapted from http://powerandsamplesize.com/Calculators/Other/1-Sample-Binomial
+binom.n <- function(p0, p = 0.5, alpha = 0.5, power = 0.8) {
+  beta=1 - power
+  (n=p*(1-p)*((qnorm(1-alpha/2)+qnorm(1-beta))/(p-p0))^2)
+  ceiling(n)
+}
+```
+
+I recently responded to a [tweet](https://twitter.com/PsychoSchmitt/status/1221883383778811906?s=20) about a preprint about whether people can see Dark Triad traits (narcissism, Machiavellianism, and psychopathy) in facial appearance.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Can you tell a Dark Triad person from the face? Apparently so (data from USA and Turkey). <a href="https://t.co/BxZUcJ9cTY">https://t.co/BxZUcJ9cTY</a> <a href="https://t.co/xh1pcmyB5E">pic.twitter.com/xh1pcmyB5E</a></p>&mdash; David Schmitt (@PsychoSchmitt) <a href="https://twitter.com/PsychoSchmitt/status/1221883383778811906?ref_src=twsrc%5Etfw">January 27, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+The [preprint](https://psyarxiv.com/c3ngz/) by Alper, Bayrak, and Yilmaz used faces from the [Faceaurus database](http://www.nickholtzman.com/faceaurus.htm) (Holtzman, 2011). "Holtzman (2011) standardized the assessment scores, computed average scores of self- and peer-reports, and ranked the face images based on the resulting scores. Then, prototypes for each of the personality dimensions were created by digitally combining 10 faces with the highest and 10 faces with the lowest scores on the personality trait in question (Holtzman, 2011)." This was done separately for male and female faces.
+
+Since scores on the three dark triad traits are positively correlated, the three pairs of composite faces are not independent. Indeed, Holtzman states that 5 individuals were in all three low composites for the male faces, while the overlap was less extreme in other cases. With 105 observers, Holtzman found that the ability to detect the composite higher in a dark triad trait was greater than chance.
+
+While I commend both Holtzman and Alper, Bayrak, and Yilmaz for their transparency, data sharing, and material sharing, **I am arguing that this test has an effective N of 2, and that further replications using these images, such as those done by Alper, Bayrak, and Yilmaz, regardless of number of observers or preregistered status, lend no further weight of evidence to the assertion that dark triad traits are visible in physical appearance.** 
+
+### Women's height
+
+Let's go back to my favourite example for demonstrating the problems with aggregating ratings before analysis, [Armenian women's height](https://debruine.github.io/tutorials/aggregate.html). The problem is the same here, but we've just averaged the stimuli before rating, rather than averaging the ratings of individual stimuli.
+
+First, we're going to simulate a sample of 20 women from a population with a mean height of 158.1 cm and an SD of 5.7. Half are born on odd days and half on even days.
+
+```{r}
+set.seed(8675309)
+
+stim_n <- 10
+height_m <- 158.1
+height_sd <- 5.7
+
+odd <- rnorm(stim_n, height_m, height_sd)
+even <- rnorm(stim_n, height_m, height_sd)
+
+t.test(odd, even)
+```
+
+A t-test shows no significant difference, which is unsurprising. We simulated the data from the same distributions, so we know for sure there is no real difference here. Now we're going to average the height of the women with odd and even birthdays.
+
+```{r}
+odd_mean <- mean(odd)
+even_mean <- mean(even)
+```
+
+So if we create a composite of women born on odd days, she would be `r round(odd_mean, 1)` cm tall, and a composite of women born on even days would be `r round(even_mean, 1)` cm tall.
+
+If we ask 100 observers to look at these two composites and judge which one looks taller, what do you imagine would happen? Let's say that observers are pretty bad with height estimation, and their estimates for each composite have error with a standard deviation of 10 cm. They then judge whether, by their estimation, the odd-birthday composite looks taller than the even-birthday composite.
+
+```{r}
+obs_n <-100
+error_sd <- 10
+
+odd_estimate <- odd_mean + rnorm(obs_n, 0, error_sd)
+even_estimate <- even_mean + rnorm(obs_n, 0, error_sd)
+
+judgment <- odd_estimate > even_estimate
+
+bt <- binom.test(sum(judgment), obs_n, p = 0.5) %>% print()
+```
+
+A binomial test shows that they are significantly better than chance at this (p = `r round(bt$p.value, 3)`). What's going on?
+
+We can be sure that by chance alone, our two composites will be at least slightly different on any measure, even if they are drawn from identical populations. The mean (unsigned) size of this difference is larger, the smaller the number of stimuli that go into each composite. The graph below shows simulations of the unsigned difference between composites for 1000 samples per number of stimuli per composite. 
+
+```{r, echo = FALSE}
+stim_per_comp <- seq(5, 50, 5)
+
+abs_diff <- map(stim_per_comp, function(x) {
+  replicate(1000, {
+    a <- rnorm(x, 0, 1)
+    b <- rnorm(x, 0, 1)
+    abs(mean(a) - mean(b))
+  })
+})
+
+dd <- as.data.frame(abs_diff)
+names(dd) <- stim_per_comp
+
+gather(dd, stim_per_comp, abs_diff, `5`:`50`) %>%
+  mutate(stim_per_comp = as.integer(stim_per_comp) %>% as.factor()) %>%
+  ggplot(aes(stim_per_comp, abs_diff, color = stim_per_comp)) + 
+  geom_violin(show.legend = FALSE) +
+  stat_summary(fun.data = mean_se, show.legend = FALSE) +
+  xlab("Number of stimuli per composite") +
+  ylab("Absolute value of the effect size \nof the difference between composites")
+```
+
+```{r}
+x <- replicate(10000, mean(rnorm(10))-mean(rnorm(10)))
+```
+
+With only 10 stimuli per composite, the mean unsigned effect size of the difference between composites is `r round(mean(abs(x)), 2)` (in units of SD of the original trait distribution). `r round(mean(abs(x)>.2)*100)`% of random pairs have a difference of greater than 0.2 SD. If our observers are accurate enough at perceiving this difference or we run a very large number of observers, we are virtually guarateed to find significant results every time, and we have a 50% chance that all of these results will be in the predicted direction.
+
+
+### Personality Traits and Faces
+
+So what does this mean for studies of the link between personality traits and facial appearance? The analogy with birth date and height holds. As long as there are facial morphologies that are even slightly consistently associated with the perception of a trait, then composites will not be identical in that morphology, even if it is totally unassociated with the trait as measured by, e.g., personality scales or peer report. 
+
+* The smaller the number of stimuli that go into each composite, the greater the chance that they will be visibly different in morphology related to the judgment of interest, just by chance alone.
+* The larger the number of observers or the better observers are at detecting small differences in this morphology, the more likley that "detection" will be significantly above chance.
+* Repeating this with a new set of observers does not increase the amount of evidence you have for the association between the face morphology and the measured trait. You've only measured it once in one population of faces. 
+* If observers are your unit of analyses, you are making conclusions about whether the population of observers can detect the difference between your stimuli, you cannot generalise this to new stimulus sets.
+
+
+## References
+
+Alper, S., Bayrak, F., & Yilmaz, O. (2020, January 27). All the Dark Triad and Some of the Big Five Traits are Visible in the Face. https://doi.org/10.31234/osf.io/c3ngz
+
+Holtzman, N. S. (2011). Facing a psychopath: Detecting the dark triad from emotionally-neutral faces, using prototypes from the Personality Faceaurus. Journal of Research in Personality, 45, 648-654. https://doi.org/10.1016/j.jrp.2011.09.002

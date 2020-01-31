@@ -158,19 +158,19 @@ library(faux)</code></pre>
 <tr class="odd">
 <td>A</td>
 <td align="right">1.0000000</td>
-<td align="right">0.1898558</td>
-<td align="right">-0.4562654</td>
+<td align="right">-0.1111726</td>
+<td align="right">-0.0158311</td>
 </tr>
 <tr class="even">
 <td>B</td>
-<td align="right">0.1898558</td>
+<td align="right">-0.1111726</td>
 <td align="right">1.0000000</td>
-<td align="right">0.5559875</td>
+<td align="right">0.0623724</td>
 </tr>
 <tr class="odd">
 <td>C</td>
-<td align="right">-0.4562654</td>
-<td align="right">0.5559875</td>
+<td align="right">-0.0158311</td>
+<td align="right">0.0623724</td>
 <td align="right">1.0000000</td>
 </tr>
 </tbody>
@@ -190,6 +190,8 @@ iris_sim &lt;- rnorm_multi(
   sd = summarise_all(dat, sd) %&gt;% t(), 
   varnames = names(dat)
 )</code></pre>
+<pre><code>## Warning in rnorm_multi(n = 100, vars = ncol(dat), cor = cor(dat), mu =
+## summarise_all(dat, : cors is deprecated, please use r</code></pre>
 <div id="correlation-matrix-of-original-data" class="section level3">
 <h3>Correlation Matrix of Original Data</h3>
 <table>
@@ -250,29 +252,29 @@ iris_sim &lt;- rnorm_multi(
 <tr class="odd">
 <td>Sepal.Length</td>
 <td align="right">1.0000000</td>
-<td align="right">-0.0093526</td>
-<td align="right">0.8607103</td>
-<td align="right">0.7807664</td>
+<td align="right">-0.0388955</td>
+<td align="right">0.8791936</td>
+<td align="right">0.8463493</td>
 </tr>
 <tr class="even">
 <td>Sepal.Width</td>
-<td align="right">-0.0093526</td>
+<td align="right">-0.0388955</td>
 <td align="right">1.0000000</td>
-<td align="right">-0.3694867</td>
-<td align="right">-0.3287829</td>
+<td align="right">-0.3753793</td>
+<td align="right">-0.3320988</td>
 </tr>
 <tr class="odd">
 <td>Petal.Length</td>
-<td align="right">0.8607103</td>
-<td align="right">-0.3694867</td>
+<td align="right">0.8791936</td>
+<td align="right">-0.3753793</td>
 <td align="right">1.0000000</td>
-<td align="right">0.9503212</td>
+<td align="right">0.9714376</td>
 </tr>
 <tr class="even">
 <td>Petal.Width</td>
-<td align="right">0.7807664</td>
-<td align="right">-0.3287829</td>
-<td align="right">0.9503212</td>
+<td align="right">0.8463493</td>
+<td align="right">-0.3320988</td>
+<td align="right">0.9714376</td>
 <td align="right">1.0000000</td>
 </tr>
 </tbody>
@@ -314,7 +316,7 @@ var disqus_config = function () {
       <footer class="footer">
   <section class="container">
     
-     © 2019
+     © 2020
     
     
   </section>

@@ -24,10 +24,10 @@ cars %>%
   geom_smooth(method = "lm")
 ```
 
-You can create a new sample with the same parameters and 500 rows with the code `simdf(cars, 500)`.
+You can create a new sample with the same parameters and 500 rows with the code `sim_df(cars, 500)`.
 
 ```{r plot-cars-sim, fig.cap="Simulated cars dataset"}
-simdf(cars, 500) %>%
+sim_df(cars, 500) %>%
   ggplot(aes(speed, dist)) + 
     geom_point() +
     geom_smooth(method = "lm")
@@ -42,10 +42,10 @@ iris %>%
   geom_smooth(method = "lm")
 ```
 
-And here is a new sample with 50 observations of each species, made with the code `simdf(iris, 100, "Species")`.
+And here is a new sample with 50 observations of each species, made with the code `sim_df(iris, 100, "Species")`.
 
 ```{r plot-iris-sim, fig.cap="Simulated iris dataset"}
-simdf(iris, 50, "Species") %>%
+sim_df(iris, 50, between = "Species") %>%
   ggplot(aes(Sepal.Width, Sepal.Length, color = Species)) +
   geom_point() +
   geom_smooth(method = "lm")
@@ -54,7 +54,7 @@ simdf(iris, 50, "Species") %>%
 For now, the function only creates new variables sampled from a continuous normal distribution. I hope to add in other sampling distributions in the future. So you'd need to do any rounding or truncating yourself.
 
 ```{r plot-iris-sim-round, fig.cap="Simulated iris dataset (rounded)"}
-simdf(iris, 50, "Species") %>%
+sim_df(iris, 50, between = "Species") %>%
   mutate_if(is.numeric, round, 1) %>%
   ggplot(aes(Sepal.Width, Sepal.Length, color = Species)) +
   geom_point() +

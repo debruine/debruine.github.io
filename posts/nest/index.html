@@ -128,39 +128,37 @@
 <p>I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).</p>
 <pre class="r"><code>library(tidyverse)
 library(irr)</code></pre>
-<p>Load the rating data for the open-source <a href="https://figshare.com/articles/Face_Research_Lab_London_Set/5047666">Face Research Lab London Set</a>. The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (<code>X001:X173</code>).</p>
+<p>Load the rating data for the open-source <a href="https://figshare.com/articles/Face_Research_Lab_London_Set/5047666">Face Research Lab London Set</a>.
+The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (<code>X001:X173</code>).</p>
 <pre class="r"><code>london &lt;- read_csv(&quot;https://ndownloader.figshare.com/files/8542045&quot;)
 
 head(london)</code></pre>
 <pre><code>## # A tibble: 6 x 105
-##   rater_sex rater_sexpref rater_age  X001  X002  X003  X004  X005  X006
-##   &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1 female    either             17       3     3     3     3     2     3
-## 2 female    either             17       5     2     3     2     1     5
-## 3 female    either             17.1     5     3     4     3     3     4
-## 4 female    either             17.1     4     6     5     5     3     4
-## 5 female    either             17.2     3     4     3     1     1     1
-## 6 female    either             17.3     6     5     5     3     7     5
-## # … with 96 more variables: X007 &lt;dbl&gt;, X008 &lt;dbl&gt;, X009 &lt;dbl&gt;,
-## #   X010 &lt;dbl&gt;, X011 &lt;dbl&gt;, X012 &lt;dbl&gt;, X013 &lt;dbl&gt;, X014 &lt;dbl&gt;,
-## #   X016 &lt;dbl&gt;, X017 &lt;dbl&gt;, X018 &lt;dbl&gt;, X019 &lt;dbl&gt;, X020 &lt;dbl&gt;,
-## #   X021 &lt;dbl&gt;, X022 &lt;dbl&gt;, X024 &lt;dbl&gt;, X025 &lt;dbl&gt;, X026 &lt;dbl&gt;,
-## #   X027 &lt;dbl&gt;, X029 &lt;dbl&gt;, X030 &lt;dbl&gt;, X031 &lt;dbl&gt;, X032 &lt;dbl&gt;,
-## #   X033 &lt;dbl&gt;, X034 &lt;dbl&gt;, X036 &lt;dbl&gt;, X037 &lt;dbl&gt;, X038 &lt;dbl&gt;,
-## #   X039 &lt;dbl&gt;, X041 &lt;dbl&gt;, X042 &lt;dbl&gt;, X043 &lt;dbl&gt;, X044 &lt;dbl&gt;,
-## #   X045 &lt;dbl&gt;, X061 &lt;dbl&gt;, X062 &lt;dbl&gt;, X063 &lt;dbl&gt;, X064 &lt;dbl&gt;,
-## #   X066 &lt;dbl&gt;, X067 &lt;dbl&gt;, X068 &lt;dbl&gt;, X069 &lt;dbl&gt;, X070 &lt;dbl&gt;,
-## #   X081 &lt;dbl&gt;, X082 &lt;dbl&gt;, X083 &lt;dbl&gt;, X086 &lt;dbl&gt;, X087 &lt;dbl&gt;,
-## #   X090 &lt;dbl&gt;, X091 &lt;dbl&gt;, X092 &lt;dbl&gt;, X094 &lt;dbl&gt;, X096 &lt;dbl&gt;,
-## #   X097 &lt;dbl&gt;, X099 &lt;dbl&gt;, X100 &lt;dbl&gt;, X101 &lt;dbl&gt;, X102 &lt;dbl&gt;,
-## #   X103 &lt;dbl&gt;, X104 &lt;dbl&gt;, X105 &lt;dbl&gt;, X107 &lt;dbl&gt;, X108 &lt;dbl&gt;,
-## #   X112 &lt;dbl&gt;, X113 &lt;dbl&gt;, X114 &lt;dbl&gt;, X115 &lt;dbl&gt;, X117 &lt;dbl&gt;,
-## #   X118 &lt;dbl&gt;, X119 &lt;dbl&gt;, X120 &lt;dbl&gt;, X121 &lt;dbl&gt;, X122 &lt;dbl&gt;,
-## #   X123 &lt;dbl&gt;, X124 &lt;dbl&gt;, X125 &lt;dbl&gt;, X126 &lt;dbl&gt;, X127 &lt;dbl&gt;,
-## #   X128 &lt;dbl&gt;, X129 &lt;dbl&gt;, X130 &lt;dbl&gt;, X131 &lt;dbl&gt;, X132 &lt;dbl&gt;,
-## #   X134 &lt;dbl&gt;, X135 &lt;dbl&gt;, X136 &lt;dbl&gt;, X137 &lt;dbl&gt;, X138 &lt;dbl&gt;,
-## #   X139 &lt;dbl&gt;, X140 &lt;dbl&gt;, X141 &lt;dbl&gt;, X142 &lt;dbl&gt;, X143 &lt;dbl&gt;,
-## #   X144 &lt;dbl&gt;, X172 &lt;dbl&gt;, X173 &lt;dbl&gt;</code></pre>
+##   rater_sex rater_sexpref rater_age  X001  X002  X003  X004  X005  X006  X007
+##   &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 female    either             17       3     3     3     3     2     3     5
+## 2 female    either             17       5     2     3     2     1     5     6
+## 3 female    either             17.1     5     3     4     3     3     4     4
+## 4 female    either             17.1     4     6     5     5     3     4     5
+## 5 female    either             17.2     3     4     3     1     1     1     3
+## 6 female    either             17.3     6     5     5     3     7     5     6
+## # … with 95 more variables: X008 &lt;dbl&gt;, X009 &lt;dbl&gt;, X010 &lt;dbl&gt;, X011 &lt;dbl&gt;,
+## #   X012 &lt;dbl&gt;, X013 &lt;dbl&gt;, X014 &lt;dbl&gt;, X016 &lt;dbl&gt;, X017 &lt;dbl&gt;, X018 &lt;dbl&gt;,
+## #   X019 &lt;dbl&gt;, X020 &lt;dbl&gt;, X021 &lt;dbl&gt;, X022 &lt;dbl&gt;, X024 &lt;dbl&gt;, X025 &lt;dbl&gt;,
+## #   X026 &lt;dbl&gt;, X027 &lt;dbl&gt;, X029 &lt;dbl&gt;, X030 &lt;dbl&gt;, X031 &lt;dbl&gt;, X032 &lt;dbl&gt;,
+## #   X033 &lt;dbl&gt;, X034 &lt;dbl&gt;, X036 &lt;dbl&gt;, X037 &lt;dbl&gt;, X038 &lt;dbl&gt;, X039 &lt;dbl&gt;,
+## #   X041 &lt;dbl&gt;, X042 &lt;dbl&gt;, X043 &lt;dbl&gt;, X044 &lt;dbl&gt;, X045 &lt;dbl&gt;, X061 &lt;dbl&gt;,
+## #   X062 &lt;dbl&gt;, X063 &lt;dbl&gt;, X064 &lt;dbl&gt;, X066 &lt;dbl&gt;, X067 &lt;dbl&gt;, X068 &lt;dbl&gt;,
+## #   X069 &lt;dbl&gt;, X070 &lt;dbl&gt;, X081 &lt;dbl&gt;, X082 &lt;dbl&gt;, X083 &lt;dbl&gt;, X086 &lt;dbl&gt;,
+## #   X087 &lt;dbl&gt;, X090 &lt;dbl&gt;, X091 &lt;dbl&gt;, X092 &lt;dbl&gt;, X094 &lt;dbl&gt;, X096 &lt;dbl&gt;,
+## #   X097 &lt;dbl&gt;, X099 &lt;dbl&gt;, X100 &lt;dbl&gt;, X101 &lt;dbl&gt;, X102 &lt;dbl&gt;, X103 &lt;dbl&gt;,
+## #   X104 &lt;dbl&gt;, X105 &lt;dbl&gt;, X107 &lt;dbl&gt;, X108 &lt;dbl&gt;, X112 &lt;dbl&gt;, X113 &lt;dbl&gt;,
+## #   X114 &lt;dbl&gt;, X115 &lt;dbl&gt;, X117 &lt;dbl&gt;, X118 &lt;dbl&gt;, X119 &lt;dbl&gt;, X120 &lt;dbl&gt;,
+## #   X121 &lt;dbl&gt;, X122 &lt;dbl&gt;, X123 &lt;dbl&gt;, X124 &lt;dbl&gt;, X125 &lt;dbl&gt;, X126 &lt;dbl&gt;,
+## #   X127 &lt;dbl&gt;, X128 &lt;dbl&gt;, X129 &lt;dbl&gt;, X130 &lt;dbl&gt;, X131 &lt;dbl&gt;, X132 &lt;dbl&gt;,
+## #   X134 &lt;dbl&gt;, X135 &lt;dbl&gt;, X136 &lt;dbl&gt;, X137 &lt;dbl&gt;, X138 &lt;dbl&gt;, X139 &lt;dbl&gt;,
+## #   X140 &lt;dbl&gt;, X141 &lt;dbl&gt;, X142 &lt;dbl&gt;, X143 &lt;dbl&gt;, X144 &lt;dbl&gt;, X172 &lt;dbl&gt;,
+## #   X173 &lt;dbl&gt;</code></pre>
 <p>To calculate the ICC for ratings, first we need to get the data into a format where each column represents a rater and each row represents a stimulus. Select just the columns with ratings, then transpose (<code>t()</code>) the data.</p>
 <pre class="r"><code>london %&gt;%
   select(X001:X173) %&gt;%
@@ -258,6 +256,7 @@ head(london)</code></pre>
   
 london_icc_grouped</code></pre>
 <pre><code>## # A tibble: 10 x 7
+## # Groups:   rater_sex, age_group [10]
 ##    rater_sex age_group stimuli raters   icc lbound ubound
 ##    &lt;chr&gt;         &lt;dbl&gt;   &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
 ##  1 female           20     102   1035 0.253  0.207  0.313
@@ -305,7 +304,7 @@ var disqus_config = function () {
       <footer class="footer">
   <section class="container">
     
-     © 2019
+     © 2020
     
     
   </section>
