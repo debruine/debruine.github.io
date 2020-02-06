@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Methods on Lisa DeBruine</title>
-    <link>https://debruine.github.io/categories/methods/</link>
+    <link>/categories/methods/</link>
     <description>Recent content in Methods on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://debruine.github.io/categories/methods/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/methods/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Composite Images</title>
-      <link>https://debruine.github.io/posts/composite-images/</link>
+      <link>/posts/composite-images/</link>
       <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/composite-images/</guid>
+      <guid>/posts/composite-images/</guid>
       <description>I recently responded to a tweet about a preprint about whether people can see Dark Triad traits (narcissism, Machiavellianism, and psychopathy) in facial appearance.
 Can you tell a Dark Triad person from the face? Apparently so (data from USA and Turkey). https://t.co/BxZUcJ9cTY pic.twitter.com/xh1pcmyB5E — David Schmitt (@PsychoSchmitt) January 27, 2020   The preprint by Alper, Bayrak, and Yilmaz used faces from the Faceaurus database (Holtzman, 2011). “Holtzman (2011) standardized the assessment scores, computed average scores of self- and peer-reports, and ranked the face images based on the resulting scores.</description>
     </item>

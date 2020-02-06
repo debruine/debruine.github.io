@@ -2,21 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Lisa DeBruine</title>
-    <link>https://debruine.github.io/tags/r/</link>
+    <link>/tags/r/</link>
     <description>Recent content in R on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Feb 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://debruine.github.io/tags/r/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Inputting data table rows as function arguments</title>
+      <link>/posts/pmap_df/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/pmap_df/</guid>
+      <description>I was working on a simulation project with an undergraduate dissertation student today (I’m so amazed at what our students can do now!) and wanted to show her how to efficiently run simulations for all combinations of a range of parameters. It took 20 minutes of googling map functions in purrr to figure it out. I find I have to do this every time I want to use this pattern, so I decided to write a quick tutorial on it.</description>
+    </item>
+    
+    <item>
       <title>What&#39;s wrong with aggregating data?</title>
-      <link>https://debruine.github.io/posts/aggregating/</link>
+      <link>/posts/aggregating/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/aggregating/</guid>
+      <guid>/posts/aggregating/</guid>
       <description>Shiny app for a face-rating example. library(tidyverse) library(lmerTest) set.seed(90210) Imagine you want to find out if Armenian women born on an even-numbered day are taller than women born on an odd-numbered day. (I’ve chosen Armenian women because they’re the first row in this paper.)
 First, let’s simulate a group of 20 women born on even-numbered days and 20 women born on odd-numbered days.
 stim_n &amp;lt;- 20 # height stats from https://journals.</description>
@@ -24,29 +33,38 @@ stim_n &amp;lt;- 20 # height stats from https://journals.</description>
     
     <item>
       <title>Markr</title>
-      <link>https://debruine.github.io/drafts/markr/</link>
+      <link>/drafts/markr/</link>
       <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/drafts/markr/</guid>
+      <guid>/drafts/markr/</guid>
       <description> Install markr Install markr from github using the commented code below. Load the markr and tidyverse libraries.
 # devtools::install_github(&amp;quot;debruine/markr&amp;quot;) library(markr) library(tidyverse)  </description>
     </item>
     
     <item>
+      <title>LMER vs ANOVA</title>
+      <link>/drafts/lmer-vs-anova/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/drafts/lmer-vs-anova/</guid>
+      <description>This tutorial will walk you through generating a dataset using a function modified from [Simulating Random Slopes][simulating-random-slopes] and comparing the output of a mixed effects model with the output of ANOVAs run on the data aggregated by subjects or by stimuli. We’ll use the afex package to run our ANOVAs.</description>
+    </item>
+    
+    <item>
       <title>Simulating Random Slopes</title>
-      <link>https://debruine.github.io/posts/simulating-random-slopes/</link>
+      <link>/posts/simulating-random-slopes/</link>
       <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/simulating-random-slopes/</guid>
+      <guid>/posts/simulating-random-slopes/</guid>
       <description>This tutorial has been moved to the tutorials section.</description>
     </item>
     
     <item>
       <title>Simulate from Existing Data</title>
-      <link>https://debruine.github.io/posts/simdf/</link>
+      <link>/posts/simdf/</link>
       <pubDate>Sat, 29 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/simdf/</guid>
+      <guid>/posts/simdf/</guid>
       <description># devtools::install_github(&amp;quot;debruine/faux&amp;quot;) library(faux) library(tidyverse) I added a new function to the package faux to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
 For example, here is the relationship between speed and distance in the built-in dataset cars.
 cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code sim_df(cars, 500).</description>
@@ -54,29 +72,29 @@ cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &
     
     <item>
       <title>Simulating Mixed Effects</title>
-      <link>https://debruine.github.io/posts/simulating-mixed-effects/</link>
+      <link>/posts/simulating-mixed-effects/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/simulating-mixed-effects/</guid>
+      <guid>/posts/simulating-mixed-effects/</guid>
       <description>This tutorial has been moved to the tutorials section.</description>
     </item>
     
     <item>
       <title>Pipes</title>
-      <link>https://debruine.github.io/posts/pipes/</link>
+      <link>/posts/pipes/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/pipes/</guid>
+      <guid>/posts/pipes/</guid>
       <description>library(tidyverse) Pipes are a way to order your code in a more readable format.
 Let’s say you have a small data table with 10 participant IDs, two columns with variable type A, and 2 columns with variable type B. You want to calculate the mean of the A variables and the mean of the B variables and return a table with 10 rows (1 for each participant) and 3 columns (id, A_mean and B_mean).</description>
     </item>
     
     <item>
       <title>Simulating Multiple Vectors</title>
-      <link>https://debruine.github.io/posts/rnorm_multi/</link>
+      <link>/posts/rnorm_multi/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/rnorm_multi/</guid>
+      <guid>/posts/rnorm_multi/</guid>
       <description># devtools::install_github(&amp;quot;debruine/faux&amp;quot;) library(tidyverse) library(faux) I’m working on a package for simulations called faux.
 The first function, rnorm_multi, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
  n = the number of samples required (required) vars = the number of variables to return (default = 3) cors = the correlations among the variables (can be a single number, vars*vars matrix, vars*vars vector, or a vars*(vars-1)/2 vector; default = 0) mu = a vector giving the means of the variables (numeric vector of length 1 or vars; default = 0) sd = the standard deviations of the variables (numeric vector of length 1 or vars; default = 1) varnames = optional names for the variables (string vector of length vars; default = NULL) empirical = logical.</description>
@@ -84,20 +102,20 @@ The first function, rnorm_multi, makes multiple normally distributed vectors wit
     
     <item>
       <title>Plot Comparison</title>
-      <link>https://debruine.github.io/posts/plot-comparison/</link>
+      <link>/posts/plot-comparison/</link>
       <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/plot-comparison/</guid>
+      <guid>/posts/plot-comparison/</guid>
       <description>library(tidyverse) I compared bar plots to violin plots in a recent talk to make the point that real data plotted with the full distribution make your effects look less impressive than minimalist bar charts that just show the means and standard errors, but give you a much better idea of what’s going on with your data.
 I also made a shiny app where you can set the sample size, main effects, and interaction effect, then view six different visualisations of the simulated data.</description>
     </item>
     
     <item>
       <title>Multi-Row Headers</title>
-      <link>https://debruine.github.io/posts/multi-row-headers/</link>
+      <link>/posts/multi-row-headers/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/multi-row-headers/</guid>
+      <guid>/posts/multi-row-headers/</guid>
       <description>A student on our help forum recently asked for help making a wide-format dataset long. When I tried to load the data, I realised the first three rows were all header rows. Here’s the code I wrote to deal with it.
 First, I’ll make a small CSV “file” below. In a typical case, you’d read the data in from a file.
 demo_csv &amp;lt;- &amp;quot;SUB1, SUB1, SUB1, SUB1, SUB2, SUB2, SUB2, SUB2 COND1, COND1, COND2, COND2, COND1, COND1, COND2, COND2 X, Y, X, Y, X, Y, X, Y 10, 15, 6, 2, 42, 4, 32, 5 4, 43, 7, 34, 56, 43, 2, 33 77, 12, 14, 75, 36, 85, 3, 2&amp;quot; If you try to read in this data, you’ll get an error message about the duplicate column names.</description>
@@ -105,10 +123,10 @@ demo_csv &amp;lt;- &amp;quot;SUB1, SUB1, SUB1, SUB1, SUB2, SUB2, SUB2, SUB2 COND
     
     <item>
       <title>Solution Feedback</title>
-      <link>https://debruine.github.io/posts/solution-feedback/</link>
+      <link>/posts/solution-feedback/</link>
       <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/solution-feedback/</guid>
+      <guid>/posts/solution-feedback/</guid>
       <description>Download a simple demo .rmd/.html.
 I’d noticed that students were tending to just look at the hidden solutions and not try very hard to understand the exercises, so I wanted a way for them to check if they’re right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.
 What is 2 + 2?</description>
@@ -116,10 +134,10 @@ What is 2 + 2?</description>
     
     <item>
       <title>Hidden Solutions</title>
-      <link>https://debruine.github.io/posts/hidden-solutions/</link>
+      <link>/posts/hidden-solutions/</link>
       <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/hidden-solutions/</guid>
+      <guid>/posts/hidden-solutions/</guid>
       <description>library(tidyverse) The R for Reproducible Scientific Analysis pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
 Example Graph the relationship between speed and distance for the cars dataset.
  Solution  You can put some text inside the solution, as well as code cunks.</description>
@@ -127,10 +145,10 @@ Example Graph the relationship between speed and distance for the cars dataset.
     
     <item>
       <title>psych::alpha()</title>
-      <link>https://debruine.github.io/posts/psych-alpha/</link>
+      <link>/posts/psych-alpha/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/psych-alpha/</guid>
+      <guid>/posts/psych-alpha/</guid>
       <description>This is a tutorial in progress on how to calculate Cronbach’s alphas using the psych package in R.
 library(tidyverse) library(psych) disgust &amp;lt;- read_csv(&amp;quot;https://gupsych.github.io/data_skills/data/disgust.csv&amp;quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis... Choose the 7 moral disgust items Make sure the Model is “Alpha” Under Statistics, add descriptives for Item, Scale, and Scale if Item Deleted   psych::alpha() alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,
 check.keys=FALSE, n.iter=1, delete=TRUE, use=&amp;quot;pairwise&amp;quot;, warnings=TRUE, n.</description>
@@ -138,10 +156,10 @@ check.keys=FALSE, n.iter=1, delete=TRUE, use=&amp;quot;pairwise&amp;quot;, warni
     
     <item>
       <title>nest() and irr::icc()</title>
-      <link>https://debruine.github.io/posts/nest/</link>
+      <link>/posts/nest/</link>
       <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/nest/</guid>
+      <guid>/posts/nest/</guid>
       <description>I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).
 library(tidyverse) library(irr) Load the rating data for the open-source Face Research Lab London Set. The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (X001:X173).
 london &amp;lt;- read_csv(&amp;quot;https://ndownloader.figshare.com/files/8542045&amp;quot;) head(london) ## # A tibble: 6 x 105 ## rater_sex rater_sexpref rater_age X001 X002 X003 X004 X005 X006 X007 ## &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 female either 17 3 3 3 3 2 3 5 ## 2 female either 17 5 2 3 2 1 5 6 ## 3 female either 17.</description>
@@ -149,30 +167,30 @@ london &amp;lt;- read_csv(&amp;quot;https://ndownloader.figshare.com/files/85420
     
     <item>
       <title>sample()</title>
-      <link>https://debruine.github.io/posts/sample/</link>
+      <link>/posts/sample/</link>
       <pubDate>Wed, 26 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/sample/</guid>
+      <guid>/posts/sample/</guid>
       <description>First, let’s make a data frame with two variables, a and b that are both sampled from a normal distribution with a mean of 0 and SD of 1. The variablle n will be how many samples we’ll take (100). Then we can run a t-test to see if they are different.
 library(tidyverse) ## ── Attaching packages ──────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.</description>
     </item>
     
     <item>
       <title>recode()</title>
-      <link>https://debruine.github.io/posts/recode/</link>
+      <link>/posts/recode/</link>
       <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/recode/</guid>
+      <guid>/posts/recode/</guid>
       <description>I often find myself needing to recode variables. I wrote previously about recoding a characters into a numbers using various coding schemes. But sometimes I want to recode numeric values into characters; this is particularly useful for graphing and for double-checking the meaning of your variable levels.
 First, I’ll create a data frame with 50 subjects and randomly choose their genders from a list of 4 possibilities with the population proportions 40% male, 40% female, 10% non-binary, and 10% missing data.</description>
     </item>
     
     <item>
       <title>PCA</title>
-      <link>https://debruine.github.io/posts/pca/</link>
+      <link>/posts/pca/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/pca/</guid>
+      <guid>/posts/pca/</guid>
       <description>Download the Rmd notebook for this example
 Putting together this page made me realise I still don’t know anything about PCA and factor analysis.
 I use the psych package for SPSS-style PCA.
@@ -182,30 +200,30 @@ set.seed(444) # for reproducibility; delete when running simulations a &amp;lt;-
     
     <item>
       <title>Coding Schemes</title>
-      <link>https://debruine.github.io/posts/coding-schemes/</link>
+      <link>/posts/coding-schemes/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/coding-schemes/</guid>
+      <guid>/posts/coding-schemes/</guid>
       <description>library(tidyverse) library(lmerTest) How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite tutorial on coding schemes explains things in detail. I’m just adding some concrete examples below.
 First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider).</description>
     </item>
     
     <item>
       <title>scale()</title>
-      <link>https://debruine.github.io/posts/scale/</link>
+      <link>/posts/scale/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/scale/</guid>
+      <guid>/posts/scale/</guid>
       <description>You can use scale() to center and/or scale (i.e., Z-score) a vector of numbers. Z-score a list of numbers
 x &amp;lt;- c(10, 12, 14, 16, 18) scale(x) ## [,1] ## [1,] -1.2649111 ## [2,] -0.6324555 ## [3,] 0.0000000 ## [4,] 0.6324555 ## [5,] 1.2649111 ## attr(,&amp;quot;scaled:center&amp;quot;) ## [1] 14 ## attr(,&amp;quot;scaled:scale&amp;quot;) ## [1] 3.162278 However, the result contains the mean and SD. This can cause problems if you want to assign it to a new column in a data frame, which you can fix using as.</description>
     </item>
     
     <item>
       <title>rep()</title>
-      <link>https://debruine.github.io/posts/rep/</link>
+      <link>/posts/rep/</link>
       <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/rep/</guid>
+      <guid>/posts/rep/</guid>
       <description>rep(x, times = 1, length.out = NA, each = 1) is pretty useful for simulating data. Here are some common recipes:
  Repeat a single number (1) a number of times (10)  rep(1, 10) ## [1] 1 1 1 1 1 1 1 1 1 1  Repeat a series of numbers (1:5) a number of times (2)  rep(1:5, 2) ## [1] 1 2 3 4 5 1 2 3 4 5 rep(1:5, times=2) ## [1] 1 2 3 4 5 1 2 3 4 5  If times is not an integer, it is truncated (not rounded).</description>
     </item>

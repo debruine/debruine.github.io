@@ -2,30 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Lme4 on Lisa DeBruine</title>
-    <link>https://debruine.github.io/tags/lme4/</link>
+    <link>/tags/lme4/</link>
     <description>Recent content in Lme4 on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://debruine.github.io/tags/lme4/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/lme4/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>LMER vs ANOVA</title>
+      <link>/drafts/lmer-vs-anova/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/drafts/lmer-vs-anova/</guid>
+      <description>This tutorial will walk you through generating a dataset using a function modified from [Simulating Random Slopes][simulating-random-slopes] and comparing the output of a mixed effects model with the output of ANOVAs run on the data aggregated by subjects or by stimuli. We’ll use the afex package to run our ANOVAs.</description>
+    </item>
+    
+    <item>
       <title>Simulating Random Slopes</title>
-      <link>https://debruine.github.io/posts/simulating-random-slopes/</link>
+      <link>/posts/simulating-random-slopes/</link>
       <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/simulating-random-slopes/</guid>
+      <guid>/posts/simulating-random-slopes/</guid>
       <description>This tutorial has been moved to the tutorials section.</description>
     </item>
     
     <item>
       <title>Simulating Mixed Effects</title>
-      <link>https://debruine.github.io/posts/simulating-mixed-effects/</link>
+      <link>/posts/simulating-mixed-effects/</link>
       <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://debruine.github.io/posts/simulating-mixed-effects/</guid>
+      <guid>/posts/simulating-mixed-effects/</guid>
       <description>This tutorial has been moved to the tutorials section.</description>
     </item>
     

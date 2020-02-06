@@ -3,411 +3,439 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://debruine.github.io/posts/composite-images/</loc>
+    <loc>/posts/pmap_df/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/composite-images/</loc>
     <lastmod>2020-01-31T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/aggregating/</loc>
+    <loc>/posts/aggregating/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/drafts/markr/</loc>
+    <loc>/drafts/markr/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/simulating-random-slopes/</loc>
+    <loc>/drafts/lmer-vs-anova/</loc>
+    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/posts/simulating-random-slopes/</loc>
     <lastmod>2019-01-09T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/simdf/</loc>
+    <loc>/posts/simdf/</loc>
     <lastmod>2018-12-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/simulating-mixed-effects/</loc>
+    <loc>/posts/simulating-mixed-effects/</loc>
     <lastmod>2018-12-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/pipes/</loc>
+    <loc>/posts/pipes/</loc>
     <lastmod>2018-12-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/rnorm_multi/</loc>
+    <loc>/posts/rnorm_multi/</loc>
     <lastmod>2018-12-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/plot-comparison/</loc>
+    <loc>/posts/plot-comparison/</loc>
     <lastmod>2018-03-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/multi-row-headers/</loc>
+    <loc>/posts/multi-row-headers/</loc>
     <lastmod>2018-02-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/how-many-raters/</loc>
+    <loc>/posts/how-many-raters/</loc>
     <lastmod>2018-02-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/solution-feedback/</loc>
+    <loc>/posts/solution-feedback/</loc>
     <lastmod>2017-11-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/frl-prereg/</loc>
+    <loc>/posts/frl-prereg/</loc>
     <lastmod>2017-10-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/hidden-solutions/</loc>
+    <loc>/posts/hidden-solutions/</loc>
     <lastmod>2017-10-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/psych-alpha/</loc>
+    <loc>/posts/psych-alpha/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/nest/</loc>
+    <loc>/posts/nest/</loc>
     <lastmod>2017-08-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/cumulative-p/</loc>
+    <loc>/posts/cumulative-p/</loc>
     <lastmod>2017-07-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/sample/</loc>
+    <loc>/posts/sample/</loc>
     <lastmod>2017-07-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/recode/</loc>
+    <loc>/posts/recode/</loc>
     <lastmod>2017-07-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/pca/</loc>
+    <loc>/posts/pca/</loc>
     <lastmod>2017-06-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/coding-schemes/</loc>
+    <loc>/posts/coding-schemes/</loc>
     <lastmod>2017-06-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/scale/</loc>
+    <loc>/posts/scale/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/rep/</loc>
+    <loc>/posts/rep/</loc>
     <lastmod>2017-06-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/about/</loc>
+    <loc>/about/</loc>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/projects/</loc>
+    <loc>/projects/</loc>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/aggregation/</loc>
+    <loc>/tags/aggregation/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/alpha/</loc>
+    <loc>/tags/alpha/</loc>
     <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/anova/</loc>
+    <loc>/tags/anova/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/categorical/</loc>
+    <loc>/tags/categorical/</loc>
     <lastmod>2017-07-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/categories/</loc>
+    <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/coding/</loc>
+    <loc>/tags/coding/</loc>
     <lastmod>2017-06-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/correlated-data/</loc>
+    <loc>/tags/correlated-data/</loc>
     <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/cronbach/</loc>
+    <loc>/tags/cronbach/</loc>
     <lastmod>2018-02-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/data-import/</loc>
+    <loc>/tags/data-import/</loc>
     <lastmod>2018-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/dataviz/</loc>
+    <loc>/tags/dataviz/</loc>
     <lastmod>2018-03-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/drafts/</loc>
+    <loc>/drafts/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/effect/</loc>
+    <loc>/tags/effect/</loc>
     <lastmod>2017-06-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/factanal/</loc>
+    <loc>/tags/factanal/</loc>
     <lastmod>2017-06-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/faux/</loc>
+    <loc>/tags/faux/</loc>
     <lastmod>2018-12-29T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/ggplot/</loc>
+    <loc>/tags/function/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/ggplot/</loc>
     <lastmod>2018-03-28T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/headers/</loc>
+    <loc>/tags/headers/</loc>
     <lastmod>2018-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/icc/</loc>
+    <loc>/tags/icc/</loc>
     <lastmod>2017-08-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/</loc>
-    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+    <loc>/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/lme4/</loc>
-    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
+    <loc>/tags/lme4/</loc>
+    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/lmer/</loc>
+    <loc>/tags/lmer/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/markr/</loc>
+    <loc>/tags/markr/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/methods/</loc>
+    <loc>/categories/methods/</loc>
     <lastmod>2020-01-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/categories/methods/</loc>
+    <loc>/tags/methods/</loc>
     <lastmod>2020-01-31T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/mixed-effects/</loc>
+    <loc>/tags/mixed-effects/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/nest/</loc>
+    <loc>/tags/nest/</loc>
     <lastmod>2017-08-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/p-value/</loc>
+    <loc>/tags/p-value/</loc>
     <lastmod>2017-07-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/pca/</loc>
+    <loc>/tags/pca/</loc>
     <lastmod>2017-06-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/pedagogy/</loc>
+    <loc>/tags/pedagogy/</loc>
     <lastmod>2017-11-15T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/pipes/</loc>
+    <loc>/tags/pipes/</loc>
     <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/posts/</loc>
-    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+    <loc>/tags/pmap_dfr/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/categories/prereg/</loc>
+    <loc>/posts/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/prereg/</loc>
     <lastmod>2017-10-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/preregistration/</loc>
+    <loc>/tags/preregistration/</loc>
     <lastmod>2017-10-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/princomp/</loc>
+    <loc>/tags/princomp/</loc>
     <lastmod>2017-06-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/psych/</loc>
+    <loc>/tags/psych/</loc>
     <lastmod>2017-06-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/psych-r-package/</loc>
+    <loc>/tags/psych-r-package/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/r/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <loc>/tags/purrr/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/recoding/</loc>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/recoding/</loc>
     <lastmod>2017-07-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/rep/</loc>
+    <loc>/tags/rep/</loc>
     <lastmod>2017-06-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/categories/rstats/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+    <loc>/categories/rstats/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/scale/</loc>
+    <loc>/tags/scale/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/simulation/</loc>
-    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
+    <loc>/tags/simulation/</loc>
+    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/spss/</loc>
+    <loc>/tags/spss/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/categories/stats/</loc>
+    <loc>/categories/stats/</loc>
     <lastmod>2017-07-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/teaching/</loc>
+    <loc>/tags/teaching/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/tidyverse/</loc>
+    <loc>/tags/tidyverse/</loc>
     <lastmod>2018-12-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/treatment/</loc>
+    <loc>/tags/treatment/</loc>
     <lastmod>2017-06-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://debruine.github.io/tags/web/</loc>
+    <loc>/tags/web/</loc>
     <lastmod>2017-10-21T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
