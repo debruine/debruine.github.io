@@ -1,15 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Simulation on Lisa DeBruine</title>
+    <title>simulation on Lisa DeBruine</title>
     <link>/tags/simulation/</link>
-    <description>Recent content in Simulation on Lisa DeBruine</description>
+    <description>Recent content in simulation on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/simulation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Inputting data table rows as function arguments</title>
+      <link>/posts/pmap_df/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/pmap_df/</guid>
+      <description>I was working on a simulation project with an undergraduate dissertation student today (I’m so amazed at what our students can do now!) and wanted to show her how to efficiently run simulations for all combinations of a range of parameters. It took 20 minutes of googling map functions in purrr to figure it out. I find I have to do this every time I want to use this pattern, so I decided to write a quick tutorial on it.</description>
+    </item>
     
     <item>
       <title>Composite Images</title>
@@ -58,7 +67,7 @@ stim_n &amp;lt;- 20 # height stats from https://journals.</description>
       <guid>/posts/simdf/</guid>
       <description># devtools::install_github(&amp;quot;debruine/faux&amp;quot;) library(faux) library(tidyverse) I added a new function to the package faux to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
 For example, here is the relationship between speed and distance in the built-in dataset cars.
-cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code simdf(cars, 500).</description>
+cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code sim_df(cars, 500).</description>
     </item>
     
     <item>
@@ -88,7 +97,7 @@ The first function, rnorm_multi, makes multiple normally distributed vectors wit
       
       <guid>/posts/sample/</guid>
       <description>First, let’s make a data frame with two variables, a and b that are both sampled from a normal distribution with a mean of 0 and SD of 1. The variablle n will be how many samples we’ll take (100). Then we can run a t-test to see if they are different.
-library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.1.0 ✔ purrr 0.3.2 ## ✔ tibble 2.</description>
+library(tidyverse) ## ── Attaching packages ──────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.</description>
     </item>
     
     <item>

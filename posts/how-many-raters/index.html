@@ -45,7 +45,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.65.3" />
   </head>
 
   <body class=" ">
@@ -126,14 +126,12 @@
 <p>This will obviously depend on the stimuli and what they’re being rated for. If there is a lot of inter-rater variation or very little inter-stimulus variation, you will need more raters to generate mean ratings with any reliability.</p>
 <p>If you have a large set of ratings of a type of stimulus, population of rater, and type of rating you’re interested in, you can use the script below to figure out how many raters you need to sample to get mean stimulus ratings that are well-correlated with mean ratings from very large samples.</p>
 <p>The example below is for attractiveness ratings using an open-access image set from my lab.</p>
-<p>You can cite this method as: <a href="https://osf.io/x7fus/">DeBruine, Lisa &amp; Jones, Benedict C. (2018) Determining the number of raters for reliable mean ratings. OSF. doi: 10.17605/OSF.IO/X7FUS</a></p>
+<p>You can cite this method as:
+<a href="https://osf.io/x7fus/">DeBruine, Lisa &amp; Jones, Benedict C. (2018) Determining the number of raters for reliable mean ratings. OSF. doi: 10.17605/OSF.IO/X7FUS</a></p>
 <pre class="r"><code>library(tidyverse)
 library(psych)</code></pre>
 <p>Read data from DeBruine, Lisa; Jones, Benedict (2017): Face Research Lab London Set. figshare. <a href="https://doi.org/10.6084/m9.figshare.5047666">doi: 10.6084/m9.figshare.5047666</a></p>
-<div class="figure">
-<img src="images/facelab_london.jpg" />
-
-</div>
+<p><img src="images/facelab_london.jpg" /></p>
 <pre class="r"><code>data &lt;- read_csv(&quot;https://ndownloader.figshare.com/files/8542045&quot;)</code></pre>
 <p>Calculate canonical mean ratings (average of all available ratings)</p>
 <pre class="r"><code>canon &lt;- data %&gt;%
@@ -210,16 +208,16 @@ median r
 5
 </td>
 <td style="text-align:right;">
-0.73
+0.74
 </td>
 <td style="text-align:right;">
-0.58
+0.57
 </td>
 <td style="text-align:right;">
-0.13
+0.10
 </td>
 <td style="text-align:right;">
-0.85
+0.87
 </td>
 <td style="text-align:right;">
 0.79
@@ -230,19 +228,19 @@ median r
 10
 </td>
 <td style="text-align:right;">
-0.85
+0.84
 </td>
 <td style="text-align:right;">
-0.81
+0.79
 </td>
 <td style="text-align:right;">
-0.91
+0.82
 </td>
 <td style="text-align:right;">
-0.93
+0.92
 </td>
 <td style="text-align:right;">
-0.90
+0.89
 </td>
 </tr>
 <tr>
@@ -253,16 +251,16 @@ median r
 0.89
 </td>
 <td style="text-align:right;">
-0.86
+0.85
 </td>
 <td style="text-align:right;">
-1.00
+0.99
 </td>
 <td style="text-align:right;">
 0.95
 </td>
 <td style="text-align:right;">
-0.93
+0.92
 </td>
 </tr>
 <tr>
@@ -273,7 +271,7 @@ median r
 0.91
 </td>
 <td style="text-align:right;">
-0.90
+0.89
 </td>
 <td style="text-align:right;">
 1.00

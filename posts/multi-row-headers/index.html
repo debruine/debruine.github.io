@@ -45,7 +45,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.65.3" />
   </head>
 
   <body class=" ">
@@ -134,9 +134,9 @@ X, Y, X, Y, X, Y, X, Y
 77, 12, 14, 75, 36, 85, 3, 2&quot;</code></pre>
 <p>If you try to read in this data, you’ll get an error message about the duplicate column names.</p>
 <pre class="r"><code>data &lt;- read_csv(demo_csv)</code></pre>
-<pre><code>## Warning: Duplicated column names deduplicated: &#39;SUB1&#39; =&gt; &#39;SUB1_1&#39; [2],
-## &#39;SUB1&#39; =&gt; &#39;SUB1_2&#39; [3], &#39;SUB1&#39; =&gt; &#39;SUB1_3&#39; [4], &#39;SUB2&#39; =&gt; &#39;SUB2_1&#39; [6],
-## &#39;SUB2&#39; =&gt; &#39;SUB2_2&#39; [7], &#39;SUB2&#39; =&gt; &#39;SUB2_3&#39; [8]</code></pre>
+<pre><code>## Warning: Duplicated column names deduplicated: &#39;SUB1&#39; =&gt; &#39;SUB1_1&#39; [2], &#39;SUB1&#39;
+## =&gt; &#39;SUB1_2&#39; [3], &#39;SUB1&#39; =&gt; &#39;SUB1_3&#39; [4], &#39;SUB2&#39; =&gt; &#39;SUB2_1&#39; [6], &#39;SUB2&#39; =&gt;
+## &#39;SUB2_2&#39; [7], &#39;SUB2&#39; =&gt; &#39;SUB2_3&#39; [8]</code></pre>
 <p>Instead, you should read in just the header rows by setting <code>n_max</code> equal to the number of header rows and <code>col_names</code> to <code>FALSE</code>.</p>
 <pre class="r"><code>data_head &lt;- read_csv(demo_csv, n_max = 3, col_names = FALSE)</code></pre>
 <p>You will get a table that looks like this:</p>
@@ -261,10 +261,7 @@ Y
 <p>Now you can read in the data without the three header rows. Use <code>skip</code> to skip the headers and set <code>col_names</code> to the new names.</p>
 <pre class="r"><code>data &lt;- read_csv(demo_csv, skip = 3, col_names = new_names)</code></pre>
 <p>If you have an excel file that merges the duplicate headers across rows, it’s a little trickier, but still do-able.</p>
-<div class="figure">
-<img src="/images/multirow-excel.png" />
-
-</div>
+<p><img src="/images/multirow-excel.png" /></p>
 <p>The first steps is the same: read in the first three rows.</p>
 <pre class="r"><code>data_head &lt;- readxl::read_excel(&quot;3headers_demo.xlsx&quot;, n_max = 3, col_names = FALSE)</code></pre>
 <pre><code>## New names:

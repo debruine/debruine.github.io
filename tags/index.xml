@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Lisa DeBruine</title>
@@ -6,175 +6,85 @@
     <description>Recent content in Tags on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Aggregation</title>
-      <link>/tags/aggregation/</link>
-      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      <title>interactive</title>
+      <link>/tags/interactive/</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/aggregation/</guid>
+      <guid>/tags/interactive/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Alpha</title>
-      <link>/tags/alpha/</link>
-      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/alpha/</guid>
+      <guid>/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Anova</title>
-      <link>/tags/anova/</link>
-      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      <title>test</title>
+      <link>/tags/test/</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/anova/</guid>
+      <guid>/tags/test/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Categorical</title>
-      <link>/tags/categorical/</link>
-      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
+      <title>testthat</title>
+      <link>/tags/testthat/</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/categorical/</guid>
+      <guid>/tags/testthat/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Coding</title>
-      <link>/tags/coding/</link>
-      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      <title>function</title>
+      <link>/tags/function/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/coding/</guid>
+      <guid>/tags/function/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Correlated Data</title>
-      <link>/tags/correlated-data/</link>
-      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      <title>pmap_dfr</title>
+      <link>/tags/pmap_dfr/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/correlated-data/</guid>
+      <guid>/tags/pmap_dfr/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Cronbach</title>
-      <link>/tags/cronbach/</link>
-      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      <title>purrr</title>
+      <link>/tags/purrr/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/cronbach/</guid>
+      <guid>/tags/purrr/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Data Import</title>
-      <link>/tags/data-import/</link>
-      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      <title>simulation</title>
+      <link>/tags/simulation/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/data-import/</guid>
+      <guid>/tags/simulation/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Dataviz</title>
-      <link>/tags/dataviz/</link>
-      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/dataviz/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Effect</title>
-      <link>/tags/effect/</link>
-      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/effect/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Factanal</title>
-      <link>/tags/factanal/</link>
-      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/factanal/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Faux</title>
-      <link>/tags/faux/</link>
-      <pubDate>Sat, 29 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/faux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ggplot</title>
-      <link>/tags/ggplot/</link>
-      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/ggplot/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Headers</title>
-      <link>/tags/headers/</link>
-      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/headers/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Icc</title>
-      <link>/tags/icc/</link>
-      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/icc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Lme4</title>
-      <link>/tags/lme4/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/lme4/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Lmer</title>
-      <link>/tags/lmer/</link>
-      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/lmer/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Markr</title>
-      <link>/tags/markr/</link>
-      <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/markr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Methods</title>
+      <title>methods</title>
       <link>/tags/methods/</link>
       <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
       
@@ -183,7 +93,34 @@
     </item>
     
     <item>
-      <title>Mixed Effects</title>
+      <title>aggregation</title>
+      <link>/tags/aggregation/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/aggregation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>anova</title>
+      <link>/tags/anova/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/anova/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>lmer</title>
+      <link>/tags/lmer/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/lmer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mixed effects</title>
       <link>/tags/mixed-effects/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
@@ -192,142 +129,16 @@
     </item>
     
     <item>
-      <title>Nest</title>
-      <link>/tags/nest/</link>
-      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      <title>markr</title>
+      <link>/tags/markr/</link>
+      <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/nest/</guid>
+      <guid>/tags/markr/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>P Value</title>
-      <link>/tags/p-value/</link>
-      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/p-value/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pca</title>
-      <link>/tags/pca/</link>
-      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/pca/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pedagogy</title>
-      <link>/tags/pedagogy/</link>
-      <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/pedagogy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pipes</title>
-      <link>/tags/pipes/</link>
-      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/pipes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Preregistration</title>
-      <link>/tags/preregistration/</link>
-      <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/preregistration/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Princomp</title>
-      <link>/tags/princomp/</link>
-      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/princomp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Psych</title>
-      <link>/tags/psych/</link>
-      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/psych/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Psych R Package</title>
-      <link>/tags/psych-r-package/</link>
-      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/psych-r-package/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/tags/r/</link>
-      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Recoding</title>
-      <link>/tags/recoding/</link>
-      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/recoding/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rep</title>
-      <link>/tags/rep/</link>
-      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/rep/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Scale</title>
-      <link>/tags/scale/</link>
-      <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/scale/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Simulation</title>
-      <link>/tags/simulation/</link>
-      <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/simulation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Spss</title>
-      <link>/tags/spss/</link>
-      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/spss/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Teaching</title>
+      <title>teaching</title>
       <link>/tags/teaching/</link>
       <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
       
@@ -336,7 +147,43 @@
     </item>
     
     <item>
-      <title>Tidyverse</title>
+      <title>lme4</title>
+      <link>/tags/lme4/</link>
+      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/lme4/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>faux</title>
+      <link>/tags/faux/</link>
+      <pubDate>Sat, 29 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/faux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>correlated data</title>
+      <link>/tags/correlated-data/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/correlated-data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pipes</title>
+      <link>/tags/pipes/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pipes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tidyverse</title>
       <link>/tags/tidyverse/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
@@ -345,7 +192,205 @@
     </item>
     
     <item>
-      <title>Treatment</title>
+      <title>dataviz</title>
+      <link>/tags/dataviz/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/dataviz/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot</title>
+      <link>/tags/ggplot/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ggplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data import</title>
+      <link>/tags/data-import/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-import/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>headers</title>
+      <link>/tags/headers/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/headers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>alpha</title>
+      <link>/tags/alpha/</link>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/alpha/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cronbach</title>
+      <link>/tags/cronbach/</link>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/cronbach/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pedagogy</title>
+      <link>/tags/pedagogy/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pedagogy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>preregistration</title>
+      <link>/tags/preregistration/</link>
+      <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/preregistration/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>web</title>
+      <link>/tags/web/</link>
+      <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/web/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>psych</title>
+      <link>/tags/psych/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/psych/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>psych-r-package</title>
+      <link>/tags/psych-r-package/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/psych-r-package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SPSS</title>
+      <link>/tags/spss/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/spss/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>icc</title>
+      <link>/tags/icc/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/icc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nest</title>
+      <link>/tags/nest/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/nest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>p-value</title>
+      <link>/tags/p-value/</link>
+      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/p-value/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>categorical</title>
+      <link>/tags/categorical/</link>
+      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/categorical/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>recoding</title>
+      <link>/tags/recoding/</link>
+      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/recoding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>factanal</title>
+      <link>/tags/factanal/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/factanal/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pca</title>
+      <link>/tags/pca/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pca/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>princomp</title>
+      <link>/tags/princomp/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/princomp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>coding</title>
+      <link>/tags/coding/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/coding/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>effect</title>
+      <link>/tags/effect/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/effect/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>treatment</title>
       <link>/tags/treatment/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
@@ -354,11 +399,20 @@
     </item>
     
     <item>
-      <title>Web</title>
-      <link>/tags/web/</link>
-      <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
+      <title>scale</title>
+      <link>/tags/scale/</link>
+      <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/web/</guid>
+      <guid>/tags/scale/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rep</title>
+      <link>/tags/rep/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rep/</guid>
       <description></description>
     </item>
     

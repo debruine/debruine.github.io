@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Lisa DeBruine</title>
@@ -6,10 +6,28 @@
     <description>Recent content on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Testing interactive functions</title>
+      <link>/posts/interactive-test/</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/interactive-test/</guid>
+      <description>I’m a huge fan of unit tests, but it’s tricky to test interactive functions where the user needs to enter input before the function can progress. I used to test them manually, which is incredibly tedious and time-consuming. So I ended up not testing interative functions very thoroughly. I found a post on Stack Overflow with a useful answer by znk. I’ve expanded their answer into a full example of a unit test for an interactive function.</description>
+    </item>
+    
+    <item>
+      <title>Inputting data table rows as function arguments</title>
+      <link>/posts/pmap_df/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/pmap_df/</guid>
+      <description>I was working on a simulation project with an undergraduate dissertation student today (I’m so amazed at what our students can do now!) and wanted to show her how to efficiently run simulations for all combinations of a range of parameters. It took 20 minutes of googling map functions in purrr to figure it out. I find I have to do this every time I want to use this pattern, so I decided to write a quick tutorial on it.</description>
+    </item>
     
     <item>
       <title>Composite Images</title>
@@ -68,7 +86,7 @@ stim_n &amp;lt;- 20 # height stats from https://journals.</description>
       <guid>/posts/simdf/</guid>
       <description># devtools::install_github(&amp;quot;debruine/faux&amp;quot;) library(faux) library(tidyverse) I added a new function to the package faux to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
 For example, here is the relationship between speed and distance in the built-in dataset cars.
-cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code simdf(cars, 500).</description>
+cars %&amp;gt;% ggplot(aes(speed, dist)) + geom_point() + geom_smooth(method = &amp;quot;lm&amp;quot;)  Figure 1: Original cars dataset  You can create a new sample with the same parameters and 500 rows with the code sim_df(cars, 500).</description>
     </item>
     
     <item>
@@ -171,8 +189,8 @@ Example Graph the relationship between speed and distance for the cars dataset.
       
       <guid>/posts/psych-alpha/</guid>
       <description>This is a tutorial in progress on how to calculate Cronbach’s alphas using the psych package in R.
-library(tidyverse) library(psych) disgust &amp;lt;- read_csv(&amp;quot;https://gupsych.github.io/data_skills/data/disgust.csv&amp;quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis... Choose the 7 moral disgust items Make sure the Model is “Alpha” Under Statistics, add descriptives for Item, Scale, and Scale if Item Deleted    psych::alpha() alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,
-check.keys=FALSE, n.</description>
+library(tidyverse) library(psych) disgust &amp;lt;- read_csv(&amp;quot;https://gupsych.github.io/data_skills/data/disgust.csv&amp;quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis... Choose the 7 moral disgust items Make sure the Model is “Alpha” Under Statistics, add descriptives for Item, Scale, and Scale if Item Deleted   psych::alpha() alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,
+check.keys=FALSE, n.iter=1, delete=TRUE, use=&amp;quot;pairwise&amp;quot;, warnings=TRUE, n.</description>
     </item>
     
     <item>
@@ -183,7 +201,7 @@ check.keys=FALSE, n.</description>
       <guid>/posts/nest/</guid>
       <description>I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).
 library(tidyverse) library(irr) Load the rating data for the open-source Face Research Lab London Set. The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (X001:X173).
-london &amp;lt;- read_csv(&amp;quot;https://ndownloader.figshare.com/files/8542045&amp;quot;) head(london) ## # A tibble: 6 x 105 ## rater_sex rater_sexpref rater_age X001 X002 X003 X004 X005 X006 ## &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 female either 17 3 3 3 3 2 3 ## 2 female either 17 5 2 3 2 1 5 ## 3 female either 17.</description>
+london &amp;lt;- read_csv(&amp;quot;https://ndownloader.figshare.com/files/8542045&amp;quot;) head(london) ## # A tibble: 6 x 105 ## rater_sex rater_sexpref rater_age X001 X002 X003 X004 X005 X006 X007 ## &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; ## 1 female either 17 3 3 3 3 2 3 5 ## 2 female either 17 5 2 3 2 1 5 6 ## 3 female either 17.</description>
     </item>
     
     <item>
@@ -203,7 +221,7 @@ I also used to believe that you could multiply p-values, but am now a bit embara
       
       <guid>/posts/sample/</guid>
       <description>First, let’s make a data frame with two variables, a and b that are both sampled from a normal distribution with a mean of 0 and SD of 1. The variablle n will be how many samples we’ll take (100). Then we can run a t-test to see if they are different.
-library(tidyverse) ## ── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ── ## ✔ ggplot2 3.1.0 ✔ purrr 0.3.2 ## ✔ tibble 2.</description>
+library(tidyverse) ## ── Attaching packages ──────────────────────────────────────── tidyverse 1.2.1 ── ## ✓ ggplot2 3.2.1 ✓ purrr 0.3.3 ## ✓ tibble 2.</description>
     </item>
     
     <item>
@@ -265,7 +283,7 @@ x &amp;lt;- c(10, 12, 14, 16, 18) scale(x) ## [,1] ## [1,] -1.2649111 ## [2,] -0
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description> Open Science Stuff  figshare  is where I&amp;rsquo;ve made a few image sets open access, as well as manipulated versions and webmorph template files. OSF is where I post all of my open data and analysis code. GitHub hosts code for webmorph and some other projects I tweet mostly at @lisadebruine, but also sometimes at @kinfaces, @facefacts_scot, and @webmorph_org. ORCID, ResearcherID, and Google Scholar list my scientific publications (I&amp;rsquo;m working on making all the data open, but have a bit of a backlog)   </description>
+      <description>Open Science Stuff  figshare  is where I&amp;rsquo;ve made a few image sets open access, as well as manipulated versions and webmorph template files. OSF is where I post all of my open data and analysis code. GitHub hosts code for webmorph and some other projects I tweet mostly at @lisadebruine, but also sometimes at @kinfaces, @facefacts_scot, and @webmorph_org. ORCID, ResearcherID, and Google Scholar list my scientific publications (I&amp;rsquo;m working on making all the data open, but have a bit of a backlog)  </description>
     </item>
     
     <item>
@@ -274,7 +292,7 @@ x &amp;lt;- c(10, 12, 14, 16, 18) scale(x) ## [,1] ## [1,] -1.2649111 ## [2,] -0
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/</guid>
-      <description>Go Team Science!        psyTeachR: A growing collection of resources for teaching reproducible science (using rstats) Psychological Science Accelerator: A globally distributed network of psychological science laboratories that coordinates data collection for democratically selected studies  Courses  Data Skills: An MSc course I teach with Dale Barr introducing data wrangling in R Academic Webpages: An MSc course in creating github webpages with rmarkdown Shiny: Basic tutorials on making shiny apps  Code  webmorph An open source, online tool for morphing and transforming faces experimentum An open-source, online platform for psychology studies faux R functions for simulating datasets  Shiny Apps I just started learning how to make shiny apps.</description>
+      <description>Go Team Science!  psyTeachR: A growing collection of resources for teaching reproducible science (using rstats) Psychological Science Accelerator: A globally distributed network of psychological science laboratories that coordinates data collection for democratically selected studies  Courses  Data Skills: An MSc course I teach with Dale Barr introducing data wrangling in R Academic Webpages: An MSc course in creating github webpages with rmarkdown Shiny: Basic tutorials on making shiny apps  Code  webmorph An open source, online tool for morphing and transforming faces experimentum An open-source, online platform for psychology studies faux R functions for simulating datasets  Shiny Apps I just started learning how to make shiny apps.</description>
     </item>
     
   </channel>

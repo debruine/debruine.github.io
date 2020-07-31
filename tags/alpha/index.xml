@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Alpha on Lisa DeBruine</title>
+    <title>alpha on Lisa DeBruine</title>
     <link>/tags/alpha/</link>
-    <description>Recent content in Alpha on Lisa DeBruine</description>
+    <description>Recent content in alpha on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 17 Feb 2018 00:00:00 +0000</lastBuildDate>
@@ -29,8 +29,8 @@ If you have a large set of ratings of a type of stimulus, population of rater, a
       
       <guid>/posts/psych-alpha/</guid>
       <description>This is a tutorial in progress on how to calculate Cronbach’s alphas using the psych package in R.
-library(tidyverse) library(psych) disgust &amp;lt;- read_csv(&amp;quot;https://gupsych.github.io/data_skills/data/disgust.csv&amp;quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis... Choose the 7 moral disgust items Make sure the Model is “Alpha” Under Statistics, add descriptives for Item, Scale, and Scale if Item Deleted    psych::alpha() alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,
-check.keys=FALSE, n.</description>
+library(tidyverse) library(psych) disgust &amp;lt;- read_csv(&amp;quot;https://gupsych.github.io/data_skills/data/disgust.csv&amp;quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis... Choose the 7 moral disgust items Make sure the Model is “Alpha” Under Statistics, add descriptives for Item, Scale, and Scale if Item Deleted   psych::alpha() alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,
+check.keys=FALSE, n.iter=1, delete=TRUE, use=&amp;quot;pairwise&amp;quot;, warnings=TRUE, n.</description>
     </item>
     
   </channel>

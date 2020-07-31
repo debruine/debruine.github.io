@@ -45,7 +45,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.54.0" />
+    <meta name="generator" content="Hugo 0.65.3" />
   </head>
 
   <body class=" ">
@@ -137,7 +137,9 @@ scale(x)</code></pre>
 ## [1] 14
 ## attr(,&quot;scaled:scale&quot;)
 ## [1] 3.162278</code></pre>
-<p>However, the result contains the mean and SD. This can cause problems if you want to assign it to a new column in a data frame, which you can fix using <code>as.vector()</code></p>
+<p>However, the result contains the mean and SD.
+This can cause problems if you want to assign it to a new column in a data frame,
+which you can fix using <code>as.vector()</code></p>
 <pre class="r"><code>as.vector(scale(x))</code></pre>
 <pre><code>## [1] -1.2649111 -0.6324555  0.0000000  0.6324555  1.2649111</code></pre>
 <p>I find it more straightforward to just use the equation for a Z-score</p>
