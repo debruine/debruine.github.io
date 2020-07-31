@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lisa DeBruine">
+    <meta name="description" content="Lisa DeBruine&#39;s coding website">
+    <meta name="keywords" content="blog,code">
+
+    <base href="/">
+    <title>
+  Testing interactive functions · Lisa DeBruine
+</title>
+
+    <link rel="canonical" href="/posts/interactive-test/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Merriweather:300,700|Source+Code+Pro:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+    <script src="/js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    
+      
+      
+      <link rel="stylesheet" href="/css/coder.min.cd087ace86754b082dec94545567f8361cba42e84f8e15edbc4a9f6e52bd1f6a.css" integrity="sha256-zQh6zoZ1Swgt7JRUVWf4Nhy6QuhPjhXtvEqfblK9H2o=" crossorigin="anonymous" media="screen" />
+    
+
+    
+
+    
+
+    
+      <link rel="stylesheet" href="/css/xcode.css">
+    
+      <link rel="stylesheet" href="/css/style.css">
+    
+      <link rel="stylesheet" href="https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css">
+    
+
+    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.65.3" />
+  </head>
+
+  <body class=" ">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="/">
+      Lisa DeBruine
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/tutorials/">Tutorials</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Projects</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about/">About</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Testing interactive functions</h1>
+        </div>
+        <div class="post-meta">
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar"></i>
+              <time datetime='2020-07-31T00:00:00Z'>
+                2020-07-31
+              </time>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              3 minutes read
+            </span>
+          </div>
+          <div class="categories">
+  <i class="fas fa-folder"></i>
+    <a href="/categories/rstats/">rstats</a></div>
+
+          <div class="tags">
+  <i class="fas fa-tag"></i>
+    <a href="/tags/r/">R</a>
+      <span class="separator">•</span>
+    <a href="/tags/interactive/">interactive</a>
+      <span class="separator">•</span>
+    <a href="/tags/test/">test</a>
+      <span class="separator">•</span>
+    <a href="/tags/testthat/">testthat</a></div>
+
+        </div>
+      </header>
+
+      <div>
+        
+
+
+<p>I’m a huge fan of unit tests, but it’s tricky to test interactive functions where the user needs to enter input before the function can progress. I used to test them manually, which is incredibly tedious and time-consuming. So I ended up not testing interative functions very thoroughly. I found a <a href="https://stackoverflow.com/questions/41372146/test-interaction-with-users-in-r-package">post on Stack Overflow</a> with a useful answer by <a href="https://stackoverflow.com/users/2752888/znk">znk</a>. I’ve expanded their answer into a full example of a unit test for an interactive function.</p>
+<pre class="r"><code>library(testthat)</code></pre>
+<div id="set-up-the-function" class="section level1">
+<h1>Set up the function</h1>
+<p>Your function needs to use <code>readLines</code> to get interactive input and take an argument for the connection (<code>con</code>). The default value for the connection should be the same as its default value for <code>readLines</code>, which is <code>stdin()</code> (the terminal). You can’t use <code>readline</code>, which only supports connection to the terminal.</p>
+<p>This function displays a prompt and a list of valid options. If your response isn’t in the list, it will repeat the prompt until it is.</p>
+<pre class="r"><code>ask_opts &lt;- function(prompt, opts = NULL, con = stdin()) {
+  # display prompt and options
+  optlist &lt;- paste(opts, collapse = &quot;|&quot;)
+  prompt_opt &lt;- paste0(prompt, &quot; [&quot;, optlist, &quot;]\n&quot;)
+  cat(prompt_opt)
+  input &lt;- readLines(con = con, n = 1)
+  
+  # repeat if input is not in opts
+  if (!is.null(opts) &amp; !input %in% opts) {
+    input &lt;- ask_opts(prompt, opts, con)
+  }
+
+  input
+}</code></pre>
+<div id="set-up-the-test" class="section level2">
+<h2>Set up the Test</h2>
+<p>You need to create a file containing the input you want to send to the function, one input per line. I want to answer the first time with something not in the option list, then the second time with something that is in the option list.</p>
+<pre class="r"><code># set up interactive answers
+f &lt;- file()
+lines &lt;- c(&quot;echidna&quot;, &quot;ferret&quot;)
+ans &lt;- paste(lines, collapse = &quot;\n&quot;)
+write(ans, f)</code></pre>
+<p>Then run your interactive function, setting the connection to your file. Run it inside <code>capture_output_lines</code> if you want to test the prompts and not just the output. Close the file when you are done with it.</p>
+<pre class="r"><code>prompt &lt;- &quot;What is your favourite animal?&quot;
+opts &lt;- c(&quot;cat&quot;, &quot;dog&quot;, &quot;ferret&quot;)
+
+output_prompts &lt;- capture_output_lines({
+  result &lt;- ask_opts(prompt, opts, f)
+})
+
+close(f) # close the file</code></pre>
+<p>Now you can run your tests</p>
+<pre class="r"><code>txt &lt;- &quot;What is your favourite animal? [cat|dog|ferret]&quot;
+expect_equal(result, &quot;ferret&quot;)
+expect_equal(output_prompts, rep(txt, 2))</code></pre>
+</div>
+<div id="without-a-new-argument" class="section level2">
+<h2>Without a new argument</h2>
+<p>What if you don’t want to change the arguments to your function to add a connection? You can set the connection in the options and test for it in the function, defaulting to <code>stdin()</code>. For example:</p>
+<pre class="r"><code>ask_opts &lt;- function(prompt, opts = NULL) {
+  # set up connection, default to stdin() if not set
+  con &lt;- getOption(&quot;ask_opts.con&quot;, stdin())
+  
+  # display prompt and options
+  optlist &lt;- paste(opts, collapse = &quot;|&quot;)
+  prompt_opt &lt;- paste0(prompt, &quot; [&quot;, optlist, &quot;]\n&quot;)
+  cat(prompt_opt)
+  input &lt;- readLines(con = con, n = 1)
+  
+  # repeat if input is not in opts
+  if (!is.null(opts) &amp; !input %in% opts) {
+    input &lt;- ask_opts(prompt, opts)
+  }
+
+  input
+}</code></pre>
+<p>Then you just need to set this option before you run the interactive function in your testing environment. Make sure to reset it to <code>stdin()</code> when you’re done.</p>
+<pre class="r"><code>test_that(&quot;interactive&quot;, {
+  # set up interactive answers
+  f &lt;- file()
+  lines &lt;- c(&quot;maybe&quot;, &quot;y&quot;)
+  ans &lt;- paste(lines, collapse = &quot;\n&quot;)
+  write(ans, f)
+  
+  options(&quot;ask_opts.con&quot; = f) # set connection option 
+  
+  # run interactive function
+  prompt &lt;- &quot;Was this helpful?&quot;
+  opts &lt;- c(&quot;y&quot;, &quot;n&quot;)
+  
+  output_prompts &lt;- capture_output_lines({
+    result &lt;- ask_opts(prompt, opts)
+  })
+  
+  close(f) # close the file
+  options(&quot;ask_opts.con&quot; = stdin()) # reset connection option
+  
+  # tests
+  txt &lt;- &quot;Was this helpful? [y|n]&quot;
+  expect_equal(result, &quot;y&quot;)
+  expect_equal(output_prompts, rep(txt, 2))
+})</code></pre>
+</div>
+</div>
+
+      </div>
+
+      <footer>
+        <div id="disqus_thread"></div>
+<script>
+
+
+
+
+var disqus_config = function () {
+  this.page.url = 'https://debruine.github.io' + "/posts/interactive-test/";  
+  this.page.identifier = "/posts/interactive-test/"; 
+};
+
+
+(function() { 
+  var d = document, s = d.createElement('script');
+  s.src = 'https://https-debruine-github-io.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+    
+     © 2020
+    
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

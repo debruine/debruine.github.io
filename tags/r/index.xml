@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>R on Lisa DeBruine</title>
@@ -6,10 +6,19 @@
     <description>Recent content in R on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Testing interactive functions</title>
+      <link>/posts/interactive-test/</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/interactive-test/</guid>
+      <description>I’m a huge fan of unit tests, but it’s tricky to test interactive functions where the user needs to enter input before the function can progress. I used to test them manually, which is incredibly tedious and time-consuming. So I ended up not testing interative functions very thoroughly. I found a post on Stack Overflow with a useful answer by znk. I’ve expanded their answer into a full example of a unit test for an interactive function.</description>
+    </item>
     
     <item>
       <title>Inputting data table rows as function arguments</title>
