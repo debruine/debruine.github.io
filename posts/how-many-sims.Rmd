@@ -29,7 +29,7 @@ x <- expand.grid(
 )
 ```
 
-Then, for each combination, I calculated the proportion of significant analyses in 10K simulations. I assumed this would have a binomial distribution where size is the number of replications in the distribution and probability is the power. I then calculated the absolute difference from the true value of power and reported the mean (I find it more intuitive than SD or variance).
+Then, for each combination, I calculated the proportion of significant analyses in 10K simulations. I assumed this would have a binomial distribution where size is the number of replications in each simulation and probability is the true power. I then calculated the absolute difference from the true value of power and reported the mean (I find it more intuitive than SD or variance).
 
 ```{r}
 x$diff <- mapply(function(size, prob) {
