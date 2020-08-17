@@ -4,35 +4,21 @@
   
   <url>
     <loc>/categories/</loc>
-<<<<<<< HEAD
     <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/posts/how-many-sims/</loc>
     <lastmod>2020-08-17T00:00:00+00:00</lastmod>
-=======
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/interactive/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
   </url>
   
   <url>
     <loc>/</loc>
-<<<<<<< HEAD
     <lastmod>2020-08-17T00:00:00+00:00</lastmod>
-=======
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
   </url>
   
   <url>
     <loc>/posts/</loc>
-<<<<<<< HEAD
     <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
@@ -88,68 +74,10 @@
   
   <url>
     <loc>/tags/function/</loc>
-=======
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/rstats/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/test/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/interactive-test/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/testthat/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/function/</loc>
     <lastmod>2020-02-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/posts/pmap_df/</loc>
-    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/pmap_dfr/</loc>
-    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/purrr/</loc>
-    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/simulation/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
-    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
     <loc>/posts/pmap_df/</loc>
     <lastmod>2020-02-06T00:00:00+00:00</lastmod>
   </url>
@@ -181,23 +109,6 @@
   
   <url>
     <loc>/tags/aggregation/</loc>
-=======
-    <loc>/posts/composite-images/</loc>
-    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/methods/</loc>
-    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/methods/</loc>
-    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/aggregation/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
   </url>
   
@@ -207,27 +118,6 @@
   </url>
   
   <url>
-    <loc>/tags/lmer/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/mixed-effects/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
-    <loc>/tags/anova/</loc>
-=======
-    <loc>/posts/aggregating/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
     <loc>/tags/lmer/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
   </url>
@@ -244,29 +134,10 @@
   
   <url>
     <loc>/drafts/</loc>
-=======
-    <loc>/drafts/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/drafts/markr/</loc>
-    <lastmod>2019-01-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/markr/</loc>
-    <lastmod>2019-01-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/teaching/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
-    <lastmod>2019-01-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
     <loc>/drafts/markr/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
   </url>
@@ -313,38 +184,6 @@
   
   <url>
     <loc>/tags/correlated-data/</loc>
-=======
-    <loc>/tags/lme4/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/drafts/lmer-vs-anova/</loc>
-    <lastmod>2019-01-10T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/simulating-random-slopes/</loc>
-    <lastmod>2019-01-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/faux/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/simdf/</loc>
-    <lastmod>2018-12-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/simulating-mixed-effects/</loc>
-    <lastmod>2018-12-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/correlated-data/</loc>
     <lastmod>2018-12-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -354,27 +193,6 @@
   </url>
   
   <url>
-    <loc>/tags/pipes/</loc>
-    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/rnorm_multi/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
-    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
-    <loc>/posts/pipes/</loc>
-=======
-    <loc>/tags/tidyverse/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
-    <lastmod>2018-12-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
     <loc>/tags/pipes/</loc>
     <lastmod>2018-12-22T00:00:00+00:00</lastmod>
   </url>
@@ -446,79 +264,10 @@
   
   <url>
     <loc>/posts/frl-prereg/</loc>
-=======
-    <loc>/tags/dataviz/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/ggplot/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/plot-comparison/</loc>
-    <lastmod>2018-03-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/data-import/</loc>
-    <lastmod>2018-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/headers/</loc>
-    <lastmod>2018-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/multi-row-headers/</loc>
-    <lastmod>2018-02-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/alpha/</loc>
-    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/cronbach/</loc>
-    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/how-many-raters/</loc>
-    <lastmod>2018-02-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/pedagogy/</loc>
-    <lastmod>2017-11-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/solution-feedback/</loc>
-    <lastmod>2017-11-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/frl-prereg/</loc>
     <lastmod>2017-10-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/categories/prereg/</loc>
-    <lastmod>2017-10-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/preregistration/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
-    <lastmod>2017-10-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-<<<<<<< HEAD
     <loc>/categories/prereg/</loc>
     <lastmod>2017-10-23T00:00:00+00:00</lastmod>
   </url>
@@ -540,18 +289,6 @@
   
   <url>
     <loc>/tags/psych/</loc>
-=======
-    <loc>/posts/hidden-solutions/</loc>
-    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/web/</loc>
-    <lastmod>2017-10-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/psych/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
   </url>
   
@@ -562,99 +299,10 @@
   
   <url>
     <loc>/posts/psych-alpha/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-<<<<<<< HEAD
-    <loc>/tags/psych-r-package/</loc>
-    <lastmod>2017-09-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/psych-alpha/</loc>
-    <lastmod>2017-09-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/spss/</loc>
-    <lastmod>2017-09-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/icc/</loc>
-    <lastmod>2017-08-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/nest/</loc>
-    <lastmod>2017-08-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/nest/</loc>
-    <lastmod>2017-08-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/cumulative-p/</loc>
-    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/p-value/</loc>
-    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/stats/</loc>
-    <lastmod>2017-07-27T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/sample/</loc>
-    <lastmod>2017-07-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/categorical/</loc>
-    <lastmod>2017-07-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/recode/</loc>
-    <lastmod>2017-07-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/recoding/</loc>
-    <lastmod>2017-07-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/factanal/</loc>
-    <lastmod>2017-06-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/posts/pca/</loc>
-    <lastmod>2017-06-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/pca/</loc>
-    <lastmod>2017-06-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/princomp/</loc>
-    <lastmod>2017-06-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/coding/</loc>
-=======
     <loc>/tags/spss/</loc>
     <lastmod>2017-09-12T00:00:00+00:00</lastmod>
   </url>
@@ -746,29 +394,10 @@
   
   <url>
     <loc>/tags/treatment/</loc>
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
     <lastmod>2017-06-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-<<<<<<< HEAD
-    <loc>/posts/coding-schemes/</loc>
-    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/effect/</loc>
-    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/treatment/</loc>
-    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-=======
->>>>>>> 0471f69bd833cc77ab7c0b488f780c01576c3895
     <loc>/tags/scale/</loc>
     <lastmod>2017-06-22T00:00:00+00:00</lastmod>
   </url>
