@@ -4,36 +4,56 @@
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/interactive/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <loc>/posts/how-many-sims/</loc>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/posts/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/power/</loc>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/categories/rstats/</loc>
-    <lastmod>2020-07-31T00:00:00+00:00</lastmod>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/simulation/</loc>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/simulation/</loc>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/</loc>
+    <lastmod>2020-08-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/interactive/</loc>
     <lastmod>2020-07-31T00:00:00+00:00</lastmod>
   </url>
   
@@ -69,11 +89,6 @@
   
   <url>
     <loc>/tags/purrr/</loc>
-    <lastmod>2020-02-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/simulation/</loc>
     <lastmod>2020-02-06T00:00:00+00:00</lastmod>
   </url>
   
