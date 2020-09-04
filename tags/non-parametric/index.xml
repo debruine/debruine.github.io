@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>non-parametric on Lisa DeBruine</title>
+    <link>/tags/non-parametric/</link>
+    <description>Recent content in non-parametric on Lisa DeBruine</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/non-parametric/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mann-Whitney False Positives</title>
+      <link>/posts/mann-whitney/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/mann-whitney/</guid>
+      <description>One of my favourite colleagues, Phil McAleer, asked about unequal sample sizes for Mann-Whitney tests on our group chat today. I had no idea, so, as always, I thought “This is a job for simulations!”
+I started by loading tidyverse, since I know I’ll need to wrangle data and plot things. I’m starting to get more comfortable with base R for package development, and it can make things faster, but tidyverse is my favourite for a quick analysis or a pipeline where understandability is more important than speed.</description>
+    </item>
+    
+  </channel>
+</rss>

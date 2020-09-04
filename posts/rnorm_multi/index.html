@@ -45,7 +45,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.65.3" />
+    <meta name="generator" content="Hugo 0.67.1" />
   </head>
 
   <body class=" ">
@@ -125,10 +125,9 @@
         
 
 
-<pre class="r"><code># devtools::install_github(&quot;debruine/faux&quot;)
-library(tidyverse)
+<pre class="r"><code>library(tidyverse)
 library(faux)</code></pre>
-<p>I’m working on a package for simulations called <a href="https://github.com/debruine/faux">faux</a>.</p>
+<p>I’m working on a package for simulations called <a href="https://github.com/debruine/faux">faux</a>. (Update: faux is now on CRAN!)</p>
 <p>The first function, <code>rnorm_multi</code>, makes multiple normally distributed vectors with specified relationships and takes the following arguments:</p>
 <ul>
 <li><code>n</code> = the number of samples required (required)</li>
@@ -148,7 +147,7 @@ library(faux)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">A</th>
 <th align="right">B</th>
 <th align="right">C</th>
@@ -156,21 +155,21 @@ library(faux)</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>A</td>
+<td align="left">A</td>
 <td align="right">1.0000000</td>
-<td align="right">-0.1111726</td>
-<td align="right">-0.0158311</td>
+<td align="right">-0.087499</td>
+<td align="right">-0.1202283</td>
 </tr>
 <tr class="even">
-<td>B</td>
-<td align="right">-0.1111726</td>
-<td align="right">1.0000000</td>
-<td align="right">0.0623724</td>
+<td align="left">B</td>
+<td align="right">-0.0874990</td>
+<td align="right">1.000000</td>
+<td align="right">0.0157210</td>
 </tr>
 <tr class="odd">
-<td>C</td>
-<td align="right">-0.0158311</td>
-<td align="right">0.0623724</td>
+<td align="left">C</td>
+<td align="right">-0.1202283</td>
+<td align="right">0.015721</td>
 <td align="right">1.0000000</td>
 </tr>
 </tbody>
@@ -185,19 +184,17 @@ library(faux)</code></pre>
 iris_sim &lt;- rnorm_multi(
   n = 100, 
   vars = ncol(dat), 
-  cor = cor(dat),
+  r = cor(dat),
   mu = summarise_all(dat, mean) %&gt;% t(), 
   sd = summarise_all(dat, sd) %&gt;% t(), 
   varnames = names(dat)
 )</code></pre>
-<pre><code>## Warning in rnorm_multi(n = 100, vars = ncol(dat), cor = cor(dat), mu =
-## summarise_all(dat, : cors is deprecated, please use r</code></pre>
 <div id="correlation-matrix-of-original-data" class="section level3">
 <h3>Correlation Matrix of Original Data</h3>
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Sepal.Length</th>
 <th align="right">Sepal.Width</th>
 <th align="right">Petal.Length</th>
@@ -206,28 +203,28 @@ iris_sim &lt;- rnorm_multi(
 </thead>
 <tbody>
 <tr class="odd">
-<td>Sepal.Length</td>
+<td align="left">Sepal.Length</td>
 <td align="right">1.0000000</td>
 <td align="right">-0.1175698</td>
 <td align="right">0.8717538</td>
 <td align="right">0.8179411</td>
 </tr>
 <tr class="even">
-<td>Sepal.Width</td>
+<td align="left">Sepal.Width</td>
 <td align="right">-0.1175698</td>
 <td align="right">1.0000000</td>
 <td align="right">-0.4284401</td>
 <td align="right">-0.3661259</td>
 </tr>
 <tr class="odd">
-<td>Petal.Length</td>
+<td align="left">Petal.Length</td>
 <td align="right">0.8717538</td>
 <td align="right">-0.4284401</td>
 <td align="right">1.0000000</td>
 <td align="right">0.9628654</td>
 </tr>
 <tr class="even">
-<td>Petal.Width</td>
+<td align="left">Petal.Width</td>
 <td align="right">0.8179411</td>
 <td align="right">-0.3661259</td>
 <td align="right">0.9628654</td>
@@ -241,7 +238,7 @@ iris_sim &lt;- rnorm_multi(
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Sepal.Length</th>
 <th align="right">Sepal.Width</th>
 <th align="right">Petal.Length</th>
@@ -250,31 +247,31 @@ iris_sim &lt;- rnorm_multi(
 </thead>
 <tbody>
 <tr class="odd">
-<td>Sepal.Length</td>
+<td align="left">Sepal.Length</td>
 <td align="right">1.0000000</td>
-<td align="right">-0.0388955</td>
-<td align="right">0.8791936</td>
-<td align="right">0.8463493</td>
+<td align="right">-0.1591051</td>
+<td align="right">0.8491459</td>
+<td align="right">0.7544625</td>
 </tr>
 <tr class="even">
-<td>Sepal.Width</td>
-<td align="right">-0.0388955</td>
+<td align="left">Sepal.Width</td>
+<td align="right">-0.1591051</td>
 <td align="right">1.0000000</td>
-<td align="right">-0.3753793</td>
-<td align="right">-0.3320988</td>
+<td align="right">-0.4527400</td>
+<td align="right">-0.3513351</td>
 </tr>
 <tr class="odd">
-<td>Petal.Length</td>
-<td align="right">0.8791936</td>
-<td align="right">-0.3753793</td>
+<td align="left">Petal.Length</td>
+<td align="right">0.8491459</td>
+<td align="right">-0.4527400</td>
 <td align="right">1.0000000</td>
-<td align="right">0.9714376</td>
+<td align="right">0.9485627</td>
 </tr>
 <tr class="even">
-<td>Petal.Width</td>
-<td align="right">0.8463493</td>
-<td align="right">-0.3320988</td>
-<td align="right">0.9714376</td>
+<td align="left">Petal.Width</td>
+<td align="right">0.7544625</td>
+<td align="right">-0.3513351</td>
+<td align="right">0.9485627</td>
 <td align="right">1.0000000</td>
 </tr>
 </tbody>

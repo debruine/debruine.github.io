@@ -8,12 +8,11 @@ tags: ["R", "correlated data", "simulation", "faux"]
 ---
 
 ```{r load-libraries, message = FALSE}
-# devtools::install_github("debruine/faux")
 library(tidyverse)
 library(faux)
 ```
 
-I'm working on a package for simulations called [faux](https://github.com/debruine/faux).
+I'm working on a package for simulations called [faux](https://github.com/debruine/faux). (Update: faux is now on CRAN!)
 
 The first function, `rnorm_multi`, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
 
@@ -49,7 +48,7 @@ dat <- select_if(iris, is.numeric)
 iris_sim <- rnorm_multi(
   n = 100, 
   vars = ncol(dat), 
-  cor = cor(dat),
+  r = cor(dat),
   mu = summarise_all(dat, mean) %>% t(), 
   sd = summarise_all(dat, sd) %>% t(), 
   varnames = names(dat)

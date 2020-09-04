@@ -45,7 +45,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.65.3" />
+    <meta name="generator" content="Hugo 0.67.1" />
   </head>
 
   <body class=" ">
@@ -101,7 +101,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              4 minutes read
+              5 minutes read
             </span>
           </div>
           <div class="categories">
@@ -256,8 +256,10 @@ Y
   as_tibble() %&gt;% # turn it back to a tibble
   mutate(name = paste(V1, V2, V3, sep = &quot;_&quot;)) %&gt;%
   pull(name)</code></pre>
-<pre><code>## Warning: `as_tibble.matrix()` requires a matrix with column names or a `.name_repair` argument. Using compatibility `.name_repair`.
-## This warning is displayed once per session.</code></pre>
+<pre><code>## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
+## Using compatibility `.name_repair`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
 <p>Now you can read in the data without the three header rows. Use <code>skip</code> to skip the headers and set <code>col_names</code> to the new names.</p>
 <pre class="r"><code>data &lt;- read_csv(demo_csv, skip = 3, col_names = new_names)</code></pre>
 <p>If you have an excel file that merges the duplicate headers across rows, it’s a little trickier, but still do-able.</p>
@@ -270,7 +272,7 @@ Y
 ## * `` -&gt; ...3
 ## * `` -&gt; ...4
 ## * `` -&gt; ...5
-## * … and 3 more problems</code></pre>
+## * ...</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -410,6 +412,10 @@ data_long &lt;- data %&gt;%
   separate(var, c(&quot;subID&quot;, &quot;condition&quot;, &quot;coord&quot;), sep = &quot;_&quot;) %&gt;%
   # put X and Y in separate columns 
   spread(coord, val)</code></pre>
+<pre><code>## Note: Using an external vector in selections is ambiguous.
+## ℹ Use `all_of(new_names)` instead of `new_names` to silence this message.
+## ℹ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
+## This message is displayed once per session.</code></pre>
 <table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>

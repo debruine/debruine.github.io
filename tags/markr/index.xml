@@ -18,7 +18,7 @@
       
       <guid>/drafts/markr/</guid>
       <description> Install markr Install markr from github using the commented code below. Load the markr and tidyverse libraries.
-# devtools::install_github(&amp;quot;debruine/markr&amp;quot;) library(markr) library(tidyverse)  </description>
+# devtools::install_github(&amp;quot;debruine/markr&amp;quot;) #library(markr) library(tidyverse)  </description>
     </item>
     
   </channel>

@@ -13,7 +13,7 @@ Install markr from github using the commented code below. Load the `markr` and `
 
 ```{r install-markr, message=FALSE}
 # devtools::install_github("debruine/markr")
-library(markr)
+#library(markr)
 library(tidyverse)
 ```
 

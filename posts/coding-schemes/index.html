@@ -45,7 +45,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.65.3" />
+    <meta name="generator" content="Hugo 0.67.1" />
   </head>
 
   <body class=" ">
@@ -166,6 +166,7 @@ df &lt;- expand.grid(
     rating = face_i + rater_i + face_sex_i + error
   )</code></pre>
 <p>Calculate the means and SDs of the female and male faces.</p>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -210,7 +211,7 @@ df &lt;- expand.grid(
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Estimate</th>
 <th align="right">Std. Error</th>
 <th align="right">df</th>
@@ -220,7 +221,7 @@ df &lt;- expand.grid(
 </thead>
 <tbody>
 <tr class="odd">
-<td>(Intercept)</td>
+<td align="left">(Intercept)</td>
 <td align="right">5.940</td>
 <td align="right">0.174</td>
 <td align="right">173.360</td>
@@ -228,7 +229,7 @@ df &lt;- expand.grid(
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td>face_sexmale</td>
+<td align="left">face_sexmale</td>
 <td align="right">-0.826</td>
 <td align="right">0.203</td>
 <td align="right">98.586</td>
@@ -248,7 +249,7 @@ df &lt;- expand.grid(
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Estimate</th>
 <th align="right">Std. Error</th>
 <th align="right">df</th>
@@ -258,7 +259,7 @@ df &lt;- expand.grid(
 </thead>
 <tbody>
 <tr class="odd">
-<td>(Intercept)</td>
+<td align="left">(Intercept)</td>
 <td align="right">5.114</td>
 <td align="right">0.172</td>
 <td align="right">169.515</td>
@@ -266,7 +267,7 @@ df &lt;- expand.grid(
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td>face_sex.tr</td>
+<td align="left">face_sex.tr</td>
 <td align="right">0.826</td>
 <td align="right">0.203</td>
 <td align="right">98.611</td>
@@ -283,12 +284,10 @@ df &lt;- expand.grid(
                 (1 | face_id) + 
                 (1 + face_sex.sum | rater_id), 
               data = df2)</code></pre>
-<pre><code>## Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl = control$checkConv, :
-## Model failed to converge with max|grad| = 0.00660079 (tol = 0.002, component 1)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Estimate</th>
 <th align="right">Std. Error</th>
 <th align="right">df</th>
@@ -298,18 +297,18 @@ df &lt;- expand.grid(
 </thead>
 <tbody>
 <tr class="odd">
-<td>(Intercept)</td>
+<td align="left">(Intercept)</td>
 <td align="right">5.527</td>
 <td align="right">0.140</td>
-<td align="right">194.578</td>
-<td align="right">39.380</td>
+<td align="right">194.675</td>
+<td align="right">39.387</td>
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td>face_sex.sum</td>
+<td align="left">face_sex.sum</td>
 <td align="right">-0.413</td>
 <td align="right">0.102</td>
-<td align="right">98.571</td>
+<td align="right">98.601</td>
 <td align="right">-4.069</td>
 <td align="right">0</td>
 </tr>
@@ -326,7 +325,7 @@ df &lt;- expand.grid(
 <table>
 <thead>
 <tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="right">Estimate</th>
 <th align="right">Std. Error</th>
 <th align="right">df</th>
@@ -336,7 +335,7 @@ df &lt;- expand.grid(
 </thead>
 <tbody>
 <tr class="odd">
-<td>(Intercept)</td>
+<td align="left">(Intercept)</td>
 <td align="right">5.527</td>
 <td align="right">0.140</td>
 <td align="right">194.683</td>
@@ -344,10 +343,10 @@ df &lt;- expand.grid(
 <td align="right">0</td>
 </tr>
 <tr class="even">
-<td>face_sex.e</td>
+<td align="left">face_sex.e</td>
 <td align="right">-0.826</td>
 <td align="right">0.203</td>
-<td align="right">98.590</td>
+<td align="right">98.604</td>
 <td align="right">-4.069</td>
 <td align="right">0</td>
 </tr>

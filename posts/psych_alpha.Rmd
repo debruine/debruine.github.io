@@ -14,7 +14,7 @@ This is a tutorial in progress on how to calculate Cronbach's alphas using the `
 library(tidyverse)
 library(psych)
 
-disgust <- read_csv("https://gupsych.github.io/data_skills/data/disgust.csv")
+disgust <- read_csv("https://psyteachr.github.io/msc-data-skills/data/disgust.csv")
 
 ```
 

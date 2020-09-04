@@ -45,7 +45,7 @@
 
     
 
-    <meta name="generator" content="Hugo 0.65.3" />
+    <meta name="generator" content="Hugo 0.67.1" />
   </head>
 
   <body class=" ">
@@ -147,9 +147,9 @@ data_separated &lt;- separate(data_gathered, variable, c(&quot;var&quot;, &quot;
 data_grouped &lt;- group_by(data_separated, id, var)
 
 # calculate the mean value for each id/var 
-data_summarised &lt;- summarise(data_grouped, mean = mean(value))
-
-# spread the mean column into A and B columns
+data_summarised &lt;- summarise(data_grouped, mean = mean(value))</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;id&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code># spread the mean column into A and B columns
 data_spread &lt;- spread(data_summarised, var, mean)
 
 # rename A and B to A_mean and B_mean
@@ -165,53 +165,53 @@ data &lt;- rename(data_spread, A_mean = A, B_mean = B)</code></pre>
 <tbody>
 <tr class="odd">
 <td align="right">1</td>
-<td align="right">0.8282026</td>
-<td align="right">3.023465</td>
+<td align="right">0.2304382</td>
+<td align="right">3.376790</td>
 </tr>
 <tr class="even">
 <td align="right">2</td>
-<td align="right">0.5412543</td>
-<td align="right">3.859610</td>
+<td align="right">-0.2460394</td>
+<td align="right">3.150984</td>
 </tr>
 <tr class="odd">
 <td align="right">3</td>
-<td align="right">1.3216443</td>
-<td align="right">2.707748</td>
+<td align="right">0.4908918</td>
+<td align="right">2.020612</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
-<td align="right">-0.2878295</td>
-<td align="right">3.651007</td>
+<td align="right">-0.3616511</td>
+<td align="right">2.706038</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
-<td align="right">0.3510373</td>
-<td align="right">2.063302</td>
+<td align="right">-0.5155883</td>
+<td align="right">2.599207</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
-<td align="right">0.7173311</td>
-<td align="right">3.462698</td>
+<td align="right">-0.0474370</td>
+<td align="right">1.913186</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
-<td align="right">0.7368060</td>
-<td align="right">2.654145</td>
+<td align="right">0.1864482</td>
+<td align="right">2.065799</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
-<td align="right">1.2309915</td>
-<td align="right">2.143025</td>
+<td align="right">0.5501416</td>
+<td align="right">2.405596</td>
 </tr>
 <tr class="odd">
 <td align="right">9</td>
-<td align="right">-0.3242281</td>
-<td align="right">0.748201</td>
+<td align="right">0.2093015</td>
+<td align="right">1.425043</td>
 </tr>
 <tr class="even">
 <td align="right">10</td>
-<td align="right">1.8024147</td>
-<td align="right">2.707522</td>
+<td align="right">-0.7423514</td>
+<td align="right">2.399520</td>
 </tr>
 </tbody>
 </table>
@@ -240,6 +240,7 @@ data &lt;- rename(
       mean = mean(value)), 
     var, mean), 
   A_mean = A, B_mean = B)</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;id&#39; (override with `.groups` argument)</code></pre>
 <p>The pipe lets you “pipe” the result of each function into the next function, allowing you to put your code in a logical order without creating too many extra objects.</p>
 <pre class="r"><code># calculate mean of A and B variables for each participant
 data &lt;- tibble(
@@ -255,6 +256,7 @@ data &lt;- tibble(
   summarise(mean = mean(value)) %&gt;%
   spread(var, mean) %&gt;%
   rename(A_mean = A, B_mean = B)</code></pre>
+<pre><code>## `summarise()` regrouping output by &#39;id&#39; (override with `.groups` argument)</code></pre>
 <p>You can read this code from top to bottom as follows:</p>
 <ol style="list-style-type: decimal">
 <li>Make a tibble called <code>data</code> with

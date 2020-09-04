@@ -8,12 +8,11 @@ tags: ["r", "simulation", "faux"]
 ---
 
 ```{r load-libraries, message=FALSE}
-# devtools::install_github("debruine/faux")
 library(faux)
 library(tidyverse)
 ```
 
-I added a new function to the package [`faux`](https://github.com/debruine/faux) to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data.
+I added a new function to the package [`faux`](https://github.com/debruine/faux) to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data. (Update: faux is now on CRAN!)
 
 For example, here is the relationship between speed and distance in the built-in dataset `cars`. 
 
