@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>purrr on Lisa DeBruine</title>
-    <link>/tags/purrr/</link>
+    <link>https://debruine.github.io/tags/purrr/</link>
     <description>Recent content in purrr on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 06 Feb 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/purrr/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/purrr/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Inputting data table rows as function arguments</title>
-      <link>/posts/pmap_df/</link>
+      <link>https://debruine.github.io/posts/pmap_df/</link>
       <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/posts/pmap_df/</guid>
+      <guid>https://debruine.github.io/posts/pmap_df/</guid>
       <description>I was working on a simulation project with an undergraduate dissertation student today (I’m so amazed at what our students can do now!) and wanted to show her how to efficiently run simulations for all combinations of a range of parameters. It took 20 minutes of googling map functions in purrr to figure it out. I find I have to do this every time I want to use this pattern, so I decided to write a quick tutorial on it.</description>
     </item>
     

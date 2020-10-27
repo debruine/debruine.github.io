@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>dataviz on Lisa DeBruine</title>
-    <link>/tags/dataviz/</link>
+    <link>https://debruine.github.io/tags/dataviz/</link>
     <description>Recent content in dataviz on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/dataviz/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/dataviz/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Plot Comparison</title>
-      <link>/posts/plot-comparison/</link>
+      <link>https://debruine.github.io/posts/plot-comparison/</link>
       <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/posts/plot-comparison/</guid>
+      <guid>https://debruine.github.io/posts/plot-comparison/</guid>
       <description>library(tidyverse) I compared bar plots to violin plots in a recent talk to make the point that real data plotted with the full distribution make your effects look less impressive than minimalist bar charts that just show the means and standard errors, but give you a much better idea of what’s going on with your data.
 I also made a shiny app where you can set the sample size, main effects, and interaction effect, then view six different visualisations of the simulated data.</description>
     </item>

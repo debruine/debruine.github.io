@@ -2,453 +2,453 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Lisa DeBruine</title>
-    <link>/tags/</link>
+    <link>https://debruine.github.io/tags/</link>
     <description>Recent content in Tags on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>false positives</title>
-      <link>/tags/false-positives/</link>
+      <link>https://debruine.github.io/tags/false-positives/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/false-positives/</guid>
+      <guid>https://debruine.github.io/tags/false-positives/</guid>
       <description></description>
     </item>
     
     <item>
       <title>mann whitney</title>
-      <link>/tags/mann-whitney/</link>
+      <link>https://debruine.github.io/tags/mann-whitney/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/mann-whitney/</guid>
+      <guid>https://debruine.github.io/tags/mann-whitney/</guid>
       <description></description>
     </item>
     
     <item>
       <title>non-parametric</title>
-      <link>/tags/non-parametric/</link>
+      <link>https://debruine.github.io/tags/non-parametric/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/non-parametric/</guid>
+      <guid>https://debruine.github.io/tags/non-parametric/</guid>
       <description></description>
     </item>
     
     <item>
       <title>power</title>
-      <link>/tags/power/</link>
+      <link>https://debruine.github.io/tags/power/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/power/</guid>
+      <guid>https://debruine.github.io/tags/power/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>R</title>
-      <link>/tags/r/</link>
+      <title>r</title>
+      <link>https://debruine.github.io/tags/r/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
+      <guid>https://debruine.github.io/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>simulation</title>
-      <link>/tags/simulation/</link>
+      <link>https://debruine.github.io/tags/simulation/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/simulation/</guid>
+      <guid>https://debruine.github.io/tags/simulation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>interactive</title>
-      <link>/tags/interactive/</link>
+      <link>https://debruine.github.io/tags/interactive/</link>
       <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/interactive/</guid>
+      <guid>https://debruine.github.io/tags/interactive/</guid>
       <description></description>
     </item>
     
     <item>
       <title>test</title>
-      <link>/tags/test/</link>
+      <link>https://debruine.github.io/tags/test/</link>
       <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/test/</guid>
+      <guid>https://debruine.github.io/tags/test/</guid>
       <description></description>
     </item>
     
     <item>
       <title>testthat</title>
-      <link>/tags/testthat/</link>
+      <link>https://debruine.github.io/tags/testthat/</link>
       <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/testthat/</guid>
+      <guid>https://debruine.github.io/tags/testthat/</guid>
       <description></description>
     </item>
     
     <item>
       <title>function</title>
-      <link>/tags/function/</link>
+      <link>https://debruine.github.io/tags/function/</link>
       <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/function/</guid>
+      <guid>https://debruine.github.io/tags/function/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pmap_dfr</title>
-      <link>/tags/pmap_dfr/</link>
+      <link>https://debruine.github.io/tags/pmap_dfr/</link>
       <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/pmap_dfr/</guid>
+      <guid>https://debruine.github.io/tags/pmap_dfr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>purrr</title>
-      <link>/tags/purrr/</link>
+      <link>https://debruine.github.io/tags/purrr/</link>
       <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/purrr/</guid>
+      <guid>https://debruine.github.io/tags/purrr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>methods</title>
-      <link>/tags/methods/</link>
+      <link>https://debruine.github.io/tags/methods/</link>
       <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
       
-      <guid>/tags/methods/</guid>
+      <guid>https://debruine.github.io/tags/methods/</guid>
       <description></description>
     </item>
     
     <item>
       <title>aggregation</title>
-      <link>/tags/aggregation/</link>
+      <link>https://debruine.github.io/tags/aggregation/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/aggregation/</guid>
+      <guid>https://debruine.github.io/tags/aggregation/</guid>
       <description></description>
     </item>
     
     <item>
       <title>anova</title>
-      <link>/tags/anova/</link>
+      <link>https://debruine.github.io/tags/anova/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/anova/</guid>
+      <guid>https://debruine.github.io/tags/anova/</guid>
       <description></description>
     </item>
     
     <item>
       <title>lmer</title>
-      <link>/tags/lmer/</link>
+      <link>https://debruine.github.io/tags/lmer/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/lmer/</guid>
+      <guid>https://debruine.github.io/tags/lmer/</guid>
       <description></description>
     </item>
     
     <item>
       <title>mixed effects</title>
-      <link>/tags/mixed-effects/</link>
+      <link>https://debruine.github.io/tags/mixed-effects/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/mixed-effects/</guid>
+      <guid>https://debruine.github.io/tags/mixed-effects/</guid>
       <description></description>
     </item>
     
     <item>
       <title>markr</title>
-      <link>/tags/markr/</link>
+      <link>https://debruine.github.io/tags/markr/</link>
       <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/markr/</guid>
+      <guid>https://debruine.github.io/tags/markr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>teaching</title>
-      <link>/tags/teaching/</link>
+      <link>https://debruine.github.io/tags/teaching/</link>
       <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/teaching/</guid>
+      <guid>https://debruine.github.io/tags/teaching/</guid>
       <description></description>
     </item>
     
     <item>
       <title>lme4</title>
-      <link>/tags/lme4/</link>
-      <pubDate>Thu, 10 Jan 2019 00:00:00 +0000</pubDate>
+      <link>https://debruine.github.io/tags/lme4/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
       
-      <guid>/tags/lme4/</guid>
+      <guid>https://debruine.github.io/tags/lme4/</guid>
       <description></description>
     </item>
     
     <item>
       <title>faux</title>
-      <link>/tags/faux/</link>
+      <link>https://debruine.github.io/tags/faux/</link>
       <pubDate>Sat, 29 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/faux/</guid>
+      <guid>https://debruine.github.io/tags/faux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>correlated data</title>
-      <link>/tags/correlated-data/</link>
+      <link>https://debruine.github.io/tags/correlated-data/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/correlated-data/</guid>
+      <guid>https://debruine.github.io/tags/correlated-data/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pipes</title>
-      <link>/tags/pipes/</link>
+      <link>https://debruine.github.io/tags/pipes/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/pipes/</guid>
+      <guid>https://debruine.github.io/tags/pipes/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tidyverse</title>
-      <link>/tags/tidyverse/</link>
+      <link>https://debruine.github.io/tags/tidyverse/</link>
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/tidyverse/</guid>
+      <guid>https://debruine.github.io/tags/tidyverse/</guid>
       <description></description>
     </item>
     
     <item>
       <title>dataviz</title>
-      <link>/tags/dataviz/</link>
+      <link>https://debruine.github.io/tags/dataviz/</link>
       <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/dataviz/</guid>
+      <guid>https://debruine.github.io/tags/dataviz/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ggplot</title>
-      <link>/tags/ggplot/</link>
+      <link>https://debruine.github.io/tags/ggplot/</link>
       <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/ggplot/</guid>
+      <guid>https://debruine.github.io/tags/ggplot/</guid>
       <description></description>
     </item>
     
     <item>
       <title>data import</title>
-      <link>/tags/data-import/</link>
+      <link>https://debruine.github.io/tags/data-import/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/data-import/</guid>
+      <guid>https://debruine.github.io/tags/data-import/</guid>
       <description></description>
     </item>
     
     <item>
       <title>headers</title>
-      <link>/tags/headers/</link>
+      <link>https://debruine.github.io/tags/headers/</link>
       <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/headers/</guid>
+      <guid>https://debruine.github.io/tags/headers/</guid>
       <description></description>
     </item>
     
     <item>
       <title>alpha</title>
-      <link>/tags/alpha/</link>
+      <link>https://debruine.github.io/tags/alpha/</link>
       <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/alpha/</guid>
+      <guid>https://debruine.github.io/tags/alpha/</guid>
       <description></description>
     </item>
     
     <item>
       <title>cronbach</title>
-      <link>/tags/cronbach/</link>
+      <link>https://debruine.github.io/tags/cronbach/</link>
       <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/cronbach/</guid>
+      <guid>https://debruine.github.io/tags/cronbach/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pedagogy</title>
-      <link>/tags/pedagogy/</link>
+      <link>https://debruine.github.io/tags/pedagogy/</link>
       <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/pedagogy/</guid>
+      <guid>https://debruine.github.io/tags/pedagogy/</guid>
       <description></description>
     </item>
     
     <item>
       <title>preregistration</title>
-      <link>/tags/preregistration/</link>
+      <link>https://debruine.github.io/tags/preregistration/</link>
       <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/preregistration/</guid>
+      <guid>https://debruine.github.io/tags/preregistration/</guid>
       <description></description>
     </item>
     
     <item>
       <title>web</title>
-      <link>/tags/web/</link>
+      <link>https://debruine.github.io/tags/web/</link>
       <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/web/</guid>
+      <guid>https://debruine.github.io/tags/web/</guid>
       <description></description>
     </item>
     
     <item>
       <title>psych</title>
-      <link>/tags/psych/</link>
+      <link>https://debruine.github.io/tags/psych/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/psych/</guid>
+      <guid>https://debruine.github.io/tags/psych/</guid>
       <description></description>
     </item>
     
     <item>
       <title>psych-r-package</title>
-      <link>/tags/psych-r-package/</link>
+      <link>https://debruine.github.io/tags/psych-r-package/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/psych-r-package/</guid>
+      <guid>https://debruine.github.io/tags/psych-r-package/</guid>
       <description></description>
     </item>
     
     <item>
       <title>SPSS</title>
-      <link>/tags/spss/</link>
+      <link>https://debruine.github.io/tags/spss/</link>
       <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/spss/</guid>
+      <guid>https://debruine.github.io/tags/spss/</guid>
       <description></description>
     </item>
     
     <item>
       <title>icc</title>
-      <link>/tags/icc/</link>
+      <link>https://debruine.github.io/tags/icc/</link>
       <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/icc/</guid>
+      <guid>https://debruine.github.io/tags/icc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>nest</title>
-      <link>/tags/nest/</link>
+      <link>https://debruine.github.io/tags/nest/</link>
       <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/nest/</guid>
+      <guid>https://debruine.github.io/tags/nest/</guid>
       <description></description>
     </item>
     
     <item>
       <title>p-value</title>
-      <link>/tags/p-value/</link>
+      <link>https://debruine.github.io/tags/p-value/</link>
       <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/p-value/</guid>
+      <guid>https://debruine.github.io/tags/p-value/</guid>
       <description></description>
     </item>
     
     <item>
       <title>categorical</title>
-      <link>/tags/categorical/</link>
+      <link>https://debruine.github.io/tags/categorical/</link>
       <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/categorical/</guid>
+      <guid>https://debruine.github.io/tags/categorical/</guid>
       <description></description>
     </item>
     
     <item>
       <title>recoding</title>
-      <link>/tags/recoding/</link>
+      <link>https://debruine.github.io/tags/recoding/</link>
       <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/recoding/</guid>
+      <guid>https://debruine.github.io/tags/recoding/</guid>
       <description></description>
     </item>
     
     <item>
       <title>factanal</title>
-      <link>/tags/factanal/</link>
+      <link>https://debruine.github.io/tags/factanal/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/factanal/</guid>
+      <guid>https://debruine.github.io/tags/factanal/</guid>
       <description></description>
     </item>
     
     <item>
       <title>pca</title>
-      <link>/tags/pca/</link>
+      <link>https://debruine.github.io/tags/pca/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/pca/</guid>
+      <guid>https://debruine.github.io/tags/pca/</guid>
       <description></description>
     </item>
     
     <item>
       <title>princomp</title>
-      <link>/tags/princomp/</link>
+      <link>https://debruine.github.io/tags/princomp/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/princomp/</guid>
+      <guid>https://debruine.github.io/tags/princomp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>coding</title>
-      <link>/tags/coding/</link>
+      <link>https://debruine.github.io/tags/coding/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/coding/</guid>
+      <guid>https://debruine.github.io/tags/coding/</guid>
       <description></description>
     </item>
     
     <item>
       <title>effect</title>
-      <link>/tags/effect/</link>
+      <link>https://debruine.github.io/tags/effect/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/effect/</guid>
+      <guid>https://debruine.github.io/tags/effect/</guid>
       <description></description>
     </item>
     
     <item>
       <title>treatment</title>
-      <link>/tags/treatment/</link>
+      <link>https://debruine.github.io/tags/treatment/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/treatment/</guid>
+      <guid>https://debruine.github.io/tags/treatment/</guid>
       <description></description>
     </item>
     
     <item>
       <title>scale</title>
-      <link>/tags/scale/</link>
+      <link>https://debruine.github.io/tags/scale/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/scale/</guid>
+      <guid>https://debruine.github.io/tags/scale/</guid>
       <description></description>
     </item>
     
     <item>
       <title>rep</title>
-      <link>/tags/rep/</link>
+      <link>https://debruine.github.io/tags/rep/</link>
       <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/tags/rep/</guid>
+      <guid>https://debruine.github.io/tags/rep/</guid>
       <description></description>
     </item>
     

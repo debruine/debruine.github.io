@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>factanal on Lisa DeBruine</title>
-    <link>/tags/factanal/</link>
+    <link>https://debruine.github.io/tags/factanal/</link>
     <description>Recent content in factanal on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/factanal/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/factanal/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>PCA</title>
-      <link>/posts/pca/</link>
+      <link>https://debruine.github.io/posts/pca/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/pca/</guid>
+      <guid>https://debruine.github.io/posts/pca/</guid>
       <description>Download the Rmd notebook for this example
 Putting together this page made me realise I still don’t know anything about PCA and factor analysis.
 I use the psych package for SPSS-style PCA.

@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>scale on Lisa DeBruine</title>
-    <link>/tags/scale/</link>
+    <link>https://debruine.github.io/tags/scale/</link>
     <description>Recent content in scale on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 22 Jun 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/scale/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/scale/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>scale()</title>
-      <link>/posts/scale/</link>
+      <link>https://debruine.github.io/posts/scale/</link>
       <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/scale/</guid>
+      <guid>https://debruine.github.io/posts/scale/</guid>
       <description>You can use scale() to center and/or scale (i.e., Z-score) a vector of numbers. Z-score a list of numbers
 x &amp;lt;- c(10, 12, 14, 16, 18) scale(x) ## [,1] ## [1,] -1.2649111 ## [2,] -0.6324555 ## [3,] 0.0000000 ## [4,] 0.6324555 ## [5,] 1.2649111 ## attr(,&amp;quot;scaled:center&amp;quot;) ## [1] 14 ## attr(,&amp;quot;scaled:scale&amp;quot;) ## [1] 3.162278 However, the result contains the mean and SD. This can cause problems if you want to assign it to a new column in a data frame, which you can fix using as.</description>
     </item>

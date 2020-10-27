@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>preregistration on Lisa DeBruine</title>
-    <link>/tags/preregistration/</link>
+    <link>https://debruine.github.io/tags/preregistration/</link>
     <description>Recent content in preregistration on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Mon, 23 Oct 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/preregistration/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://debruine.github.io/tags/preregistration/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Face Research Lab PreReg Example</title>
-      <link>/posts/frl-prereg/</link>
+      <link>https://debruine.github.io/posts/frl-prereg/</link>
       <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
       
-      <guid>/posts/frl-prereg/</guid>
+      <guid>https://debruine.github.io/posts/frl-prereg/</guid>
       <description>input[type=text] { width: 100%; } textarea { width: 100%; height: 6em; } .example { background-color: #DDEEFF; border: 1px solid #BBCCDD; border-radius: 0.5em; padding: 0.5em 0.5em 0.5em 0.5em;} .eval { font-size: smaller; color: #666666; }  Here is my internal lab pre-registration form (including an example). It is based on the OSF Preregistration Challenge forms. We use this for student projects to train them about open science practices and to prepare formal preregistrations on the OSF for postgraduate students and other lab members.</description>
     </item>
     
