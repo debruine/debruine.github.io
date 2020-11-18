@@ -304,7 +304,9 @@ x &amp;lt;- c(10, 12, 14, 16, 18) scale(x) ## [,1] ## [1,] -1.2649111 ## [2,] -0
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://debruine.github.io/projects/</guid>
-      <description>Go Team Science!  psyTeachR: A growing collection of resources for teaching reproducible science (using rstats) Psychological Science Accelerator: A globally distributed network of psychological science laboratories that coordinates data collection for democratically selected studies  Courses  Data Skills: An MSc course introducing data wrangling in R Academic Webpages: An MSc course in creating github webpages with rmarkdown Shiny: Basic tutorials on making shiny apps  Code  webmorph An open source, online tool for morphing and transforming faces experimentum An open-source, online platform for psychology studies faux R functions for simulating datasets  Shiny Apps Shiny apps are a fun way to demo data visualisations and statistical concepts.</description>
+      <description>Go Team Science!  psyTeachR: A growing collection of resources for teaching reproducible science (using rstats) Psychological Science Accelerator: A globally distributed network of psychological science laboratories that coordinates data collection for democratically selected studies  Code  webmorph: An open source, online tool for morphing and transforming faces
+[ web app | R package | doi ] experimentum An open-source, online platform for psychology studies
+[ demo | manual | code | doi ] faux: R functions for simulating factorial datasets</description>
     </item>
     
   </channel>
