@@ -101,7 +101,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              6 minutes read
+              8 minutes read
             </span>
           </div>
           <div class="categories">
@@ -146,25 +146,26 @@ my_func(n = 100)</code></pre>
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 3.0289, df = 49, p-value = 0.00391
+## t = 2.0292, df = 49, p-value = 0.04789
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.1422520 0.7031432
+##  0.002473696 0.508720912
 ## sample estimates:
 ## mean of the differences 
-##               0.4226976</code></pre>
+##               0.2555973</code></pre>
 <div id="definitions" class="section level2">
 <h2>Definitions</h2>
 <p>First, it’s helpful to define a few terms I’ll use below.</p>
 <p><strong>Variables</strong> are words that identify and store the value of some data for later use. For example, in the code above, <code>my_n</code> is a variable and its <strong>value</strong> is set to <code>50</code>.</p>
 <p>The <strong>function</strong> is <code>my_func()</code> and is defined by the code inside the curly brackets <code>{...}</code>.</p>
-<p>The <strong>arguments</strong> are the variables that are set by the function. In the function above, <code>function(n = my_n)</code> has one argument: <code>n</code>.</p>
-<p>Arguments can have a <strong>default value</strong>. In the code above, the argument <code>n</code> has a default value of <code>my_n</code>, which is the value that argument takes if it’s not explicitly defined (e.g., if you just run <code>my_func()</code> instead of <code>my_func(n = 25)</code>).</p>
+<p>The <strong>arguments</strong> are the variables that are set by the function. In the function above, <code>function(n = my_n)</code> has one argument: <code>n</code>.
+Arguments can have a <strong>default value</strong>. In the code above, the argument <code>n</code> has a default value of <code>my_n</code>, which is the value that argument takes if it’s not explicitly defined (e.g., if you just run <code>my_func()</code> instead of <code>my_func(n = 25)</code>).</p>
+<p>The <strong>global environment</strong> is the set of variables and functions that you create during your R session. It is what you can see in the Environment tab in RStudio.</p>
 </div>
 <div id="not-using-an-argument" class="section level2">
 <h2>Not using an argument</h2>
 <p>The biggest thing wrong with this code is that it defines an argument called <code>n</code>, but doesn’t use it in the code. It uses the variable <code>my_n</code> instead. So when I ran <code>my_func(n = 100)</code> above, I still got the result for <code>n = 50</code> (check the df in the output), because <code>my_n</code> still equals 50 and that’s what the function is using, not the value of <code>n</code>.</p>
-<p>It’s easy for this to happen when you’re first developing a function because you probably are modifying non-function code, where it does make sense to use <code>my_n</code> in the <code>rnorm_multi()</code> function. You can either make the name of the argument match (e.g., <code>function(my_n) {...}</code> or change the name of the variable in the function code (e.g., <code>dat &lt;- faux::rnorm_multi(n = n, ...)</code>).</p>
+<p>It’s easy for this to happen when you’re first developing a function because you probably are modifying non-function code, where it does make sense to use <code>my_n</code> in the <code>rnorm_multi()</code> function. You can either make the name of the argument match (e.g., <code>function(my_n) {...}</code>) or change the name of the variable in the function code (e.g., <code>dat &lt;- faux::rnorm_multi(n = n, ...)</code>).</p>
 </div>
 <div id="externally-defined-variables" class="section level2">
 <h2>Externally defined variables</h2>
@@ -200,26 +201,26 @@ my_func(n = 100)</code></pre>
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = -0.55677, df = 99, p-value = 0.5789
+## t = -1.3048, df = 99, p-value = 0.195
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.3121108  0.1753345
+##  -0.47076184  0.09724687
 ## sample estimates:
 ## mean of the differences 
-##             -0.06838816</code></pre>
+##              -0.1867575</code></pre>
 <p>And then I can add in new values or my data-generating parameters from the code above.</p>
 <pre class="r"><code>my_func2(n = 200, mu = my_mu, sd = my_sd, r = my_r)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 4.038, df = 199, p-value = 7.691e-05
+## t = 3.5054, df = 199, p-value = 0.0005632
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.1483438 0.4315212
+##  0.09912782 0.35407004
 ## sample estimates:
 ## mean of the differences 
-##               0.2899325</code></pre>
+##               0.2265989</code></pre>
 <p>Your function doesn’t need to use the same variable names as the functions you might be using them in. Some people find using the same variable names to be easier because you can see the connection between the variable in your function and where you’re using it. But this can be confusing for new coders. You can give your function argument names that are different to clarify where you’re using them.</p>
 <p>If this pattern makes sense to you, I recommend using a consistent prefix to the name, like <code>the_</code>, so you can always know if a variable is being defined as an argument to the function or externally.</p>
 <pre class="r"><code>my_func3 &lt;- function(the_n = 100, the_mu = 0, the_sd = 1, the_r = 0) {
@@ -242,26 +243,78 @@ my_func(n = 100)</code></pre>
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 3.4358, df = 49, p-value = 0.001213
+## t = 0.59576, df = 49, p-value = 0.5541
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.1969346 0.7519120
+##  -0.1781599  0.3283058
 ## sample estimates:
 ## mean of the differences 
-##               0.4744233</code></pre>
+##              0.07507296</code></pre>
 <p>Or you can set the arguments by order and omit the names.</p>
 <pre class="r"><code>my_func3(my_n, my_mu, my_sd, my_r)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 2.8695, df = 49, p-value = 0.006052
+## t = 1.7383, df = 49, p-value = 0.08843
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.1199132 0.6803660
+##  -0.04088076  0.56488613
 ## sample estimates:
 ## mean of the differences 
-##               0.4001396</code></pre>
+##               0.2620027</code></pre>
+</div>
+<div id="scope" class="section level2">
+<h2>Scope</h2>
+<p>The concept of <strong>scope</strong> can also be confusing to new coders. In this context it’s just important to know that if you have argument names that are the same as variables in your environment, the function will use the values set by its arguments, not the ones set in your <strong>global environment</strong> (what you can see in the Environment tab in RStudio).</p>
+<p>In other words, a function has access to variables in the global environment, but also has variables created by that function’s arguments, which can overwrite the values of variables with the same name in the global environment.</p>
+<p>For that reason, I advise new coders to avoid giving the parameter values in their global environment the same names as the arguments of the functions they are used in. this is fine, but can lead to confusion unless you have a very clear conceptual understanding of scope.</p>
+<pre class="r"><code>my_func4 &lt;- function(my_n = 100, my_mu = 0, my_sd = 1, my_r = 0) {
+  # simulate data
+  dat &lt;- faux::rnorm_multi(
+    n = my_n,
+    vars = 2,
+    mu = my_mu,
+    sd = my_sd,
+    r = my_r,
+    varnames = c(&quot;low&quot;, &quot;high&quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}</code></pre>
+<p>For example, the function above has arguments called <code>my_n</code>, <code>my_mu</code>, <code>my_sd</code> and <code>my_r</code>. We can also create variables with those same names in the global environment.</p>
+<pre class="r"><code># my data-generating parameters
+my_n &lt;- 50
+my_mu &lt;- c(0, 0.2)
+my_sd &lt;- c(1, 1)
+my_r &lt;- 0.5</code></pre>
+<p>However, when you run the function without setting the arguments in the function, it uses the default values of the arguments, not the values you set in the global environment.</p>
+<pre class="r"><code>my_func4()</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = -1.3053, df = 99, p-value = 0.1948
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.4908755  0.1013183
+## sample estimates:
+## mean of the differences 
+##              -0.1947786</code></pre>
+<p>If you set the values in the function, then it will work as expected.</p>
+<pre class="r"><code>my_func4(my_n, my_mu, my_sd, my_r)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 2.3301, df = 49, p-value = 0.02396
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.03896867 0.52759670
+## sample estimates:
+## mean of the differences 
+##               0.2832827</code></pre>
 </div>
 
       </div>

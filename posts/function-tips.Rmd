@@ -44,15 +44,16 @@ First, it's helpful to define a few terms I'll use below.
 The **function** is `my_func()` and is defined by the code inside the curly brackets `{...}`. 
 
 The **arguments** are the variables that are set by the function. In the function above, `function(n = my_n)` has one argument: `n`. 
-
 Arguments can have a **default value**. In the code above, the argument `n` has a default value of `my_n`, which is the value that argument takes if it's not explicitly defined (e.g., if you just run `my_func()` instead of `my_func(n = 25)`).
+
+The **global environment** is the set of variables and functions that you create during your R session. It is what you can see in the Environment tab in RStudio. 
 
 
 ## Not using an argument
 
 The biggest thing wrong with this code is that it defines an argument called `n`, but doesn't use it in the code. It uses the variable `my_n` instead. So when I ran `my_func(n = 100)` above, I still got the result for `n = 50` (check the df in the output), because `my_n` still equals 50 and that's what the function is using, not the value of `n`. 
 
-It's easy for this to happen when you're first developing a function because you probably are modifying non-function code, where it does make sense to use `my_n` in the `rnorm_multi()` function. You can either make the name of the argument match (e.g., `function(my_n) {...}` or change the name of the variable in the function code (e.g., `dat <- faux::rnorm_multi(n = n, ...)`).
+It's easy for this to happen when you're first developing a function because you probably are modifying non-function code, where it does make sense to use `my_n` in the `rnorm_multi()` function. You can either make the name of the argument match (e.g., `function(my_n) {...}`) or change the name of the variable in the function code (e.g., `dat <- faux::rnorm_multi(n = n, ...)`).
 
 ## Externally defined variables
 
@@ -135,6 +136,53 @@ Or you can set the arguments by order and omit the names.
 my_func3(my_n, my_mu, my_sd, my_r)
 ```
 
+
+## Scope
+
+The concept of **scope** can also be confusing to new coders. In this context it's just important to know that if you have argument names that are the same as variables in your environment, the function will use the values set by its arguments, not the ones set in your **global environment** (what you can see in the Environment tab in RStudio). 
+
+In other words, a function has access to variables in the global environment, but also has variables created by that function's arguments, which can overwrite the values of variables with the same name in the global environment.
+
+For that reason, I advise new coders to avoid giving the parameter values in their global environment the same names as the arguments of the functions they are used in. this is fine, but can lead to confusion unless you have a very clear conceptual understanding of scope.
+
+```{r}
+my_func4 <- function(my_n = 100, my_mu = 0, my_sd = 1, my_r = 0) {
+  # simulate data
+  dat <- faux::rnorm_multi(
+    n = my_n,
+    vars = 2,
+    mu = my_mu,
+    sd = my_sd,
+    r = my_r,
+    varnames = c("low", "high")
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}
+```
+
+For example, the function above has arguments called `my_n`, `my_mu`, `my_sd` and `my_r`. We can also create variables with those same names in the global environment.
+
+```{r}
+# my data-generating parameters
+my_n <- 50
+my_mu <- c(0, 0.2)
+my_sd <- c(1, 1)
+my_r <- 0.5
+```
+
+However, when you run the function without setting the arguments in the function, it uses the default values of the arguments, not the values you set in the global environment. 
+
+```{r}
+my_func4()
+```
+
+If you set the values in the function, then it will work as expected.
+
+```{r}
+my_func4(my_n, my_mu, my_sd, my_r)
+```
 
 
 
