@@ -1,0 +1,140 @@
+---
+title: Function Tips
+author: ~
+date: '2020-12-17'
+slug: function-tips
+categories: ["stats"]
+tags: ["functions"]
+---
+
+I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions.
+
+```{r bad-demo}
+
+# my data-generating parameters
+my_n <- 50
+my_mu <- c(0, 0.2)
+my_sd <- c(1, 1)
+my_r <- 0.5
+
+my_func <- function(n = my_n) {
+  # simulate data
+  dat <- faux::rnorm_multi(
+    n = my_n,
+    vars = 2,
+    mu = my_mu,
+    sd = my_sd,
+    r = my_r,
+    varnames = c("low", "high")
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}
+
+my_func(n = 100)
+```
+
+## Definitions
+
+First, it's helpful to define a few terms I'll use below. 
+
+**Variables** are words that identify and store the value of some data for later use. For example, in the code above, `my_n` is a variable and its **value** is set to `50`.
+
+The **function** is `my_func()` and is defined by the code inside the curly brackets `{...}`. 
+
+The **arguments** are the variables that are set by the function. In the function above, `function(n = my_n)` has one argument: `n`. 
+
+Arguments can have a **default value**. In the code above, the argument `n` has a default value of `my_n`, which is the value that argument takes if it's not explicitly defined (e.g., if you just run `my_func()` instead of `my_func(n = 25)`).
+
+
+## Not using an argument
+
+The biggest thing wrong with this code is that it defines an argument called `n`, but doesn't use it in the code. It uses the variable `my_n` instead. So when I ran `my_func(n = 100)` above, I still got the result for `n = 50` (check the df in the output), because `my_n` still equals 50 and that's what the function is using, not the value of `n`. 
+
+It's easy for this to happen when you're first developing a function because you probably are modifying non-function code, where it does make sense to use `my_n` in the `rnorm_multi()` function. You can either make the name of the argument match (e.g., `function(my_n) {...}` or change the name of the variable in the function code (e.g., `dat <- faux::rnorm_multi(n = n, ...)`).
+
+## Externally defined variables
+
+The code in a function should usually be able to run without depending on having variables with correct names in the environment. This code doesn't run if you don't define `my_mu`, `my_sd` and `my_r` before running it. It's tempting to just use those variables inside the function, because it saves you typing the values as arguments to the function when you use it, especially in a script where you know you won't need to change those values, but this makes the function less useful in other contexts (including reuse by future you). 
+
+There can definitely be exceptions to this, but first master the rule that any variables used inside a function have to be defined as arguments.
+
+## Variables as default values
+
+Normally, don't set function argument defaults to a variable (again, there can be exceptions, but you need to master that rule before you understand when you can use exceptions). It will work fine when you're testing it in context and all the variables you expect to be in the environment are there, but the point of a function is to be reusable in different contexts, so it's best not to depend on external things. 
+
+You don't always have to set a default value for an argument, but it's often useful to set the default value to a "neutral" thing that makes the code run even if the user doesn't set all the arguments. So `n` should be a sensible number like 100 (e.g., if you set it to 0, then the code won't run correctly), and `sd` should be 1 (not 0, since that's not a valid value for SDs).
+
+## Better versions
+
+In this version, I used the same argument names as the `rnorm_multi()` function from [faux](https://debruine.github.io/faux/), and also set their default values to the same defaults that function uses (simulating a dataset with 100 pairs of observations with means of 0, SDs of 1, and a correlation of 0). 
+
+You could add more arguments to the function, like `vars` or `varnames`, but in this context I know I would never want to vary them, so I can "hard-code" them.
+
+```{r}
+my_func2 <- function(n = 100, mu = 0, sd = 1, r = 0) {
+  # simulate data
+  dat <- faux::rnorm_multi(
+    n = n,
+    vars = 2,
+    mu = mu,
+    sd = sd,
+    r = r,
+    varnames = c("low", "high")
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}
+```
+
+
+This lets you run the function without any arguments.
+
+```{r}
+my_func2()
+```
+
+And then I can add in new values or my data-generating parameters from the code above.
+
+```{r}
+my_func2(n = 200, mu = my_mu, sd = my_sd, r = my_r)
+```
+
+Your function doesn't need to use the same variable names as the functions you might be using them in. Some people find using the same variable names to be easier because you can see the connection between the variable in your function and where you're using it. But this can be confusing for new coders. You can give your function argument names that are different to clarify where you're using them.
+
+If this pattern makes sense to you, I recommend using a consistent prefix to the name, like `the_`, so you can always know if a variable is being defined as an argument to the function or externally.
+
+```{r}
+my_func3 <- function(the_n = 100, the_mu = 0, the_sd = 1, the_r = 0) {
+  # simulate data
+  dat <- faux::rnorm_multi(
+    n = the_n,
+    vars = 2,
+    mu = the_mu,
+    sd = the_sd,
+    r = the_r,
+    varnames = c("low", "high")
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}
+```
+
+If you're using argument names in your function call, you will need to make sure they're consistent with the function.
+
+```{r}
+my_func3(the_n = my_n, the_mu = my_mu, the_sd = my_sd, the_r = my_r)
+```
+
+Or you can set the arguments by order and omit the names. 
+
+```{r}
+my_func3(my_n, my_mu, my_sd, my_r)
+```
+
+
+
+
