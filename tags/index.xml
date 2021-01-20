@@ -6,10 +6,46 @@
     <description>Recent content in Tags on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 17 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://debruine.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>data</title>
+      <link>https://debruine.github.io/tags/data/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://debruine.github.io/tags/data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>experimentum</title>
+      <link>https://debruine.github.io/tags/experimentum/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://debruine.github.io/tags/experimentum/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r</title>
+      <link>https://debruine.github.io/tags/r/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://debruine.github.io/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tidyverse</title>
+      <link>https://debruine.github.io/tags/tidyverse/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://debruine.github.io/tags/tidyverse/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>function</title>
@@ -62,15 +98,6 @@
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
       
       <guid>https://debruine.github.io/tags/power/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r</title>
-      <link>https://debruine.github.io/tags/r/</link>
-      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://debruine.github.io/tags/r/</guid>
       <description></description>
     </item>
     
@@ -224,15 +251,6 @@
       <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>https://debruine.github.io/tags/pipes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tidyverse</title>
-      <link>https://debruine.github.io/tags/tidyverse/</link>
-      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://debruine.github.io/tags/tidyverse/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,379 @@
+---
+title: "Experimentum Data Wrangling Demo"
+author: ~
+date: "2021-01-20"
+slug: experimentum-data
+categories: ["rstats"]
+tags: ["R", "data", "tidyverse", "experimentum"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      out.width = "100%")
+library(tidyverse)
+theme_set(theme_minimal())
+
+tbl <- function(df, rows = NULL) {
+  if (is.null(rows) || rows > nrow(df)) rows <- nrow(df)
+  
+  df[1:rows, ] %>%
+    kableExtra::kable(digits = 3) %>%
+    kableExtra::kable_styling(full_width = TRUE)
+}
+```
+
+[Experimentum](https://github.com/debruine/experimentum) studies require that you download data from [questionnaires](data/Demo-Data-quests_2021-01-20.csv) and [experiments](data/Demo-Data-exps_2021-01-20.csv) separately, since the data have different formats. You can participate anonymously in the study below at https://exp.psy.gla.ac.uk/project?demodata&autond (the median completion time is 3.8 minutes).
+
+## Questionnaire Data
+
+The study has two questionnaires: Groups and the Brief Mood Introspection Scale (BMIS). Names are in the column `quest_name` and the questionnaire ID is in `quest_id` (even if you gave multiple questionnaires the same name, the ID is guaranteed to be unique).
+
+### Load Data
+
+* `session_id` a unique ID generated each time someone starts a study
+* `project_id` a unique ID for this study
+* `quest_name` the name of each questionnaire (not guaranteed to be unique)
+* `quest_id` uniquely identifies each questionnaire 
+* `user_id` registered participants have a unique ID that is the same across logins, while guest participants get a new ID each time they log in
+* `user_sex` gender from the options "male", "female", "nonbinary", "na" (specifically chose not to answer), or `NA` (did not complete the question)
+* `user_status` whether use is a researcher ("admin", "super", "res", "student"), a "registered" user, a "guest" user, or "test"
+* `user_age` the user's age; registered accounts are asked for their birthdate, and their age is calculated to the nearest 0.1 years; guest users may be asked their age in years
+* `q_name` name of the question
+* `q_id` uniquely identifies each question
+* `order` the order the question was presented in (not necessarily answered in) or questionnaires with randomised order
+* `dv` the response
+* `starttime` the time that the questionnaire was started 
+* `endtime` the time that the questionnaire was submitted
+
+
+```{r read-quest}
+quest_data <- read_csv("data/Demo-Data-quests_2021-01-20.csv")
+```
+
+### Removing duplicate answers
+
+Although Experimentum tries to prevent people accidentally using the back button during a study, there are some ways around this, so sometimes a person will submit the same questionnaire twice in a row. You can filter your data down to only the first time each person completed each question with the following code (do not use this if your study actually gives people the same questionnaire more than once). 
+
+The questions are recorded in the order that they were answered, so we can just group by participant (`user_id`) and question (`q_id`) and choose the first answer. If you have a longitudinal study, group by `session_id` to allow multiple sessions per user.
+
+```{r}
+quest_distinct <- quest_data %>%
+  group_by(user_id, q_id) %>% # or add session_id 
+  # chooses the first time each user answered each question
+  filter(row_number() == 1) %>%
+  ungroup()
+```
+
+Check how many duplicate rows were excluded.
+
+```{r excluded-dupes}
+setdiff(quest_data, quest_distinct) %>% nrow()
+```
+
+
+### Groups
+
+Here, we select just the data from the Groups questionnaire and keep only the session_id, user_id, q_name, and dv columns, and convert the data to wide format. If you restricted your data to only one session per user, as above, then `user_id` and `session_id` are redundant. The code below works for both types of data, though.
+
+If the `dv` column contains both numeric and character data, the new columns will all be characters, so add `convert = TRUE` if you are using `spread()`. If you use the `pivot_wider()` function, it doesn't have a `convert` argument, so you have to pipe the data frame to a separate function, `type.convert()`.
+
+```{r}
+groups <- quest_distinct %>%
+  filter(quest_name == "Groups") %>%
+  select(session_id, user_id, q_name, dv) %>%
+  spread(q_name, dv, convert = TRUE)
+```
+
+`r tbl(groups, 6)`
+
+#### Plots and tables
+
+Plot your data or create summary tables to help you spot any problems. The `count()` function is useful for variables with a small number of options.
+
+```{r, eval = F}
+# count a single column
+count(groups, exercise)
+```
+
+`r tbl(count(groups, exercise))`
+
+```{r, eval = F}
+# count multiple columns
+count(groups, fiber_arts, native_english, pets)
+```
+
+`r tbl(count(groups, fiber_arts, native_english, pets))`
+
+Histograms or density plots are best for columns with many continuous values.
+
+```{r hats-plot}
+ggplot(groups, aes(hats)) +
+  geom_histogram(binwidth = 1, color = "white")
+```
+
+```{r spiders-plot}
+ggplot(groups, aes(spiders)) +
+  geom_histogram(binwidth = 1, color = "white")
+```
+
+#### Recode variables
+
+You might want to do some recoding of variables here. The `pets` column contains the words "Yes" and "No"; maybe you want to code this as 1s and 0s.The column `fiber_arts` has a 1 if a person knows how to knit or crochet, and a 0 if they don't. You might want to change this to the words "Yes" and "No". The `recode()` function is useful for this. I like to give the binary-coded version of a variable the suffix ".b".
+
+Note that in the `recode()` function, numbers that are on the left side of an equal sign need to be in quotes. This just has to do with the way R treats argument names and doesn't mean that the recoded column has to be a character type.
+
+```{r}
+groups_coded <- groups %>%
+  mutate(
+    pets.b = recode(pets, "Yes" = 1, "No" = 0),
+    fiber_arts.b = fiber_arts,
+    fiber_arts = recode(fiber_arts, "1" = "Yes", "0" = "No")
+  )
+```
+
+`r tbl(groups_coded, 6)`
+
+#### Free text
+
+If you have any free-text responses, you will probably need to code them. I always start by looking at all of the possible values after transforming the value to lowercase and getting rid of spaces around the text.
+
+```{r}
+colours <- groups_coded %>%
+  mutate(colour = tolower(colour) %>% trimws()) %>%
+  count(colour) %>%
+  arrange(n)
+```
+
+`r tbl(colours, 10)`
+
+You can then decide to recode some colours to fix misspellings, etc. One tricky part of using `recode()` is that all replaced values have to be the same data type, so use `NA_character_` if you are replacing values with strings, `NA_real_` for doubles, and `NA_integer_` for integers.
+
+```{r}
+groups_colours <- groups_coded %>%
+  mutate(colour = tolower(colour) %>% trimws()) %>%
+  mutate(colours_fixed = recode(colour,
+                                "amber" = "yellow", 
+                                "yes." = NA_character_,
+                                "violet" = "purple",
+                                "petroleum blue" = "blue"))
+```
+
+
+### BMIS
+
+The second questionnaire is the Brief Mood Introspection Scale (BMIS). The BMIS has 16 questions divided into positive and negative adjectives. The question names are all in the format `valence_adjective`, so you can easily separate the question name into two columns.
+
+Because the original `quest_data` had both character and numeric values in the `dv` column, it is still a character type even now that the dv column only contains numbers. You can fix this using the `type_convert()` function. Set col_types manually or use `cols()` to automatically guess.
+
+```{r}
+bmis_raw <- quest_distinct %>%
+  filter(quest_name == "BMIS") %>%
+  select(session_id, user_id, q_name, dv) %>%
+  separate(q_name, c("valence", "adjective")) %>%
+  type_convert(col_types = cols())
+```
+
+`r tbl(bmis_raw, 6)`
+
+#### Summary scores
+
+The BMIS is coded as the sum of the forward-coded scores for all the positive adjectives and the reverse-coded scores for all negative adjectives. Experimentum has a function to reverse code selected items in the "radiopage" questionnaire type, but we didn't do that here so you can see how to manually recode. The scores are 1 to 4, so subjtract them from 5 to get the reverse-coded value. Make sure to look at a few of your recoded values to make sure it's doing what you expect.
+
+```{r}
+bmis_coded <- bmis_raw %>%
+  mutate(recoded_dv = case_when(
+    valence == "pos" ~ dv,
+    valence == "neg" ~ 5 - dv
+  ))
+```
+
+`r tbl(bmis_coded, 6)`
+
+Create the summary score by grouping by user_id and session_id and summing the responses. We use `sum()` here because the BMIS is not valid if people skipped any questions, so we want the result to be `NA` if they did. Some questionnaire scoring allows you to calculate an average score omitting missed questions, so you could use `mean(recoded_dv, na.rm = TRUE)`. 
+
+```{r}
+bmis <- bmis_coded %>%
+  group_by(session_id, user_id) %>%
+  summarise(bmis = sum(recoded_dv),
+            .groups = "drop") 
+```
+
+#### Plots 
+
+Always plot your summary scores. This helps you to double-check your logic and identify outliers.
+
+```{r bmis-hist}
+ggplot(bmis, aes(bmis)) + 
+  geom_histogram(binwidth = 1, color = "white")
+```
+
+### User Demographics
+
+Experimentum data always contains user demographic data, which is collected when the user signs up for a registered account or logs in as a guest. This study did not ask users for their age or sex, so that info is only available from registered users. 
+
+First, we select the session_id and all of the user variables, then make sure we have only one row for each participant. 
+
+```{r}
+user <- quest_distinct %>%
+  select(session_id, starts_with("user_")) %>%
+  distinct()
+```
+
+`r tbl(user, 6)`
+
+
+### Rejoining
+
+Now you can rejoin your questionnaire data. Start with the user table and only join on matching data from the individual questionnaires. Use `session_id` and `user_id` to join.
+
+```{r}
+q_data <- user %>%
+  left_join(bmis, by = c("session_id", "user_id")) %>%
+  left_join(groups_colours, by = c("session_id", "user_id"))
+```
+
+### Exclusions
+
+You will usually want to exclude participants with user_status that are not "registered" or "guest". Statuses "admin", "super", "res", and "student" refer to different types of researchers (with different privileges on the Experimentum platform). The status "test" is for test runs with different user demographics. You can also apply other exclusion criteria here like age restrictions or requiring that summary score not be missing.
+
+```{r}
+q_data_excl <- q_data %>%
+  filter(user_status %in% c("guest", "registered"))
+```
+
+`r tbl(count(q_data_excl, user_status))`
+
+## Experiment Data
+
+Our study has one rating experiment with two between-subject conditions: cuteness ratings and appropriateness as pet ratings.
+
+### Load Data
+
+```{r read-exp}
+exp_data <- read_csv("data/Demo-Data-exps_2021-01-20.csv")
+```
+
+Experiment data have the same session and user columns as questionnaire data, plus columns for the experiment name (`exp_name`) and unique id (`exp_id`). The remaining columns give data specific to each trial:
+
+* `trial_name` not necessarily unique
+* `trial_n` uniquely identifies each trial within an experiment 
+* `order` (the order the trial was shown to that participant
+* `dv` the response
+* `rt` the rough reaction time in milliseconds (web data have many sources of possible bias so do not use Experimentum to do RT experiments that require millisecond precision)
+* `side` if the experiment has multiple images, the order of the images if side is set to random (not relevant here)
+* `dt` the timestamp of the response
+
+```{r}
+glimpse(exp_data)
+```
+
+
+Most researchers don't want all that data, so we can select just the important columns. The exp_name contains info we don't need, so we'll also process that.
+
+```{r}
+exp_selected <- exp_data %>%
+  select(session_id, user_id, exp_name, trial_name, dv) %>%
+  mutate(exp_name = sub("Animals: ", "", exp_name))
+```
+
+
+```{r, eval = FALSE}
+count(exp_selected, exp_name)
+```
+
+`r tbl(count(exp_selected, exp_name))`
+
+
+```{r, eval = FALSE}
+count(exp_selected, trial_name)
+```
+
+`r tbl(count(exp_selected, trial_name))`
+
+### Adding trial data
+
+It's common that you need to add some data about each trial. 
+
+```{r, echo=FALSE, out.width="24%", fig.show='hold', fig.align='center', fig.cap='images from the experiment'}
+imgpaths <- list.files("cute", full.names = TRUE)
+
+knitr::include_graphics(imgpaths)
+```
+
+You will probably have you trial information in a separate table, so you can load that here. In this case, we'll use the `tribble()` function to create a table by rows.
+
+```{r}
+trial_info <- tribble(
+  ~photo,                  ~name,    ~is_baby, ~mammal,
+  "adorable-5059091_640",  "kitten1",   1,        1,
+  "animal-967657_640",     "fox",       0,        1,
+  "bird-349035_640",       "chicken",   1,        0,
+  "dolphin-203875_640",    "dolphin",   0,        1,
+  "frog-3312038_640",      "frog",      0,        0,
+  "hedgehog-468228_640",   "hedgehog",  0,        1,
+  "kitty-2948404_640",     "kitten2",   1,        1,
+  "meerkat-459171_640",    "meerkat",   0,        1,
+  "penguins-429134_640",   "penguin",   1,        0,
+  "pug-690566_640",        "dog",       1,        1,
+  "spider-2313079_640",    "spider",    0,        0,
+  "surprised-3786845_640", "squirrel",  0,        1
+)
+```
+
+Then you can join it to the experiment data.
+
+```{r}
+exp_full <- exp_selected %>%
+  left_join(trial_info, by = c("trial_name" = "photo"))
+```
+
+And create some plots.
+
+```{r}
+ggplot(exp_full, aes(dv, colour = exp_name)) +
+  geom_freqpoly(binwidth = 1) +
+  facet_wrap(~name) +
+  scale_x_continuous(breaks = 1:7) +
+  labs(colour = "Rating")
+```
+
+#### Demographs, exclusions and rejoin
+
+As for the questionnaire data above, you can pull out the user demographics, apply exclusions, and rejoin to the experiment data.
+
+```{r}
+# user table with exclusions
+user_excl <- exp_data %>%
+  select(session_id, starts_with("user_")) %>%
+  distinct() %>%
+  filter(user_status %in% c("guest", "registered"))
+
+e_data_excl <- user_excl %>%
+  left_join(exp_full, by = c("session_id", "user_id"))
+```
+
+
+```{r}
+glimpse(e_data_excl)
+```
+
+## Joining Questionnaire and Experiment Data
+
+Often, it makes most sense to process questionnaire data in wide format and experiment data in long format. If you need to add wide questionnaire data to a long experiment table, left join the questionnaire like this:
+
+```{r}
+all_data <- e_data_excl %>%
+  left_join(q_data_excl, by = c("session_id", "user_id"))
+
+names(all_data)
+```
+
+Now go explore your data!
+
+```{r, echo = FALSE}
+all_data %>%
+  ggplot(aes(hats, dv, colour = exp_name)) +
+  geom_smooth(method = lm) +
+  facet_wrap(~name)
+```
+

@@ -6,10 +6,20 @@
     <description>Recent content in rstats on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://debruine.github.io/categories/rstats/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Experimentum Data Wrangling Demo</title>
+      <link>https://debruine.github.io/posts/experimentum-data/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://debruine.github.io/posts/experimentum-data/</guid>
+      <description>Experimentum studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can participate anonymously in the study below at https://exp.psy.gla.ac.uk/project?demodata&amp;amp;autond (the median completion time is 3.8 minutes).
+Questionnaire Data The study has two questionnaires: Groups and the Brief Mood Introspection Scale (BMIS). Names are in the column quest_name and the questionnaire ID is in quest_id (even if you gave multiple questionnaires the same name, the ID is guaranteed to be unique).</description>
+    </item>
     
     <item>
       <title>Mann-Whitney False Positives</title>
