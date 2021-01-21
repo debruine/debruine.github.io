@@ -101,7 +101,7 @@
             </span>
             <span class="reading-time">
               <i class="fas fa-clock"></i>
-              14 minutes read
+              16 minutes read
             </span>
           </div>
           <div class="categories">
@@ -127,12 +127,39 @@
 <link href="https://debruine.github.io/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
 
 
-<p><a href="https://github.com/debruine/experimentum">Experimentum</a> studies require that you download data from <a href="data/Demo-Data-quests_2021-01-20.csv">questionnaires</a> and <a href="data/Demo-Data-exps_2021-01-20.csv">experiments</a> separately, since the data have different formats. You can participate anonymously in the study below at <a href="https://exp.psy.gla.ac.uk/project?demodata&amp;autond" class="uri">https://exp.psy.gla.ac.uk/project?demodata&amp;autond</a> (the median completion time is 3.8 minutes).</p>
+<p>(updated 2021-01-21)</p>
+<p><a href="https://github.com/debruine/experimentum">Experimentum</a> studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can <a href="https://exp.psy.gla.ac.uk/project?demodata&amp;autond" target="_blank">participate anonymously in the demo study</a> (the median completion time is 3.8 minutes). The links below update dynamically, so your data will be available immediately.</p>
+<ul>
+<li><a href="https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&amp;download=exp" target="_blank">questionnaire data</a></li>
+<li><a href="https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&amp;download=quest" target="_blank">experiment data</a></li>
+<li><a href="data/project_520_structure.json">project structure</a></li>
+</ul>
+<p>The project structure file above is a JSON-formatted file that contains all of the information needed to run a study in Experimentum. In future versions of Experimentum, you will be able to directly edit this file, for example translating the questions into another language, and set up a study by simply uploading the file.</p>
+<pre class="r"><code>proj &lt;- jsonlite::read_json(&quot;data/project_520_structure.json&quot;)</code></pre>
 <div id="questionnaire-data" class="section level2">
 <h2>Questionnaire Data</h2>
-<p>The study has two questionnaires: Groups and the Brief Mood Introspection Scale (BMIS). Names are in the column <code>quest_name</code> and the questionnaire ID is in <code>quest_id</code> (even if you gave multiple questionnaires the same name, the ID is guaranteed to be unique).</p>
+<p>The study has two questionnaires: <strong>Groups</strong>, a few questions you can use to divide the participants into groups of varying sizes, and <strong>BMIS</strong>, the <a href="https://mypages.unh.edu/jdmayer/brief-mood-introspection-scale-bmis">Brief Mood Introspection Scale</a>.</p>
 <div id="load-data" class="section level3">
 <h3>Load Data</h3>
+<pre class="r"><code>quest_data &lt;- read_csv(&quot;data/Demo-Data-quests_2021-01-21.csv&quot;)
+
+glimpse(quest_data)</code></pre>
+<pre><code>## Rows: 2,807
+## Columns: 14
+## $ session_id  &lt;dbl&gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
+## $ project_id  &lt;dbl&gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
+## $ quest_name  &lt;chr&gt; &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups…
+## $ quest_id    &lt;dbl&gt; 2921, 2921, 2921, 2921, 2921, 2921, 2921, 2920, 2920, 292…
+## $ user_id     &lt;dbl&gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
+## $ user_sex    &lt;chr&gt; &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female…
+## $ user_status &lt;chr&gt; &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;…
+## $ user_age    &lt;dbl&gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
+## $ q_name      &lt;chr&gt; &quot;fiber_arts&quot;, &quot;native_english&quot;, &quot;hats&quot;, &quot;pets&quot;, &quot;colour&quot;,…
+## $ q_id        &lt;dbl&gt; 92833810, 92833809, 92833814, 92833811, 92833813, 9283381…
+## $ order       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1…
+## $ dv          &lt;chr&gt; &quot;1&quot;, &quot;0&quot;, &quot;5&quot;, &quot;Yes&quot;, &quot;Red&quot;, &quot;1&quot;, &quot;today&quot;, &quot;2&quot;, &quot;1&quot;, &quot;2&quot;,…
+## $ starttime   &lt;dttm&gt; 2021-01-19 17:48:15, 2021-01-19 17:48:15, 2021-01-19 17:…
+## $ endtime     &lt;dttm&gt; 2021-01-19 17:48:31, 2021-01-19 17:48:31, 2021-01-19 17:…</code></pre>
 <ul>
 <li><code>session_id</code> a unique ID generated each time someone starts a study</li>
 <li><code>project_id</code> a unique ID for this study</li>
@@ -149,25 +176,6 @@
 <li><code>starttime</code> the time that the questionnaire was started</li>
 <li><code>endtime</code> the time that the questionnaire was submitted</li>
 </ul>
-<pre class="r"><code>quest_data &lt;- read_csv(&quot;data/Demo-Data-quests_2021-01-20.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   session_id = col_double(),
-##   project_id = col_double(),
-##   quest_name = col_character(),
-##   quest_id = col_double(),
-##   user_id = col_double(),
-##   user_sex = col_character(),
-##   user_status = col_character(),
-##   user_age = col_double(),
-##   q_name = col_character(),
-##   q_id = col_double(),
-##   order = col_double(),
-##   dv = col_character(),
-##   starttime = col_datetime(format = &quot;&quot;),
-##   endtime = col_datetime(format = &quot;&quot;)
-## )</code></pre>
 </div>
 <div id="removing-duplicate-answers" class="section level3">
 <h3>Removing duplicate answers</h3>
@@ -399,6 +407,78 @@ Yes
 </tr>
 </tbody>
 </table>
+</div>
+<div id="questionnaire-options" class="section level3">
+<h3>Questionnaire options</h3>
+<p>I usually recommend recording the actual text chosen from drop-down menus, rather than integers that you will have to remember how you mapped onto the answers. If you need to check how you set up the coding, you can look at the info page on Experimentum or check the project json file that we loaded above. It’s a nested list and contains all the info, but can be a little tricky to parse (I’ll work on making an R package to make this easier in the future).</p>
+<pre class="r"><code># get question names, text and type, plus options if select
+qs &lt;- proj$quest_2921$question %&gt;%
+  map(~{
+    x &lt;- .x[c(&quot;name&quot;, &quot;question&quot;, &quot;type&quot;)]
+    if (!is.null(.x$options)) {
+      x$options &lt;- sapply(.x$options, `[[`, &quot;display&quot;)
+      names(x$options) &lt;- sapply(.x$options, `[[`, &quot;opt_value&quot;)
+    }
+    x
+  })</code></pre>
+<ol style="list-style-type: decimal">
+<li><ul>
+<li>name: native_english</li>
+<li>question: Is English your native language?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>1: Yes</li>
+<li>0: No</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: fiber_arts</li>
+<li>question: Do you know how to knit or crochet?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>1: Yes</li>
+<li>0: No</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: pets</li>
+<li>question: Do you have a pet?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>Yes: Yes</li>
+<li>No: No</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: exercise</li>
+<li>question: When was the last time you exercised?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>today: today or yesterday</li>
+<li>week: in the past week</li>
+<li>more: more than a week ago</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: colour</li>
+<li>question: What is your favourite colour?</li>
+<li>type: text</li>
+</ul></li>
+<li><ul>
+<li>name: hats</li>
+<li>question: How many hats do you own (approximately)?</li>
+<li>type: selectnum</li>
+</ul></li>
+<li><ul>
+<li>name: spiders</li>
+<li>question: Are you afraid of spiders?</li>
+<li>type: radioanchor</li>
+</ul></li>
+</ol>
 <div id="plots-and-tables" class="section level4">
 <h4>Plots and tables</h4>
 <p>Plot your data or create summary tables to help you spot any problems. The <code>count()</code> function is useful for variables with a small number of options.</p>
@@ -421,7 +501,7 @@ n
 more
 </td>
 <td style="text-align:right;">
-19
+24
 </td>
 </tr>
 <tr>
@@ -429,7 +509,7 @@ more
 today
 </td>
 <td style="text-align:right;">
-66
+69
 </td>
 </tr>
 <tr>
@@ -437,7 +517,7 @@ today
 week
 </td>
 <td style="text-align:right;">
-30
+31
 </td>
 </tr>
 </tbody>
@@ -473,7 +553,7 @@ n
 No
 </td>
 <td style="text-align:right;">
-9
+10
 </td>
 </tr>
 <tr>
@@ -487,7 +567,7 @@ No
 Yes
 </td>
 <td style="text-align:right;">
-7
+8
 </td>
 </tr>
 <tr>
@@ -501,7 +581,7 @@ Yes
 No
 </td>
 <td style="text-align:right;">
-19
+20
 </td>
 </tr>
 <tr>
@@ -515,7 +595,7 @@ No
 Yes
 </td>
 <td style="text-align:right;">
-19
+20
 </td>
 </tr>
 <tr>
@@ -543,7 +623,7 @@ No
 Yes
 </td>
 <td style="text-align:right;">
-4
+5
 </td>
 </tr>
 <tr>
@@ -557,7 +637,7 @@ Yes
 No
 </td>
 <td style="text-align:right;">
-17
+18
 </td>
 </tr>
 <tr>
@@ -571,17 +651,21 @@ No
 Yes
 </td>
 <td style="text-align:right;">
-36
+39
 </td>
 </tr>
 </tbody>
 </table>
 <p>Histograms or density plots are best for columns with many continuous values.</p>
 <pre class="r"><code>ggplot(groups, aes(hats)) +
-  geom_histogram(binwidth = 1, color = &quot;white&quot;)</code></pre>
+  geom_histogram(binwidth = 1, 
+                 fill = &quot;dodgerblue&quot;,
+                 color = &quot;white&quot;)</code></pre>
 <p><img src="https://debruine.github.io/posts/demodata_files/figure-html/hats-plot-1.png" width="100%" /></p>
 <pre class="r"><code>ggplot(groups, aes(spiders)) +
-  geom_histogram(binwidth = 1, color = &quot;white&quot;)</code></pre>
+  geom_histogram(binwidth = 1, 
+                 fill = &quot;violetred&quot;,
+                 color = &quot;white&quot;)</code></pre>
 <p><img src="https://debruine.github.io/posts/demodata_files/figure-html/spiders-plot-1.png" width="100%" /></p>
 </div>
 <div id="recode-variables" class="section level4">
@@ -852,97 +936,92 @@ Yes
 <pre class="r"><code>colours &lt;- groups_coded %&gt;%
   mutate(colour = tolower(colour) %&gt;% trimws()) %&gt;%
   count(colour) %&gt;%
-  arrange(n)</code></pre>
+  arrange(n, colour) %&gt;%
+  group_by(n) %&gt;%
+  summarise(colours = paste(colour, collapse = &quot;, &quot;),
+            .groups = &quot;drop&quot;)</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th style="text-align:left;">
-colour
-</th>
 <th style="text-align:right;">
 n
+</th>
+<th style="text-align:left;">
+colours
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:left;">
-amber
-</td>
 <td style="text-align:right;">
 1
+</td>
+<td style="text-align:left;">
+amber, cornflower, grey, indian orange, magenta, monochrome grey/white tones, petroleum blue, teal, violet, white, yes.
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-cornflower
-</td>
 <td style="text-align:right;">
-1
+4
+</td>
+<td style="text-align:left;">
+pink, turquoise
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-grey
-</td>
 <td style="text-align:right;">
-1
+6
+</td>
+<td style="text-align:left;">
+orange
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-indian orange
-</td>
 <td style="text-align:right;">
-1
+7
+</td>
+<td style="text-align:left;">
+black
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-magenta
-</td>
 <td style="text-align:right;">
-1
+8
+</td>
+<td style="text-align:left;">
+yellow
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-monochrome grey/white tones
-</td>
 <td style="text-align:right;">
-1
+12
+</td>
+<td style="text-align:left;">
+red
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-petroleum blue
-</td>
 <td style="text-align:right;">
-1
+17
+</td>
+<td style="text-align:left;">
+purple
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-teal
-</td>
 <td style="text-align:right;">
-1
+26
+</td>
+<td style="text-align:left;">
+green
 </td>
 </tr>
 <tr>
-<td style="text-align:left;">
-violet
-</td>
 <td style="text-align:right;">
-1
+29
 </td>
-</tr>
-<tr>
 <td style="text-align:left;">
-yes.
-</td>
-<td style="text-align:right;">
-1
+blue
 </td>
 </tr>
 </tbody>
@@ -1255,7 +1334,9 @@ sad
 <h4>Plots</h4>
 <p>Always plot your summary scores. This helps you to double-check your logic and identify outliers.</p>
 <pre class="r"><code>ggplot(bmis, aes(bmis)) + 
-  geom_histogram(binwidth = 1, color = &quot;white&quot;)</code></pre>
+  geom_histogram(binwidth = 1, 
+                 fill = &quot;dodgerblue&quot;,
+                 color = &quot;white&quot;)</code></pre>
 <p><img src="https://debruine.github.io/posts/demodata_files/figure-html/bmis-hist-1.png" width="100%" /></p>
 </div>
 </div>
@@ -1421,7 +1502,7 @@ n
 guest
 </td>
 <td style="text-align:right;">
-112
+121
 </td>
 </tr>
 </tbody>
@@ -1433,26 +1514,26 @@ guest
 <p>Our study has one rating experiment with two between-subject conditions: cuteness ratings and appropriateness as pet ratings.</p>
 <div id="load-data-1" class="section level3">
 <h3>Load Data</h3>
-<pre class="r"><code>exp_data &lt;- read_csv(&quot;data/Demo-Data-exps_2021-01-20.csv&quot;)</code></pre>
-<pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   session_id = col_double(),
-##   project_id = col_double(),
-##   exp_name = col_character(),
-##   exp_id = col_double(),
-##   user_id = col_double(),
-##   user_sex = col_character(),
-##   user_status = col_character(),
-##   user_age = col_double(),
-##   trial_name = col_character(),
-##   trial_n = col_double(),
-##   order = col_double(),
-##   dv = col_double(),
-##   rt = col_double(),
-##   side = col_double(),
-##   dt = col_datetime(format = &quot;&quot;)
-## )</code></pre>
+<pre class="r"><code>exp_data &lt;- read_csv(&quot;data/Demo-Data-exps_2021-01-21.csv&quot;)
+
+glimpse(exp_data)</code></pre>
+<pre><code>## Rows: 1,476
+## Columns: 15
+## $ session_id  &lt;dbl&gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
+## $ project_id  &lt;dbl&gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
+## $ exp_name    &lt;chr&gt; &quot;Animals: Cuteness&quot;, &quot;Animals: Cuteness&quot;, &quot;Animals: Cuten…
+## $ exp_id      &lt;dbl&gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 70…
+## $ user_id     &lt;dbl&gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
+## $ user_sex    &lt;chr&gt; &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female…
+## $ user_status &lt;chr&gt; &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;…
+## $ user_age    &lt;dbl&gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
+## $ trial_name  &lt;chr&gt; &quot;animal-967657_640&quot;, &quot;surprised-3786845_640&quot;, &quot;penguins-4…
+## $ trial_n     &lt;dbl&gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, …
+## $ order       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, …
+## $ dv          &lt;dbl&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, …
+## $ rt          &lt;dbl&gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003…
+## $ side        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ dt          &lt;dttm&gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:…</code></pre>
 <p>Experiment data have the same session and user columns as questionnaire data, plus columns for the experiment name (<code>exp_name</code>) and unique id (<code>exp_id</code>). The remaining columns give data specific to each trial:</p>
 <ul>
 <li><code>trial_name</code> not necessarily unique</li>
@@ -1464,7 +1545,7 @@ guest
 <li><code>dt</code> the timestamp of the response</li>
 </ul>
 <pre class="r"><code>glimpse(exp_data)</code></pre>
-<pre><code>## Rows: 1,380
+<pre><code>## Rows: 1,476
 ## Columns: 15
 ## $ session_id  &lt;dbl&gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
 ## $ project_id  &lt;dbl&gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
@@ -1503,7 +1584,7 @@ n
 Appropriate
 </td>
 <td style="text-align:right;">
-648
+696
 </td>
 </tr>
 <tr>
@@ -1511,7 +1592,7 @@ Appropriate
 Cuteness
 </td>
 <td style="text-align:right;">
-732
+780
 </td>
 </tr>
 </tbody>
@@ -1534,7 +1615,7 @@ n
 adorable-5059091_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1542,7 +1623,7 @@ adorable-5059091_640
 animal-967657_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1550,7 +1631,7 @@ animal-967657_640
 bird-349035_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1558,7 +1639,7 @@ bird-349035_640
 dolphin-203875_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1566,7 +1647,7 @@ dolphin-203875_640
 frog-3312038_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1574,7 +1655,7 @@ frog-3312038_640
 hedgehog-468228_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1582,7 +1663,7 @@ hedgehog-468228_640
 kitty-2948404_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1590,7 +1671,7 @@ kitty-2948404_640
 meerkat-459171_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1598,7 +1679,7 @@ meerkat-459171_640
 penguins-429134_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1606,7 +1687,7 @@ penguins-429134_640
 pug-690566_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1614,7 +1695,7 @@ pug-690566_640
 spider-2313079_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 <tr>
@@ -1622,7 +1703,7 @@ spider-2313079_640
 surprised-3786845_640
 </td>
 <td style="text-align:right;">
-115
+123
 </td>
 </tr>
 </tbody>
@@ -1631,7 +1712,7 @@ surprised-3786845_640
 <div id="adding-trial-data" class="section level3">
 <h3>Adding trial data</h3>
 <p>It’s common that you need to add some data about each trial.</p>
-<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-18"></span>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-20"></span>
 <img src="cute/adorable-5059091_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/animal-967657_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/bird-349035_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/dolphin-203875_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/frog-3312038_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/hedgehog-468228_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/kitty-2948404_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/meerkat-459171_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/penguins-429134_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/pug-690566_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/spider-2313079_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/surprised-3786845_640.jpg" alt="images from the experiment" width="24%" />
 <p class="caption">
 Figure 1: images from the experiment
@@ -1661,10 +1742,11 @@ Figure 1: images from the experiment
   geom_freqpoly(binwidth = 1) +
   facet_wrap(~name) +
   scale_x_continuous(breaks = 1:7) +
-  labs(colour = &quot;Rating&quot;)</code></pre>
-<p><img src="https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-21-1.png" width="100%" /></p>
-<div id="demographs-exclusions-and-rejoin" class="section level4">
-<h4>Demographs, exclusions and rejoin</h4>
+  labs(colour = &quot;Rating Type&quot;, x = &quot;&quot;)</code></pre>
+<p><img src="https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-23-1.png" width="100%" /></p>
+</div>
+<div id="demographs-exclusions-and-rejoin" class="section level3">
+<h3>Demographs, exclusions and rejoin</h3>
 <p>As for the questionnaire data above, you can pull out the user demographics, apply exclusions, and rejoin to the experiment data.</p>
 <pre class="r"><code># user table with exclusions
 user_excl &lt;- exp_data %&gt;%
@@ -1675,7 +1757,7 @@ user_excl &lt;- exp_data %&gt;%
 e_data_excl &lt;- user_excl %&gt;%
   left_join(exp_full, by = c(&quot;session_id&quot;, &quot;user_id&quot;))</code></pre>
 <pre class="r"><code>glimpse(e_data_excl)</code></pre>
-<pre><code>## Rows: 1,344
+<pre><code>## Rows: 1,440
 ## Columns: 11
 ## $ session_id  &lt;dbl&gt; 60509, 60509, 60509, 60509, 60509, 60509, 60509, 60509, 6…
 ## $ user_id     &lt;dbl&gt; 53422, 53422, 53422, 53422, 53422, 53422, 53422, 53422, 5…
@@ -1688,7 +1770,6 @@ e_data_excl &lt;- user_excl %&gt;%
 ## $ name        &lt;chr&gt; &quot;penguin&quot;, &quot;chicken&quot;, &quot;hedgehog&quot;, &quot;squirrel&quot;, &quot;kitten2&quot;, …
 ## $ is_baby     &lt;dbl&gt; 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, …
 ## $ mammal      &lt;dbl&gt; 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, …</code></pre>
-</div>
 </div>
 </div>
 <div id="joining-questionnaire-and-experiment-data" class="section level2">
@@ -1706,8 +1787,7 @@ names(all_data)</code></pre>
 ## [21] &quot;pets&quot;           &quot;spiders&quot;        &quot;pets.b&quot;         &quot;fiber_arts.b&quot;  
 ## [25] &quot;colours_fixed&quot;</code></pre>
 <p>Now go explore your data!</p>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
-<p><img src="https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-25-1.png" width="100%" /></p>
+<p><img src="https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-27-1.png" width="100%" /></p>
 </div>
 
       </div>

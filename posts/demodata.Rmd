@@ -7,12 +7,15 @@ categories: ["rstats"]
 tags: ["R", "data", "tidyverse", "experimentum"]
 ---
 
+(updated 2021-01-21)
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       out.width = "100%")
 library(tidyverse)
 theme_set(theme_minimal())
 
+# function for nice display tables
 tbl <- function(df, rows = NULL) {
   if (is.null(rows) || rows > nrow(df)) rows <- nrow(df)
   
@@ -22,13 +25,31 @@ tbl <- function(df, rows = NULL) {
 }
 ```
 
-[Experimentum](https://github.com/debruine/experimentum) studies require that you download data from [questionnaires](data/Demo-Data-quests_2021-01-20.csv) and [experiments](data/Demo-Data-exps_2021-01-20.csv) separately, since the data have different formats. You can participate anonymously in the study below at https://exp.psy.gla.ac.uk/project?demodata&autond (the median completion time is 3.8 minutes).
+[Experimentum](https://github.com/debruine/experimentum) studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can [participate anonymously in the demo study](https://exp.psy.gla.ac.uk/project?demodata&autond){target="_blank"} (the median completion time is 3.8 minutes). The links below update dynamically, so your data will be available immediately.
+
+* [questionnaire data](https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&download=exp){target="_blank"}
+* [experiment data](https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&download=quest){target="_blank"} 
+* [project structure](data/project_520_structure.json)
+
+The project structure file above is a JSON-formatted file that contains all of the information needed to run a study in Experimentum. In future versions of Experimentum, you will be able to directly edit this file, for example translating the questions into another language, and set up a study by simply uploading the file.
+
+```{r, message = FALSE, results = 'asis'}
+proj <- jsonlite::read_json("data/project_520_structure.json")
+```
+
+
 
 ## Questionnaire Data
 
-The study has two questionnaires: Groups and the Brief Mood Introspection Scale (BMIS). Names are in the column `quest_name` and the questionnaire ID is in `quest_id` (even if you gave multiple questionnaires the same name, the ID is guaranteed to be unique).
+The study has two questionnaires: **Groups**, a few questions you can use to divide the participants into groups of varying sizes, and **BMIS**, the [Brief Mood Introspection Scale](https://mypages.unh.edu/jdmayer/brief-mood-introspection-scale-bmis).
 
 ### Load Data
+
+```{r read-quest, message=FALSE}
+quest_data <- read_csv("data/Demo-Data-quests_2021-01-21.csv")
+
+glimpse(quest_data)
+```
 
 * `session_id` a unique ID generated each time someone starts a study
 * `project_id` a unique ID for this study
@@ -46,9 +67,7 @@ The study has two questionnaires: Groups and the Brief Mood Introspection Scale 
 * `endtime` the time that the questionnaire was submitted
 
 
-```{r read-quest}
-quest_data <- read_csv("data/Demo-Data-quests_2021-01-20.csv")
-```
+
 
 ### Removing duplicate answers
 
@@ -86,6 +105,25 @@ groups <- quest_distinct %>%
 
 `r tbl(groups, 6)`
 
+### Questionnaire options
+
+I usually recommend recording the actual text chosen from drop-down menus, rather than integers that you will have to remember how you mapped onto the answers. If you need to check how you set up the coding, you can look at the info page on Experimentum or check the project json file that we loaded above. It's a nested list and contains all the info, but can be a little tricky to parse (I'll work on making an R package to make this easier in the future). 
+
+```{r}
+# get question names, text and type, plus options if select
+qs <- proj$quest_2921$question %>%
+  map(~{
+    x <- .x[c("name", "question", "type")]
+    if (!is.null(.x$options)) {
+      x$options <- sapply(.x$options, `[[`, "display")
+      names(x$options) <- sapply(.x$options, `[[`, "opt_value")
+    }
+    x
+  })
+```
+
+`r faux::nested_list(qs)`
+
 #### Plots and tables
 
 Plot your data or create summary tables to help you spot any problems. The `count()` function is useful for variables with a small number of options.
@@ -108,12 +146,16 @@ Histograms or density plots are best for columns with many continuous values.
 
 ```{r hats-plot}
 ggplot(groups, aes(hats)) +
-  geom_histogram(binwidth = 1, color = "white")
+  geom_histogram(binwidth = 1, 
+                 fill = "dodgerblue",
+                 color = "white")
 ```
 
 ```{r spiders-plot}
 ggplot(groups, aes(spiders)) +
-  geom_histogram(binwidth = 1, color = "white")
+  geom_histogram(binwidth = 1, 
+                 fill = "violetred",
+                 color = "white")
 ```
 
 #### Recode variables
@@ -141,7 +183,10 @@ If you have any free-text responses, you will probably need to code them. I alwa
 colours <- groups_coded %>%
   mutate(colour = tolower(colour) %>% trimws()) %>%
   count(colour) %>%
-  arrange(n)
+  arrange(n, colour) %>%
+  group_by(n) %>%
+  summarise(colours = paste(colour, collapse = ", "),
+            .groups = "drop")
 ```
 
 `r tbl(colours, 10)`
@@ -204,7 +249,9 @@ Always plot your summary scores. This helps you to double-check your logic and i
 
 ```{r bmis-hist}
 ggplot(bmis, aes(bmis)) + 
-  geom_histogram(binwidth = 1, color = "white")
+  geom_histogram(binwidth = 1, 
+                 fill = "dodgerblue",
+                 color = "white")
 ```
 
 ### User Demographics
@@ -249,8 +296,10 @@ Our study has one rating experiment with two between-subject conditions: cutenes
 
 ### Load Data
 
-```{r read-exp}
-exp_data <- read_csv("data/Demo-Data-exps_2021-01-20.csv")
+```{r read-exp, message = FALSE}
+exp_data <- read_csv("data/Demo-Data-exps_2021-01-21.csv")
+
+glimpse(exp_data)
 ```
 
 Experiment data have the same session and user columns as questionnaire data, plus columns for the experiment name (`exp_name`) and unique id (`exp_id`). The remaining columns give data specific to each trial:
@@ -334,10 +383,10 @@ ggplot(exp_full, aes(dv, colour = exp_name)) +
   geom_freqpoly(binwidth = 1) +
   facet_wrap(~name) +
   scale_x_continuous(breaks = 1:7) +
-  labs(colour = "Rating")
+  labs(colour = "Rating Type", x = "")
 ```
 
-#### Demographs, exclusions and rejoin
+### Demographs, exclusions and rejoin
 
 As for the questionnaire data above, you can pull out the user demographics, apply exclusions, and rejoin to the experiment data.
 
@@ -373,7 +422,9 @@ Now go explore your data!
 ```{r, echo = FALSE}
 all_data %>%
   ggplot(aes(hats, dv, colour = exp_name)) +
-  geom_smooth(method = lm) +
-  facet_wrap(~name)
+  geom_smooth(method = lm, formula = y~x) +
+  facet_wrap(~name) +
+  scale_x_continuous(breaks = seq(0,20,2)) +
+  labs(y = "Rating", colour = "Rating Type")
 ```
 

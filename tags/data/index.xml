@@ -17,8 +17,9 @@
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       
       <guid>https://debruine.github.io/posts/experimentum-data/</guid>
-      <description>Experimentum studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can participate anonymously in the study below at https://exp.psy.gla.ac.uk/project?demodata&amp;amp;autond (the median completion time is 3.8 minutes).
-Questionnaire Data The study has two questionnaires: Groups and the Brief Mood Introspection Scale (BMIS). Names are in the column quest_name and the questionnaire ID is in quest_id (even if you gave multiple questionnaires the same name, the ID is guaranteed to be unique).</description>
+      <description>(updated 2021-01-21)
+Experimentum studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can participate anonymously in the demo study (the median completion time is 3.8 minutes). The links below update dynamically, so your data will be available immediately.
+ questionnaire data experiment data project structure  The project structure file above is a JSON-formatted file that contains all of the information needed to run a study in Experimentum.</description>
     </item>
     
   </channel>
