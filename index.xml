@@ -6,10 +6,20 @@
     <description>Recent content on Lisa DeBruine</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Feb 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://debruine.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Testing for normality</title>
+      <link>https://debruine.github.io/posts/normality/</link>
+      <pubDate>Mon, 01 Feb 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://debruine.github.io/posts/normality/</guid>
+      <description>You’ve probably been directed here because you asked someone about how to test the normality of predictors in an analysis. In this blog post, I’m going to use data simulation to explain why it’s only the normality of residuals that matters and how you can visualise this with QQ plots.
+library(tidyverse) # for data wrangling library(faux) # for data simulation set.seed(8675309) # to make sure simulation values don&amp;#39;t vary between runs First I want to emphasise that statistical tests like t-tests, ANOVAs, and other GLM-based tests assume that the residuals will be normally distributed and it doesn’t matter at all if the predictors and even the dependent variable aren’t.</description>
+    </item>
     
     <item>
       <title>Experimentum Data Wrangling Demo</title>
