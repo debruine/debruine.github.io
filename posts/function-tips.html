@@ -36,13 +36,13 @@ my_func(n = 100)</code></pre>
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 1.3606, df = 49, p-value = 0.1799
+## t = 1.3876, df = 49, p-value = 0.1715
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.1011896  0.5254504
+##  -0.07719972  0.42167272
 ## sample estimates:
 ## mean of the differences 
-##               0.2121304</code></pre>
+##               0.1722365</code></pre>
 <div id="definitions" class="section level2">
 <h2>Definitions</h2>
 <p>First, it’s helpful to define a few terms I’ll use below.</p>
@@ -91,26 +91,26 @@ Arguments can have a <strong>default value</strong>. In the code above, the argu
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 0.30766, df = 99, p-value = 0.759
+## t = 0.53504, df = 99, p-value = 0.5938
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.2202899  0.3011392
+##  -0.2093144  0.3638718
 ## sample estimates:
 ## mean of the differences 
-##              0.04042462</code></pre>
+##              0.07727875</code></pre>
 <p>And then I can add in new values or my data-generating parameters from the code above.</p>
 <pre class="r"><code>my_func2(n = 200, mu = my_mu, sd = my_sd, r = my_r)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 2.1764, df = 199, p-value = 0.0307
+## t = 3.0038, df = 199, p-value = 0.003009
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.01501368 0.30458014
+##  0.06901567 0.33281705
 ## sample estimates:
 ## mean of the differences 
-##               0.1597969</code></pre>
+##               0.2009164</code></pre>
 <p>Your function doesn’t need to use the same variable names as the functions you might be using them in. Some people find using the same variable names to be easier because you can see the connection between the variable in your function and where you’re using it. But this can be confusing for new coders. You can give your function argument names that are different to clarify where you’re using them.</p>
 <p>If this pattern makes sense to you, I recommend using a consistent prefix to the name, like <code>the_</code>, so you can always know if a variable is being defined as an argument to the function or externally.</p>
 <pre class="r"><code>my_func3 &lt;- function(the_n = 100, the_mu = 0, the_sd = 1, the_r = 0) {
@@ -133,26 +133,26 @@ Arguments can have a <strong>default value</strong>. In the code above, the argu
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 0.93173, df = 49, p-value = 0.356
+## t = 2.6399, df = 49, p-value = 0.01109
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.1200333  0.3275560
+##  0.08429557 0.62182441
 ## sample estimates:
 ## mean of the differences 
-##               0.1037613</code></pre>
+##                 0.35306</code></pre>
 <p>Or you can set the arguments by order and omit the names.</p>
 <pre class="r"><code>my_func3(my_n, my_mu, my_sd, my_r)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 0.30874, df = 49, p-value = 0.7588
+## t = 0.67837, df = 49, p-value = 0.5007
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.2517768  0.3431816
+##  -0.1824777  0.3684549
 ## sample estimates:
 ## mean of the differences 
-##               0.0457024</code></pre>
+##              0.09298864</code></pre>
 </div>
 <div id="scope" class="section level2">
 <h2>Scope</h2>
@@ -185,24 +185,24 @@ my_r &lt;- 0.5</code></pre>
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = -1.3611, df = 99, p-value = 0.1766
+## t = 1.5464, df = 99, p-value = 0.1252
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.43772074  0.08153731
+##  -0.07270851  0.58638552
 ## sample estimates:
 ## mean of the differences 
-##              -0.1780917</code></pre>
+##               0.2568385</code></pre>
 <p>If you set the values in the function, then it will work as expected.</p>
 <pre class="r"><code>my_func4(my_n, my_mu, my_sd, my_r)</code></pre>
 <pre><code>## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 1.5679, df = 49, p-value = 0.1233
+## t = 0.77613, df = 49, p-value = 0.4414
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.06629141  0.53691186
+##  -0.1530535  0.3456683
 ## sample estimates:
 ## mean of the differences 
-##               0.2353102</code></pre>
+##              0.09630742</code></pre>
 </div>

@@ -53,23 +53,24 @@ glossary_table <- function() {
 }
 ```
 
-You've probably been directed here because you asked someone about how to test the normality of predictors in an analysis. In this blog post, I'm going to use data simulation to explain why it's only the normality of *residuals* that matters and how you can visualise this with QQ plots.
+You've probably been directed here because you asked someone about how to test the normality of predictors in an analysis. However, statistical tests like t-tests, ANOVAs, and other `r glossary("general linear model", "GLM")`-based tests assume that the `r glossary("residual error", "residuals")` will be normally distributed and it doesn't matter at all if the `r glossary("predictor variable", "predictors")` and even the `r glossary("dependent variable")` aren't.
+
 
 ```{r libs, message=FALSE}
 library(tidyverse) # for data wrangling
 library(faux)      # for data simulation
+library(afex)      # for anova
+library(cowplot)   # for dataviz
 set.seed(8675309)  # to make sure simulation values don't vary between runs
 ```
 
-First I want to emphasise that statistical tests like t-tests, ANOVAs, and other `r glossary("general linear model", "GLM")`-based tests assume that the `r glossary("residual error", "residuals")` will be normally distributed and it doesn't matter at all if the `r glossary("predictor variable", "predictors")` and even the `r glossary("dependent variable")` aren't.
-
-Let's simulate some data to demonstrate this. We're going to simulate data from a totally hypothetical population of ferrets and cats. We're going to try to predict the energy levels of these pets from their weight. In my limited experience, tiny ferrets are way more energetic than big ferrets. I know nothing about cats.
+In this blog post, I'm going to use data simulation to show you how you can visualise the normality of residuals with QQ plots. We're going to simulate data from a totally hypothetical population of ferrets and cats. We're going to try to predict the energy levels of these pets from their weight. In my limited experience, tiny ferrets are way more energetic than big ferrets. I know nothing about cats.
 
 ![Tiny, energetic Darwin and her big, lazy brother, Oy](/images/darwin_oy.png)
 
 ## Simulate Data
 
-At the moment, [faux](https://debruine.github.io/faux/) can only simulate multivariate normal distributions and then you can convert them to other distributions. So we'll simulate weights from a normal distribution with a mean of 0 and SD of 1, and then convert these to a uniform distribution for each pet type based on ranges I found online. Energy will be simulated from normal distributions with different means and SDs for cats and ferrets. Energy will be uncorrelated with weight for cats and negatively correlated for ferrets.
+We'll use [faux](https://debruine.github.io/faux/) to simulate data based on data parameters like means, SDs and correlations for each group. At the moment, faux can only simulate multivariate normal distributions and then you can convert them to other distributions. So we'll simulate weights from a normal distribution with a mean of 0 and SD of 1, and then convert these to a uniform distribution for each pet type based on ranges I found online. Energy will be simulated from normal distributions with different means and SDs for cats and ferrets. Energy will be uncorrelated with weight for cats and negatively correlated for ferrets.
 
 ```{r}
 data <- faux::sim_design(
@@ -89,7 +90,7 @@ data <- faux::sim_design(
   ))
 ```
 
-N.B. If you're more used to [simulating data using model parameters](https://debruine.github.io/tutorials/sim-data.html#intercept-model), this way might make more sense to you, but it's often difficult to figure out what the parameters should be if you don't already have pilot data.
+N.B. If you're more used to [simulating data using model parameters](https://debruine.github.io/tutorials/sim-data.html#intercept-model), this way might make more sense to you, but it's often difficult to figure out what the model parameters should be if you don't already have pilot data.
 
 ```{r, eval = FALSE}
 n <- 50
@@ -160,6 +161,18 @@ e2 <- ggplot(data, aes(energy, colour = species)) +
 cowplot::plot_grid(w, e, w2, e2)
 ```
 
+If you run a Shapiro-Wilk test on these variables, you'd conclude they are *definitely* not normally distributed, but this doesn't matter at all!
+
+```{r}
+shapiro.test(data$energy)
+```
+
+```{r}
+shapiro.test(data$weight)
+```
+
+
+
 ## Calculate Residuals
 
 We will predict energy from weight, species, and their interaction using a linear model. We'll `r glossary("effect code")` species to make the output more similar to what you'd get from ANOVA (and it doesn't really make sense to `r glossary("treatment code")` them, since neither cats nor ferrets are a meaningful "baseline").
@@ -181,11 +194,18 @@ err <- resid(m1)
 ggplot() + geom_density(aes(err))
 ```
 
+## Shapiro-Wilk
+
+I don't recommend using statistical tests for normality. Essentially, they are underpowered in small samples and overpowered in large samples. [Robert Greener has a good discussion of this.](https://towardsdatascience.com/stop-testing-for-normality-dba96bb73f90). However, the residuals do "pass" the Shapiro-Wilk normality test.
+
+```{r}
+shapiro.test(err)
+```
 
 
 ## QQ plots
 
-It's quite hard to judge normality from a density plot, especially when you have small samples, so we can use a QQ plot to visualise how close a distribution is to normal. 
+It's better to assess normality visually, but it's quite hard to judge normality from a density plot, especially when you have small samples, so we can use a QQ plot to visualise how close a distribution is to normal. 
 
 These data are simulated, so will show an almost perfect straight line. Real data are always a bit messier. But even here, the points at the extremes are often not exactly on the line. It takes practice to tell if a QQ-plot shows clear signs of non-normality.
 
@@ -198,7 +218,7 @@ qplot(sample = err) +
        title = "QQ Plot for Residual Error")
 ```
 
-So what does our bimodal energy data look like? This sort of QQ plot is less normal (see how the points move away from the line at the ends), but that doesn't matter for your model at all.
+Our bimodal energy data are a good example of a QQ plot showing a non-normal distribution (see how the points move away from the line at the ends), but that doesn't matter for your model at all.
 
 ```{r}
 ggplot(data, aes(sample = energy)) +
@@ -209,33 +229,6 @@ ggplot(data, aes(sample = energy)) +
        title = "QQ Plot for Energy")
 ```
 
-And you can see that weight is extremely non-normal.
-
-```{r}
-ggplot(data, aes(sample = weight)) +
-  stat_qq() +
-  stat_qq_line(colour = "dodgerblue") +
-  labs(x = "Theoretical distribution",
-       y = "Sample distribution",
-       title = "QQ Plot for Weight")
-```
-
-## Statistical Tests
-
-I don't recommend using statistical tests for normality. Essentially, they are underpowered in small samples and overpowered in large samples. [Robert Greener has a good discussion of this.](https://towardsdatascience.com/stop-testing-for-normality-dba96bb73f90)
-
-You can see from the plots above that the energy values are not normally distributed, and this is what the tests for normality would also show.
-
-```{r}
-shapiro.test(data$energy)
-```
-
-
-However, the residuals do "pass" the Shapiro-Wilk normality test.
-
-```{r}
-shapiro.test(err)
-```
 
 ## Other tests
 
@@ -307,6 +300,7 @@ plot_lm <- qplot(sample = err_lm) + stat_qq_line()
 
 cowplot::plot_grid(plot_t, plot_lm, labels = c("t", "lm"))
 ```
+
 ### ANOVA
 
 You can use the `resid()` function on the models output by ANOVAs or ANCOVAs.
