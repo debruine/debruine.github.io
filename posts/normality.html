@@ -9,20 +9,20 @@ tags: ["r", "normality", "qqplot"]
 
 
 
-<p>You’ve probably been directed here because you asked someone about how to test the normality of predictors in an analysis. However, statistical tests like t-tests, ANOVAs, and other <a class='glossary' target='_blank' title='' href='https://psyteachr.github.io/glossary/g#general-linear-model'>GLM</a>-based tests assume that the <a class='glossary' target='_blank' title='' href='https://psyteachr.github.io/glossary/r#residual-error'>residuals</a> will be normally distributed and it doesn’t matter at all if the <a class='glossary' target='_blank' title='' href='https://psyteachr.github.io/glossary/p#predictor-variable'>predictors</a> and even the <a class='glossary' target='_blank' title='' href='https://psyteachr.github.io/glossary/d#dependent-variable'>dependent variable</a> aren’t.</p>
+<p>You’ve probably been directed here because you asked someone about how to test the normality of predictors in an analysis. However, statistical tests like t-tests, ANOVAs, and other <a class='glossary' target='_blank' title='A mathematical model comparing how one or more independent variables affect a continuous dependent variable' href='https://psyteachr.github.io/glossary/g#general-linear-model'>GLM</a>-based tests assume that the <a class='glossary' target='_blank' title='That part of an observation that cannot be captured by the statistical model, and thus is assumed to reflect unknown factors.' href='https://psyteachr.github.io/glossary/r#residual-error'>residuals</a> will be normally distributed and it doesn’t matter at all if the <a class='glossary' target='_blank' title='A variable whose value is used (in a model) to predict the value of a response variable.' href='https://psyteachr.github.io/glossary/p#predictor-variable'>predictors</a> and even the <a class='glossary' target='_blank' title='The target variable that is being analyzed, whose value is assumed to depend on other variables.' href='https://psyteachr.github.io/glossary/d#dependent-variable'>dependent variable</a> aren’t.</p>
 <pre class="r"><code>library(tidyverse) # for data wrangling
 library(faux)      # for data simulation
 library(afex)      # for anova
 library(cowplot)   # for dataviz
 set.seed(8675309)  # to make sure simulation values don&#39;t vary between runs</code></pre>
-<p>In this blog post, I’m going to use data simulation to show you how you can visualise the normality of residuals with QQ plots. We’re going to simulate data from a totally hypothetical population of ferrets and cats. We’re going to try to predict the energy levels of these pets from their weight. In my limited experience, tiny ferrets are way more energetic than big ferrets. I know nothing about cats.</p>
+<p>In this blog post, I’m going to use data simulation to show you how you can visualise the normality of residuals with <a class='glossary' target='_blank' title='A scatterplot created by plotting two sets of quantiles against each other, used to check if data come from a specified distribution' href='https://psyteachr.github.io/glossary/q#q-q-plot'>QQ plots</a>. We’re going to simulate data from a totally hypothetical population of ferrets and cats. We’re going to try to predict the energy levels of these pets from their weight. In my limited experience, tiny ferrets are way more energetic than big ferrets. I know nothing about cats.</p>
 <div class="figure">
 <img src="/images/darwin_oy.png" alt="" />
 <p class="caption">Tiny, energetic Darwin and her big, lazy brother, Oy</p>
 </div>
 <div id="simulate-data" class="section level2">
 <h2>Simulate Data</h2>
-<p>We’ll use <a href="https://debruine.github.io/faux/">faux</a> to simulate data based on data parameters like means, SDs and correlations for each group. At the moment, faux can only simulate multivariate normal distributions and then you can convert them to other distributions. So we’ll simulate weights from a normal distribution with a mean of 0 and SD of 1, and then convert these to a uniform distribution for each pet type based on ranges I found online. Energy will be simulated from normal distributions with different means and SDs for cats and ferrets. Energy will be uncorrelated with weight for cats and negatively correlated for ferrets.</p>
+<p>We’ll use <a href="https://debruine.github.io/faux/">faux</a> to simulate data based on data parameters like means, SDs and correlations for each group. At the moment, faux can only simulate multivariate normal distributions and then you can convert them to other distributions. So we’ll simulate weights from a <a class='glossary' target='_blank' title='A symmetric distribution of data where values near the centre are most probable.' href='https://psyteachr.github.io/glossary/n#normal-distribution'>normal distribution</a> with a mean of 0 and SD of 1, and then convert these to a <a class='glossary' target='_blank' title='All numbers in the range have an equal probability of being sampled' href='https://psyteachr.github.io/glossary/u#uniform-distribution'>uniform distribution</a> for each pet type based on ranges I found online. Energy will be simulated from normal distributions with different means and SDs for cats and ferrets. Energy will be uncorrelated with weight for cats and negatively correlated for ferrets.</p>
 <pre class="r"><code>data &lt;- faux::sim_design(
   within = list(vars = c(&quot;weight&quot;, &quot;energy&quot;)),
   between = list(species = c(&quot;cat&quot;, &quot;ferret&quot;)),
@@ -38,7 +38,7 @@ set.seed(8675309)  # to make sure simulation values don&#39;t vary between runs<
     species == &quot;cat&quot; ~ norm2unif(weight, 3.6, 4.5),
     species == &quot;ferret&quot; ~ norm2unif(weight, 0.7, 2.0)
   ))</code></pre>
-<p>N.B. If you’re more used to <a href="https://debruine.github.io/tutorials/sim-data.html#intercept-model">simulating data using model parameters</a>, this way might make more sense to you, but it’s often difficult to figure out what the model parameters should be if you don’t already have pilot data.</p>
+<p>N.B. If you’re more used to <a href="https://debruine.github.io/tutorials/sim-data.html#intercept-model">simulating data using model parameters</a>, this way might make more sense to you, but it’s often difficult to figure out what the <a class='glossary' target='_blank' title='A value that describes a distribution, such as the mean or SD' href='https://psyteachr.github.io/glossary/p#parameter'>parameters</a> should be if you don’t already have pilot data.</p>
 <pre class="r"><code>n &lt;- 50
 
 # values approximated from an lm analysis
@@ -97,7 +97,7 @@ Figure 1: Distibutions overall and within species.
 </div>
 <div id="calculate-residuals" class="section level2">
 <h2>Calculate Residuals</h2>
-<p>We will predict energy from weight, species, and their interaction using a linear model. We’ll <a class='glossary' target='_blank' title='A coding scheme for categorical variables that contrasts each group mean with the mean of all the group means.' href='https://psyteachr.github.io/glossary/e#effect-code'>effect code</a> species to make the output more similar to what you’d get from ANOVA (and it doesn’t really make sense to <a class='glossary' target='_blank' title='A coding scheme for categorical variables that creates (n_levels -1) dichotomous variables where each level of the categorical variable is contrasted to a reference level.' href='https://psyteachr.github.io/glossary/t#treatment-code'>treatment code</a> them, since neither cats nor ferrets are a meaningful “baseline”).</p>
+<p>We will predict energy from weight, species, and their interaction using a <a class='glossary' target='_blank' title='A mathematical model comparing how one or more independent variables affect a continuous dependent variable' href='https://psyteachr.github.io/glossary/g#general-linear-model'>linear model</a>. We’ll <a class='glossary' target='_blank' title='A coding scheme for categorical variables that contrasts each group mean with the mean of all the group means.' href='https://psyteachr.github.io/glossary/e#effect-code'>effect code</a> species to make the output more similar to what you’d get from ANOVA (and it doesn’t really make sense to <a class='glossary' target='_blank' title='A coding scheme for categorical variables that creates (n_levels -1) dichotomous variables where each level of the categorical variable is contrasted to a reference level.' href='https://psyteachr.github.io/glossary/t#treatment-code'>treatment code</a> them, since neither cats nor ferrets are a meaningful “baseline”).</p>
 <pre class="r"><code># effect-code species
 data$species.e &lt;- recode(data$species, cat = -0.5, ferret = 0.5)
 
@@ -143,7 +143,7 @@ m1 &lt;- lm(energy ~ weight*species.e, data = data)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>You can use the <code>resid()</code> function to get the residual error term from your model. This is the difference between the predicted value (based on the weight and species for each subject and the model parameters) and the actual value. Those values should be normally distributed.</p>
+<p>You can use the <code>resid()</code> function to get the <a class='glossary' target='_blank' title='That part of an observation that cannot be captured by the statistical model, and thus is assumed to reflect unknown factors.' href='https://psyteachr.github.io/glossary/r#residual-error'>residual error</a> term from your model. This is the difference between the predicted value (based on the weight and species for each subject and the model parameters) and the actual value. Those values should be normally distributed.</p>
 <pre class="r"><code>err &lt;- resid(m1)
 
 ggplot() + geom_density(aes(err))</code></pre>
@@ -161,7 +161,7 @@ ggplot() + geom_density(aes(err))</code></pre>
 </div>
 <div id="qq-plots" class="section level2">
 <h2>QQ plots</h2>
-<p>It’s better to assess normality visually, but it’s quite hard to judge normality from a density plot, especially when you have small samples, so we can use a QQ plot to visualise how close a distribution is to normal.</p>
+<p>It’s better to assess normality visually, but it’s quite hard to judge normality from a density plot, especially when you have small samples, so we can use a <a class='glossary' target='_blank' title='A scatterplot created by plotting two sets of quantiles against each other, used to check if data come from a specified distribution' href='https://psyteachr.github.io/glossary/q#q-q-plot'>QQ plot</a> to visualise how close a distribution is to normal. This is a scatterplot created by plotting two sets of <a class='glossary' target='_blank' title='Cutoffs dividing the range of a distribution into continuous intervals with equal probabilities.' href='https://psyteachr.github.io/glossary/q#quantile'>quantiles</a> against each other, used to check if data come from a specified distribution (here the normal distribution).</p>
 <p>These data are simulated, so will show an almost perfect straight line. Real data are always a bit messier. But even here, the points at the extremes are often not exactly on the line. It takes practice to tell if a QQ-plot shows clear signs of non-normality.</p>
 <pre class="r"><code># ggplot function for more customisation
 qplot(sample = err) + 
@@ -272,28 +272,48 @@ cowplot::plot_grid(plot_aov, plot_lm, labels = c(&quot;aov&quot;, &quot;lm&quot;
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/d#dependent.variable'>dependent variable</a></td>
-<td align="left"></td>
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/d#dependent-variable'>dependent-variable</a></td>
+<td align="left">The target variable that is being analyzed, whose value is assumed to depend on other variables.</td>
 </tr>
 <tr class="even">
-<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/e#effect.code'>effect code</a></td>
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/e#effect-code'>effect-code</a></td>
 <td align="left">A coding scheme for categorical variables that contrasts each group mean with the mean of all the group means.</td>
 </tr>
 <tr class="odd">
-<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/g#general.linear.model'>general linear model</a></td>
-<td align="left"></td>
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/g#general-linear-model'>general-linear-model</a></td>
+<td align="left">A mathematical model comparing how one or more independent variables affect a continuous dependent variable</td>
 </tr>
 <tr class="even">
-<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/p#predictor.variable'>predictor variable</a></td>
-<td align="left"></td>
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/n#normal-distribution'>normal-distribution</a></td>
+<td align="left">A symmetric distribution of data where values near the centre are most probable.</td>
 </tr>
 <tr class="odd">
-<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/r#residual.error'>residual error</a></td>
-<td align="left"></td>
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/p#parameter'>parameter</a></td>
+<td align="left">A value that describes a distribution, such as the mean or SD</td>
 </tr>
 <tr class="even">
-<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/t#treatment.code'>treatment code</a></td>
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/p#predictor-variable'>predictor-variable</a></td>
+<td align="left">A variable whose value is used (in a model) to predict the value of a response variable.</td>
+</tr>
+<tr class="odd">
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/q#q-q-plot'>q-q-plot</a></td>
+<td align="left">A scatterplot created by plotting two sets of quantiles against each other, used to check if data come from a specified distribution</td>
+</tr>
+<tr class="even">
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/q#quantile'>quantile</a></td>
+<td align="left">Cutoffs dividing the range of a distribution into continuous intervals with equal probabilities.</td>
+</tr>
+<tr class="odd">
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/r#residual-error'>residual-error</a></td>
+<td align="left">That part of an observation that cannot be captured by the statistical model, and thus is assumed to reflect unknown factors.</td>
+</tr>
+<tr class="even">
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/t#treatment-code'>treatment-code</a></td>
 <td align="left">A coding scheme for categorical variables that creates (n_levels -1) dichotomous variables where each level of the categorical variable is contrasted to a reference level.</td>
+</tr>
+<tr class="odd">
+<td align="left"><a class='glossary' target='_blank' href='https://psyteachr.github.io/glossary/u#uniform-distribution'>uniform-distribution</a></td>
+<td align="left">All numbers in the range have an equal probability of being sampled</td>
 </tr>
 </tbody>
 </table>
