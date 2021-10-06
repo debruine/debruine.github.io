@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>web | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/web/</link>
+      <atom:link href="https://debruine.github.io/tag/web/index.xml" rel="self" type="application/rss+xml" />
+    <description>web</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 21 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>web</title>
+      <link>https://debruine.github.io/tag/web/</link>
+    </image>
+    
+    <item>
+      <title>Hidden Solutions</title>
+      <link>https://debruine.github.io/post/hidden-solutions/</link>
+      <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/hidden-solutions/</guid>
+      <description>
+
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;a href=&#34;http://swcarpentry.github.io/r-novice-gapminder/&#34;&gt;R for Reproducible Scientific Analysis&lt;/a&gt; pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).&lt;/p&gt;
+&lt;div id=&#34;example&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Graph the relationship between speed and distance for the &lt;code&gt;cars&lt;/code&gt; dataset.&lt;/p&gt;
+&lt;div class=&#34;solution&#34;&gt;
+&lt;button&gt;
+Solution
+&lt;/button&gt;
+&lt;p&gt;You can put some text inside the solution, as well as code cunks.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(cars, aes(speed, dist)) +
+  geom_point(color = &amp;quot;purple&amp;quot;) +
+  geom_smooth(method = &amp;quot;lm&amp;quot;, color = &amp;quot;purple&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `geom_smooth()` using formula &amp;#39;y ~ x&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/hidden_solution_files/figure-html/cars-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;put-this-at-the-beginning-of-your-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Put this at the beginning of your file&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;
+  /* styles for hidden solutions */
+  .solution {
+    height: 2em;
+    overflow-y: hidden;
+    padding: 0.5em;
+  }
+  .solution.open { 
+    height: auto; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  .solution button {
+    height: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  .solution pre.sourceCode {
+    border-color: green;
+  }
+&amp;lt;/style&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you’re using &lt;a href=&#34;http://rmarkdown.rstudio.com/rmarkdown_websites.html&#34;&gt;RMarkdown Websites&lt;/a&gt;, you can just put these lines of css into an external stylesheet linked in your &lt;code&gt;_site.yml&lt;/code&gt; file (e.g., &lt;a href=&#34;rguppies.css&#34;&gt;rguppies.css&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;put-this-at-the-end-of-your-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Put this at the end of your file&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;script&amp;gt;
+  window.onload = function(){
+    var buttons = document.getElementsByTagName(&amp;quot;button&amp;quot;);
+    for (var i = 0; i &amp;lt; buttons.length; i++) {
+      buttons[i].onclick = function() {
+        var cl = this.parentElement.classList;
+        if (cl.contains(&amp;#39;open&amp;#39;)) {
+          cl.remove(&amp;quot;open&amp;quot;);
+        } else {
+          cl.add(&amp;quot;open&amp;quot;);
+        }
+      }
+    }
+  }
+&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you’re using &lt;a href=&#34;http://rmarkdown.rstudio.com/rmarkdown_websites.html&#34;&gt;RMarkdown Websites&lt;/a&gt;, you can just put this script into an external footer or script file linked in your &lt;code&gt;_site.yml&lt;/code&gt; file (e.g., &lt;a href=&#34;rguppies.js&#34;&gt;rguppies.js&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;surround-your-hidden-solutions-like-this&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Surround your hidden solutions like this&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;quot;solution&amp;quot;&amp;gt;&amp;lt;button&amp;gt;Solution&amp;lt;/button&amp;gt;
+
+PUT YOUR SOLUTION HERE (including r chunks)
+
+&amp;lt;/div&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can change the text on the button to something else (e.g., &lt;code&gt;&amp;lt;button&amp;gt;View the Answer&amp;lt;/button&amp;gt;&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Let me know if you have any suggestions or find this useful.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

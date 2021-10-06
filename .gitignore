@@ -2,4 +2,8 @@
 .Rhistory
 .Rdata
 .httr-oauth
+.Ruserdata
 .DS_Store
+Thumbs.db
+/public/
+/resources/

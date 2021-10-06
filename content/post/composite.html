@@ -1,0 +1,94 @@
+---
+title: Composite Images
+author: ~
+date: '2020-01-31'
+slug: composite-images
+categories: ["methods"]
+tags: ["methods", "simulation"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>I recently responded to a <a href="https://twitter.com/PsychoSchmitt/status/1221883383778811906?s=20">tweet</a> about a preprint about whether people can see Dark Triad traits (narcissism, Machiavellianism, and psychopathy) in facial appearance.</p>
+<blockquote class="twitter-tweet">
+<p lang="en" dir="ltr">
+Can you tell a Dark Triad person from the face? Apparently so (data from USA and Turkey). <a href="https://t.co/BxZUcJ9cTY">https://t.co/BxZUcJ9cTY</a> <a href="https://t.co/xh1pcmyB5E">pic.twitter.com/xh1pcmyB5E</a>
+</p>
+— David Schmitt (<span class="citation">@PsychoSchmitt</span>) <a href="https://twitter.com/PsychoSchmitt/status/1221883383778811906?ref_src=twsrc%5Etfw">January 27, 2020</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<p>The <a href="https://psyarxiv.com/c3ngz/">preprint</a> by Alper, Bayrak, and Yilmaz used faces from the <a href="http://www.nickholtzman.com/faceaurus.htm">Faceaurus database</a> (Holtzman, 2011). “Holtzman (2011) standardized the assessment scores, computed average scores of self- and peer-reports, and ranked the face images based on the resulting scores. Then, prototypes for each of the personality dimensions were created by digitally combining 10 faces with the highest and 10 faces with the lowest scores on the personality trait in question (Holtzman, 2011).” This was done separately for male and female faces.</p>
+<p>Since scores on the three dark triad traits are positively correlated, the three pairs of composite faces are not independent. Indeed, Holtzman states that 5 individuals were in all three low composites for the male faces, while the overlap was less extreme in other cases. With 105 observers, Holtzman found that the ability to detect the composite higher in a dark triad trait was greater than chance.</p>
+<p>While I commend both Holtzman and Alper, Bayrak, and Yilmaz for their transparency, data sharing, and material sharing, <strong>I am arguing that this test has an effective N of 2, and that further replications using these images, such as those done by Alper, Bayrak, and Yilmaz, regardless of number of observers or preregistered status, lend no further weight of evidence to the assertion that dark triad traits are visible in physical appearance.</strong></p>
+<div id="womens-height" class="section level3">
+<h3>Women’s height</h3>
+<p>Let’s go back to my favourite example for demonstrating the problems with aggregating ratings before analysis, <a href="https://debruine.github.io/tutorials/aggregate.html">Armenian women’s height</a>. The problem is the same here, but we’ve just averaged the stimuli before rating, rather than averaging the ratings of individual stimuli.</p>
+<p>First, we’re going to simulate a sample of 20 women from a population with a mean height of 158.1 cm and an SD of 5.7. Half are born on odd days and half on even days.</p>
+<pre class="r"><code>set.seed(8675309)
+
+stim_n &lt;- 10
+height_m &lt;- 158.1
+height_sd &lt;- 5.7
+
+odd &lt;- rnorm(stim_n, height_m, height_sd)
+even &lt;- rnorm(stim_n, height_m, height_sd)
+
+t.test(odd, even)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  odd and even
+## t = 1.7942, df = 17.409, p-value = 0.09016
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.7673069  9.5977215
+## sample estimates:
+## mean of x mean of y 
+##  161.1587  156.7435</code></pre>
+<p>A t-test shows no significant difference, which is unsurprising. We simulated the data from the same distributions, so we know for sure there is no real difference here. Now we’re going to average the height of the women with odd and even birthdays.</p>
+<pre class="r"><code>odd_mean &lt;- mean(odd)
+even_mean &lt;- mean(even)</code></pre>
+<p>So if we create a composite of women born on odd days, she would be 161.2 cm tall, and a composite of women born on even days would be 156.7 cm tall.</p>
+<p>If we ask 100 observers to look at these two composites and judge which one looks taller, what do you imagine would happen? Let’s say that observers are pretty bad with height estimation, and their estimates for each composite have error with a standard deviation of 10 cm. They then judge whether, by their estimation, the odd-birthday composite looks taller than the even-birthday composite.</p>
+<pre class="r"><code>obs_n &lt;-100
+error_sd &lt;- 10
+
+odd_estimate &lt;- odd_mean + rnorm(obs_n, 0, error_sd)
+even_estimate &lt;- even_mean + rnorm(obs_n, 0, error_sd)
+
+judgment &lt;- odd_estimate &gt; even_estimate
+
+bt &lt;- binom.test(sum(judgment), obs_n, p = 0.5) %&gt;% print()</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  sum(judgment) and obs_n
+## number of successes = 65, number of trials = 100, p-value = 0.003518
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.5481506 0.7427062
+## sample estimates:
+## probability of success 
+##                   0.65</code></pre>
+<p>A binomial test shows that they are significantly better than chance at this (p = 0.004). What’s going on?</p>
+<p>We can be sure that by chance alone, our two composites will be at least slightly different on any measure, even if they are drawn from identical populations. The mean (unsigned) size of this difference is larger, the smaller the number of stimuli that go into each composite. The graph below shows simulations of the unsigned difference between composites for 1000 samples per number of stimuli per composite.</p>
+<p><img src="/post/composite_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>x &lt;- replicate(10000, mean(rnorm(10))-mean(rnorm(10)))</code></pre>
+<p>With only 10 stimuli per composite, the mean unsigned effect size of the difference between composites is 0.36 (in units of SD of the original trait distribution). 65% of random pairs have a difference of greater than 0.2 SD. If our observers are accurate enough at perceiving this difference or we run a very large number of observers, we are virtually guarateed to find significant results every time, and we have a 50% chance that all of these results will be in the predicted direction.</p>
+</div>
+<div id="personality-traits-and-faces" class="section level3">
+<h3>Personality Traits and Faces</h3>
+<p>So what does this mean for studies of the link between personality traits and facial appearance? The analogy with birth date and height holds. As long as there are facial morphologies that are even slightly consistently associated with the perception of a trait, then composites will not be identical in that morphology, even if it is totally unassociated with the trait as measured by, e.g., personality scales or peer report.</p>
+<ul>
+<li>The smaller the number of stimuli that go into each composite, the greater the chance that they will be visibly different in morphology related to the judgment of interest, just by chance alone.</li>
+<li>The larger the number of observers or the better observers are at detecting small differences in this morphology, the more likley that “detection” will be significantly above chance.</li>
+<li>Repeating this with a new set of observers does not increase the amount of evidence you have for the association between the face morphology and the measured trait. You’ve only measured it once in one population of faces.</li>
+<li>If observers are your unit of analyses, you are making conclusions about whether the population of observers can detect the difference between your stimuli, you cannot generalise this to new stimulus sets.</li>
+</ul>
+</div>
+<div id="references" class="section level2">
+<h2>References</h2>
+<p>Alper, S., Bayrak, F., &amp; Yilmaz, O. (2020, January 27). All the Dark Triad and Some of the Big Five Traits are Visible in the Face. <a href="https://doi.org/10.31234/osf.io/c3ngz" class="uri">https://doi.org/10.31234/osf.io/c3ngz</a></p>
+<p>Holtzman, N. S. (2011). Facing a psychopath: Detecting the dark triad from emotionally-neutral faces, using prototypes from the Personality Faceaurus. Journal of Research in Personality, 45, 648-654. <a href="https://doi.org/10.1016/j.jrp.2011.09.002" class="uri">https://doi.org/10.1016/j.jrp.2011.09.002</a></p>
+</div>

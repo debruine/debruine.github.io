@@ -1,0 +1,1676 @@
+---
+title: "Experimentum Data Wrangling Demo"
+author: ~
+date: "2021-01-20"
+slug: experimentum-data
+categories: ["rstats"]
+tags: ["R", "data", "tidyverse", "experimentum"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="/rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+
+<p>(updated 2021-01-21)</p>
+<p><a href="https://github.com/debruine/experimentum">Experimentum</a> studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can <a href="https://exp.psy.gla.ac.uk/project?demodata&amp;autond" target="_blank">participate anonymously in the demo study</a> (the median completion time is 3.8 minutes). The links below update dynamically, so your data will be available immediately.</p>
+<ul>
+<li><a href="https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&amp;download=exp" target="_blank">questionnaire data</a></li>
+<li><a href="https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&amp;download=quest" target="_blank">experiment data</a></li>
+<li><a href="data/project_520_structure.json">project structure</a></li>
+</ul>
+<p>The project structure file above is a JSON-formatted file that contains all of the information needed to run a study in Experimentum. In future versions of Experimentum, you will be able to directly edit this file, for example translating the questions into another language, and set up a study by simply uploading the file.</p>
+<pre class="r"><code>proj &lt;- jsonlite::read_json(&quot;data/project_520_structure.json&quot;)</code></pre>
+<div id="questionnaire-data" class="section level2">
+<h2>Questionnaire Data</h2>
+<p>The study has two questionnaires: <strong>Groups</strong>, a few questions you can use to divide the participants into groups of varying sizes, and <strong>BMIS</strong>, the <a href="https://mypages.unh.edu/jdmayer/brief-mood-introspection-scale-bmis">Brief Mood Introspection Scale</a>.</p>
+<div id="load-data" class="section level3">
+<h3>Load Data</h3>
+<pre class="r"><code>quest_data &lt;- read_csv(&quot;data/Demo-Data-quests_2021-01-21.csv&quot;)
+
+glimpse(quest_data)</code></pre>
+<pre><code>## Rows: 2,807
+## Columns: 14
+## $ session_id  &lt;dbl&gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60…
+## $ project_id  &lt;dbl&gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520…
+## $ quest_name  &lt;chr&gt; &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups&quot;, &quot;Groups&quot;…
+## $ quest_id    &lt;dbl&gt; 2921, 2921, 2921, 2921, 2921, 2921, 2921, 2920, 2920, 2920…
+## $ user_id     &lt;dbl&gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43…
+## $ user_sex    &lt;chr&gt; &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;…
+## $ user_status &lt;chr&gt; &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;r…
+## $ user_age    &lt;dbl&gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6…
+## $ q_name      &lt;chr&gt; &quot;fiber_arts&quot;, &quot;native_english&quot;, &quot;hats&quot;, &quot;pets&quot;, &quot;colour&quot;, …
+## $ q_id        &lt;dbl&gt; 92833810, 92833809, 92833814, 92833811, 92833813, 92833815…
+## $ order       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12…
+## $ dv          &lt;chr&gt; &quot;1&quot;, &quot;0&quot;, &quot;5&quot;, &quot;Yes&quot;, &quot;Red&quot;, &quot;1&quot;, &quot;today&quot;, &quot;2&quot;, &quot;1&quot;, &quot;2&quot;, …
+## $ starttime   &lt;dttm&gt; 2021-01-19 17:48:15, 2021-01-19 17:48:15, 2021-01-19 17:4…
+## $ endtime     &lt;dttm&gt; 2021-01-19 17:48:31, 2021-01-19 17:48:31, 2021-01-19 17:4…</code></pre>
+<ul>
+<li><code>session_id</code> a unique ID generated each time someone starts a study</li>
+<li><code>project_id</code> a unique ID for this study</li>
+<li><code>quest_name</code> the name of each questionnaire (not guaranteed to be unique)</li>
+<li><code>quest_id</code> uniquely identifies each questionnaire</li>
+<li><code>user_id</code> registered participants have a unique ID that is the same across logins, while guest participants get a new ID each time they log in</li>
+<li><code>user_sex</code> gender from the options “male”, “female”, “nonbinary”, “na” (specifically chose not to answer), or <code>NA</code> (did not complete the question)</li>
+<li><code>user_status</code> whether use is a researcher (“admin”, “super”, “res”, “student”), a “registered” user, a “guest” user, or “test”</li>
+<li><code>user_age</code> the user’s age; registered accounts are asked for their birthdate, and their age is calculated to the nearest 0.1 years; guest users may be asked their age in years</li>
+<li><code>q_name</code> name of the question</li>
+<li><code>q_id</code> uniquely identifies each question</li>
+<li><code>order</code> the order the question was presented in (not necessarily answered in) or questionnaires with randomised order</li>
+<li><code>dv</code> the response</li>
+<li><code>starttime</code> the time that the questionnaire was started</li>
+<li><code>endtime</code> the time that the questionnaire was submitted</li>
+</ul>
+</div>
+<div id="removing-duplicate-answers" class="section level3">
+<h3>Removing duplicate answers</h3>
+<p>Although Experimentum tries to prevent people accidentally using the back button during a study, there are some ways around this, so sometimes a person will submit the same questionnaire twice in a row. You can filter your data down to only the first time each person completed each question with the following code (do not use this if your study actually gives people the same questionnaire more than once).</p>
+<p>The questions are recorded in the order that they were answered, so we can just group by participant (<code>user_id</code>) and question (<code>q_id</code>) and choose the first answer. If you have a longitudinal study, group by <code>session_id</code> to allow multiple sessions per user.</p>
+<pre class="r"><code>quest_distinct &lt;- quest_data %&gt;%
+  group_by(user_id, q_id) %&gt;% # or add session_id 
+  # chooses the first time each user answered each question
+  filter(row_number() == 1) %&gt;%
+  ungroup()</code></pre>
+<p>Check how many duplicate rows were excluded.</p>
+<pre class="r"><code>setdiff(quest_data, quest_distinct) %&gt;% nrow()</code></pre>
+<pre><code>## [1] 0</code></pre>
+</div>
+<div id="groups" class="section level3">
+<h3>Groups</h3>
+<p>Here, we select just the data from the Groups questionnaire and keep only the session_id, user_id, q_name, and dv columns, and convert the data to wide format. If you restricted your data to only one session per user, as above, then <code>user_id</code> and <code>session_id</code> are redundant. The code below works for both types of data, though.</p>
+<p>If the <code>dv</code> column contains both numeric and character data, the new columns will all be characters, so add <code>convert = TRUE</code> if you are using <code>spread()</code>. If you use the <code>pivot_wider()</code> function, it doesn’t have a <code>convert</code> argument, so you have to pipe the data frame to a separate function, <code>type.convert()</code>.</p>
+<pre class="r"><code>groups &lt;- quest_distinct %&gt;%
+  filter(quest_name == &quot;Groups&quot;) %&gt;%
+  select(session_id, user_id, q_name, dv) %&gt;%
+  spread(q_name, dv, convert = TRUE)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+session_id
+</th>
+<th style="text-align:right;">
+user_id
+</th>
+<th style="text-align:left;">
+colour
+</th>
+<th style="text-align:left;">
+exercise
+</th>
+<th style="text-align:right;">
+fiber_arts
+</th>
+<th style="text-align:right;">
+hats
+</th>
+<th style="text-align:right;">
+native_english
+</th>
+<th style="text-align:left;">
+pets
+</th>
+<th style="text-align:right;">
+spiders
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60495
+</td>
+<td style="text-align:right;">
+31625
+</td>
+<td style="text-align:left;">
+Green
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60509
+</td>
+<td style="text-align:right;">
+53422
+</td>
+<td style="text-align:left;">
+black
+</td>
+<td style="text-align:left;">
+more
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60550
+</td>
+<td style="text-align:right;">
+53458
+</td>
+<td style="text-align:left;">
+purplE
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60552
+</td>
+<td style="text-align:right;">
+53460
+</td>
+<td style="text-align:left;">
+green
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60553
+</td>
+<td style="text-align:right;">
+53461
+</td>
+<td style="text-align:left;">
+Blue
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="questionnaire-options" class="section level3">
+<h3>Questionnaire options</h3>
+<p>I usually recommend recording the actual text chosen from drop-down menus, rather than integers that you will have to remember how you mapped onto the answers. If you need to check how you set up the coding, you can look at the info page on Experimentum or check the project json file that we loaded above. It’s a nested list and contains all the info, but can be a little tricky to parse (I’ll work on making an R package to make this easier in the future).</p>
+<pre class="r"><code># get question names, text and type, plus options if select
+qs &lt;- proj$quest_2921$question %&gt;%
+  map(~{
+    x &lt;- .x[c(&quot;name&quot;, &quot;question&quot;, &quot;type&quot;)]
+    if (!is.null(.x$options)) {
+      x$options &lt;- sapply(.x$options, `[[`, &quot;display&quot;)
+      names(x$options) &lt;- sapply(.x$options, `[[`, &quot;opt_value&quot;)
+    }
+    x
+  })</code></pre>
+<ol style="list-style-type: decimal">
+<li><ul>
+<li>name: native_english</li>
+<li>question: Is English your native language?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>1: Yes</li>
+<li>0: No</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: fiber_arts</li>
+<li>question: Do you know how to knit or crochet?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>1: Yes</li>
+<li>0: No</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: pets</li>
+<li>question: Do you have a pet?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>Yes: Yes</li>
+<li>No: No</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: exercise</li>
+<li>question: When was the last time you exercised?</li>
+<li>type: select</li>
+<li>options:
+<ul>
+<li>today: today or yesterday</li>
+<li>week: in the past week</li>
+<li>more: more than a week ago</li>
+</ul></li>
+</ul></li>
+<li><ul>
+<li>name: colour</li>
+<li>question: What is your favourite colour?</li>
+<li>type: text</li>
+</ul></li>
+<li><ul>
+<li>name: hats</li>
+<li>question: How many hats do you own (approximately)?</li>
+<li>type: selectnum</li>
+</ul></li>
+<li><ul>
+<li>name: spiders</li>
+<li>question: Are you afraid of spiders?</li>
+<li>type: radioanchor</li>
+</ul></li>
+</ol>
+<div id="plots-and-tables" class="section level4">
+<h4>Plots and tables</h4>
+<p>Plot your data or create summary tables to help you spot any problems. The <code>count()</code> function is useful for variables with a small number of options.</p>
+<pre class="r"><code># count a single column
+count(groups, exercise)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+exercise
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+more
+</td>
+<td style="text-align:right;">
+24
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:right;">
+69
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+week
+</td>
+<td style="text-align:right;">
+31
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># count multiple columns
+count(groups, fiber_arts, native_english, pets)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+fiber_arts
+</th>
+<th style="text-align:right;">
+native_english
+</th>
+<th style="text-align:left;">
+pets
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+8
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+20
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+18
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+39
+</td>
+</tr>
+</tbody>
+</table>
+<p>Histograms or density plots are best for columns with many continuous values.</p>
+<pre class="r"><code>ggplot(groups, aes(hats)) +
+  geom_histogram(binwidth = 1, 
+                 fill = &quot;dodgerblue&quot;,
+                 color = &quot;white&quot;)</code></pre>
+<p><img src="/post/demodata_files/figure-html/hats-plot-1.png" width="100%" /></p>
+<pre class="r"><code>ggplot(groups, aes(spiders)) +
+  geom_histogram(binwidth = 1, 
+                 fill = &quot;violetred&quot;,
+                 color = &quot;white&quot;)</code></pre>
+<p><img src="/post/demodata_files/figure-html/spiders-plot-1.png" width="100%" /></p>
+</div>
+<div id="recode-variables" class="section level4">
+<h4>Recode variables</h4>
+<p>You might want to do some recoding of variables here. The <code>pets</code> column contains the words “Yes” and “No”; maybe you want to code this as 1s and 0s.The column <code>fiber_arts</code> has a 1 if a person knows how to knit or crochet, and a 0 if they don’t. You might want to change this to the words “Yes” and “No”. The <code>recode()</code> function is useful for this. I like to give the binary-coded version of a variable the suffix “.b”.</p>
+<p>Note that in the <code>recode()</code> function, numbers that are on the left side of an equal sign need to be in quotes. This just has to do with the way R treats argument names and doesn’t mean that the recoded column has to be a character type.</p>
+<pre class="r"><code>groups_coded &lt;- groups %&gt;%
+  mutate(
+    pets.b = recode(pets, &quot;Yes&quot; = 1, &quot;No&quot; = 0),
+    fiber_arts.b = fiber_arts,
+    fiber_arts = recode(fiber_arts, &quot;1&quot; = &quot;Yes&quot;, &quot;0&quot; = &quot;No&quot;)
+  )</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+session_id
+</th>
+<th style="text-align:right;">
+user_id
+</th>
+<th style="text-align:left;">
+colour
+</th>
+<th style="text-align:left;">
+exercise
+</th>
+<th style="text-align:left;">
+fiber_arts
+</th>
+<th style="text-align:right;">
+hats
+</th>
+<th style="text-align:right;">
+native_english
+</th>
+<th style="text-align:left;">
+pets
+</th>
+<th style="text-align:right;">
+spiders
+</th>
+<th style="text-align:right;">
+pets.b
+</th>
+<th style="text-align:right;">
+fiber_arts.b
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+Red
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60495
+</td>
+<td style="text-align:right;">
+31625
+</td>
+<td style="text-align:left;">
+Green
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60509
+</td>
+<td style="text-align:right;">
+53422
+</td>
+<td style="text-align:left;">
+black
+</td>
+<td style="text-align:left;">
+more
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60550
+</td>
+<td style="text-align:right;">
+53458
+</td>
+<td style="text-align:left;">
+purplE
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60552
+</td>
+<td style="text-align:right;">
+53460
+</td>
+<td style="text-align:left;">
+green
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60553
+</td>
+<td style="text-align:right;">
+53461
+</td>
+<td style="text-align:left;">
+Blue
+</td>
+<td style="text-align:left;">
+today
+</td>
+<td style="text-align:left;">
+No
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Yes
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="free-text" class="section level4">
+<h4>Free text</h4>
+<p>If you have any free-text responses, you will probably need to code them. I always start by looking at all of the possible values after transforming the value to lowercase and getting rid of spaces around the text.</p>
+<pre class="r"><code>colours &lt;- groups_coded %&gt;%
+  mutate(colour = tolower(colour) %&gt;% trimws()) %&gt;%
+  count(colour) %&gt;%
+  arrange(n, colour) %&gt;%
+  group_by(n) %&gt;%
+  summarise(colours = paste(colour, collapse = &quot;, &quot;),
+            .groups = &quot;drop&quot;)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+colours
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+amber, cornflower, grey, indian orange, magenta, monochrome grey/white tones, petroleum blue, teal, violet, white, yes.
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+pink, turquoise
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+orange
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:left;">
+black
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:left;">
+yellow
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:left;">
+red
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:left;">
+purple
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:left;">
+green
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+29
+</td>
+<td style="text-align:left;">
+blue
+</td>
+</tr>
+</tbody>
+</table>
+<p>You can then decide to recode some colours to fix misspellings, etc. One tricky part of using <code>recode()</code> is that all replaced values have to be the same data type, so use <code>NA_character_</code> if you are replacing values with strings, <code>NA_real_</code> for doubles, and <code>NA_integer_</code> for integers.</p>
+<pre class="r"><code>groups_colours &lt;- groups_coded %&gt;%
+  mutate(colour = tolower(colour) %&gt;% trimws()) %&gt;%
+  mutate(colours_fixed = recode(colour,
+                                &quot;amber&quot; = &quot;yellow&quot;, 
+                                &quot;yes.&quot; = NA_character_,
+                                &quot;violet&quot; = &quot;purple&quot;,
+                                &quot;petroleum blue&quot; = &quot;blue&quot;))</code></pre>
+</div>
+</div>
+<div id="bmis" class="section level3">
+<h3>BMIS</h3>
+<p>The second questionnaire is the Brief Mood Introspection Scale (BMIS). The BMIS has 16 questions divided into positive and negative adjectives. The question names are all in the format <code>valence_adjective</code>, so you can easily separate the question name into two columns.</p>
+<p>Because the original <code>quest_data</code> had both character and numeric values in the <code>dv</code> column, it is still a character type even now that the dv column only contains numbers. You can fix this using the <code>type_convert()</code> function. Set col_types manually or use <code>cols()</code> to automatically guess.</p>
+<pre class="r"><code>bmis_raw &lt;- quest_distinct %&gt;%
+  filter(quest_name == &quot;BMIS&quot;) %&gt;%
+  select(session_id, user_id, q_name, dv) %&gt;%
+  separate(q_name, c(&quot;valence&quot;, &quot;adjective&quot;)) %&gt;%
+  type_convert(col_types = cols())</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+session_id
+</th>
+<th style="text-align:right;">
+user_id
+</th>
+<th style="text-align:left;">
+valence
+</th>
+<th style="text-align:left;">
+adjective
+</th>
+<th style="text-align:right;">
+dv
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+nervous
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+pos
+</td>
+<td style="text-align:left;">
+caring
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+pos
+</td>
+<td style="text-align:left;">
+peppy
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+tired
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+grouchy
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+sad
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+</tbody>
+</table>
+<div id="summary-scores" class="section level4">
+<h4>Summary scores</h4>
+<p>The BMIS is coded as the sum of the forward-coded scores for all the positive adjectives and the reverse-coded scores for all negative adjectives. Experimentum has a function to reverse code selected items in the “radiopage” questionnaire type, but we didn’t do that here so you can see how to manually recode. The scores are 1 to 4, so subjtract them from 5 to get the reverse-coded value. Make sure to look at a few of your recoded values to make sure it’s doing what you expect.</p>
+<pre class="r"><code>bmis_coded &lt;- bmis_raw %&gt;%
+  mutate(recoded_dv = case_when(
+    valence == &quot;pos&quot; ~ dv,
+    valence == &quot;neg&quot; ~ 5 - dv
+  ))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+session_id
+</th>
+<th style="text-align:right;">
+user_id
+</th>
+<th style="text-align:left;">
+valence
+</th>
+<th style="text-align:left;">
+adjective
+</th>
+<th style="text-align:right;">
+dv
+</th>
+<th style="text-align:right;">
+recoded_dv
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+nervous
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+pos
+</td>
+<td style="text-align:left;">
+caring
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+pos
+</td>
+<td style="text-align:left;">
+peppy
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+tired
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+grouchy
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+neg
+</td>
+<td style="text-align:left;">
+sad
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+</tbody>
+</table>
+<p>Create the summary score by grouping by user_id and session_id and summing the responses. We use <code>sum()</code> here because the BMIS is not valid if people skipped any questions, so we want the result to be <code>NA</code> if they did. Some questionnaire scoring allows you to calculate an average score omitting missed questions, so you could use <code>mean(recoded_dv, na.rm = TRUE)</code>.</p>
+<pre class="r"><code>bmis &lt;- bmis_coded %&gt;%
+  group_by(session_id, user_id) %&gt;%
+  summarise(bmis = sum(recoded_dv),
+            .groups = &quot;drop&quot;) </code></pre>
+</div>
+<div id="plots" class="section level4">
+<h4>Plots</h4>
+<p>Always plot your summary scores. This helps you to double-check your logic and identify outliers.</p>
+<pre class="r"><code>ggplot(bmis, aes(bmis)) + 
+  geom_histogram(binwidth = 1, 
+                 fill = &quot;dodgerblue&quot;,
+                 color = &quot;white&quot;)</code></pre>
+<p><img src="/post/demodata_files/figure-html/bmis-hist-1.png" width="100%" /></p>
+</div>
+</div>
+<div id="user-demographics" class="section level3">
+<h3>User Demographics</h3>
+<p>Experimentum data always contains user demographic data, which is collected when the user signs up for a registered account or logs in as a guest. This study did not ask users for their age or sex, so that info is only available from registered users.</p>
+<p>First, we select the session_id and all of the user variables, then make sure we have only one row for each participant.</p>
+<pre class="r"><code>user &lt;- quest_distinct %&gt;%
+  select(session_id, starts_with(&quot;user_&quot;)) %&gt;%
+  distinct()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+session_id
+</th>
+<th style="text-align:right;">
+user_id
+</th>
+<th style="text-align:left;">
+user_sex
+</th>
+<th style="text-align:left;">
+user_status
+</th>
+<th style="text-align:right;">
+user_age
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+60481
+</td>
+<td style="text-align:right;">
+43533
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+res
+</td>
+<td style="text-align:right;">
+26.6
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60495
+</td>
+<td style="text-align:right;">
+31625
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+student
+</td>
+<td style="text-align:right;">
+22.1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60509
+</td>
+<td style="text-align:right;">
+53422
+</td>
+<td style="text-align:left;">
+female
+</td>
+<td style="text-align:left;">
+guest
+</td>
+<td style="text-align:right;">
+61.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60550
+</td>
+<td style="text-align:right;">
+53458
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+guest
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60552
+</td>
+<td style="text-align:right;">
+53460
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+guest
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+60553
+</td>
+<td style="text-align:right;">
+53461
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+guest
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="rejoining" class="section level3">
+<h3>Rejoining</h3>
+<p>Now you can rejoin your questionnaire data. Start with the user table and only join on matching data from the individual questionnaires. Use <code>session_id</code> and <code>user_id</code> to join.</p>
+<pre class="r"><code>q_data &lt;- user %&gt;%
+  left_join(bmis, by = c(&quot;session_id&quot;, &quot;user_id&quot;)) %&gt;%
+  left_join(groups_colours, by = c(&quot;session_id&quot;, &quot;user_id&quot;))</code></pre>
+</div>
+<div id="exclusions" class="section level3">
+<h3>Exclusions</h3>
+<p>You will usually want to exclude participants with user_status that are not “registered” or “guest”. Statuses “admin”, “super”, “res”, and “student” refer to different types of researchers (with different privileges on the Experimentum platform). The status “test” is for test runs with different user demographics. You can also apply other exclusion criteria here like age restrictions or requiring that summary score not be missing.</p>
+<pre class="r"><code>q_data_excl &lt;- q_data %&gt;%
+  filter(user_status %in% c(&quot;guest&quot;, &quot;registered&quot;))</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+user_status
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+guest
+</td>
+<td style="text-align:right;">
+121
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="experiment-data" class="section level2">
+<h2>Experiment Data</h2>
+<p>Our study has one rating experiment with two between-subject conditions: cuteness ratings and appropriateness as pet ratings.</p>
+<div id="load-data-1" class="section level3">
+<h3>Load Data</h3>
+<pre class="r"><code>exp_data &lt;- read_csv(&quot;data/Demo-Data-exps_2021-01-21.csv&quot;)
+
+glimpse(exp_data)</code></pre>
+<pre><code>## Rows: 1,476
+## Columns: 15
+## $ session_id  &lt;dbl&gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60…
+## $ project_id  &lt;dbl&gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520…
+## $ exp_name    &lt;chr&gt; &quot;Animals: Cuteness&quot;, &quot;Animals: Cuteness&quot;, &quot;Animals: Cutene…
+## $ exp_id      &lt;dbl&gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707…
+## $ user_id     &lt;dbl&gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43…
+## $ user_sex    &lt;chr&gt; &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;…
+## $ user_status &lt;chr&gt; &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;r…
+## $ user_age    &lt;dbl&gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6…
+## $ trial_name  &lt;chr&gt; &quot;animal-967657_640&quot;, &quot;surprised-3786845_640&quot;, &quot;penguins-42…
+## $ trial_n     &lt;dbl&gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, 9…
+## $ order       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7…
+## $ dv          &lt;dbl&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, 4…
+## $ rt          &lt;dbl&gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003,…
+## $ side        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ dt          &lt;dttm&gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:4…</code></pre>
+<p>Experiment data have the same session and user columns as questionnaire data, plus columns for the experiment name (<code>exp_name</code>) and unique id (<code>exp_id</code>). The remaining columns give data specific to each trial:</p>
+<ul>
+<li><code>trial_name</code> not necessarily unique</li>
+<li><code>trial_n</code> uniquely identifies each trial within an experiment</li>
+<li><code>order</code> (the order the trial was shown to that participant</li>
+<li><code>dv</code> the response</li>
+<li><code>rt</code> the rough reaction time in milliseconds (web data have many sources of possible bias so do not use Experimentum to do RT experiments that require millisecond precision)</li>
+<li><code>side</code> if the experiment has multiple images, the order of the images if side is set to random (not relevant here)</li>
+<li><code>dt</code> the timestamp of the response</li>
+</ul>
+<pre class="r"><code>glimpse(exp_data)</code></pre>
+<pre><code>## Rows: 1,476
+## Columns: 15
+## $ session_id  &lt;dbl&gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60…
+## $ project_id  &lt;dbl&gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520…
+## $ exp_name    &lt;chr&gt; &quot;Animals: Cuteness&quot;, &quot;Animals: Cuteness&quot;, &quot;Animals: Cutene…
+## $ exp_id      &lt;dbl&gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707…
+## $ user_id     &lt;dbl&gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43…
+## $ user_sex    &lt;chr&gt; &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;…
+## $ user_status &lt;chr&gt; &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;res&quot;, &quot;r…
+## $ user_age    &lt;dbl&gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6…
+## $ trial_name  &lt;chr&gt; &quot;animal-967657_640&quot;, &quot;surprised-3786845_640&quot;, &quot;penguins-42…
+## $ trial_n     &lt;dbl&gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, 9…
+## $ order       &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7…
+## $ dv          &lt;dbl&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, 4…
+## $ rt          &lt;dbl&gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003,…
+## $ side        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ dt          &lt;dttm&gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:4…</code></pre>
+<p>Most researchers don’t want all that data, so we can select just the important columns. The exp_name contains info we don’t need, so we’ll also process that.</p>
+<pre class="r"><code>exp_selected &lt;- exp_data %&gt;%
+  select(session_id, user_id, exp_name, trial_name, dv) %&gt;%
+  mutate(exp_name = sub(&quot;Animals: &quot;, &quot;&quot;, exp_name))</code></pre>
+<pre class="r"><code>count(exp_selected, exp_name)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+exp_name
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Appropriate
+</td>
+<td style="text-align:right;">
+696
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cuteness
+</td>
+<td style="text-align:right;">
+780
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>count(exp_selected, trial_name)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+trial_name
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+adorable-5059091_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+animal-967657_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+bird-349035_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+dolphin-203875_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+frog-3312038_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+hedgehog-468228_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+kitty-2948404_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+meerkat-459171_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+penguins-429134_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+pug-690566_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+spider-2313079_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+surprised-3786845_640
+</td>
+<td style="text-align:right;">
+123
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="adding-trial-data" class="section level3">
+<h3>Adding trial data</h3>
+<p>It’s common that you need to add some data about each trial.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-20"></span>
+<img src="cute/adorable-5059091_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/animal-967657_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/bird-349035_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/dolphin-203875_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/frog-3312038_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/hedgehog-468228_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/kitty-2948404_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/meerkat-459171_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/penguins-429134_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/pug-690566_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/spider-2313079_640.jpg" alt="images from the experiment" width="24%" /><img src="cute/surprised-3786845_640.jpg" alt="images from the experiment" width="24%" />
+<p class="caption">
+Figure 1: images from the experiment
+</p>
+</div>
+<p>You will probably have you trial information in a separate table, so you can load that here. In this case, we’ll use the <code>tribble()</code> function to create a table by rows.</p>
+<pre class="r"><code>trial_info &lt;- tribble(
+  ~photo,                  ~name,    ~is_baby, ~mammal,
+  &quot;adorable-5059091_640&quot;,  &quot;kitten1&quot;,   1,        1,
+  &quot;animal-967657_640&quot;,     &quot;fox&quot;,       0,        1,
+  &quot;bird-349035_640&quot;,       &quot;chicken&quot;,   1,        0,
+  &quot;dolphin-203875_640&quot;,    &quot;dolphin&quot;,   0,        1,
+  &quot;frog-3312038_640&quot;,      &quot;frog&quot;,      0,        0,
+  &quot;hedgehog-468228_640&quot;,   &quot;hedgehog&quot;,  0,        1,
+  &quot;kitty-2948404_640&quot;,     &quot;kitten2&quot;,   1,        1,
+  &quot;meerkat-459171_640&quot;,    &quot;meerkat&quot;,   0,        1,
+  &quot;penguins-429134_640&quot;,   &quot;penguin&quot;,   1,        0,
+  &quot;pug-690566_640&quot;,        &quot;dog&quot;,       1,        1,
+  &quot;spider-2313079_640&quot;,    &quot;spider&quot;,    0,        0,
+  &quot;surprised-3786845_640&quot;, &quot;squirrel&quot;,  0,        1
+)</code></pre>
+<p>Then you can join it to the experiment data.</p>
+<pre class="r"><code>exp_full &lt;- exp_selected %&gt;%
+  left_join(trial_info, by = c(&quot;trial_name&quot; = &quot;photo&quot;))</code></pre>
+<p>And create some plots.</p>
+<pre class="r"><code>ggplot(exp_full, aes(dv, colour = exp_name)) +
+  geom_freqpoly(binwidth = 1) +
+  facet_wrap(~name) +
+  scale_x_continuous(breaks = 1:7) +
+  labs(colour = &quot;Rating Type&quot;, x = &quot;&quot;)</code></pre>
+<p><img src="/post/demodata_files/figure-html/unnamed-chunk-23-1.png" width="100%" /></p>
+</div>
+<div id="demographs-exclusions-and-rejoin" class="section level3">
+<h3>Demographs, exclusions and rejoin</h3>
+<p>As for the questionnaire data above, you can pull out the user demographics, apply exclusions, and rejoin to the experiment data.</p>
+<pre class="r"><code># user table with exclusions
+user_excl &lt;- exp_data %&gt;%
+  select(session_id, starts_with(&quot;user_&quot;)) %&gt;%
+  distinct() %&gt;%
+  filter(user_status %in% c(&quot;guest&quot;, &quot;registered&quot;))
+
+e_data_excl &lt;- user_excl %&gt;%
+  left_join(exp_full, by = c(&quot;session_id&quot;, &quot;user_id&quot;))</code></pre>
+<pre class="r"><code>glimpse(e_data_excl)</code></pre>
+<pre><code>## Rows: 1,440
+## Columns: 11
+## $ session_id  &lt;dbl&gt; 60509, 60509, 60509, 60509, 60509, 60509, 60509, 60509, 60…
+## $ user_id     &lt;dbl&gt; 53422, 53422, 53422, 53422, 53422, 53422, 53422, 53422, 53…
+## $ user_sex    &lt;chr&gt; &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;, &quot;female&quot;…
+## $ user_status &lt;chr&gt; &quot;guest&quot;, &quot;guest&quot;, &quot;guest&quot;, &quot;guest&quot;, &quot;guest&quot;, &quot;guest&quot;, &quot;gue…
+## $ user_age    &lt;dbl&gt; 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 0, 0, 0, 0…
+## $ exp_name    &lt;chr&gt; &quot;Appropriate&quot;, &quot;Appropriate&quot;, &quot;Appropriate&quot;, &quot;Appropriate&quot;…
+## $ trial_name  &lt;chr&gt; &quot;penguins-429134_640&quot;, &quot;bird-349035_640&quot;, &quot;hedgehog-468228…
+## $ dv          &lt;dbl&gt; 1, 4, 5, 1, 7, 1, 7, 6, 1, 7, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4…
+## $ name        &lt;chr&gt; &quot;penguin&quot;, &quot;chicken&quot;, &quot;hedgehog&quot;, &quot;squirrel&quot;, &quot;kitten2&quot;, &quot;…
+## $ is_baby     &lt;dbl&gt; 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0…
+## $ mammal      &lt;dbl&gt; 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1…</code></pre>
+</div>
+</div>
+<div id="joining-questionnaire-and-experiment-data" class="section level2">
+<h2>Joining Questionnaire and Experiment Data</h2>
+<p>Often, it makes most sense to process questionnaire data in wide format and experiment data in long format. If you need to add wide questionnaire data to a long experiment table, left join the questionnaire like this:</p>
+<pre class="r"><code>all_data &lt;- e_data_excl %&gt;%
+  left_join(q_data_excl, by = c(&quot;session_id&quot;, &quot;user_id&quot;))
+
+names(all_data)</code></pre>
+<pre><code>##  [1] &quot;session_id&quot;     &quot;user_id&quot;        &quot;user_sex.x&quot;     &quot;user_status.x&quot; 
+##  [5] &quot;user_age.x&quot;     &quot;exp_name&quot;       &quot;trial_name&quot;     &quot;dv&quot;            
+##  [9] &quot;name&quot;           &quot;is_baby&quot;        &quot;mammal&quot;         &quot;user_sex.y&quot;    
+## [13] &quot;user_status.y&quot;  &quot;user_age.y&quot;     &quot;bmis&quot;           &quot;colour&quot;        
+## [17] &quot;exercise&quot;       &quot;fiber_arts&quot;     &quot;hats&quot;           &quot;native_english&quot;
+## [21] &quot;pets&quot;           &quot;spiders&quot;        &quot;pets.b&quot;         &quot;fiber_arts.b&quot;  
+## [25] &quot;colours_fixed&quot;</code></pre>
+<p>Now go explore your data!</p>
+<p><img src="/post/demodata_files/figure-html/unnamed-chunk-27-1.png" width="100%" /></p>
+</div>

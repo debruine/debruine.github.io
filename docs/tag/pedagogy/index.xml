@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pedagogy | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/pedagogy/</link>
+      <atom:link href="https://debruine.github.io/tag/pedagogy/index.xml" rel="self" type="application/rss+xml" />
+    <description>pedagogy</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 15 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>pedagogy</title>
+      <link>https://debruine.github.io/tag/pedagogy/</link>
+    </image>
+    
+    <item>
+      <title>Solution Feedback</title>
+      <link>https://debruine.github.io/post/solution-feedback/</link>
+      <pubDate>Wed, 15 Nov 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/solution-feedback/</guid>
+      <description>
+
+
+&lt;p&gt;Download a simple demo &lt;a href=&#34;https://debruine.github.io/files/solveme_demo.Rmd&#34;&gt;.rmd&lt;/a&gt;/&lt;a href=&#34;https://debruine.github.io/files/solveme_demo.html&#34;&gt;.html&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I’d noticed that students were tending to just look at the &lt;a href=&#34;hidden_solutions.html&#34;&gt;hidden solutions&lt;/a&gt; and not try very hard to understand the exercises, so I wanted a way for them to check if they’re right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.&lt;/p&gt;
+&lt;p&gt;What is 2 + 2? &lt;input class=&#34;solveme&#34; size=&#34;3&#34; answer=&#34;4&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.&lt;/p&gt;
+&lt;div id=&#34;put-this-at-the-beginning-of-your-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Put this at the beginning of your file&lt;/h2&gt;
+&lt;p&gt;If you’re making your website in RMarkdown, put it after the second &lt;code&gt;---&lt;/code&gt; in the yml header. If you’re writing html directly, put it inside the &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt; element.&lt;/p&gt;
+&lt;p&gt;You can use different colours or line types by changing the border styles.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;
+  /* styles for solveme */
+  .solveme { border: 2px dotted red; }
+  .solveme.correct { border: 2px solid blue; }
+&amp;lt;/style&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you’re using &lt;a href=&#34;http://rmarkdown.rstudio.com/rmarkdown_websites.html&#34;&gt;RMarkdown Websites&lt;/a&gt;, you can just put these lines of css into an external stylesheet linked in your &lt;code&gt;_site.yml&lt;/code&gt; file (e.g., &lt;a href=&#34;rguppies.css&#34;&gt;rguppies.css&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;put-this-at-the-end-of-your-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Put this at the end of your file&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;script&amp;gt;
+  tc = function() {
+    if (t = document.getElementById(&amp;quot;total_correct&amp;quot;)) {
+      t.innerHTML =       
+        document.getElementsByClassName(&amp;quot;correct&amp;quot;).length + &amp;quot; of &amp;quot; +
+        document.getElementsByClassName(&amp;quot;solveme&amp;quot;).length + &amp;quot; correct&amp;quot;;
+    }
+  }
+  window.onload = function() {
+    tc();
+    var solveme = document.getElementsByClassName(&amp;quot;solveme&amp;quot;);
+    for (var i = 0; i &amp;lt; solveme.length; i++) {
+      solveme[i].setAttribute(&amp;quot;autocomplete&amp;quot;,&amp;quot;off&amp;quot;);
+      solveme[i].value = &amp;quot;&amp;quot;;
+      solveme[i].onkeyup = function(e) {
+        var real_answer = this.getAttribute(&amp;quot;answer&amp;quot;).trim();
+        var my_answer = this.value;
+        var cl = this.classList;
+        if (cl.contains(&amp;quot;nospaces&amp;quot;)) {
+          real_answer = real_answer.replace(/ /g, &amp;quot;&amp;quot;);
+          my_answer = my_answer.replace(/ /g, &amp;quot;&amp;quot;);
+        }
+        if (cl.contains(&amp;quot;ignorecase&amp;quot;)) {
+          real_answer = real_answer.toLowerCase();
+          my_answer = my_answer.toLowerCase();
+        }
+        var linend = new RegExp(/\s*(:or:)\s*/, &amp;#39;g&amp;#39;)
+        real_answer = real_answer.split(linend);
+        if (my_answer !== &amp;quot;&amp;quot; &amp;amp; real_answer.includes(my_answer)) {
+          cl.add(&amp;quot;correct&amp;quot;);
+        } else {
+          cl.remove(&amp;quot;correct&amp;quot;);
+        }
+        tc();
+      }
+      solveme[i].onchange = function() {
+        this.onkeyup();
+      }
+    }
+  }
+&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you’re using &lt;a href=&#34;http://rmarkdown.rstudio.com/rmarkdown_websites.html&#34;&gt;RMarkdown Websites&lt;/a&gt;, you can just put this script into an external footer or script file linked in your &lt;code&gt;_site.yml&lt;/code&gt; file (e.g., &lt;a href=&#34;rguppies.js&#34;&gt;rguppies.js&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;set-up-the-input-boxes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Set up the input boxes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Set up a basic input box like below. It needs to have &lt;code&gt;solveme&lt;/code&gt; as the class and the correct answer in &lt;code&gt;answer&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;What is &lt;span class=&#34;math inline&#34;&gt;\(5 + 5\)&lt;/span&gt;?
+&lt;input class=&#34;solveme&#34; answer=&#34;10&#34; &gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;input class=&amp;quot;solveme&amp;quot; answer=&amp;quot;10&amp;quot; &amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;If you don’t care about uppercase vs lowercase letters, add &lt;code&gt;ignorecase&lt;/code&gt; to the input style. You can also change the width of theinput box with &lt;code&gt;size&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;What is the letter after B?
+&lt;input class=&#34;solveme ignorecase&#34; size=&#34;1&#34; answer=&#34;c&#34; &gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;input class=&amp;quot;solveme ignorecase&amp;quot; size=&amp;quot;1&amp;quot; answer=&amp;quot;c&amp;quot; &amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;You can also put multiple correct answer possibilities separated by &lt;code&gt;:or:&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Type a vowel
+&lt;input class=&#34;solveme ignorecase&#34; size=&#34;1&#34; 
+         answer=&#34;a :or: e :or: i :or: o :or: u&#34; &gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;input class=&amp;quot;solveme ignorecase&amp;quot; size=&amp;quot;1&amp;quot; 
+       answer=&amp;quot;a :or: e :or: i :or: o :or: u&amp;quot; &amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;If you’re asking for simple code where the spaces don’t matter, add the class &lt;code&gt;nospaces&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Draw 10 random numbers from a normal distribution with a mean of 3 and SD of 2:&lt;/p&gt;
+&lt;p&gt;&lt;input class=&#34;solveme nospaces&#34; 
+    size=&#34;30&#34;
+    answer=&#34;rnorm(10, 3, 2) :or:
+            rnorm(10, mean = 3, sd = 2) :or:
+            rnorm(10, 3, sd = 2) :or:
+            rnorm(10, sd = 2, mean = 3) :or:
+            rnorm(x = 10, mean = 3, sd = 2)&#34; &gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;input class=&amp;quot;solveme nospaces&amp;quot; 
+  size=&amp;quot;30&amp;quot;
+  answer=&amp;quot;rnorm(10, 3, 2) :or:
+  rnorm(10, mean = 3, sd = 2) :or:
+  rnorm(10, 3, sd = 2) :or:
+  rnorm(10, sd = 2, mean = 3) :or:
+  rnorm(x = 10, mean = 3, sd = 2)&amp;quot; &amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p class=&#34;alert alert-info&#34;&gt;
+You can also skip a line after &lt;code&gt;:or:&lt;/code&gt;. Whitespace before and after your answer is trimmed off, so your coprrect answer can’t require that the student start or end with spaces.
+&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;This can’t handle multiple-line answers, but you can embed several input boxes in a paragraph. The formatting can get tricky, though:&lt;/p&gt;
+&lt;p&gt;Complete the following function for returning the scaled values of a vector, &lt;code&gt;v&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;
+  scale_function &lt;- function(v) { 
+    the_mean &lt;- &lt;input class=&#34;solveme&#34; size=&#34;6&#34; answer=&#34;mean&#34;&gt;(&lt;input class=&#34;solveme&#34; size = &#34;2&#34; answer=&#34;v&#34;&gt;)
+    the_sd &lt;- sd(&lt;input class=&#34;solveme&#34; size=&#34;1&#34; answer=&#34;v&#34;&gt;)
+
+    (v &lt;input class=&#34;solveme&#34; size = &#34;1&#34; answer=&#34;-&#34;&gt; the_mean ) &lt;input class=&#34;solveme&#34; size = &#34;1&#34; answer=&#34;/&#34;&gt; the_sd
+  }
+  &lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;pre&amp;gt;
+scale_function &amp;lt;- function(v) { 
+  the_mean &amp;lt;- &amp;lt;input class=&amp;quot;solveme&amp;quot; size=&amp;quot;6&amp;quot; answer=&amp;quot;mean&amp;quot;&amp;gt;(&amp;lt;input class=&amp;quot;solveme&amp;quot;  size = &amp;quot;2&amp;quot; answer=&amp;quot;v&amp;quot;&amp;gt;)
+  the_sd &amp;lt;- sd(&amp;lt;input class=&amp;quot;solveme&amp;quot; size=&amp;quot;1&amp;quot; answer=&amp;quot;v&amp;quot;&amp;gt;)
+
+  (v &amp;lt;input class=&amp;quot;solveme&amp;quot; size = &amp;quot;1&amp;quot; answer=&amp;quot;-&amp;quot;&amp;gt; the_mean ) &amp;lt;input class=&amp;quot;solveme&amp;quot; size = &amp;quot;1&amp;quot; answer=&amp;quot;/&amp;quot;&amp;gt; the_sd
+}
+&amp;lt;/pre&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p class=&#34;alert alert-info&#34;&gt;
+I wrapped the text in &lt;code&gt;&amp;lt;pre&amp;gt;&lt;/code&gt; tags to format it like code, while still rendering the input boxes. If you surround it with three backticks, it will just display the code for the input boxes, not the actual boxes.
+&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;You can also use this for a multiple choice drop-down menu.&lt;/p&gt;
+&lt;p&gt;How would you model a distribution of coin flips?&lt;/p&gt;
+&lt;p&gt;&lt;select class=&#34;solveme&#34; answer=&#34;rbinom&#34;&gt;
+&lt;option&gt;&lt;/option&gt;
+&lt;option&gt;rnorm&lt;/option&gt;
+&lt;option&gt;runif&lt;/option&gt;
+&lt;option&gt;rpois&lt;/option&gt;
+&lt;option&gt;rbinom&lt;/option&gt;
+&lt;/select&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;select class=&amp;quot;solveme&amp;quot; answer=&amp;quot;rbinom&amp;quot;&amp;gt;
+  &amp;lt;option&amp;gt;&amp;lt;/option&amp;gt;
+  &amp;lt;option&amp;gt;rnorm&amp;lt;/option&amp;gt;
+  &amp;lt;option&amp;gt;runif&amp;lt;/option&amp;gt;
+  &amp;lt;option&amp;gt;rpois&amp;lt;/option&amp;gt;
+  &amp;lt;option&amp;gt;rbinom&amp;lt;/option&amp;gt;
+&amp;lt;/select&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;You can include a line with automatically updating total correct using the following code:&lt;/p&gt;
+&lt;p&gt;&lt;span id=&#34;total_correct&#34;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;span id=&amp;quot;total_correct&amp;quot;&amp;gt;&amp;lt;/span&amp;gt;&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Hidden Solutions</title>
+      <link>https://debruine.github.io/post/hidden-solutions/</link>
+      <pubDate>Sat, 21 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/hidden-solutions/</guid>
+      <description>
+
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;a href=&#34;http://swcarpentry.github.io/r-novice-gapminder/&#34;&gt;R for Reproducible Scientific Analysis&lt;/a&gt; pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).&lt;/p&gt;
+&lt;div id=&#34;example&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Graph the relationship between speed and distance for the &lt;code&gt;cars&lt;/code&gt; dataset.&lt;/p&gt;
+&lt;div class=&#34;solution&#34;&gt;
+&lt;button&gt;
+Solution
+&lt;/button&gt;
+&lt;p&gt;You can put some text inside the solution, as well as code cunks.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(cars, aes(speed, dist)) +
+  geom_point(color = &amp;quot;purple&amp;quot;) +
+  geom_smooth(method = &amp;quot;lm&amp;quot;, color = &amp;quot;purple&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `geom_smooth()` using formula &amp;#39;y ~ x&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/hidden_solution_files/figure-html/cars-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;put-this-at-the-beginning-of-your-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Put this at the beginning of your file&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;style&amp;gt;
+  /* styles for hidden solutions */
+  .solution {
+    height: 2em;
+    overflow-y: hidden;
+    padding: 0.5em;
+  }
+  .solution.open { 
+    height: auto; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  .solution button {
+    height: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  .solution pre.sourceCode {
+    border-color: green;
+  }
+&amp;lt;/style&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you’re using &lt;a href=&#34;http://rmarkdown.rstudio.com/rmarkdown_websites.html&#34;&gt;RMarkdown Websites&lt;/a&gt;, you can just put these lines of css into an external stylesheet linked in your &lt;code&gt;_site.yml&lt;/code&gt; file (e.g., &lt;a href=&#34;rguppies.css&#34;&gt;rguppies.css&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;put-this-at-the-end-of-your-file&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Put this at the end of your file&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;script&amp;gt;
+  window.onload = function(){
+    var buttons = document.getElementsByTagName(&amp;quot;button&amp;quot;);
+    for (var i = 0; i &amp;lt; buttons.length; i++) {
+      buttons[i].onclick = function() {
+        var cl = this.parentElement.classList;
+        if (cl.contains(&amp;#39;open&amp;#39;)) {
+          cl.remove(&amp;quot;open&amp;quot;);
+        } else {
+          cl.add(&amp;quot;open&amp;quot;);
+        }
+      }
+    }
+  }
+&amp;lt;/script&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you’re using &lt;a href=&#34;http://rmarkdown.rstudio.com/rmarkdown_websites.html&#34;&gt;RMarkdown Websites&lt;/a&gt;, you can just put this script into an external footer or script file linked in your &lt;code&gt;_site.yml&lt;/code&gt; file (e.g., &lt;a href=&#34;rguppies.js&#34;&gt;rguppies.js&lt;/a&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;surround-your-hidden-solutions-like-this&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Surround your hidden solutions like this&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;div class=&amp;quot;solution&amp;quot;&amp;gt;&amp;lt;button&amp;gt;Solution&amp;lt;/button&amp;gt;
+
+PUT YOUR SOLUTION HERE (including r chunks)
+
+&amp;lt;/div&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can change the text on the button to something else (e.g., &lt;code&gt;&amp;lt;button&amp;gt;View the Answer&amp;lt;/button&amp;gt;&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;Let me know if you have any suggestions or find this useful.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

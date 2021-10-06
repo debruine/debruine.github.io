@@ -1,0 +1,155 @@
+---
+title: "nest() and irr::icc()"
+author: ~
+date: "2017-08-21"
+slug: nest
+categories: ["rstats"]
+tags: ["R", "tidyverse", "nest", "icc"]
+---
+
+
+
+<p>I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).</p>
+<pre class="r"><code>library(tidyverse)
+library(irr)</code></pre>
+<p>Load the rating data for the open-source <a href="https://figshare.com/articles/Face_Research_Lab_London_Set/5047666">Face Research Lab London Set</a>.
+The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (<code>X001:X173</code>).</p>
+<pre class="r"><code>london &lt;- read_csv(&quot;https://ndownloader.figshare.com/files/8542045&quot;)
+
+head(london)</code></pre>
+<pre><code>## # A tibble: 6 x 105
+##   rater_sex rater_sexpref rater_age  X001  X002  X003  X004  X005  X006  X007
+##   &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 female    either             17       3     3     3     3     2     3     5
+## 2 female    either             17       5     2     3     2     1     5     6
+## 3 female    either             17.1     5     3     4     3     3     4     4
+## 4 female    either             17.1     4     6     5     5     3     4     5
+## 5 female    either             17.2     3     4     3     1     1     1     3
+## 6 female    either             17.3     6     5     5     3     7     5     6
+## # … with 95 more variables: X008 &lt;dbl&gt;, X009 &lt;dbl&gt;, X010 &lt;dbl&gt;, X011 &lt;dbl&gt;,
+## #   X012 &lt;dbl&gt;, X013 &lt;dbl&gt;, X014 &lt;dbl&gt;, X016 &lt;dbl&gt;, X017 &lt;dbl&gt;, X018 &lt;dbl&gt;,
+## #   X019 &lt;dbl&gt;, X020 &lt;dbl&gt;, X021 &lt;dbl&gt;, X022 &lt;dbl&gt;, X024 &lt;dbl&gt;, X025 &lt;dbl&gt;,
+## #   X026 &lt;dbl&gt;, X027 &lt;dbl&gt;, X029 &lt;dbl&gt;, X030 &lt;dbl&gt;, X031 &lt;dbl&gt;, X032 &lt;dbl&gt;,
+## #   X033 &lt;dbl&gt;, X034 &lt;dbl&gt;, X036 &lt;dbl&gt;, X037 &lt;dbl&gt;, X038 &lt;dbl&gt;, X039 &lt;dbl&gt;,
+## #   X041 &lt;dbl&gt;, X042 &lt;dbl&gt;, X043 &lt;dbl&gt;, X044 &lt;dbl&gt;, X045 &lt;dbl&gt;, X061 &lt;dbl&gt;,
+## #   X062 &lt;dbl&gt;, X063 &lt;dbl&gt;, X064 &lt;dbl&gt;, X066 &lt;dbl&gt;, X067 &lt;dbl&gt;, X068 &lt;dbl&gt;,
+## #   X069 &lt;dbl&gt;, X070 &lt;dbl&gt;, X081 &lt;dbl&gt;, X082 &lt;dbl&gt;, X083 &lt;dbl&gt;, X086 &lt;dbl&gt;,
+## #   X087 &lt;dbl&gt;, X090 &lt;dbl&gt;, X091 &lt;dbl&gt;, X092 &lt;dbl&gt;, X094 &lt;dbl&gt;, X096 &lt;dbl&gt;,
+## #   X097 &lt;dbl&gt;, X099 &lt;dbl&gt;, X100 &lt;dbl&gt;, X101 &lt;dbl&gt;, X102 &lt;dbl&gt;, X103 &lt;dbl&gt;,
+## #   X104 &lt;dbl&gt;, X105 &lt;dbl&gt;, X107 &lt;dbl&gt;, X108 &lt;dbl&gt;, X112 &lt;dbl&gt;, X113 &lt;dbl&gt;,
+## #   X114 &lt;dbl&gt;, X115 &lt;dbl&gt;, X117 &lt;dbl&gt;, X118 &lt;dbl&gt;, X119 &lt;dbl&gt;, X120 &lt;dbl&gt;,
+## #   X121 &lt;dbl&gt;, X122 &lt;dbl&gt;, X123 &lt;dbl&gt;, X124 &lt;dbl&gt;, X125 &lt;dbl&gt;, X126 &lt;dbl&gt;,
+## #   X127 &lt;dbl&gt;, X128 &lt;dbl&gt;, X129 &lt;dbl&gt;, X130 &lt;dbl&gt;, X131 &lt;dbl&gt;, X132 &lt;dbl&gt;,
+## #   X134 &lt;dbl&gt;, X135 &lt;dbl&gt;, X136 &lt;dbl&gt;, X137 &lt;dbl&gt;, X138 &lt;dbl&gt;, X139 &lt;dbl&gt;,
+## #   X140 &lt;dbl&gt;, X141 &lt;dbl&gt;, X142 &lt;dbl&gt;, X143 &lt;dbl&gt;, X144 &lt;dbl&gt;, X172 &lt;dbl&gt;,
+## #   X173 &lt;dbl&gt;</code></pre>
+<p>To calculate the ICC for ratings, first we need to get the data into a format where each column represents a rater and each row represents a stimulus. Select just the columns with ratings, then transpose (<code>t()</code>) the data.</p>
+<pre class="r"><code>london %&gt;%
+  select(X001:X173) %&gt;%
+  t() %&gt;%
+  irr::icc()</code></pre>
+<pre><code>##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 2513 
+##      ICC(1) = 0.24
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &gt; 0 
+## F(101,256224) = 793 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.196 &lt; ICC &lt; 0.298</code></pre>
+<p>But what if you want to do this for several subsets of the raters or stimuli? One solution is to run the code above several times, once for each subset, adding code to select and filter.</p>
+<pre class="r"><code>london %&gt;%
+  filter(rater_sex == &quot;male&quot;) %&gt;%
+  select(X001:X173) %&gt;%
+  t() %&gt;%
+  irr::icc()</code></pre>
+<pre><code>##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 955 
+##      ICC(1) = 0.225
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &gt; 0 
+## F(101,97308) = 279 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.183 &lt; ICC &lt; 0.281</code></pre>
+<pre class="r"><code>london %&gt;%
+  filter(rater_sex == &quot;female&quot;) %&gt;%
+  select(X001:X173) %&gt;%
+  t() %&gt;%
+  irr::icc()</code></pre>
+<pre><code>##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 1552 
+##      ICC(1) = 0.253
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &gt; 0 
+## F(101,158202) = 526 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.207 &lt; ICC &lt; 0.313</code></pre>
+<p>But what if you want to calculate ICCs for lots of subdivisions? It’s tedious and error-prone to do each one by hand, but you can group your data into the subdivisions, nest the ratings, and map them onto a function.</p>
+<p>First, we have to write a function that takes the data and returns a table of the stats you’re interested in. The <code>irr::icc()</code> function returns a list, which won’t play well with nesting later, so we <code>unlist()</code> it, transpose it so it’s a row of values, not a column, turn it back into a tibble (transposing turns it into a matrix), and select just the columns you want.</p>
+<pre class="r"><code>my_icc &lt;- function(data) {
+  data %&gt;%
+    select(X001:X173) %&gt;% # select just the rating columns
+    t() %&gt;%               # transpose so columns are raters and rows are stimuli
+    irr::icc() %&gt;%        # calculate the ICC
+    unlist() %&gt;%          # turn the output list into a vector
+    t() %&gt;%               # transpose this vector
+    as_tibble() %&gt;%       # turn the vector into a table 
+    select(               # select just the columns you want
+      stimuli = subjects, # rename subjects to stimuli     
+      raters, 
+      icc = value,        # rename value to icc
+      lbound, 
+      ubound
+    ) %&gt;%
+    # fix column modes (unlisting turned them all into characters)
+    mutate_at(vars(stimuli, raters), as.integer) %&gt;% 
+    mutate_at(vars(icc:ubound), as.numeric)
+}</code></pre>
+<p>Test the function on the whole dataset to check it gives you the right data.</p>
+<pre class="r"><code>my_icc(london)</code></pre>
+<pre><code>## # A tibble: 1 x 5
+##   stimuli raters   icc lbound ubound
+##     &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1     102   2513 0.240  0.196  0.298</code></pre>
+<p>Then we can group our full dataframe. Here I’ve created a new column of age group and filtered out age/sex groups with fewer than 10 raters. After you group your data, use the <code>nest()</code> function to turn all the rest of the columns into a separate table for each group (stored in the column <code>data</code>). Then you can map these tables onto your <code>my_icc</code> function. Finally, unnest this new <code>icc</code> column to re-expand your table.</p>
+<pre class="r"><code>london_icc_grouped &lt;- london %&gt;%
+  mutate(age_group = round(rater_age / 10)*10) %&gt;% # create age group by decade
+  group_by(rater_sex, age_group) %&gt;%               # group by rater age and sex
+  filter(n() &gt;= 10) %&gt;%                            # remove groups smaller than 10
+  nest() %&gt;%                                       # nest the rest of the columns
+  mutate(icc = map(data, my_icc)) %&gt;%              # calculate ICC for each group
+  unnest(icc) %&gt;%                                  # expand the tables returned to icc
+  select(-data)                                    # get rid of the data column
+  
+london_icc_grouped</code></pre>
+<pre><code>## # A tibble: 10 x 7
+## # Groups:   rater_sex, age_group [10]
+##    rater_sex age_group stimuli raters   icc lbound ubound
+##    &lt;chr&gt;         &lt;dbl&gt;   &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 female           20     102   1035 0.253  0.207  0.313
+##  2 female           30     102    317 0.257  0.211  0.319
+##  3 female           40     102    123 0.264  0.216  0.327
+##  4 female           50     102     54 0.255  0.206  0.319
+##  5 female           60     102     20 0.271  0.215  0.342
+##  6 male             20     102    478 0.211  0.171  0.265
+##  7 male             30     102    253 0.252  0.206  0.312
+##  8 male             40     102    119 0.217  0.175  0.274
+##  9 male             50     102     74 0.267  0.218  0.332
+## 10 male             60     102     27 0.245  0.194  0.311</code></pre>

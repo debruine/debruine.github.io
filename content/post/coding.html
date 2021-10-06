@@ -1,0 +1,234 @@
+---
+title: "Coding Schemes"
+author: ~
+date: "2017-06-23"
+slug: coding-schemes
+categories: ["rstats"]
+tags: ["r", "coding", "effect", "treatment", "lmer", "mixed effects", "simulation"]
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(tidyverse)
+library(lmerTest)</code></pre>
+<p>How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite <a href="http://talklab.psy.gla.ac.uk/tvw/catpred/">tutorial on coding schemes</a> explains things in detail. I’m just adding some concrete examples below.</p>
+<p>First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let’s pretend we used something like a slider). To simulate random effects, both raters and faces have random intercepts with SDs of 1.</p>
+<pre class="r"><code>set.seed(555)  # for reproducibility; delete when running simulations
+
+n_raters &lt;- 100
+n_faces &lt;- 100
+
+female_mean &lt;- 6
+male_mean &lt;- 5
+
+raters &lt;- tibble(
+  rater_id = 1:n_raters,
+  rater_i = rnorm(n_raters)
+)
+
+faces &lt;- tibble(
+  face_id = 1:n_faces,
+  face_i = rnorm(n_faces),
+  face_sex = rep(c(&quot;female&quot;, &quot;male&quot;), each = n_faces/2)
+)
+
+df &lt;- expand.grid(
+  face_id = faces$face_id,
+  rater_id = raters$rater_id
+) %&gt;%
+  left_join(faces, by = &quot;face_id&quot;) %&gt;%
+  left_join(raters, by = &quot;rater_id&quot;) %&gt;%
+  mutate(
+    face_sex_i = ifelse(face_sex==&quot;male&quot;, male_mean, female_mean),
+    error = rnorm(nrow(.)),
+    rating = face_i + rater_i + face_sex_i + error
+  )</code></pre>
+<p>Calculate the means and SDs of the female and male faces.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">face_sex</th>
+<th align="right">mean</th>
+<th align="right">SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">female</td>
+<td align="right">5.940</td>
+<td align="right">1.767</td>
+</tr>
+<tr class="even">
+<td align="left">male</td>
+<td align="right">5.114</td>
+<td align="right">1.649</td>
+</tr>
+</tbody>
+</table>
+<p>Always graph your data to confirm you simulated it correctly.</p>
+<pre class="r"><code>df %&gt;% 
+  ggplot(aes(face_sex, rating)) + 
+  geom_violin() +
+  geom_boxplot(width=0.2)</code></pre>
+<p><img src="/post/coding_files/figure-html/coding-orig-data-1.png" width="672" /></p>
+<p>Recode face sex using treatment, sum, or effect coding.</p>
+<pre class="r"><code>df2 &lt;- df %&gt;%
+  mutate(
+    face_sex.tr = recode(face_sex, &quot;female&quot; = 1, &quot;male&quot; = 0),
+    face_sex.sum = recode(face_sex, &quot;female&quot; = -1, &quot;male&quot; = 1),
+    face_sex.e = recode(face_sex, &quot;female&quot; = -0.5, &quot;male&quot; = 0.5)
+  )</code></pre>
+<p>Now we analyse the data using each of the 4 styles of coding. I’m just going to show the table of fixed effects.</p>
+<div id="categorical-coding" class="section level2">
+<h2>Categorical coding</h2>
+<pre class="r"><code>m1 &lt;- lmerTest::lmer(rating ~ face_sex + 
+                       (1 | face_id) + 
+                       (1 + face_sex | rater_id), 
+                     data = df2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Estimate</th>
+<th align="right">Std. Error</th>
+<th align="right">df</th>
+<th align="right">t value</th>
+<th align="right">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">5.940</td>
+<td align="right">0.174</td>
+<td align="right">173.360</td>
+<td align="right">34.080</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">face_sexmale</td>
+<td align="right">-0.826</td>
+<td align="right">0.203</td>
+<td align="right">98.586</td>
+<td align="right">-4.069</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the intercept coefficient is equal to the female mean (5.94) and the effect of face sex is how much less the male mean is (5.114 - 5.94 = -0.826).</p>
+</div>
+<div id="treatment-coding" class="section level2">
+<h2>Treatment coding</h2>
+<pre class="r"><code>m.tr &lt;- lmerTest::lmer(rating ~ face_sex.tr + 
+               (1 | face_id) + 
+               (1 + face_sex.tr | rater_id), 
+             data = df2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Estimate</th>
+<th align="right">Std. Error</th>
+<th align="right">df</th>
+<th align="right">t value</th>
+<th align="right">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">5.114</td>
+<td align="right">0.172</td>
+<td align="right">169.515</td>
+<td align="right">29.720</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">face_sex.tr</td>
+<td align="right">0.826</td>
+<td align="right">0.203</td>
+<td align="right">98.611</td>
+<td align="right">4.069</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>Treatment coding is the same as categorical coding, but gives you more control over what the reference category is. Here, the reference category is <code>male</code> and the “treatment” category is <code>female</code>, so the intercept coefficient is equal to the male mean (5.114) and the effect of face sex is how much more the female mean is (5.94 - 5.114 = 0.826).</p>
+</div>
+<div id="sum-coding" class="section level2">
+<h2>Sum coding</h2>
+<pre class="r"><code>m.sum &lt;- lmerTest::lmer(rating ~ face_sex.sum + 
+                (1 | face_id) + 
+                (1 + face_sex.sum | rater_id), 
+              data = df2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Estimate</th>
+<th align="right">Std. Error</th>
+<th align="right">df</th>
+<th align="right">t value</th>
+<th align="right">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">5.527</td>
+<td align="right">0.140</td>
+<td align="right">194.675</td>
+<td align="right">39.387</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">face_sex.sum</td>
+<td align="right">-0.413</td>
+<td align="right">0.102</td>
+<td align="right">98.601</td>
+<td align="right">-4.069</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>With sum coding, the intercept coefficient is equal to the overall mean ignoring face sex (i.e., (5.94 + 5.114)/2 = 5.527) and the effect of face sex is how much above and below that each of the two face sexes differ from the mean (i.e., (5.94 - 5.114)/2 = 0.413).</p>
+</div>
+<div id="effect-coding" class="section level2">
+<h2>Effect coding</h2>
+<pre class="r"><code>m.e &lt;- lmerTest::lmer(rating ~ face_sex.e + 
+              (1 | face_id) + 
+              (1 + face_sex.e | rater_id), 
+            data = df2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Estimate</th>
+<th align="right">Std. Error</th>
+<th align="right">df</th>
+<th align="right">t value</th>
+<th align="right">Pr(&gt;|t|)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">5.527</td>
+<td align="right">0.140</td>
+<td align="right">194.683</td>
+<td align="right">39.387</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">face_sex.e</td>
+<td align="right">-0.826</td>
+<td align="right">0.203</td>
+<td align="right">98.604</td>
+<td align="right">-4.069</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>With effect coding, the intercept coefficient is the same as sum coding and the effect of face sex is how much the two face sexes differ from each other (i.e., 5.94 - 5.114 = 0.826). Note that this coefficient is double that from the sum coding.</p>
+</div>

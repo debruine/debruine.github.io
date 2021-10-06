@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>power | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/power/</link>
+      <atom:link href="https://debruine.github.io/tag/power/index.xml" rel="self" type="application/rss+xml" />
+    <description>power</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 03 Sep 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>power</title>
+      <link>https://debruine.github.io/tag/power/</link>
+    </image>
+    
+    <item>
+      <title>Mann-Whitney False Positives</title>
+      <link>https://debruine.github.io/post/mann-whitney/</link>
+      <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/mann-whitney/</guid>
+      <description>
+
+
+&lt;p&gt;One of my favourite colleagues, &lt;a href=&#34;https://twitter.com/McAleerP&#34;&gt;Phil McAleer&lt;/a&gt;, asked about unequal sample sizes for Mann-Whitney tests on our group chat today. I had no idea, so, as always, I thought “This is a job for simulations!”&lt;/p&gt;
+&lt;p&gt;I started by loading tidyverse, since I know I’ll need to wrangle data and plot things. I’m starting to get more comfortable with base R for package development, and it can make things faster, but tidyverse is my favourite for a quick analysis or a pipeline where understandability is more important than speed.&lt;/p&gt;
+&lt;p&gt;And I set my favourite seed so my simulations will give me a reproducible answer.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+set.seed(8675309)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then I wrote a wee function to simulate data with the parameters I’m interested in varying, run a Mann-Whitney test, and return the p-value (all I need to look at power and false positives).&lt;/p&gt;
+&lt;p&gt;First, I just wanted to look at false positives for different sample size, so I set &lt;code&gt;n1&lt;/code&gt; and &lt;code&gt;n2&lt;/code&gt; as arguments and set &lt;code&gt;alternative&lt;/code&gt; with a default of “two.sided”. The function &lt;code&gt;wilcox.test&lt;/code&gt; runs a Mann-Whitney test for independent samples.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mw &amp;lt;- function(n1, n2, alternative = &amp;quot;two.sided&amp;quot;) {
+  x1 &amp;lt;- rnorm(n1)
+  x2 &amp;lt;- rnorm(n2)
+  w &amp;lt;- wilcox.test(x1, x2, alternative = alternative)
+  w$p.value
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now I need to set up a table with all of the values I want to run simulations for. I set &lt;code&gt;n1&lt;/code&gt; and &lt;code&gt;n2&lt;/code&gt; to the numbers 10 to 100 in steps of ten. This was crossed with the number of replications I wanted to run (1000). I then removed the values where &lt;code&gt;n2&lt;/code&gt; &amp;gt; &lt;code&gt;n1&lt;/code&gt;, since they’re redundant with the opposite version (e.g., &lt;code&gt;n1 = 10, n2 = 20&lt;/code&gt; is the same as &lt;code&gt;n1 = 20, n2 = 10&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;params &amp;lt;- expand.grid(
+  n1 = seq(10, 100, 10), 
+  n2 = seq(10, 100, 10),
+  reps = 1:1000
+) %&amp;gt;%
+  filter(n1 &amp;lt;= n2)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;n1&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;n2&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;reps&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;…&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;…&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;…&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;80&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;100&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;90&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;100&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;100&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;100&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;I then used the &lt;code&gt;pmap_dbl&lt;/code&gt; function from &lt;code&gt;purrr&lt;/code&gt; to map the values from &lt;code&gt;n1&lt;/code&gt; and &lt;code&gt;n2&lt;/code&gt; onto &lt;code&gt;mw&lt;/code&gt;, then grouped the results by &lt;code&gt;n1&lt;/code&gt; and &lt;code&gt;n2&lt;/code&gt; and calculated &lt;code&gt;false_pos&lt;/code&gt; as the proportion of &lt;code&gt;p&lt;/code&gt; less than &lt;code&gt;alpha&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;alpha &amp;lt;- 0.05
+
+mw1 &amp;lt;- params %&amp;gt;%
+  mutate(p = pmap_dbl(list(n1, n2), mw)) %&amp;gt;%
+  group_by(n1, n2) %&amp;gt;%
+  summarise(false_pos = mean(p &amp;lt; alpha), .groups = &amp;quot;drop&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then I plotted the false positive rate for each combination against the difference between &lt;code&gt;n1&lt;/code&gt; and &lt;code&gt;n2&lt;/code&gt;. You can see that the false positive rate is approximately nominal, or equal to the specified &lt;code&gt;alpha&lt;/code&gt; of 0.05.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mw1, aes(n2 - n1, false_pos)) +
+  geom_point(aes(color = as.factor(n1))) +
+  geom_smooth(formula = y ~ x, method = lm, color = &amp;quot;black&amp;quot;) +
+  labs(x = &amp;quot;N2 - N1&amp;quot;, 
+         y = &amp;quot;False Positive Rate&amp;quot;,
+         color = &amp;quot;N1&amp;quot;) +
+  ylim(0, .1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/mann-whitney_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;But what if data aren’t drawn from a normal distribution? We can change the &lt;code&gt;mw()&lt;/code&gt; function to simulate data from a different distribtion, such as uniform, and run the whole process again.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mw &amp;lt;- function(n1, n2, alternative = &amp;quot;two.sided&amp;quot;) {
+  x1 &amp;lt;- runif(n1)
+  x2 &amp;lt;- runif(n2)
+  w &amp;lt;- wilcox.test(x1, x2, alternative = alternative)
+  w$p.value
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The rest of our code is identical to above.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mw2 &amp;lt;- params %&amp;gt;%
+  mutate(p = pmap_dbl(list(n1, n2), mw)) %&amp;gt;%
+  group_by(n1, n2) %&amp;gt;%
+  summarise(false_pos = mean(p &amp;lt; alpha), .groups = &amp;quot;drop&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This doesn’t seem to make much difference.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/mann-whitney_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What if the variance between the two samples is different? First, let’s adjust the &lt;code&gt;mw()&lt;/code&gt; function to vary the SD of the two samples. We’ll give &lt;code&gt;sd1&lt;/code&gt; a default value of 1 and &lt;code&gt;sd2&lt;/code&gt; will default to the same as &lt;code&gt;sd1&lt;/code&gt;. We might as well add the option to change the means, so default &lt;code&gt;m1&lt;/code&gt; to 0 and &lt;code&gt;m2&lt;/code&gt; to the same as &lt;code&gt;m1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mw &amp;lt;- function(n1, m1 = 0, sd1 = 1, 
+               n2 = n1, m2 = m1, sd2 = sd1,
+               alternative = &amp;quot;two.sided&amp;quot;) {
+  x1 &amp;lt;- rnorm(n1, m1, sd1)
+  x2 &amp;lt;- rnorm(n2, m2, sd2)
+  w &amp;lt;- wilcox.test(x1, x2, alternative = alternative)
+  w$p.value
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we need to set up a new list of parameters to change. The Ns didn’t make much difference last time, so let’s vary them in steps of 20 this time. We’ll vary &lt;code&gt;sd1&lt;/code&gt; and &lt;code&gt;sd2&lt;/code&gt; from 0.5 to 2 in steps of 0.5, and also only keep combinations where &lt;code&gt;sd1&lt;/code&gt; is less than or equal to &lt;code&gt;sd2&lt;/code&gt; to avoid redundancy.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;params &amp;lt;- expand.grid(
+  reps = 1:1000,
+  n1 = seq(10, 100, 20), 
+  n2 = seq(10, 100, 20),
+  sd1 = seq(0.5, 2, 0.5),
+  sd2 = seq(0.5, 2, 0.5)
+) %&amp;gt;%
+  filter(n1 &amp;lt;= n2, sd1 &amp;lt;= sd2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mw3 &amp;lt;- params %&amp;gt;%
+  mutate(p = pmap_dbl(list(n1, 0, sd1, n2, 0, sd2), mw)) %&amp;gt;%
+  group_by(n1, n2, sd1, sd2) %&amp;gt;%
+  summarise(false_pos = mean(p &amp;lt; alpha), .groups = &amp;quot;drop&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;It looks like differences in SD make a big difference in the false positive rate, and the effect is bigger as Ns and SDs get more unequal.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(mw3, aes(sd2 - sd1, false_pos, color = as.factor(n2-n1))) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = lm) +
+  labs(x = &amp;quot;SD2 - SD1&amp;quot;, 
+         y = &amp;quot;False Positive Rate&amp;quot;,
+         color = &amp;quot;N2-N1&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/mann-whitney_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;I’ll leave it to the enterprising reader to simulate power for different effect sizes.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How many simulations in my power analysis?</title>
+      <link>https://debruine.github.io/post/how-many-sims/</link>
+      <pubDate>Mon, 17 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/how-many-sims/</guid>
+      <description>
+
+
+&lt;p&gt;Today I was trying to figure out how to advise on the number of simulations to run when calculating power by simulation.&lt;/p&gt;
+&lt;p&gt;I tackled this question by running a simulation (of course).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+library(dplyr) # I love pipes
+set.seed(8675309)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I wanted to figure out how close to the true power was the calculated power from a simulation where the number of replications ranges from 100 to 10K (in steps of 100) and power ranges from 0.5 to 1 in steps of .05 (the result is symmetric around 50%, so the figures below for 80% power also apply to 20% power)..&lt;/p&gt;
+&lt;p&gt;First, I made all possible combinations of replications and power.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- expand.grid(
+  reps = seq(100, 1e4, 100),
+  power = seq(0.5, 1, .05)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, for each combination, I calculated the proportion of significant analyses in 10K simulations. I assumed this would have a binomial distribution where size is the number of replications in each simulation and probability is the true power. I then calculated the absolute difference from the true value of power and reported the mean (I find it more intuitive than SD or variance).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x$diff &amp;lt;- mapply(function(size, prob) {
+  sig &amp;lt;- rbinom(1e4, size, prob) / size
+  diff &amp;lt;- abs(sig - prob)
+  mean(diff)
+}, size = x$reps, prob = x$power)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I plotted the results to see if they make sense. As the number of replications per simulation increases, the mean difference from the true power decreases. Accuracy is higher for larger values of power.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/how-many-sims_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;I also calculated the minimum number of replications to get a result that is, on average, less than 1% off from a power of 80%&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter(x, power == .8, diff &amp;lt; .01) %&amp;gt;% 
+  pull(reps) %&amp;gt;%  min()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1100&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I also calculated the .95 quantile to see how many replications you need to run to get within 1% of the true value.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x$q95 &amp;lt;- mapply(function(size, prob) {
+  sig &amp;lt;- rbinom(1e4, size, prob) / size
+  diff &amp;lt;- abs(sig - prob)
+  quantile(diff, .95)
+}, size = x$reps, prob = x$power)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/how-many-sims_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Turns out you need a lot more.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter(x, power == .8, q95 &amp;lt; .01) %&amp;gt;% 
+  pull(reps) %&amp;gt;%  min()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 6300&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

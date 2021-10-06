@@ -1,0 +1,140 @@
+---
+title: "sample()"
+author: ~
+date: "2017-07-26"
+slug: sample
+categories: ["rstats"]
+tags: ["R", "simulation"]
+---
+
+
+
+<p>First, let’s make a data frame with two variables, <code>a</code> and <code>b</code> that are both sampled from a normal distribution with a mean of 0 and SD of 1. The variablle <code>n</code> will be how many samples we’ll take (100). Then we can run a t-test to see if they are different.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
+## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ───────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>n = 100
+
+data &lt;- data.frame(
+  a = rnorm(n, 0, 1),
+  b = rnorm(n, 0, 1)
+)
+
+t &lt;- t.test(data$a,data$b)
+
+t$p.value</code></pre>
+<pre><code>## [1] 0.1527518</code></pre>
+<p>Now let’s repeat that procedure 1000 times. The easiest way to do that is to make a function that returns the information you want.</p>
+<pre class="r"><code>tPower &lt;- function() {
+  n = 100
+
+  data &lt;- data.frame(
+    a = rnorm(n, 0, 1),
+    b = rnorm(n, 0, 1)
+  )
+
+  t &lt;- t.test(data$a,data$b)
+  
+  return(t$p.value)
+}
+
+tPower()</code></pre>
+<pre><code>## [1] 0.7583175</code></pre>
+<pre class="r"><code>mySample &lt;- data.frame(
+  p = replicate(10000, tPower())
+) 
+
+mySample %&gt;%
+  ggplot(aes(p)) +
+  geom_histogram(bins = 20, boundary = 0)</code></pre>
+<p><img src="/posts/power_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>mean(mySample$p &lt; .05)</code></pre>
+<pre><code>## [1] 0.0528</code></pre>
+<p>What if you induced a small effect of 0.2 SD?</p>
+<pre class="r"><code>tPower2 &lt;- function() {
+  n = 100
+
+  data &lt;- data.frame(
+    a = rnorm(n, 0, 1),
+    b = rnorm(n, 0.2, 1)
+  )
+
+  t &lt;- t.test(data$a,data$b)
+  
+  return(t$p.value)
+}
+
+tPower2()</code></pre>
+<pre><code>## [1] 0.9142489</code></pre>
+<pre class="r"><code>mySample2 &lt;- data.frame(
+  p = replicate(10000, tPower2())
+) 
+
+mySample2 %&gt;%
+  ggplot(aes(p)) +
+  geom_histogram(bins = 20, boundary = 0)</code></pre>
+<p><img src="/posts/power_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>mean(mySample2$p &lt; .05)</code></pre>
+<pre><code>## [1] 0.2929</code></pre>
+<p>Hmm, you only get a p-value less than .05 30% of the time. That means that your study would only have 30% power to detect an effect this big with 100 subjects. Let’s make a new function to give you the p-value of a study with any number of subjects (you put the N inside the parentheses of the function).</p>
+<pre class="r"><code>tPowerN &lt;- function(n) {
+
+  data &lt;- data.frame(
+    a = rnorm(n, 0, 1),
+    b = rnorm(n, 0.2, 1)
+  )
+
+  t &lt;- t.test(data$a,data$b)
+  
+  return(t$p.value)
+}
+
+tPowerN(200)</code></pre>
+<pre><code>## [1] 0.2969539</code></pre>
+<pre class="r"><code>mySampleN &lt;- data.frame(
+  p200 = replicate(10000, tPowerN(200))
+) 
+
+mySampleN %&gt;%
+  ggplot(aes(p200)) +
+  geom_histogram(bins = 20, boundary = 0)</code></pre>
+<p><img src="/posts/power_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>mean(mySampleN$p200 &lt; .05)</code></pre>
+<pre><code>## [1] 0.5137</code></pre>
+<pre class="r"><code>nlist &lt;- seq(200, 1000, by = 100)
+
+remove(mySampleN)
+for (n in nlist) {
+  temp &lt;- data.frame(
+    n = n,
+    p = replicate(1000, tPowerN(n))
+  ) 
+  
+  if (exists(&quot;mySampleN&quot;)) {
+    mySampleN &lt;- rbind(mySampleN, temp)
+  } else {
+    mySampleN &lt;- temp
+  }
+  remove(temp)
+  print(n)
+}</code></pre>
+<pre><code>## [1] 200
+## [1] 300
+## [1] 400
+## [1] 500
+## [1] 600
+## [1] 700
+## [1] 800
+## [1] 900
+## [1] 1000</code></pre>
+<pre class="r"><code>mySampleN %&gt;%
+  ggplot(aes(p)) +
+  geom_histogram(bins = 20, boundary = 0) +
+  facet_wrap(~n, nrow = 3)</code></pre>
+<p><img src="/posts/power_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>

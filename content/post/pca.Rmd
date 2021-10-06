@@ -1,0 +1,220 @@
+---
+title: "PCA"
+author: ~
+date: "2017-06-26"
+slug: pca
+categories: ["rstats"]
+tags: ["r", "pca", "princomp", "psych", "factanal"]
+---
+
+[Download the Rmd notebook for this example](pca.Rmd)
+
+Putting together this page made me realise I still don't know anything about PCA and factor analysis.
+
+I use the <code>psych</code> package for SPSS-style PCA.
+
+```{r load-libraries, message = FALSE}
+library(tidyverse)
+library(psych)
+library(viridis)
+```
+
+First, I'll simulate some data with an underlying structure of three factors.
+
+```{r pca-sim-data}
+
+set.seed(444)  # for reproducibility; delete when running simulations
+
+a <- rnorm(100, 0, 1)
+b <- rnorm(100, 0, 1)
+c <- rnorm(100, 0, 1)
+
+df <- data.frame(
+  id = seq(1,100),
+  a1 = a + rnorm(100, 0, 1),
+  a2 = a + rnorm(100, 0, .8),
+  a3 = a + rnorm(100, 0, .6),
+  a4 = -a + rnorm(100, 0, .4),
+  b1 = b + rnorm(100, 0, 1),
+  b2 = b + rnorm(100, 0, .8),
+  b3 = b + rnorm(100, 0, .6),
+  b4 = -b + rnorm(100, 0, .4),
+  c1 = c + rnorm(100, 0, 1),
+  c2 = c + rnorm(100, 0, .8),
+  c3 = c + rnorm(100, 0, .6),
+  c4 = -c + rnorm(100, 0, .4)
+)
+```
+
+Select just the columns you want for your PCA. You can visualise their correlations with <code>cor()</code> and <code>ggplot()</code>.
+
+```{r pca-cor-vars}
+traits <- df %>% select(-id) 
+
+traits %>%
+  cor() %>%
+  as.data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather("var2", "value", a1:c4) %>%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = "top") +
+  xlab("") + ylab("") +
+  scale_fill_viridis(limits=c(-1, 1))
+
+```
+
+Determine the number of factors to extract. Here I use the SPSS-style default criterion of  Eigenvalues > 1
+```{r pca-nfactors}
+ev <- eigen(cor(traits));
+nfactors <- length(ev$values[ev$values > 1]);
+nfactors
+```
+
+
+## Principal components analysis (SPSS-style)
+
+### principal(rotation = "none")
+```{r}
+traits.principal <- principal(traits, nfactors=nfactors, rotate="none", scores=TRUE)
+traits.principal
+scores.principal <- traits.principal$scores
+```
+
+```{r pca-principal-none, fig.width=7, fig.height=3}
+cor(scores.principal, traits) %>%
+  as.data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather("var2", "value", a1:c4) %>%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = "top") +
+  xlab("") + ylab("") +
+  scale_fill_viridis(limits=c(-1, 1))
+```
+
+### principal(rotation = "varimax")
+```{r}
+traits.varimax <- principal(traits, nfactors=nfactors, rotate="varimax", scores=TRUE)
+traits.varimax
+scores.varimax <- traits.varimax$scores
+```
+
+```{r pca-principal-varimax, fig.width=7, fig.height=3}
+cor(scores.varimax, traits) %>%
+  as.data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather("var2", "value", a1:c4) %>%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = "top") +
+  xlab("") + ylab("") +
+  scale_fill_viridis(limits=c(-1, 1))
+```
+
+## Here are some other functions for PCA/Factor Analysis
+
+### princomp()
+```{r}
+traits.princomp <- princomp(traits)
+traits.princomp$loadings[,1:nfactors]
+scores.princomp <- traits.princomp$scores[,1:nfactors]
+```
+
+```{r pca-princomp, fig.width=7, fig.height=3}
+cor(scores.princomp, traits) %>%
+  as.data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather("var2", "value", a1:c4) %>%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = "top") +
+  xlab("") + ylab("") +
+  scale_fill_viridis(limits=c(-1, 1))
+```
+
+### factanal(rotation = "none")
+```{r}
+traits.fa <- factanal(traits, nfactors, rotation="none", scores="regression")
+print(traits.fa, digits=2, cutoff=0, sort=FALSE)
+scores.fa <- traits.fa$scores
+```
+
+```{r pca-factanal-none, fig.width=7, fig.height=3}
+cor(scores.fa, traits) %>%
+  as.data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather("var2", "value", a1:c4) %>%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = "top") +
+  xlab("") + ylab("") +
+  scale_fill_viridis(limits=c(-1, 1))
+```
+
+### factanal(rotation = "varimax")
+```{r}
+traits.fa.vm <- factanal(traits, nfactors, rotation="varimax", scores="regression")
+print(traits.fa.vm, digits=2, cutoff=0, sort=FALSE)
+scores.fa.vm <- traits.fa.vm$scores
+```
+
+```{r pca-factanal-varimax, fig.width=7, fig.height=3}
+cor(scores.fa.vm, traits) %>%
+  as.data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather("var2", "value", a1:c4) %>%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = "top") +
+  xlab("") + ylab("") +
+  scale_fill_viridis(limits=c(-1, 1))
+```
+
+## How do they compare?
+
+Here, I'll plot the absolute value of all the correlations (since the sign on factors/PCs is arbitrary).
+
+The functions principal(rotation = "varimax") and factanal(rotation = "varimax") are nearly (but not perfectly) identical.
+```{r pca-compare-all, fig.width=7, fig.height=6}
+scores.fa <- traits.fa$scores
+colnames(scores.principal) <- c("principal() 1", "principal() 2", "principal() 3")
+colnames(scores.varimax) <- c("principal(vm) 1", "principal(vm) 2", "principal(vm) 3")
+colnames(scores.princomp) <- c("princomp() 1", "princomp() 2", "princomp() 3")
+colnames(scores.fa) <- c("factanal() 1", "factanal() 2", "factanal() 3")
+colnames(scores.fa.vm) <- c("factanal(vm) 1", "factanal(vm) 2", "factanal(vm) 3")
+
+cbind(
+  scores.princomp,
+  scores.principal,
+  scores.fa,
+  scores.varimax,
+  scores.fa.vm
+) %>% 
+  cor() %>%
+  as.data.frame() %>%
+  mutate(var1 = rownames(.)) %>%
+  gather("var2", "value", 1:15) %>%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %>%
+  mutate(value = abs(value)) %>%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = "top") +
+  xlab("") + ylab("") +
+  scale_fill_viridis(limits=c(0, 1)) +
+  geom_hline(yintercept = 3.5, color="white") +
+  geom_hline(yintercept = 6.5, color="white") +
+  geom_hline(yintercept = 9.5, color="white") +
+  geom_hline(yintercept = 12.5, color="white") +
+  geom_vline(xintercept = 3.5, color="white") +
+  geom_vline(xintercept = 6.5, color="white") +
+  geom_vline(xintercept = 9.5, color="white") +
+  geom_vline(xintercept = 12.5, color="white") +
+  theme(axis.text.x=element_text(angle=90,hjust=1))
+```

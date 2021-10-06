@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data import | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/data-import/</link>
+      <atom:link href="https://debruine.github.io/tag/data-import/index.xml" rel="self" type="application/rss+xml" />
+    <description>data import</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 22 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>data import</title>
+      <link>https://debruine.github.io/tag/data-import/</link>
+    </image>
+    
+    <item>
+      <title>Multi-Row Headers</title>
+      <link>https://debruine.github.io/post/multi-row-headers/</link>
+      <pubDate>Thu, 22 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/multi-row-headers/</guid>
+      <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;A student on our help forum recently asked for help making a wide-format dataset long. When I tried to load the data, I realised the first three rows were all header rows. Here’s the code I wrote to deal with it.&lt;/p&gt;
+&lt;p&gt;First, I’ll make a small CSV “file” below. In a typical case, you’d read the data in from a file.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;demo_csv &amp;lt;- &amp;quot;SUB1, SUB1, SUB1, SUB1, SUB2, SUB2, SUB2, SUB2
+COND1, COND1, COND2, COND2, COND1, COND1, COND2, COND2
+X, Y, X, Y, X, Y, X, Y
+10, 15, 6, 2, 42, 4, 32, 5
+4, 43, 7, 34, 56, 43, 2, 33
+77, 12, 14, 75, 36, 85, 3, 2&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you try to read in this data, you’ll get an error message about the duplicate column names.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- read_csv(demo_csv)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Duplicated column names deduplicated: &amp;#39;SUB1&amp;#39; =&amp;gt; &amp;#39;SUB1_1&amp;#39; [2], &amp;#39;SUB1&amp;#39;
+## =&amp;gt; &amp;#39;SUB1_2&amp;#39; [3], &amp;#39;SUB1&amp;#39; =&amp;gt; &amp;#39;SUB1_3&amp;#39; [4], &amp;#39;SUB2&amp;#39; =&amp;gt; &amp;#39;SUB2_1&amp;#39; [6], &amp;#39;SUB2&amp;#39; =&amp;gt;
+## &amp;#39;SUB2_2&amp;#39; [7], &amp;#39;SUB2&amp;#39; =&amp;gt; &amp;#39;SUB2_3&amp;#39; [8]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Instead, you should read in just the header rows by setting &lt;code&gt;n_max&lt;/code&gt; equal to the number of header rows and &lt;code&gt;col_names&lt;/code&gt; to &lt;code&gt;FALSE&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_head &amp;lt;- read_csv(demo_csv, n_max = 3, col_names = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You will get a table that looks like this:&lt;/p&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X1
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X2
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X3
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X4
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X5
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X6
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X7
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+X8
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;You can then transpose the table (rotate it) and make new header names by pasting together the names of the three headers.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;new_names &amp;lt;- data_head %&amp;gt;%
+  t() %&amp;gt;% # transposes the data and turns it into a matrix
+  as_tibble() %&amp;gt;% # turn it back to a tibble
+  mutate(name = paste(V1, V2, V3, sep = &amp;quot;_&amp;quot;)) %&amp;gt;%
+  pull(name)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
+## Using compatibility `.name_repair`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you can read in the data without the three header rows. Use &lt;code&gt;skip&lt;/code&gt; to skip the headers and set &lt;code&gt;col_names&lt;/code&gt; to the new names.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- read_csv(demo_csv, skip = 3, col_names = new_names)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you have an excel file that merges the duplicate headers across rows, it’s a little trickier, but still do-able.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/images/multirow-excel.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The first steps is the same: read in the first three rows.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data_head &amp;lt;- readxl::read_excel(&amp;quot;3headers_demo.xlsx&amp;quot;, n_max = 3, col_names = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## New names:
+## * `` -&amp;gt; ...1
+## * `` -&amp;gt; ...2
+## * `` -&amp;gt; ...3
+## * `` -&amp;gt; ...4
+## * `` -&amp;gt; ...5
+## * ...&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…1
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…2
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…3
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…4
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…5
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…6
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…7
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+…8
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+X
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Y
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The function below starts at the top and fills in any missing data with the value in the previous row. You’ll have to define this function in your script before you run the next part.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;fillHeaders &amp;lt;- function(header_table) {
+  for (row in 2:nrow(header_table)) {
+    this_row &amp;lt;- header_table[row, ]
+    last_row &amp;lt;- header_table[row-1, ]
+    new_row &amp;lt;- ifelse(is.na(this_row), last_row, this_row)
+    header_table[row, ] &amp;lt;- new_row
+  }
+  header_table
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Just run the &lt;code&gt;fillHeaders()&lt;/code&gt; function after you transpose as re-tibble the header data, then continue generating the pasted name the same as above.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;new_names &amp;lt;- data_head %&amp;gt;%
+  t() %&amp;gt;% # transposes the data and turns it into a matrix
+  as_tibble() %&amp;gt;% # turn it back to a tibble
+  fillHeaders() %&amp;gt;% # fill in missing headers 
+  mutate(name = paste(V1, V2, V3, sep = &amp;quot;_&amp;quot;)) %&amp;gt;%
+  pull(name)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If your data are set up with multiple headers, you’ll probably want to change them from wide to long format. Here’s a quick example how to use &lt;code&gt;gather&lt;/code&gt;, &lt;code&gt;separate&lt;/code&gt;, and &lt;code&gt;spread&lt;/code&gt; to do this with variable names like above.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- readxl::read_excel(&amp;quot;3headers_demo.xlsx&amp;quot;, skip = 3, col_names = new_names)
+
+data_long &amp;lt;- data %&amp;gt;%
+  # add row IDs if each row doesn&amp;#39;t already have uniquely identifying column(s)
+  mutate(trial = row_number()) %&amp;gt;% 
+  # gather creates a column of variable names and a column of values
+  gather(&amp;quot;var&amp;quot;, &amp;quot;val&amp;quot;, new_names) %&amp;gt;% 
+  # split the variable names into their three component parts
+  separate(var, c(&amp;quot;subID&amp;quot;, &amp;quot;condition&amp;quot;, &amp;quot;coord&amp;quot;), sep = &amp;quot;_&amp;quot;) %&amp;gt;%
+  # put X and Y in separate columns 
+  spread(coord, val)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Note: Using an external vector in selections is ambiguous.
+## ℹ Use `all_of(new_names)` instead of `new_names` to silence this message.
+## ℹ See &amp;lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&amp;gt;.
+## This message is displayed once per session.&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+trial
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+subID
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+condition
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+X
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Y
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.8316380
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.7881552
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3941482
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.2056488
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.9332829
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.1530898
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6189847
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.9400281
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.4147148
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.1366791
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.9805130
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.7493469
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.1048907
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6573472
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.9579583
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3430333
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.5577673
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0956297
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3045316
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3540656
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3621907
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.8460132
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0167339
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.1886913
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.4326746
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.8276863
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.2845026
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6236266
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0439374
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.5379287
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0712748
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3511542
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6545546
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6501679
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.9202481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.2525272
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.8117072
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3455603
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.7073851
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.4249118
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0679236
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6978207
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.3979061
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6922928
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.5282960
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.1093352
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+SUB2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+COND2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.6622162
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.5567239
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

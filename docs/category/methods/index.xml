@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>methods | Lisa DeBruine</title>
+    <link>https://debruine.github.io/category/methods/</link>
+      <atom:link href="https://debruine.github.io/category/methods/index.xml" rel="self" type="application/rss+xml" />
+    <description>methods</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 31 Jan 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>methods</title>
+      <link>https://debruine.github.io/category/methods/</link>
+    </image>
+    
+    <item>
+      <title>Composite Images</title>
+      <link>https://debruine.github.io/post/composite-images/</link>
+      <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/composite-images/</guid>
+      <description>
+
+
+&lt;p&gt;I recently responded to a &lt;a href=&#34;https://twitter.com/PsychoSchmitt/status/1221883383778811906?s=20&#34;&gt;tweet&lt;/a&gt; about a preprint about whether people can see Dark Triad traits (narcissism, Machiavellianism, and psychopathy) in facial appearance.&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;
+&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
+Can you tell a Dark Triad person from the face? Apparently so (data from USA and Turkey). &lt;a href=&#34;https://t.co/BxZUcJ9cTY&#34;&gt;https://t.co/BxZUcJ9cTY&lt;/a&gt; &lt;a href=&#34;https://t.co/xh1pcmyB5E&#34;&gt;pic.twitter.com/xh1pcmyB5E&lt;/a&gt;
+&lt;/p&gt;
+— David Schmitt (&lt;span class=&#34;citation&#34;&gt;@PsychoSchmitt&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/PsychoSchmitt/status/1221883383778811906?ref_src=twsrc%5Etfw&#34;&gt;January 27, 2020&lt;/a&gt;
+&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;p&gt;The &lt;a href=&#34;https://psyarxiv.com/c3ngz/&#34;&gt;preprint&lt;/a&gt; by Alper, Bayrak, and Yilmaz used faces from the &lt;a href=&#34;http://www.nickholtzman.com/faceaurus.htm&#34;&gt;Faceaurus database&lt;/a&gt; (Holtzman, 2011). “Holtzman (2011) standardized the assessment scores, computed average scores of self- and peer-reports, and ranked the face images based on the resulting scores. Then, prototypes for each of the personality dimensions were created by digitally combining 10 faces with the highest and 10 faces with the lowest scores on the personality trait in question (Holtzman, 2011).” This was done separately for male and female faces.&lt;/p&gt;
+&lt;p&gt;Since scores on the three dark triad traits are positively correlated, the three pairs of composite faces are not independent. Indeed, Holtzman states that 5 individuals were in all three low composites for the male faces, while the overlap was less extreme in other cases. With 105 observers, Holtzman found that the ability to detect the composite higher in a dark triad trait was greater than chance.&lt;/p&gt;
+&lt;p&gt;While I commend both Holtzman and Alper, Bayrak, and Yilmaz for their transparency, data sharing, and material sharing, &lt;strong&gt;I am arguing that this test has an effective N of 2, and that further replications using these images, such as those done by Alper, Bayrak, and Yilmaz, regardless of number of observers or preregistered status, lend no further weight of evidence to the assertion that dark triad traits are visible in physical appearance.&lt;/strong&gt;&lt;/p&gt;
+&lt;div id=&#34;womens-height&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Women’s height&lt;/h3&gt;
+&lt;p&gt;Let’s go back to my favourite example for demonstrating the problems with aggregating ratings before analysis, &lt;a href=&#34;https://debruine.github.io/tutorials/aggregate.html&#34;&gt;Armenian women’s height&lt;/a&gt;. The problem is the same here, but we’ve just averaged the stimuli before rating, rather than averaging the ratings of individual stimuli.&lt;/p&gt;
+&lt;p&gt;First, we’re going to simulate a sample of 20 women from a population with a mean height of 158.1 cm and an SD of 5.7. Half are born on odd days and half on even days.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(8675309)
+
+stim_n &amp;lt;- 10
+height_m &amp;lt;- 158.1
+height_sd &amp;lt;- 5.7
+
+odd &amp;lt;- rnorm(stim_n, height_m, height_sd)
+even &amp;lt;- rnorm(stim_n, height_m, height_sd)
+
+t.test(odd, even)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Welch Two Sample t-test
+## 
+## data:  odd and even
+## t = 1.7942, df = 17.409, p-value = 0.09016
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.7673069  9.5977215
+## sample estimates:
+## mean of x mean of y 
+##  161.1587  156.7435&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A t-test shows no significant difference, which is unsurprising. We simulated the data from the same distributions, so we know for sure there is no real difference here. Now we’re going to average the height of the women with odd and even birthdays.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;odd_mean &amp;lt;- mean(odd)
+even_mean &amp;lt;- mean(even)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So if we create a composite of women born on odd days, she would be 161.2 cm tall, and a composite of women born on even days would be 156.7 cm tall.&lt;/p&gt;
+&lt;p&gt;If we ask 100 observers to look at these two composites and judge which one looks taller, what do you imagine would happen? Let’s say that observers are pretty bad with height estimation, and their estimates for each composite have error with a standard deviation of 10 cm. They then judge whether, by their estimation, the odd-birthday composite looks taller than the even-birthday composite.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;obs_n &amp;lt;-100
+error_sd &amp;lt;- 10
+
+odd_estimate &amp;lt;- odd_mean + rnorm(obs_n, 0, error_sd)
+even_estimate &amp;lt;- even_mean + rnorm(obs_n, 0, error_sd)
+
+judgment &amp;lt;- odd_estimate &amp;gt; even_estimate
+
+bt &amp;lt;- binom.test(sum(judgment), obs_n, p = 0.5) %&amp;gt;% print()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Exact binomial test
+## 
+## data:  sum(judgment) and obs_n
+## number of successes = 65, number of trials = 100, p-value = 0.003518
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.5481506 0.7427062
+## sample estimates:
+## probability of success 
+##                   0.65&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A binomial test shows that they are significantly better than chance at this (p = 0.004). What’s going on?&lt;/p&gt;
+&lt;p&gt;We can be sure that by chance alone, our two composites will be at least slightly different on any measure, even if they are drawn from identical populations. The mean (unsigned) size of this difference is larger, the smaller the number of stimuli that go into each composite. The graph below shows simulations of the unsigned difference between composites for 1000 samples per number of stimuli per composite.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/composite_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- replicate(10000, mean(rnorm(10))-mean(rnorm(10)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With only 10 stimuli per composite, the mean unsigned effect size of the difference between composites is 0.36 (in units of SD of the original trait distribution). 65% of random pairs have a difference of greater than 0.2 SD. If our observers are accurate enough at perceiving this difference or we run a very large number of observers, we are virtually guarateed to find significant results every time, and we have a 50% chance that all of these results will be in the predicted direction.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;personality-traits-and-faces&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Personality Traits and Faces&lt;/h3&gt;
+&lt;p&gt;So what does this mean for studies of the link between personality traits and facial appearance? The analogy with birth date and height holds. As long as there are facial morphologies that are even slightly consistently associated with the perception of a trait, then composites will not be identical in that morphology, even if it is totally unassociated with the trait as measured by, e.g., personality scales or peer report.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The smaller the number of stimuli that go into each composite, the greater the chance that they will be visibly different in morphology related to the judgment of interest, just by chance alone.&lt;/li&gt;
+&lt;li&gt;The larger the number of observers or the better observers are at detecting small differences in this morphology, the more likley that “detection” will be significantly above chance.&lt;/li&gt;
+&lt;li&gt;Repeating this with a new set of observers does not increase the amount of evidence you have for the association between the face morphology and the measured trait. You’ve only measured it once in one population of faces.&lt;/li&gt;
+&lt;li&gt;If observers are your unit of analyses, you are making conclusions about whether the population of observers can detect the difference between your stimuli, you cannot generalise this to new stimulus sets.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;Alper, S., Bayrak, F., &amp;amp; Yilmaz, O. (2020, January 27). All the Dark Triad and Some of the Big Five Traits are Visible in the Face. &lt;a href=&#34;https://doi.org/10.31234/osf.io/c3ngz&#34; class=&#34;uri&#34;&gt;https://doi.org/10.31234/osf.io/c3ngz&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Holtzman, N. S. (2011). Facing a psychopath: Detecting the dark triad from emotionally-neutral faces, using prototypes from the Personality Faceaurus. Journal of Research in Personality, 45, 648-654. &lt;a href=&#34;https://doi.org/10.1016/j.jrp.2011.09.002&#34; class=&#34;uri&#34;&gt;https://doi.org/10.1016/j.jrp.2011.09.002&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

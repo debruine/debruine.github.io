@@ -1,0 +1,1418 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Lisa DeBruine" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="This is a tutorial in progress on how to calculate Cronbach’s alphas using the psych package in R.
+library(tidyverse) library(psych) disgust &lt;- read_csv(&quot;https://psyteachr.github.io/msc-data-skills/data/disgust.csv&quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://debruine.github.io/post/psych-alpha/" />
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.b87c2c9bf7b5f8f150d87aa73133e6bd.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://debruine.github.io/post/psych-alpha/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Lisa DeBruine" />
+  <meta property="og:url" content="https://debruine.github.io/post/psych-alpha/" />
+  <meta property="og:title" content="psych::alpha() | Lisa DeBruine" />
+  <meta property="og:description" content="This is a tutorial in progress on how to calculate Cronbach’s alphas using the psych package in R.
+library(tidyverse) library(psych) disgust &lt;- read_csv(&quot;https://psyteachr.github.io/msc-data-skills/data/disgust.csv&quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2017-09-12T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2017-09-12T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://debruine.github.io/post/psych-alpha/"
+  },
+  "headline": "psych::alpha()",
+  
+  "datePublished": "2017-09-12T00:00:00Z",
+  "dateModified": "2017-09-12T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Lisa DeBruine"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Lisa DeBruine",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "This is a tutorial in progress on how to calculate Cronbach’s alphas using the psych package in R.\nlibrary(tidyverse) library(psych) disgust \u0026lt;- read_csv(\u0026quot;https://psyteachr.github.io/msc-data-skills/data/disgust.csv\u0026quot;) SPSS  Under the Analyze menu, choose Scale and Reliability Analysis."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>psych::alpha() | Lisa DeBruine</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="592c725536b97cf2ef893c4bb6567305" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8988fb2a4bba758785868cfcb5244555.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="/"  aria-label="">
+              <i class="fas fa-" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>psych::alpha()</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    2017-09-129
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    6 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<p>This is a tutorial in progress on how to calculate Cronbach’s alphas using the <code>psych</code> package in R.</p>
+<pre class="r"><code>library(tidyverse)
+library(psych)
+
+disgust &lt;- read_csv(&quot;https://psyteachr.github.io/msc-data-skills/data/disgust.csv&quot;)</code></pre>
+<div id="spss" class="section level2">
+<h2>SPSS</h2>
+<ul>
+<li>Under the <code>Analyze</code> menu, choose <code>Scale</code> and <code>Reliability Analysis...</code></li>
+<li>Choose the 7 moral disgust items</li>
+<li>Make sure the Model is “Alpha”</li>
+<li>Under <code>Statistics</code>, add descriptives for Item, Scale, and Scale if Item Deleted</li>
+</ul>
+<p><img src="/images/moral_alpha.png" /></p>
+</div>
+<div id="psychalpha" class="section level2">
+<h2>psych::alpha()</h2>
+<p><code>alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,</code><br />
+      <code>check.keys=FALSE, n.iter=1, delete=TRUE, use="pairwise", warnings=TRUE, n.obs=NULL)</code></p>
+<div id="arguments" class="section level3">
+<h3>Arguments</h3>
+<ul>
+<li><code>x</code> A data.frame or matrix of data, or a covariance or correlation matrix</li>
+<li><code>keys</code> If some items are to be reversed keyed, then either specify the direction of all items or just a vector of which items to reverse</li>
+<li><code>title</code> Any text string to identify this run</li>
+<li><code>cumulative</code> should means reflect the sum of items or the mean of the items. The default value is means.</li>
+<li><code>max</code> the number of categories/item to consider if reporting category frequencies. Defaults to 10, passed to link{response.frequencies}</li>
+<li><code>na.rm</code> The default is to remove missing values and find pairwise correlations</li>
+<li><code>check.keys</code> if TRUE, then find the first principal component and reverse key items with negative loadings. Give a warning if this happens.</li>
+<li><code>n.iter</code> Number of iterations if bootstrapped confidence intervals are desired</li>
+<li><code>delete</code> Delete items with no variance and issue a warning</li>
+<li><code>use</code> Options to pass to the cor function: “everything”, “all.obs”, “complete.obs”, “na.or.complete”, or “pairwise.complete.obs”. The default is “pairwise”</li>
+<li><code>warnings</code> By default print a warning and a message that items were reversed. Suppress the message if warnings = FALSE</li>
+<li><code>n.obs</code> If using correlation matrices as input, by specify the number of observations, we can find confidence intervals</li>
+</ul>
+<pre class="r"><code>disgust %&gt;%
+  select(moral1:moral7) %&gt;%
+  psych::alpha(title = &quot;moral&quot;)</code></pre>
+<pre><code>## 
+## Reliability analysis  moral  
+## Call: psych::alpha(x = ., title = &quot;moral&quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.85      0.85    0.84      0.45 5.8 0.0016  3.8 1.3     0.46
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.85 0.85 0.85 
+## 
+##  Reliability if an item is dropped:
+##        raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## moral1      0.83      0.83    0.81      0.45 4.9   0.0019 0.0035  0.45
+## moral2      0.82      0.82    0.80      0.43 4.6   0.0019 0.0033  0.42
+## moral3      0.83      0.83    0.81      0.45 5.0   0.0019 0.0040  0.45
+## moral4      0.84      0.84    0.82      0.47 5.3   0.0017 0.0023  0.48
+## moral5      0.83      0.83    0.81      0.44 4.8   0.0019 0.0038  0.45
+## moral6      0.84      0.84    0.82      0.47 5.4   0.0017 0.0033  0.49
+## moral7      0.82      0.83    0.81      0.44 4.8   0.0019 0.0043  0.44
+## 
+##  Item statistics 
+##            n raw.r std.r r.cor r.drop mean  sd
+## moral1 19668  0.74  0.73  0.67   0.62  3.1 1.9
+## moral2 19662  0.77  0.78  0.75   0.68  4.6 1.5
+## moral3 19681  0.74  0.73  0.67   0.62  3.2 1.8
+## moral4 19656  0.66  0.68  0.60   0.54  4.5 1.5
+## moral5 19668  0.76  0.75  0.70   0.64  3.8 1.9
+## moral6 19679  0.68  0.67  0.58   0.54  3.8 1.8
+## moral7 19665  0.76  0.76  0.70   0.65  3.7 1.7
+## 
+## Non missing response frequency for each item
+##           0    1    2    3    4    5    6 miss
+## moral1 0.11 0.13 0.14 0.18 0.18 0.15 0.12 0.02
+## moral2 0.03 0.03 0.05 0.09 0.18 0.28 0.34 0.02
+## moral3 0.10 0.11 0.13 0.17 0.20 0.17 0.12 0.02
+## moral4 0.03 0.03 0.06 0.11 0.19 0.29 0.30 0.02
+## moral5 0.07 0.08 0.10 0.15 0.17 0.21 0.23 0.02
+## moral6 0.07 0.07 0.10 0.14 0.20 0.22 0.20 0.02
+## moral7 0.06 0.08 0.10 0.17 0.21 0.22 0.16 0.02</code></pre>
+<pre class="r"><code>disgust %&gt;%
+  select(sexual1:sexual7) %&gt;%
+  psych::alpha(title = &quot;sexual disgust&quot;)</code></pre>
+<pre><code>## 
+## Reliability analysis  sexual disgust  
+## Call: psych::alpha(x = ., title = &quot;sexual disgust&quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.81      0.81     0.8      0.38 4.3 0.0021  2.6 1.4      0.4
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.8 0.81 0.81 
+## 
+##  Reliability if an item is dropped:
+##         raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## sexual1      0.77      0.78    0.76      0.37 3.5   0.0025 0.0073  0.38
+## sexual2      0.79      0.79    0.77      0.38 3.7   0.0023 0.0043  0.40
+## sexual3      0.77      0.77    0.74      0.36 3.3   0.0025 0.0045  0.38
+## sexual4      0.79      0.80    0.77      0.39 3.9   0.0023 0.0073  0.40
+## sexual5      0.77      0.78    0.76      0.37 3.5   0.0025 0.0077  0.37
+## sexual6      0.80      0.80    0.78      0.40 4.0   0.0022 0.0052  0.40
+## sexual7      0.79      0.79    0.77      0.38 3.7   0.0024 0.0078  0.40
+## 
+##  Item statistics 
+##             n raw.r std.r r.cor r.drop mean  sd
+## sexual1 19693  0.71  0.72  0.66   0.59  2.4 1.9
+## sexual2 19664  0.65  0.67  0.59   0.52  1.4 1.8
+## sexual3 19690  0.74  0.75  0.71   0.63  1.6 1.9
+## sexual4 19703  0.64  0.64  0.54   0.49  3.0 2.0
+## sexual5 19695  0.73  0.72  0.66   0.59  2.7 2.1
+## sexual6 19670  0.62  0.62  0.52   0.46  3.9 2.1
+## sexual7 19684  0.69  0.67  0.59   0.53  2.9 2.2
+## 
+## Non missing response frequency for each item
+##            0    1    2    3    4    5    6 miss
+## sexual1 0.20 0.19 0.16 0.16 0.13 0.09 0.07 0.02
+## sexual2 0.47 0.19 0.10 0.09 0.05 0.04 0.05 0.02
+## sexual3 0.41 0.20 0.11 0.10 0.07 0.05 0.06 0.02
+## sexual4 0.14 0.13 0.14 0.15 0.16 0.14 0.13 0.01
+## sexual5 0.20 0.16 0.13 0.14 0.11 0.11 0.14 0.02
+## sexual6 0.10 0.08 0.08 0.11 0.12 0.19 0.33 0.02
+## sexual7 0.21 0.15 0.11 0.11 0.10 0.12 0.20 0.02</code></pre>
+<pre class="r"><code>disgust %&gt;%
+  select(pathogen1:pathogen7) %&gt;%
+  psych::alpha(title = &quot;pathogen disgust&quot;)</code></pre>
+<pre><code>## 
+## Reliability analysis  pathogen disgust  
+## Call: psych::alpha(x = ., title = &quot;pathogen disgust&quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.74      0.74    0.72      0.29 2.9 0.0028  3.7 1.1      0.3
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.73 0.74 0.74 
+## 
+##  Reliability if an item is dropped:
+##           raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## pathogen1      0.71      0.71    0.69      0.29 2.5   0.0032 0.0042  0.26
+## pathogen2      0.70      0.71    0.68      0.29 2.5   0.0032 0.0033  0.30
+## pathogen3      0.70      0.70    0.67      0.28 2.4   0.0033 0.0028  0.26
+## pathogen4      0.71      0.72    0.69      0.30 2.5   0.0032 0.0042  0.30
+## pathogen5      0.70      0.70    0.67      0.28 2.4   0.0033 0.0030  0.26
+## pathogen6      0.72      0.72    0.70      0.30 2.6   0.0031 0.0042  0.31
+## pathogen7      0.71      0.72    0.69      0.30 2.6   0.0031 0.0037  0.30
+## 
+##  Item statistics 
+##               n raw.r std.r r.cor r.drop mean  sd
+## pathogen1 19668  0.60  0.63  0.53   0.45  4.4 1.5
+## pathogen2 19683  0.64  0.63  0.54   0.46  3.3 1.7
+## pathogen3 19687  0.65  0.66  0.58   0.49  3.2 1.6
+## pathogen4 19683  0.62  0.62  0.52   0.44  3.7 1.8
+## pathogen5 19678  0.64  0.67  0.59   0.50  4.3 1.4
+## pathogen6 19655  0.61  0.59  0.48   0.41  3.8 1.9
+## pathogen7 19692  0.63  0.61  0.50   0.43  3.5 1.9
+## 
+## Non missing response frequency for each item
+##              0    1    2    3    4    5    6 miss
+## pathogen1 0.01 0.04 0.07 0.11 0.22 0.26 0.29 0.02
+## pathogen2 0.07 0.12 0.14 0.18 0.22 0.16 0.11 0.02
+## pathogen3 0.05 0.14 0.17 0.19 0.24 0.14 0.08 0.02
+## pathogen4 0.04 0.11 0.12 0.15 0.21 0.19 0.18 0.02
+## pathogen5 0.01 0.04 0.08 0.13 0.24 0.27 0.23 0.02
+## pathogen6 0.06 0.10 0.10 0.13 0.18 0.19 0.25 0.02
+## pathogen7 0.08 0.12 0.12 0.13 0.17 0.17 0.20 0.02</code></pre>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r/">r</a>
+  
+  <a class="badge badge-light" href="/tag/alpha/">alpha</a>
+  
+  <a class="badge badge-light" href="/tag/psych-r-package/">psych-r-package</a>
+  
+  <a class="badge badge-light" href="/tag/cronbach/">cronbach</a>
+  
+  <a class="badge badge-light" href="/tag/spss/">SPSS</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://debruine.github.io/post/psych-alpha/&amp;text=psych::alpha%28%29" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://debruine.github.io/post/psych-alpha/&amp;t=psych::alpha%28%29" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=psych::alpha%28%29&amp;body=https://debruine.github.io/post/psych-alpha/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://debruine.github.io/post/psych-alpha/&amp;title=psych::alpha%28%29" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=psych::alpha%28%29%20https://debruine.github.io/post/psych-alpha/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://debruine.github.io/post/psych-alpha/&amp;title=psych::alpha%28%29" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://debruine.github.io/"><img class="avatar mr-3 avatar-circle" src="/author/lisa-debruine/avatar_huc4546377bde55ecd47b44f619a7a66e6_608544_270x270_fill_q75_lanczos_center.jpg" alt="Lisa DeBruine"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://debruine.github.io/">Lisa DeBruine</a></h5>
+      <h6 class="card-subtitle">Professor of Psychology</h6>
+      <p class="card-text">Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility. matter.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/" >
+        <i class="fas fa-"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/debruine" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/LisaDeBruine" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://osf.io/4i578/" target="_blank" rel="noopener">
+        <i class="ai ai-osf"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://figshare.com/authors/Lisa_DeBruine/3235773" target="_blank" rel="noopener">
+        <i class="ai ai-figshare"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="http://orcid.org/0000-0002-7523-5539" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:lisa.debruine@glasgow.ac.uk" >
+        <i class="far fa-paper-plane"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/how-many-raters/">How many raters do I need?</a></li>
+      
+      <li><a href="/post/normality/">Testing for normality</a></li>
+      
+      <li><a href="/post/experimentum-data/">Experimentum Data Wrangling Demo</a></li>
+      
+      <li><a href="/post/mann-whitney/">Mann-Whitney False Positives</a></li>
+      
+      <li><a href="/post/how-many-sims/">How many simulations in my power analysis?</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+  
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.d68ecd57c0ec1f1f61d65fd568f1c3a0.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

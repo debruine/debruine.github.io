@@ -1,0 +1,183 @@
+---
+title: "Inputting data table rows as function arguments"
+author: ~
+date: "2020-02-06"
+slug: pmap_df
+categories: ["rstats"]
+tags: ["r", "purrr", "pmap_dfr", "function", "simulation"]
+---
+
+
+
+<p>I was working on a simulation project with an undergraduate dissertation student today (I’m so amazed at what our students can do now!) and wanted to show her how to efficiently run simulations for all combinations of a range of parameters. It took 20 minutes of googling map functions in purrr to figure it out. I find I have to do this every time I want to use this pattern, so I decided to write a quick tutorial on it.</p>
+<p>You’ll need functions from the purrr library, as well as some dplyr and tidyr functions, so I just load the whole tidyverse.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Fisrt, I need to define the function I want to run for the imulation. I’ll make a relatively simple one, that takes the samples sizes, means and standard deviations for two samples, simulates data, and returns the sample effect size, t-value, p-value, and degrees of freedom from <code>t.test</code>.</p>
+<pre class="r"><code>my_t_sim &lt;- function(n1 = 100, m1 = 0, sd1 = 1,
+                     n2 = 100, m2 = 0, sd2 = 1) {
+  # simulate data
+  grp1 &lt;- rnorm(n1, m1, sd1)
+  grp2 &lt;- rnorm(n2, m2, sd2)
+  
+  # analyse
+  tt &lt;- t.test(grp1, grp2)
+  
+  # calculate cohens d for independent samples
+  s_pooled &lt;- sqrt(((n1-1) * sd(grp1)^2 + (n2-1) *
+                      sd(grp2)^2)/(n1+n2))
+  d &lt;- (tt$estimate[[1]] - tt$estimate[[2]]) / s_pooled
+  
+  # return named list of values
+  list(d = d,
+       t  = tt$statistic[[1]],
+       df = tt$parameter[[1]],
+       p  = tt$p.value)
+}</code></pre>
+<p>So we can simulate a study with 20 observations in each group and an effect size of 0.5.</p>
+<pre class="r"><code>my_t_sim(n1 = 20, m1 = 100, sd1 = 10, 
+         n2 = 20, m2 = 105, sd2 = 10)</code></pre>
+<pre><code>## $d
+## [1] -0.7037
+## 
+## $t
+## [1] -2.169
+## 
+## $df
+## [1] 33.89
+## 
+## $p
+## [1] 0.0372</code></pre>
+<p>If you want to run it 100 times, you can use the <code>map_df()</code> function to create a data frame of the results for each repeat.</p>
+<pre class="r"><code>results &lt;- map_df(1:100, ~my_t_sim(n1 = 20, m1 = 100, sd1 = 10, 
+                                   n2 = 20, m2 = 105, sd2 = 10))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">d</th>
+<th align="right">t</th>
+<th align="right">df</th>
+<th align="right">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-0.6277</td>
+<td align="right">-1.9346</td>
+<td align="right">34.22</td>
+<td align="right">0.0613</td>
+</tr>
+<tr class="even">
+<td align="right">-0.2027</td>
+<td align="right">-0.6247</td>
+<td align="right">38.00</td>
+<td align="right">0.5359</td>
+</tr>
+<tr class="odd">
+<td align="right">-0.1913</td>
+<td align="right">-0.5898</td>
+<td align="right">35.22</td>
+<td align="right">0.5591</td>
+</tr>
+<tr class="even">
+<td align="right">-0.7094</td>
+<td align="right">-2.1865</td>
+<td align="right">37.58</td>
+<td align="right">0.0351</td>
+</tr>
+<tr class="odd">
+<td align="right">-0.4612</td>
+<td align="right">-1.4215</td>
+<td align="right">38.00</td>
+<td align="right">0.1633</td>
+</tr>
+<tr class="even">
+<td align="right">-0.9266</td>
+<td align="right">-2.8560</td>
+<td align="right">37.52</td>
+<td align="right">0.0070</td>
+</tr>
+</tbody>
+</table>
+<p>But this only lets you run one set of arguments for n1, n2, m1, m2, sd1, and sd2. What if you want to run the function 100 times for each of a range of parameters?</p>
+<p>First, set up a data frame that contains every combination of parameters you want to explore using the <code>crossing()</code> function. The function <code>seq()</code> makes a vector ranging from the first argument to the second, in steps of the third (e.g., <code>seq(30, 60, 5)</code> makes the vector <code>c(30, 35, 40, 45, 50, 55, 60)</code>). If you don’t want to vary a parameter, set it to a single value.</p>
+<pre class="r"><code>params &lt;- crossing(
+  n1 = seq(30, 120, 5),
+  m1 = seq(0, 0.5, 0.1),
+  sd1 = 1,
+  m2 = 0,
+  sd2 = 1
+) %&gt;%
+  mutate(n2 = n1)</code></pre>
+<p>You can now use the function <code>pmap_dfr</code> to iterate over the rows of the <code>params</code> data table, using the values as arguments to the function <code>my_t_sim</code>.</p>
+<pre class="r"><code>results &lt;- pmap_dfr(params, my_t_sim)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">d</th>
+<th align="right">t</th>
+<th align="right">df</th>
+<th align="right">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-0.2321</td>
+<td align="right">-0.8836</td>
+<td align="right">55.35</td>
+<td align="right">0.3807</td>
+</tr>
+<tr class="even">
+<td align="right">0.3326</td>
+<td align="right">1.2663</td>
+<td align="right">53.97</td>
+<td align="right">0.2108</td>
+</tr>
+<tr class="odd">
+<td align="right">0.2874</td>
+<td align="right">1.0944</td>
+<td align="right">56.30</td>
+<td align="right">0.2784</td>
+</tr>
+<tr class="even">
+<td align="right">0.2734</td>
+<td align="right">1.0410</td>
+<td align="right">50.49</td>
+<td align="right">0.3028</td>
+</tr>
+<tr class="odd">
+<td align="right">0.5160</td>
+<td align="right">1.9647</td>
+<td align="right">57.99</td>
+<td align="right">0.0542</td>
+</tr>
+<tr class="even">
+<td align="right">0.1670</td>
+<td align="right">0.6361</td>
+<td align="right">57.81</td>
+<td align="right">0.5273</td>
+</tr>
+</tbody>
+</table>
+<p>You can also wrap this in an anonymous function and do some more processing on the results, like running each combination 100 times and adding the parameters to the data table.</p>
+<pre class="r"><code>results &lt;- pmap_dfr(params, function(...) {
+  args &lt;- list(...) # get list of named arguments
+  # run 500 replications per set of parameters
+  map_df(1:500, ~my_t_sim(n1 = args$n1, m1 = args$m1, sd1 = args$sd1,
+                        n2 = args$n2, m2 = args$m2, sd2 = args$sd2)) %&gt;%
+    mutate(!!!args) # add columns to specify arguments
+})</code></pre>
+<p>The three dots in <code>function(...)</code> lets this function takes any named arguments. You need to assign that list of arguments using <code>args &lt;- list(...)</code> and then you can use the arguments in your code (e.g., <code>args$n1</code>).</p>
+<p>The triple bang (<code>!!!</code>) expands a list in tidyverse functions. For example, <code>mutate(!!!args)</code> is equivalent to <code>mutate(n1 = args$n1, m1 = args$m1, sd1 = args$sd1, n2 = args$n2, m2 = args$m2, sd2 = args$sd2)</code>.</p>
+<p>Now you have a data table with 57000 results. You can summarise or graph these results to look at how varying parameters systematically affects things like effect size or power.</p>
+<pre class="r"><code>results %&gt;%
+  group_by(n1, n2, m1, m2) %&gt;%
+  summarise(power = mean(p &lt; .05)) %&gt;%
+  ggplot(aes(n1, power, color = as.factor(m1))) +
+  geom_hline(yintercept = 0.05) +
+  geom_hline(yintercept = 0.80) +
+  geom_point() +
+  geom_line() +
+  scale_color_discrete(name = &quot;Effect Size&quot;) +
+  xlab(&quot;Number of observations per group&quot;) +
+  scale_y_continuous(breaks = seq(0,1,.2))</code></pre>
+<p><img src="/posts/pmap_dfr_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>

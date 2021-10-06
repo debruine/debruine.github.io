@@ -1,0 +1,116 @@
+---
+title: "nest() and irr::icc()"
+author: ~
+date: "2017-08-21"
+slug: nest
+categories: ["rstats"]
+tags: ["R", "tidyverse", "nest", "icc"]
+---
+
+I'm going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I'm constantly forgetting exactly how to do it).
+
+```{r, message = FALSE}
+library(tidyverse)
+library(irr)
+```
+
+
+Load the rating data for the open-source [Face Research Lab London Set](https://figshare.com/articles/Face_Research_Lab_London_Set/5047666). 
+The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (`X001:X173`).
+
+```{r, message = FALSE}
+london <- read_csv("https://ndownloader.figshare.com/files/8542045")
+
+head(london)
+```
+
+To calculate the ICC for ratings, first we need to get the data into a format where each column represents a rater and each row represents a stimulus. Select just the columns with ratings, then transpose (`t()`) the data.
+
+
+```{r}
+
+london %>%
+  select(X001:X173) %>%
+  t() %>%
+  irr::icc()
+
+```
+
+But what if you want to do this for several subsets of the raters or stimuli? One solution is to run the code above several times, once for each subset, adding code to select and filter.
+
+```{r}
+
+london %>%
+  filter(rater_sex == "male") %>%
+  select(X001:X173) %>%
+  t() %>%
+  irr::icc()
+
+```
+
+
+
+```{r}
+
+london %>%
+  filter(rater_sex == "female") %>%
+  select(X001:X173) %>%
+  t() %>%
+  irr::icc()
+
+```
+
+But what if you want to calculate ICCs for lots of subdivisions? It's tedious and error-prone to do each one by hand, but you can group your data into the subdivisions, nest the ratings, and map them onto a function.
+
+First, we have to write a function that takes the data and returns a table of the stats you're interested in. The `irr::icc()` function returns a list, which won't play well with nesting later, so we `unlist()` it, transpose it so it's a row of values, not a column, turn it back into a tibble (transposing turns it into a matrix), and select just the columns you want.
+
+```{r}
+
+my_icc <- function(data) {
+  data %>%
+    select(X001:X173) %>% # select just the rating columns
+    t() %>%               # transpose so columns are raters and rows are stimuli
+    irr::icc() %>%        # calculate the ICC
+    unlist() %>%          # turn the output list into a vector
+    t() %>%               # transpose this vector
+    as_tibble() %>%       # turn the vector into a table 
+    select(               # select just the columns you want
+      stimuli = subjects, # rename subjects to stimuli     
+      raters, 
+      icc = value,        # rename value to icc
+      lbound, 
+      ubound
+    ) %>%
+    # fix column modes (unlisting turned them all into characters)
+    mutate_at(vars(stimuli, raters), as.integer) %>% 
+    mutate_at(vars(icc:ubound), as.numeric)
+}
+
+```
+
+Test the function on the whole dataset to check it gives you the right data.
+
+```{r}
+
+my_icc(london)
+
+```
+
+Then we can group our full dataframe. Here I've created a new column of age group and filtered out age/sex groups with fewer than 10 raters. After you group your data, use the `nest()` function to turn all the rest of the columns into a separate table for each group (stored in the column `data`). Then you can map these tables onto your `my_icc` function. Finally, unnest this new `icc` column to re-expand your table.  
+
+```{r}
+
+london_icc_grouped <- london %>%
+  mutate(age_group = round(rater_age / 10)*10) %>% # create age group by decade
+  group_by(rater_sex, age_group) %>%               # group by rater age and sex
+  filter(n() >= 10) %>%                            # remove groups smaller than 10
+  nest() %>%                                       # nest the rest of the columns
+  mutate(icc = map(data, my_icc)) %>%              # calculate ICC for each group
+  unnest(icc) %>%                                  # expand the tables returned to icc
+  select(-data)                                    # get rid of the data column
+  
+london_icc_grouped
+
+```
+
+

@@ -1,0 +1,82 @@
+---
+title: "Hidden Solutions"
+author: ~
+date: "2017-10-21"
+slug: hidden-solutions
+categories: ["rstats"]
+tags: ["r", "pedagogy", "web"]
+---
+
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>The <a href="http://swcarpentry.github.io/r-novice-gapminder/">R for Reproducible Scientific Analysis</a> pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I’ve created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).</p>
+<div id="example" class="section level2">
+<h2>Example</h2>
+<p>Graph the relationship between speed and distance for the <code>cars</code> dataset.</p>
+<div class="solution">
+<button>
+Solution
+</button>
+<p>You can put some text inside the solution, as well as code cunks.</p>
+<pre class="r"><code>ggplot(cars, aes(speed, dist)) +
+  geom_point(color = &quot;purple&quot;) +
+  geom_smooth(method = &quot;lm&quot;, color = &quot;purple&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="/posts/hidden_solution_files/figure-html/cars-1.png" width="672" /></p>
+</div>
+<p>Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.</p>
+</div>
+<div id="put-this-at-the-beginning-of-your-file" class="section level2">
+<h2>Put this at the beginning of your file</h2>
+<pre><code>&lt;style&gt;
+  /* styles for hidden solutions */
+  .solution {
+    height: 2em;
+    overflow-y: hidden;
+    padding: 0.5em;
+  }
+  .solution.open { 
+    height: auto; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  .solution button {
+    height: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  .solution pre.sourceCode {
+    border-color: green;
+  }
+&lt;/style&gt;</code></pre>
+<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put these lines of css into an external stylesheet linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.css">rguppies.css</a>).</p>
+</div>
+<div id="put-this-at-the-end-of-your-file" class="section level2">
+<h2>Put this at the end of your file</h2>
+<pre><code>&lt;script&gt;
+  window.onload = function(){
+    var buttons = document.getElementsByTagName(&quot;button&quot;);
+    for (var i = 0; i &lt; buttons.length; i++) {
+      buttons[i].onclick = function() {
+        var cl = this.parentElement.classList;
+        if (cl.contains(&#39;open&#39;)) {
+          cl.remove(&quot;open&quot;);
+        } else {
+          cl.add(&quot;open&quot;);
+        }
+      }
+    }
+  }
+&lt;/script&gt;</code></pre>
+<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put this script into an external footer or script file linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.js">rguppies.js</a>).</p>
+</div>
+<div id="surround-your-hidden-solutions-like-this" class="section level2">
+<h2>Surround your hidden solutions like this</h2>
+<pre><code>&lt;div class=&quot;solution&quot;&gt;&lt;button&gt;Solution&lt;/button&gt;
+
+PUT YOUR SOLUTION HERE (including r chunks)
+
+&lt;/div&gt;</code></pre>
+<p>You can change the text on the button to something else (e.g., <code>&lt;button&gt;View the Answer&lt;/button&gt;</code>).</p>
+<p>Let me know if you have any suggestions or find this useful.</p>
+</div>

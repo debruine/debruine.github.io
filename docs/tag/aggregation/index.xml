@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>aggregation | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/aggregation/</link>
+      <atom:link href="https://debruine.github.io/tag/aggregation/index.xml" rel="self" type="application/rss+xml" />
+    <description>aggregation</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>aggregation</title>
+      <link>https://debruine.github.io/tag/aggregation/</link>
+    </image>
+    
+    <item>
+      <title>What&#39;s wrong with aggregating data?</title>
+      <link>https://debruine.github.io/post/aggregating/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/aggregating/</guid>
+      <description>
+
+
+&lt;p class=&#34;info&#34;&gt;
+&lt;a href=&#34;http://shiny.psy.gla.ac.uk/debruine/anova_vs_lmer/&#34;&gt;Shiny app&lt;/a&gt; for a face-rating example.
+&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(lmerTest)
+set.seed(90210)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Imagine you want to find out if Armenian women born on an even-numbered day are taller than women born on an odd-numbered day. (I’ve chosen Armenian women because they’re the first row in &lt;a href=&#34;https://doi.org/10.1371/journal.pone.0018962&#34;&gt;this paper&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;First, let’s simulate a group of 20 women born on even-numbered days and 20 women born on odd-numbered days.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stim_n &amp;lt;- 20
+# height stats from https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0018962
+height_m &amp;lt;- 158.1
+height_sd &amp;lt;- 5.7
+
+stim &amp;lt;- tibble(
+  stim_id = 1:(stim_n*2),
+  birthday = rep(c(&amp;quot;odd&amp;quot;, &amp;quot;even&amp;quot;), stim_n),
+  height = rnorm(stim_n*2, height_m, height_sd)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Obviously, the oddness of date of birth is not going to have any effect on women’s actual height and a two-sample t-test confirms this. However, there is a small difference between the means of the groups just due to chance (2.81 cm).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(stim$height ~ stim$birthday)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Welch Two Sample t-test
+## 
+## data:  stim$height by stim$birthday
+## t = -1.5, df = 38, p-value = 0.1
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -6.4997  0.8767
+## sample estimates:
+## mean in group even  mean in group odd 
+##              154.9              157.7&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;measurement-with-error&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Measurement with Error&lt;/h3&gt;
+&lt;p&gt;But what if we don’t measure height from each women once, but have a few different raters estimate it? The raters will each have their own bias, systematically overestimating or underestimating height on average. Let’s simulate 20 raters who have biases with an SD of 2 cm.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rater_n &amp;lt;- 20
+rater_bias_sd &amp;lt;- 2
+
+rater &amp;lt;- tibble(
+  rater_id = 1:rater_n,
+  rater_bias = rnorm(rater_n, 0, rater_bias_sd)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;New we can get each rater to estimate the height of each woman. Their estimate is the woman’s actual height, plus the rater’s bias, plus some error (sampled from a normal distribution with a mean of 0 and an SD of 4 cm, since estimating height is hard).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat &amp;lt;- expand.grid(
+  rater_id = rater$rater_id,
+  stim_id = stim$stim_id
+) %&amp;gt;%
+  left_join(rater, by = &amp;quot;rater_id&amp;quot;) %&amp;gt;%
+  left_join(stim, by = &amp;quot;stim_id&amp;quot;) %&amp;gt;%
+  mutate(
+    error = rnorm(nrow(.), 0, 4),
+    estimate = height + rater_bias + error
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;aggregating-by-stimuli&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Aggregating by Stimuli&lt;/h3&gt;
+&lt;p&gt;You can aggregate by stimuli, that is, average the 20 raters’ estimate for each stimulus. You now have 40 mean estimates that are fairly well-correlated with the women’s actual heights.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat_agg_by_stim &amp;lt;- dat %&amp;gt;%
+  group_by(stim_id, birthday, height) %&amp;gt;%
+  summarise(mean_estimate = mean(estimate))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;stim_id&amp;#39;, &amp;#39;birthday&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;You get pretty much the same result when you compare these mean estimates between the groups of women with odd and even birthdays.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(dat_agg_by_stim$mean_estimate ~ dat_agg_by_stim$birthday)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Welch Two Sample t-test
+## 
+## data:  dat_agg_by_stim$mean_estimate by dat_agg_by_stim$birthday
+## t = -1.4, df = 38, p-value = 0.2
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -6.473  1.130
+## sample estimates:
+## mean in group even  mean in group odd 
+##              155.2              157.9&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;aggregating-by-raters&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Aggregating by Raters&lt;/h3&gt;
+&lt;p&gt;Alternatively, you can aggregate by raters, that is, average the 20 odd-group estimates and 20 even-group estimates for each rater. Now raters are your unit of analysis, so you’ve increased your power by having 20 raters and a within-subject design (each rater estimates heights for both odd- and even-birthday groups).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat_agg_by_rater &amp;lt;- dat %&amp;gt;%
+  group_by(rater_id, birthday) %&amp;gt;%
+  summarise(mean_estimate = mean(estimate)) %&amp;gt;%
+  spread(birthday, mean_estimate)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;rater_id&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(dat_agg_by_rater$odd, dat_agg_by_rater$even, paired = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat_agg_by_rater$odd and dat_agg_by_rater$even
+## t = 11, df = 19, p-value = 0.000000002
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  2.145 3.198
+## sample estimates:
+## mean of the differences 
+##                   2.672&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now the difference between the odd- and even-birthday groups is highly significant! What’s going is that you now have a relatively accurate estimate of the chance mean difference between the 20 women in the odd-birthday group and the 20 women in the even-birthday group. Since raters are the unit of analysis, this effect is likely to generalise to the larger population of potential raters, but only when they are rating &lt;strong&gt;these exact stimuli&lt;/strong&gt;. Your conclusions cannot generalise beyond the stimulus set used here.&lt;/p&gt;
+&lt;p&gt;While this seems like an obvious problem when the question is whether Armenian women with odd birthdays are taller or shorter than Armenian women with even birthdays, the problem is not so obvious for other questions, like whether boxers who won their last match have more masculine faces than boxers who lost their last match. The point of this tutorial isn’t to call out any particular studies (I’ve certainly done this wrong myself plenty of times in the past), but to illustrate the enormous problem with this method and to explain the solution.&lt;/p&gt;
+&lt;p&gt;The larger the number of raters, the larger this false positive problem becomes because you’re increasing power to detect the small chance diffference between the two groups. You can play around with how changing parameters changes the power and false positive rates for by-stimulus, by-rater, and mixed effect designs at &lt;a href=&#34;http://shiny.psy.gla.ac.uk/debruine/anova_vs_lmer/&#34;&gt;this shiny app&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;mixed-effect-model&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Mixed Effect Model&lt;/h3&gt;
+&lt;p&gt;In the particular case above, we’re only interested in the between-stimulus (and within-rater) main effect of birthday oddness. Therefore, aggregating by stimuli doesn’t inflate your false positive rate, while aggregating by rater does. However, other designs might have increased false positives for aggregating by stimuli but not by rater, or when aggregating by either.&lt;/p&gt;
+&lt;p&gt;A mixed effects model avoids the problems of aggregation completely by modelling random variation for both the stimuli and raters, as well as random variation in the size of within-group effects.&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+I &lt;a href=&#34;https://debruine.github.io/posts/coding-schemes/&#34;&gt;effect code&lt;/a&gt; the &lt;code&gt;birthday&lt;/code&gt; variable to make interpretation of the effects easier).
+&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# effect-code birthday
+dat$birthday.e &amp;lt;- recode(dat$birthday, &amp;quot;odd&amp;quot; = 0.5, &amp;quot;even&amp;quot; = -0.5)
+
+mod &amp;lt;- lmer(estimate ~ birthday.e +
+              # random slope for effect of birthday, random intercept for rater bias
+              (1 + birthday.e || rater_id) + 
+              # random intercept for variation in stim height
+              (1 | stim_id), 
+            data = dat)
+
+summary(mod)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Linear mixed model fit by REML. t-tests use Satterthwaite&amp;#39;s method [
+## lmerModLmerTest]
+## Formula: estimate ~ birthday.e + (1 + birthday.e || rater_id) + (1 | stim_id)
+##    Data: dat
+## 
+## REML criterion at convergence: 4687
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -2.8414 -0.6590  0.0102  0.6776  2.6231 
+## 
+## Random effects:
+##  Groups     Name        Variance      Std.Dev.
+##  stim_id    (Intercept) 34.4640965331 5.870613
+##  rater_id   birthday.e   0.0000000214 0.000146
+##  rater_id.1 (Intercept) 10.0890113688 3.176320
+##  Residual               15.8201186615 3.977451
+## Number of obs: 800, groups:  stim_id, 40; rater_id, 20
+## 
+## Fixed effects:
+##             Estimate Std. Error     df t value Pr(&amp;gt;|t|)    
+## (Intercept)   156.55       1.18  55.02  132.98   &amp;lt;2e-16 ***
+## birthday.e      2.67       1.88  38.00    1.42     0.16    
+## ---
+## Signif. codes:  0 &amp;#39;***&amp;#39; 0.001 &amp;#39;**&amp;#39; 0.01 &amp;#39;*&amp;#39; 0.05 &amp;#39;.&amp;#39; 0.1 &amp;#39; &amp;#39; 1
+## 
+## Correlation of Fixed Effects:
+##            (Intr)
+## birthday.e 0.000 
+## convergence code: 0
+## boundary (singular) fit: see ?isSingular&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The estimate for &lt;code&gt;(Intercept)&lt;/code&gt; is just the mean height estimate (156.55 cm) and the estimate for &lt;code&gt;birthday.e&lt;/code&gt; is the mean difference between the odd and even birthday groups (2.67 cm). You can now generalise the conclusions of this mixed effects model to both the population of raters and the population of stimuli.&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+Thanks to &lt;a href=&#34;https://twitter.com/lpsatchell&#34;&gt;Liam Satchell&lt;/a&gt;, &lt;a href=&#34;https://twitter.com/AlexJonesPhD&#34;&gt;Alex Jones&lt;/a&gt;, and &lt;a href=&#34;https://twitter.com/Ben_C_J&#34;&gt;Ben Jones&lt;/a&gt; for the stimulating late-night Twitter discussion that prompted this blog post!
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;references&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;References&lt;/h3&gt;
+&lt;p&gt;Plenty of papers have made this point much more thoroughly &lt;span class=&#34;citation&#34;&gt;(Barr et al. 2013, @Coleman1964, @Judd2012, @Wolsiefer2017)&lt;/span&gt;.&lt;/p&gt;
+&lt;div id=&#34;refs&#34; class=&#34;references&#34;&gt;
+&lt;div id=&#34;ref-KeepItMaximal&#34;&gt;
+&lt;p&gt;Barr, Dale J, Roger Levy, Christoph Scheepers, and Harry J Tily. 2013. “Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.” &lt;em&gt;Journal of Memory and Language&lt;/em&gt; 68 (3): 10.1016/j.jml.2012.11.001.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-Coleman1964&#34;&gt;
+&lt;p&gt;Coleman, E. B. 1964. “Generalizing to a Language Population.” &lt;em&gt;Psychological Reports&lt;/em&gt; 14 (1): 219–26. &lt;a href=&#34;https://doi.org/10.2466/pr0.1964.14.1.219&#34;&gt;https://doi.org/10.2466/pr0.1964.14.1.219&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-Judd2012&#34;&gt;
+&lt;p&gt;Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. “Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.” &lt;em&gt;Journal of Personality and Social Psychology&lt;/em&gt; 103 (1): 54–69. &lt;a href=&#34;https://doi.org/doi:10.1037/a0028347&#34;&gt;https://doi.org/doi:10.1037/a0028347&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;ref-Wolsiefer2017&#34;&gt;
+&lt;p&gt;Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. “Modeling Stimulus Variation in Three Common Implicit Attitude Tasks.” &lt;em&gt;Behavior Research Methods&lt;/em&gt; 49 (4): 1193–1209. &lt;a href=&#34;https://doi.org/10.3758/s13428-016-0779-0&#34;&gt;https://doi.org/10.3758/s13428-016-0779-0&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

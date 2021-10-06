@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pmap_dfr | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/pmap_dfr/</link>
+      <atom:link href="https://debruine.github.io/tag/pmap_dfr/index.xml" rel="self" type="application/rss+xml" />
+    <description>pmap_dfr</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 06 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>pmap_dfr</title>
+      <link>https://debruine.github.io/tag/pmap_dfr/</link>
+    </image>
+    
+    <item>
+      <title>Inputting data table rows as function arguments</title>
+      <link>https://debruine.github.io/post/pmap_df/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/pmap_df/</guid>
+      <description>
+
+
+&lt;p&gt;I was working on a simulation project with an undergraduate dissertation student today (I’m so amazed at what our students can do now!) and wanted to show her how to efficiently run simulations for all combinations of a range of parameters. It took 20 minutes of googling map functions in purrr to figure it out. I find I have to do this every time I want to use this pattern, so I decided to write a quick tutorial on it.&lt;/p&gt;
+&lt;p&gt;You’ll need functions from the purrr library, as well as some dplyr and tidyr functions, so I just load the whole tidyverse.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Fisrt, I need to define the function I want to run for the imulation. I’ll make a relatively simple one, that takes the samples sizes, means and standard deviations for two samples, simulates data, and returns the sample effect size, t-value, p-value, and degrees of freedom from &lt;code&gt;t.test&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_t_sim &amp;lt;- function(n1 = 100, m1 = 0, sd1 = 1,
+                     n2 = 100, m2 = 0, sd2 = 1) {
+  # simulate data
+  grp1 &amp;lt;- rnorm(n1, m1, sd1)
+  grp2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  # analyse
+  tt &amp;lt;- t.test(grp1, grp2)
+  
+  # calculate cohens d for independent samples
+  s_pooled &amp;lt;- sqrt(((n1-1) * sd(grp1)^2 + (n2-1) *
+                      sd(grp2)^2)/(n1+n2))
+  d &amp;lt;- (tt$estimate[[1]] - tt$estimate[[2]]) / s_pooled
+  
+  # return named list of values
+  list(d = d,
+       t  = tt$statistic[[1]],
+       df = tt$parameter[[1]],
+       p  = tt$p.value)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So we can simulate a study with 20 observations in each group and an effect size of 0.5.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_t_sim(n1 = 20, m1 = 100, sd1 = 10, 
+         n2 = 20, m2 = 105, sd2 = 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $d
+## [1] -0.7037
+## 
+## $t
+## [1] -2.169
+## 
+## $df
+## [1] 33.89
+## 
+## $p
+## [1] 0.0372&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you want to run it 100 times, you can use the &lt;code&gt;map_df()&lt;/code&gt; function to create a data frame of the results for each repeat.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results &amp;lt;- map_df(1:100, ~my_t_sim(n1 = 20, m1 = 100, sd1 = 10, 
+                                   n2 = 20, m2 = 105, sd2 = 10))&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;d&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;t&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;df&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;p&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.6277&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-1.9346&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;34.22&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0613&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.2027&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.6247&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;38.00&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5359&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.1913&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5898&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;35.22&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5591&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.7094&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-2.1865&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;37.58&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0351&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.4612&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-1.4215&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;38.00&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1633&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.9266&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-2.8560&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;37.52&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0070&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;But this only lets you run one set of arguments for n1, n2, m1, m2, sd1, and sd2. What if you want to run the function 100 times for each of a range of parameters?&lt;/p&gt;
+&lt;p&gt;First, set up a data frame that contains every combination of parameters you want to explore using the &lt;code&gt;crossing()&lt;/code&gt; function. The function &lt;code&gt;seq()&lt;/code&gt; makes a vector ranging from the first argument to the second, in steps of the third (e.g., &lt;code&gt;seq(30, 60, 5)&lt;/code&gt; makes the vector &lt;code&gt;c(30, 35, 40, 45, 50, 55, 60)&lt;/code&gt;). If you don’t want to vary a parameter, set it to a single value.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;params &amp;lt;- crossing(
+  n1 = seq(30, 120, 5),
+  m1 = seq(0, 0.5, 0.1),
+  sd1 = 1,
+  m2 = 0,
+  sd2 = 1
+) %&amp;gt;%
+  mutate(n2 = n1)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can now use the function &lt;code&gt;pmap_dfr&lt;/code&gt; to iterate over the rows of the &lt;code&gt;params&lt;/code&gt; data table, using the values as arguments to the function &lt;code&gt;my_t_sim&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results &amp;lt;- pmap_dfr(params, my_t_sim)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;d&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;t&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;df&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;p&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;-0.2321&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.8836&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;55.35&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3807&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;0.3326&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.2663&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;53.97&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2108&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;0.2874&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0944&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;56.30&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2784&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;0.2734&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.0410&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;50.49&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3028&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;0.5160&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.9647&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;57.99&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0542&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;0.1670&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.6361&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;57.81&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5273&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;You can also wrap this in an anonymous function and do some more processing on the results, like running each combination 100 times and adding the parameters to the data table.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results &amp;lt;- pmap_dfr(params, function(...) {
+  args &amp;lt;- list(...) # get list of named arguments
+  # run 500 replications per set of parameters
+  map_df(1:500, ~my_t_sim(n1 = args$n1, m1 = args$m1, sd1 = args$sd1,
+                        n2 = args$n2, m2 = args$m2, sd2 = args$sd2)) %&amp;gt;%
+    mutate(!!!args) # add columns to specify arguments
+})&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The three dots in &lt;code&gt;function(...)&lt;/code&gt; lets this function takes any named arguments. You need to assign that list of arguments using &lt;code&gt;args &amp;lt;- list(...)&lt;/code&gt; and then you can use the arguments in your code (e.g., &lt;code&gt;args$n1&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;The triple bang (&lt;code&gt;!!!&lt;/code&gt;) expands a list in tidyverse functions. For example, &lt;code&gt;mutate(!!!args)&lt;/code&gt; is equivalent to &lt;code&gt;mutate(n1 = args$n1, m1 = args$m1, sd1 = args$sd1, n2 = args$n2, m2 = args$m2, sd2 = args$sd2)&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now you have a data table with 57000 results. You can summarise or graph these results to look at how varying parameters systematically affects things like effect size or power.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;results %&amp;gt;%
+  group_by(n1, n2, m1, m2) %&amp;gt;%
+  summarise(power = mean(p &amp;lt; .05)) %&amp;gt;%
+  ggplot(aes(n1, power, color = as.factor(m1))) +
+  geom_hline(yintercept = 0.05) +
+  geom_hline(yintercept = 0.80) +
+  geom_point() +
+  geom_line() +
+  scale_color_discrete(name = &amp;quot;Effect Size&amp;quot;) +
+  xlab(&amp;quot;Number of observations per group&amp;quot;) +
+  scale_y_continuous(breaks = seq(0,1,.2))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/pmap_dfr_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

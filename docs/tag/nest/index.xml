@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>nest | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/nest/</link>
+      <atom:link href="https://debruine.github.io/tag/nest/index.xml" rel="self" type="application/rss+xml" />
+    <description>nest</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 21 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>nest</title>
+      <link>https://debruine.github.io/tag/nest/</link>
+    </image>
+    
+    <item>
+      <title>nest() and irr::icc()</title>
+      <link>https://debruine.github.io/post/nest/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/nest/</guid>
+      <description>
+
+
+&lt;p&gt;I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(irr)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Load the rating data for the open-source &lt;a href=&#34;https://figshare.com/articles/Face_Research_Lab_London_Set/5047666&#34;&gt;Face Research Lab London Set&lt;/a&gt;.
+The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (&lt;code&gt;X001:X173&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london &amp;lt;- read_csv(&amp;quot;https://ndownloader.figshare.com/files/8542045&amp;quot;)
+
+head(london)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 105
+##   rater_sex rater_sexpref rater_age  X001  X002  X003  X004  X005  X006  X007
+##   &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+## 1 female    either             17       3     3     3     3     2     3     5
+## 2 female    either             17       5     2     3     2     1     5     6
+## 3 female    either             17.1     5     3     4     3     3     4     4
+## 4 female    either             17.1     4     6     5     5     3     4     5
+## 5 female    either             17.2     3     4     3     1     1     1     3
+## 6 female    either             17.3     6     5     5     3     7     5     6
+## # … with 95 more variables: X008 &amp;lt;dbl&amp;gt;, X009 &amp;lt;dbl&amp;gt;, X010 &amp;lt;dbl&amp;gt;, X011 &amp;lt;dbl&amp;gt;,
+## #   X012 &amp;lt;dbl&amp;gt;, X013 &amp;lt;dbl&amp;gt;, X014 &amp;lt;dbl&amp;gt;, X016 &amp;lt;dbl&amp;gt;, X017 &amp;lt;dbl&amp;gt;, X018 &amp;lt;dbl&amp;gt;,
+## #   X019 &amp;lt;dbl&amp;gt;, X020 &amp;lt;dbl&amp;gt;, X021 &amp;lt;dbl&amp;gt;, X022 &amp;lt;dbl&amp;gt;, X024 &amp;lt;dbl&amp;gt;, X025 &amp;lt;dbl&amp;gt;,
+## #   X026 &amp;lt;dbl&amp;gt;, X027 &amp;lt;dbl&amp;gt;, X029 &amp;lt;dbl&amp;gt;, X030 &amp;lt;dbl&amp;gt;, X031 &amp;lt;dbl&amp;gt;, X032 &amp;lt;dbl&amp;gt;,
+## #   X033 &amp;lt;dbl&amp;gt;, X034 &amp;lt;dbl&amp;gt;, X036 &amp;lt;dbl&amp;gt;, X037 &amp;lt;dbl&amp;gt;, X038 &amp;lt;dbl&amp;gt;, X039 &amp;lt;dbl&amp;gt;,
+## #   X041 &amp;lt;dbl&amp;gt;, X042 &amp;lt;dbl&amp;gt;, X043 &amp;lt;dbl&amp;gt;, X044 &amp;lt;dbl&amp;gt;, X045 &amp;lt;dbl&amp;gt;, X061 &amp;lt;dbl&amp;gt;,
+## #   X062 &amp;lt;dbl&amp;gt;, X063 &amp;lt;dbl&amp;gt;, X064 &amp;lt;dbl&amp;gt;, X066 &amp;lt;dbl&amp;gt;, X067 &amp;lt;dbl&amp;gt;, X068 &amp;lt;dbl&amp;gt;,
+## #   X069 &amp;lt;dbl&amp;gt;, X070 &amp;lt;dbl&amp;gt;, X081 &amp;lt;dbl&amp;gt;, X082 &amp;lt;dbl&amp;gt;, X083 &amp;lt;dbl&amp;gt;, X086 &amp;lt;dbl&amp;gt;,
+## #   X087 &amp;lt;dbl&amp;gt;, X090 &amp;lt;dbl&amp;gt;, X091 &amp;lt;dbl&amp;gt;, X092 &amp;lt;dbl&amp;gt;, X094 &amp;lt;dbl&amp;gt;, X096 &amp;lt;dbl&amp;gt;,
+## #   X097 &amp;lt;dbl&amp;gt;, X099 &amp;lt;dbl&amp;gt;, X100 &amp;lt;dbl&amp;gt;, X101 &amp;lt;dbl&amp;gt;, X102 &amp;lt;dbl&amp;gt;, X103 &amp;lt;dbl&amp;gt;,
+## #   X104 &amp;lt;dbl&amp;gt;, X105 &amp;lt;dbl&amp;gt;, X107 &amp;lt;dbl&amp;gt;, X108 &amp;lt;dbl&amp;gt;, X112 &amp;lt;dbl&amp;gt;, X113 &amp;lt;dbl&amp;gt;,
+## #   X114 &amp;lt;dbl&amp;gt;, X115 &amp;lt;dbl&amp;gt;, X117 &amp;lt;dbl&amp;gt;, X118 &amp;lt;dbl&amp;gt;, X119 &amp;lt;dbl&amp;gt;, X120 &amp;lt;dbl&amp;gt;,
+## #   X121 &amp;lt;dbl&amp;gt;, X122 &amp;lt;dbl&amp;gt;, X123 &amp;lt;dbl&amp;gt;, X124 &amp;lt;dbl&amp;gt;, X125 &amp;lt;dbl&amp;gt;, X126 &amp;lt;dbl&amp;gt;,
+## #   X127 &amp;lt;dbl&amp;gt;, X128 &amp;lt;dbl&amp;gt;, X129 &amp;lt;dbl&amp;gt;, X130 &amp;lt;dbl&amp;gt;, X131 &amp;lt;dbl&amp;gt;, X132 &amp;lt;dbl&amp;gt;,
+## #   X134 &amp;lt;dbl&amp;gt;, X135 &amp;lt;dbl&amp;gt;, X136 &amp;lt;dbl&amp;gt;, X137 &amp;lt;dbl&amp;gt;, X138 &amp;lt;dbl&amp;gt;, X139 &amp;lt;dbl&amp;gt;,
+## #   X140 &amp;lt;dbl&amp;gt;, X141 &amp;lt;dbl&amp;gt;, X142 &amp;lt;dbl&amp;gt;, X143 &amp;lt;dbl&amp;gt;, X144 &amp;lt;dbl&amp;gt;, X172 &amp;lt;dbl&amp;gt;,
+## #   X173 &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To calculate the ICC for ratings, first we need to get the data into a format where each column represents a rater and each row represents a stimulus. Select just the columns with ratings, then transpose (&lt;code&gt;t()&lt;/code&gt;) the data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london %&amp;gt;%
+  select(X001:X173) %&amp;gt;%
+  t() %&amp;gt;%
+  irr::icc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 2513 
+##      ICC(1) = 0.24
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &amp;gt; 0 
+## F(101,256224) = 793 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.196 &amp;lt; ICC &amp;lt; 0.298&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But what if you want to do this for several subsets of the raters or stimuli? One solution is to run the code above several times, once for each subset, adding code to select and filter.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london %&amp;gt;%
+  filter(rater_sex == &amp;quot;male&amp;quot;) %&amp;gt;%
+  select(X001:X173) %&amp;gt;%
+  t() %&amp;gt;%
+  irr::icc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 955 
+##      ICC(1) = 0.225
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &amp;gt; 0 
+## F(101,97308) = 279 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.183 &amp;lt; ICC &amp;lt; 0.281&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london %&amp;gt;%
+  filter(rater_sex == &amp;quot;female&amp;quot;) %&amp;gt;%
+  select(X001:X173) %&amp;gt;%
+  t() %&amp;gt;%
+  irr::icc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 1552 
+##      ICC(1) = 0.253
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &amp;gt; 0 
+## F(101,158202) = 526 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.207 &amp;lt; ICC &amp;lt; 0.313&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But what if you want to calculate ICCs for lots of subdivisions? It’s tedious and error-prone to do each one by hand, but you can group your data into the subdivisions, nest the ratings, and map them onto a function.&lt;/p&gt;
+&lt;p&gt;First, we have to write a function that takes the data and returns a table of the stats you’re interested in. The &lt;code&gt;irr::icc()&lt;/code&gt; function returns a list, which won’t play well with nesting later, so we &lt;code&gt;unlist()&lt;/code&gt; it, transpose it so it’s a row of values, not a column, turn it back into a tibble (transposing turns it into a matrix), and select just the columns you want.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_icc &amp;lt;- function(data) {
+  data %&amp;gt;%
+    select(X001:X173) %&amp;gt;% # select just the rating columns
+    t() %&amp;gt;%               # transpose so columns are raters and rows are stimuli
+    irr::icc() %&amp;gt;%        # calculate the ICC
+    unlist() %&amp;gt;%          # turn the output list into a vector
+    t() %&amp;gt;%               # transpose this vector
+    as_tibble() %&amp;gt;%       # turn the vector into a table 
+    select(               # select just the columns you want
+      stimuli = subjects, # rename subjects to stimuli     
+      raters, 
+      icc = value,        # rename value to icc
+      lbound, 
+      ubound
+    ) %&amp;gt;%
+    # fix column modes (unlisting turned them all into characters)
+    mutate_at(vars(stimuli, raters), as.integer) %&amp;gt;% 
+    mutate_at(vars(icc:ubound), as.numeric)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Test the function on the whole dataset to check it gives you the right data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_icc(london)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 5
+##   stimuli raters   icc lbound ubound
+##     &amp;lt;int&amp;gt;  &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;
+## 1     102   2513 0.240  0.196  0.298&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then we can group our full dataframe. Here I’ve created a new column of age group and filtered out age/sex groups with fewer than 10 raters. After you group your data, use the &lt;code&gt;nest()&lt;/code&gt; function to turn all the rest of the columns into a separate table for each group (stored in the column &lt;code&gt;data&lt;/code&gt;). Then you can map these tables onto your &lt;code&gt;my_icc&lt;/code&gt; function. Finally, unnest this new &lt;code&gt;icc&lt;/code&gt; column to re-expand your table.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london_icc_grouped &amp;lt;- london %&amp;gt;%
+  mutate(age_group = round(rater_age / 10)*10) %&amp;gt;% # create age group by decade
+  group_by(rater_sex, age_group) %&amp;gt;%               # group by rater age and sex
+  filter(n() &amp;gt;= 10) %&amp;gt;%                            # remove groups smaller than 10
+  nest() %&amp;gt;%                                       # nest the rest of the columns
+  mutate(icc = map(data, my_icc)) %&amp;gt;%              # calculate ICC for each group
+  unnest(icc) %&amp;gt;%                                  # expand the tables returned to icc
+  select(-data)                                    # get rid of the data column
+  
+london_icc_grouped&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 10 x 7
+## # Groups:   rater_sex, age_group [10]
+##    rater_sex age_group stimuli raters   icc lbound ubound
+##    &amp;lt;chr&amp;gt;         &amp;lt;dbl&amp;gt;   &amp;lt;int&amp;gt;  &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;
+##  1 female           20     102   1035 0.253  0.207  0.313
+##  2 female           30     102    317 0.257  0.211  0.319
+##  3 female           40     102    123 0.264  0.216  0.327
+##  4 female           50     102     54 0.255  0.206  0.319
+##  5 female           60     102     20 0.271  0.215  0.342
+##  6 male             20     102    478 0.211  0.171  0.265
+##  7 male             30     102    253 0.252  0.206  0.312
+##  8 male             40     102    119 0.217  0.175  0.274
+##  9 male             50     102     74 0.267  0.218  0.332
+## 10 male             60     102     27 0.245  0.194  0.311&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

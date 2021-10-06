@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>faces | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/faces/</link>
+      <atom:link href="https://debruine.github.io/tag/faces/index.xml" rel="self" type="application/rss+xml" />
+    <description>faces</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>faces</title>
+      <link>https://debruine.github.io/tag/faces/</link>
+    </image>
+    
+    <item>
+      <title>WebMorph</title>
+      <link>https://debruine.github.io/project/webmorph/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/webmorph/</guid>
+      <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
+&lt;p class=&#34;warning&#34;&gt;
+WebMorph is currently down while I file data protection paperwork.
+&lt;/p&gt;
+&lt;p&gt;This development of this package was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

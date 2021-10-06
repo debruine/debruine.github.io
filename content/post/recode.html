@@ -1,0 +1,83 @@
+---
+title: "recode()"
+author: "Lisa DeBruine"
+date: "2017-07-14"
+slug: recode
+categories: ["rstats"]
+tags: ["r", "tidyverse", "recoding", "categorical"]
+---
+
+
+
+<p>I often find myself needing to recode variables. I wrote previously about recoding a characters into a numbers using various <a href="coding.html">coding schemes</a>. But sometimes I want to recode numeric values into characters; this is particularly useful for graphing and for double-checking the meaning of your variable levels.</p>
+<p>First, I’ll create a data frame with 50 subjects and randomly choose their genders from a list of 4 possibilities with the population proportions 40% male, 40% female, 10% non-binary, and 10% missing data.</p>
+<pre class="r"><code>suppressMessages( library(tidyverse) )
+
+set.seed(12)  # for reproducibility; delete when running simulations
+
+genders &lt;- c(&quot;male&quot;, &quot;female&quot;, &quot;nonbinary&quot;, NA)
+
+df &lt;- data.frame(
+  id = rep(1:50),
+  gender = sample(genders, 50, replace = TRUE, prob = c(.4, .4, .1, .1))
+)</code></pre>
+<p>I’ll graph it to make sure it looks like I expect. This is one of the few times a <a href="https://barbarplots.github.io/">bar plot</a> is appropriate.</p>
+<pre class="r"><code>df %&gt;%
+  ggplot(aes(gender)) +
+  geom_bar(fill=&quot;red&quot;)</code></pre>
+<p><img src="/posts/recode_files/figure-html/recode-orig-data-1.png" width="672" /></p>
+<p>Now I’m going to transform the character variables into numbers and graph it again. As you can see, when a categorical variable is coded with numbers, the missing values are omitted from the graph.</p>
+<pre class="r"><code>df2 &lt;- df %&gt;%
+  mutate(
+    gender.num = recode(gender, &quot;male&quot; = 1, &quot;female&quot; = 2, &quot;nonbinary&quot; = 3)
+  )
+
+df2 %&gt;%
+  ggplot(aes(gender.num)) +
+  geom_bar(fill=&quot;darkorange&quot;)</code></pre>
+<pre><code>## Warning: Removed 3 rows containing non-finite values (stat_count).</code></pre>
+<p><img src="/posts/recode_files/figure-html/recode-numbers-1.png" width="672" /></p>
+<p>Now I’m going to recode the numeric column back into words.</p>
+<pre class="r"><code># this won&#39;t work
+df3 &lt;- df2 %&gt;%
+  mutate(
+    gender.cat = recode(gender.num, 1 = &quot;male&quot;, 2 = &quot;female&quot;, 3 = &quot;nonbinary&quot;)
+  )</code></pre>
+<p>That didn’t work. You’ll get an error that looks like:</p>
+<pre style="color: red;">Error: unexpected '=' in:
+"  mutate(
+    gender.cat = recode(gender.num, 1 ="</pre>
+<p><code>recode()</code> requires that the left side of the equal sign be in quotes. Let’s try this again and graph it.</p>
+<pre class="r"><code>df3 &lt;- df2 %&gt;%
+  mutate(
+    gender.cat = recode(gender.num, &quot;1&quot; = &quot;male&quot;, &quot;2&quot; = &quot;female&quot;, &quot;3&quot; = &quot;nonbinary&quot;)
+  )
+
+df3 %&gt;%
+  ggplot(aes(gender.cat)) +
+  geom_bar(fill=&quot;goldenrod&quot;)</code></pre>
+<p><img src="/posts/recode_files/figure-html/recode-characters-1.png" width="672" /></p>
+<p>What if you want your variables in a different order? You can use the <code>factor()</code> function to set the order of the levels.</p>
+<pre class="r"><code>df4 &lt;- df3 %&gt;%
+  mutate(
+    gender.ordered = factor(gender.cat, levels = c(&quot;nonbinary&quot;, &quot;female&quot;, &quot;male&quot;))
+  )
+
+df4 %&gt;%
+  ggplot(aes(gender.ordered)) +
+  geom_bar(fill=&quot;darkgreen&quot;)</code></pre>
+<p><img src="/posts/recode_files/figure-html/recode-ordered-1.png" width="672" /></p>
+<p>Let’s put it all together to see how you can go from numeric to character values and get them in the order you want. We’ll start with an “original” dataframe of just the numerically coded genders from the previous data. Then we’ll make a new data frame by recoding the numeric column into words and then ordering this.</p>
+<p>Note that I’ve given the new column the name <code>gender.ordered</code> and then redefined this column with the reordered levels. This is a nice feature of the tidyverse. You could put all that code on one line with complicated brackets, but it’s easier to manipulate a variable in steps and you can use previously created variables in subsequent steps of a <code>mutate()</code> function.</p>
+<pre class="r"><code>data.original &lt;- df4 %&gt;% select(gender.num)
+
+data.recoded &lt;- data.original %&gt;%
+  mutate(
+    gender.ordered = recode(gender.num, &quot;1&quot; = &quot;male&quot;, &quot;2&quot; = &quot;female&quot;, &quot;3&quot; = &quot;nonbinary&quot;),
+    gender.ordered = factor(gender.ordered, levels = c(&quot;nonbinary&quot;, &quot;female&quot;, &quot;male&quot;))
+  )
+
+data.recoded %&gt;%
+  ggplot(aes(gender.ordered)) +
+  geom_bar(fill=&quot;blue&quot;)</code></pre>
+<p><img src="/posts/recode_files/figure-html/recode-all-1.png" width="672" /></p>

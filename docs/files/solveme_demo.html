@@ -1,0 +1,76 @@
+---
+title: "Solution Feedback Demo"
+---
+
+
+
+<style>
+  /* styles for solveme */
+  .solveme { border: 2px dotted red; }
+  .solveme.correct { border: 2px solid blue; }
+</style>
+<p><span id="total_correct"></span></p>
+<p>What is 2 + 2? <input class="solveme" size="3" answer="4"></p>
+<p>What is <span class="math inline">\(5 + 5\)</span>? <input class="solveme" answer="10" ></p>
+<p>What is the letter after B? <input class="solveme ignorecase" size="1" answer="c" ></p>
+<p>Type a vowel <input class="solveme ignorecase" size="1" 
+  answer="a :or: e :or: i :or: o :or: u" ></p>
+<p>Draw 10 random numbers from a normal distribution with a mean of 3 and SD of 2: <input class="solveme nospaces" 
+      size="30"
+      answer="rnorm(10, 3, 2) :or:
+              rnorm(10, mean = 3, sd = 2) :or:
+              rnorm(10, 3, sd = 2) :or:
+              rnorm(10, sd = 2, mean = 3) :or:
+              rnorm(x = 10, mean = 3, sd = 2)" ></p>
+<p>Complete the following function for returning the scaled values of a vector, <code>v</code>.</p>
+<pre>
+scale_function <- function(v) { 
+  the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
+  the_sd <- sd(<input class="solveme" size="1" answer="v">)
+  
+  (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
+}
+</pre>
+<p>How would you model a distribution of coin flips?</p>
+<p><select class="solveme" answer="rbinom"> <option></option> <option>rnorm</option> <option>runif</option> <option>rpois</option> <option>rbinom</option> </select></p>
+<script>
+  tc = function() {
+    if (t = document.getElementById("total_correct")) {
+      t.innerHTML =       
+        document.getElementsByClassName("correct").length + " of " +
+        document.getElementsByClassName("solveme").length + " correct";
+    }
+  }
+  window.onload = function() {
+    tc();
+    var solveme = document.getElementsByClassName("solveme");
+    for (var i = 0; i < solveme.length; i++) {
+      solveme[i].setAttribute("autocomplete","off");
+      solveme[i].value = "";
+      solveme[i].onkeyup = function(e) {
+        var real_answer = this.getAttribute("answer").trim();
+        var my_answer = this.value;
+        var cl = this.classList;
+        if (cl.contains("nospaces")) {
+          real_answer = real_answer.replace(/ /g, "");
+          my_answer = my_answer.replace(/ /g, "");
+        }
+        if (cl.contains("ignorecase")) {
+          real_answer = real_answer.toLowerCase();
+          my_answer = my_answer.toLowerCase();
+        }
+        var linend = new RegExp(/\s*(:or:)\s*/, 'g')
+        real_answer = real_answer.split(linend);
+        if (my_answer !== "" & real_answer.includes(my_answer)) {
+          cl.add("correct");
+        } else {
+          cl.remove("correct");
+        }
+        tc();
+      }
+      solveme[i].onchange = function() {
+        this.onkeyup();
+      }
+    }
+  }
+</script>

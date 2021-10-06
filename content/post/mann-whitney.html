@@ -1,0 +1,138 @@
+---
+title: "Mann-Whitney False Positives"
+author: ~
+date: '2020-09-03'
+slug: mann-whitney
+categories: ["rstats"]
+tags: ["r", "mann whitney", "non-parametric", "power", "false positives", "simulation"]
+---
+
+
+
+<p>One of my favourite colleagues, <a href="https://twitter.com/McAleerP">Phil McAleer</a>, asked about unequal sample sizes for Mann-Whitney tests on our group chat today. I had no idea, so, as always, I thought “This is a job for simulations!”</p>
+<p>I started by loading tidyverse, since I know I’ll need to wrangle data and plot things. I’m starting to get more comfortable with base R for package development, and it can make things faster, but tidyverse is my favourite for a quick analysis or a pipeline where understandability is more important than speed.</p>
+<p>And I set my favourite seed so my simulations will give me a reproducible answer.</p>
+<pre class="r"><code>library(tidyverse)
+set.seed(8675309)</code></pre>
+<p>Then I wrote a wee function to simulate data with the parameters I’m interested in varying, run a Mann-Whitney test, and return the p-value (all I need to look at power and false positives).</p>
+<p>First, I just wanted to look at false positives for different sample size, so I set <code>n1</code> and <code>n2</code> as arguments and set <code>alternative</code> with a default of “two.sided”. The function <code>wilcox.test</code> runs a Mann-Whitney test for independent samples.</p>
+<pre class="r"><code>mw &lt;- function(n1, n2, alternative = &quot;two.sided&quot;) {
+  x1 &lt;- rnorm(n1)
+  x2 &lt;- rnorm(n2)
+  w &lt;- wilcox.test(x1, x2, alternative = alternative)
+  w$p.value
+}</code></pre>
+<p>Now I need to set up a table with all of the values I want to run simulations for. I set <code>n1</code> and <code>n2</code> to the numbers 10 to 100 in steps of ten. This was crossed with the number of replications I wanted to run (1000). I then removed the values where <code>n2</code> &gt; <code>n1</code>, since they’re redundant with the opposite version (e.g., <code>n1 = 10, n2 = 20</code> is the same as <code>n1 = 20, n2 = 10</code>).</p>
+<pre class="r"><code>params &lt;- expand.grid(
+  n1 = seq(10, 100, 10), 
+  n2 = seq(10, 100, 10),
+  reps = 1:1000
+) %&gt;%
+  filter(n1 &lt;= n2)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">n1</th>
+<th align="right">n2</th>
+<th align="right">reps</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">10</td>
+<td align="right">10</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">20</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">20</td>
+<td align="right">20</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">…</td>
+<td align="right">…</td>
+<td align="right">…</td>
+</tr>
+<tr class="odd">
+<td align="right">80</td>
+<td align="right">100</td>
+<td align="right">1000</td>
+</tr>
+<tr class="even">
+<td align="right">90</td>
+<td align="right">100</td>
+<td align="right">1000</td>
+</tr>
+<tr class="odd">
+<td align="right">100</td>
+<td align="right">100</td>
+<td align="right">1000</td>
+</tr>
+</tbody>
+</table>
+<p>I then used the <code>pmap_dbl</code> function from <code>purrr</code> to map the values from <code>n1</code> and <code>n2</code> onto <code>mw</code>, then grouped the results by <code>n1</code> and <code>n2</code> and calculated <code>false_pos</code> as the proportion of <code>p</code> less than <code>alpha</code>.</p>
+<pre class="r"><code>alpha &lt;- 0.05
+
+mw1 &lt;- params %&gt;%
+  mutate(p = pmap_dbl(list(n1, n2), mw)) %&gt;%
+  group_by(n1, n2) %&gt;%
+  summarise(false_pos = mean(p &lt; alpha), .groups = &quot;drop&quot;)</code></pre>
+<p>Then I plotted the false positive rate for each combination against the difference between <code>n1</code> and <code>n2</code>. You can see that the false positive rate is approximately nominal, or equal to the specified <code>alpha</code> of 0.05.</p>
+<pre class="r"><code>ggplot(mw1, aes(n2 - n1, false_pos)) +
+  geom_point(aes(color = as.factor(n1))) +
+  geom_smooth(formula = y ~ x, method = lm, color = &quot;black&quot;) +
+  labs(x = &quot;N2 - N1&quot;, 
+         y = &quot;False Positive Rate&quot;,
+         color = &quot;N1&quot;) +
+  ylim(0, .1)</code></pre>
+<p><img src="/posts/mann-whitney_files/figure-html/unnamed-chunk-7-1.png" width="100%" /></p>
+<p>But what if data aren’t drawn from a normal distribution? We can change the <code>mw()</code> function to simulate data from a different distribtion, such as uniform, and run the whole process again.</p>
+<pre class="r"><code>mw &lt;- function(n1, n2, alternative = &quot;two.sided&quot;) {
+  x1 &lt;- runif(n1)
+  x2 &lt;- runif(n2)
+  w &lt;- wilcox.test(x1, x2, alternative = alternative)
+  w$p.value
+}</code></pre>
+<p>The rest of our code is identical to above.</p>
+<pre class="r"><code>mw2 &lt;- params %&gt;%
+  mutate(p = pmap_dbl(list(n1, n2), mw)) %&gt;%
+  group_by(n1, n2) %&gt;%
+  summarise(false_pos = mean(p &lt; alpha), .groups = &quot;drop&quot;)</code></pre>
+<p>This doesn’t seem to make much difference.</p>
+<p><img src="/posts/mann-whitney_files/figure-html/unnamed-chunk-11-1.png" width="100%" /></p>
+<p>What if the variance between the two samples is different? First, let’s adjust the <code>mw()</code> function to vary the SD of the two samples. We’ll give <code>sd1</code> a default value of 1 and <code>sd2</code> will default to the same as <code>sd1</code>. We might as well add the option to change the means, so default <code>m1</code> to 0 and <code>m2</code> to the same as <code>m1</code>.</p>
+<pre class="r"><code>mw &lt;- function(n1, m1 = 0, sd1 = 1, 
+               n2 = n1, m2 = m1, sd2 = sd1,
+               alternative = &quot;two.sided&quot;) {
+  x1 &lt;- rnorm(n1, m1, sd1)
+  x2 &lt;- rnorm(n2, m2, sd2)
+  w &lt;- wilcox.test(x1, x2, alternative = alternative)
+  w$p.value
+}</code></pre>
+<p>Now we need to set up a new list of parameters to change. The Ns didn’t make much difference last time, so let’s vary them in steps of 20 this time. We’ll vary <code>sd1</code> and <code>sd2</code> from 0.5 to 2 in steps of 0.5, and also only keep combinations where <code>sd1</code> is less than or equal to <code>sd2</code> to avoid redundancy.</p>
+<pre class="r"><code>params &lt;- expand.grid(
+  reps = 1:1000,
+  n1 = seq(10, 100, 20), 
+  n2 = seq(10, 100, 20),
+  sd1 = seq(0.5, 2, 0.5),
+  sd2 = seq(0.5, 2, 0.5)
+) %&gt;%
+  filter(n1 &lt;= n2, sd1 &lt;= sd2)</code></pre>
+<pre class="r"><code>mw3 &lt;- params %&gt;%
+  mutate(p = pmap_dbl(list(n1, 0, sd1, n2, 0, sd2), mw)) %&gt;%
+  group_by(n1, n2, sd1, sd2) %&gt;%
+  summarise(false_pos = mean(p &lt; alpha), .groups = &quot;drop&quot;)</code></pre>
+<p>It looks like differences in SD make a big difference in the false positive rate, and the effect is bigger as Ns and SDs get more unequal.</p>
+<pre class="r"><code>ggplot(mw3, aes(sd2 - sd1, false_pos, color = as.factor(n2-n1))) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = lm) +
+  labs(x = &quot;SD2 - SD1&quot;, 
+         y = &quot;False Positive Rate&quot;,
+         color = &quot;N2-N1&quot;)</code></pre>
+<p><img src="/posts/mann-whitney_files/figure-html/unnamed-chunk-16-1.png" width="100%" /></p>
+<p>I’ll leave it to the enterprising reader to simulate power for different effect sizes.</p>

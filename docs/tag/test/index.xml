@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>test | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/test/</link>
+      <atom:link href="https://debruine.github.io/tag/test/index.xml" rel="self" type="application/rss+xml" />
+    <description>test</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 31 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>test</title>
+      <link>https://debruine.github.io/tag/test/</link>
+    </image>
+    
+    <item>
+      <title>Testing interactive functions</title>
+      <link>https://debruine.github.io/post/interactive-test/</link>
+      <pubDate>Fri, 31 Jul 2020 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/interactive-test/</guid>
+      <description>
+
+
+&lt;p&gt;I’m a huge fan of unit tests, but it’s tricky to test interactive functions where the user needs to enter input before the function can progress. I used to test them manually, which is incredibly tedious and time-consuming. So I ended up not testing interative functions very thoroughly. I found a &lt;a href=&#34;https://stackoverflow.com/questions/41372146/test-interaction-with-users-in-r-package&#34;&gt;post on Stack Overflow&lt;/a&gt; with a useful answer by &lt;a href=&#34;https://stackoverflow.com/users/2752888/znk&#34;&gt;znk&lt;/a&gt;. I’ve expanded their answer into a full example of a unit test for an interactive function.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(testthat)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;set-up-the-function&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Set up the function&lt;/h1&gt;
+&lt;p&gt;Your function needs to use &lt;code&gt;readLines&lt;/code&gt; to get interactive input and take an argument for the connection (&lt;code&gt;con&lt;/code&gt;). The default value for the connection should be the same as its default value for &lt;code&gt;readLines&lt;/code&gt;, which is &lt;code&gt;stdin()&lt;/code&gt; (the terminal). You can’t use &lt;code&gt;readline&lt;/code&gt;, which only supports connection to the terminal.&lt;/p&gt;
+&lt;p&gt;This function displays a prompt and a list of valid options. If your response isn’t in the list, it will repeat the prompt until it is.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ask_opts &amp;lt;- function(prompt, opts = NULL, con = stdin()) {
+  # display prompt and options
+  optlist &amp;lt;- paste(opts, collapse = &amp;quot;|&amp;quot;)
+  prompt_opt &amp;lt;- paste0(prompt, &amp;quot; [&amp;quot;, optlist, &amp;quot;]\n&amp;quot;)
+  cat(prompt_opt)
+  input &amp;lt;- readLines(con = con, n = 1)
+  
+  # repeat if input is not in opts
+  if (!is.null(opts) &amp;amp; !input %in% opts) {
+    input &amp;lt;- ask_opts(prompt, opts, con)
+  }
+
+  input
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;set-up-the-test&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Set up the Test&lt;/h2&gt;
+&lt;p&gt;You need to create a file containing the input you want to send to the function, one input per line. I want to answer the first time with something not in the option list, then the second time with something that is in the option list.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# set up interactive answers
+f &amp;lt;- file()
+lines &amp;lt;- c(&amp;quot;echidna&amp;quot;, &amp;quot;ferret&amp;quot;)
+ans &amp;lt;- paste(lines, collapse = &amp;quot;\n&amp;quot;)
+write(ans, f)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then run your interactive function, setting the connection to your file. Run it inside &lt;code&gt;capture_output_lines&lt;/code&gt; if you want to test the prompts and not just the output. Close the file when you are done with it.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;prompt &amp;lt;- &amp;quot;What is your favourite animal?&amp;quot;
+opts &amp;lt;- c(&amp;quot;cat&amp;quot;, &amp;quot;dog&amp;quot;, &amp;quot;ferret&amp;quot;)
+
+output_prompts &amp;lt;- capture_output_lines({
+  result &amp;lt;- ask_opts(prompt, opts, f)
+})
+
+close(f) # close the file&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now you can run your tests&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;txt &amp;lt;- &amp;quot;What is your favourite animal? [cat|dog|ferret]&amp;quot;
+expect_equal(result, &amp;quot;ferret&amp;quot;)
+expect_equal(output_prompts, rep(txt, 2))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;without-a-new-argument&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Without a new argument&lt;/h2&gt;
+&lt;p&gt;What if you don’t want to change the arguments to your function to add a connection? You can set the connection in the options and test for it in the function, defaulting to &lt;code&gt;stdin()&lt;/code&gt;. For example:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ask_opts &amp;lt;- function(prompt, opts = NULL) {
+  # set up connection, default to stdin() if not set
+  con &amp;lt;- getOption(&amp;quot;ask_opts.con&amp;quot;, stdin())
+  
+  # display prompt and options
+  optlist &amp;lt;- paste(opts, collapse = &amp;quot;|&amp;quot;)
+  prompt_opt &amp;lt;- paste0(prompt, &amp;quot; [&amp;quot;, optlist, &amp;quot;]\n&amp;quot;)
+  cat(prompt_opt)
+  input &amp;lt;- readLines(con = con, n = 1)
+  
+  # repeat if input is not in opts
+  if (!is.null(opts) &amp;amp; !input %in% opts) {
+    input &amp;lt;- ask_opts(prompt, opts)
+  }
+
+  input
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then you just need to set this option before you run the interactive function in your testing environment. Make sure to reset it to &lt;code&gt;stdin()&lt;/code&gt; when you’re done.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;test_that(&amp;quot;interactive&amp;quot;, {
+  # set up interactive answers
+  f &amp;lt;- file()
+  lines &amp;lt;- c(&amp;quot;maybe&amp;quot;, &amp;quot;y&amp;quot;)
+  ans &amp;lt;- paste(lines, collapse = &amp;quot;\n&amp;quot;)
+  write(ans, f)
+  
+  options(&amp;quot;ask_opts.con&amp;quot; = f) # set connection option 
+  
+  # run interactive function
+  prompt &amp;lt;- &amp;quot;Was this helpful?&amp;quot;
+  opts &amp;lt;- c(&amp;quot;y&amp;quot;, &amp;quot;n&amp;quot;)
+  
+  output_prompts &amp;lt;- capture_output_lines({
+    result &amp;lt;- ask_opts(prompt, opts)
+  })
+  
+  close(f) # close the file
+  options(&amp;quot;ask_opts.con&amp;quot; = stdin()) # reset connection option
+  
+  # tests
+  txt &amp;lt;- &amp;quot;Was this helpful? [y|n]&amp;quot;
+  expect_equal(result, &amp;quot;y&amp;quot;)
+  expect_equal(output_prompts, rep(txt, 2))
+})&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

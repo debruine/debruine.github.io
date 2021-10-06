@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rep | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/rep/</link>
+      <atom:link href="https://debruine.github.io/tag/rep/index.xml" rel="self" type="application/rss+xml" />
+    <description>rep</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 21 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>rep</title>
+      <link>https://debruine.github.io/tag/rep/</link>
+    </image>
+    
+    <item>
+      <title>rep()</title>
+      <link>https://debruine.github.io/post/rep/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/rep/</guid>
+      <description>
+
+
+&lt;p&gt;&lt;code&gt;rep(x, times = 1, length.out = NA, each = 1)&lt;/code&gt; is pretty useful for simulating data. Here are some common recipes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a single number (1) a number of times (10)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1, 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 1 1 1 1 1 1 1 1 1&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a series of numbers (1:5) a number of times (2)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:5, 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 2 3 4 5 1 2 3 4 5&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:5, times=2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 2 3 4 5 1 2 3 4 5&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;If &lt;code&gt;times&lt;/code&gt; is not an integer, it is truncated (not rounded).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:5, times=2.9)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 2 3 4 5 1 2 3 4 5&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a series of numbers (1:5) a number of times each (2)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:5, each=2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 1 2 2 3 3 4 4 5 5&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:5, 1, NA, 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 1 2 2 3 3 4 4 5 5&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a list of numbers (0, 3, 6) a number of times (2)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(c(0, 3, 6), times=2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0 3 6 0 3 6&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a list of strings (“a”, “b”, “c”) a number of times (2)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(c(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;), times=2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;a&amp;quot; &amp;quot;b&amp;quot; &amp;quot;c&amp;quot; &amp;quot;a&amp;quot; &amp;quot;b&amp;quot; &amp;quot;c&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a list of strings (“a”, “b”, “c”) a number of times each (2)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(c(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;, &amp;quot;c&amp;quot;), each=2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;a&amp;quot; &amp;quot;a&amp;quot; &amp;quot;b&amp;quot; &amp;quot;b&amp;quot; &amp;quot;c&amp;quot; &amp;quot;c&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a list of strings (“a”, “b”) a number of times each (2) a number of times (3)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(c(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;), each=2, times=3)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;a&amp;quot; &amp;quot;a&amp;quot; &amp;quot;b&amp;quot; &amp;quot;b&amp;quot; &amp;quot;a&amp;quot; &amp;quot;a&amp;quot; &amp;quot;b&amp;quot; &amp;quot;b&amp;quot; &amp;quot;a&amp;quot; &amp;quot;a&amp;quot; &amp;quot;b&amp;quot; &amp;quot;b&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a series of numbers (1:5) until you have a specific total (12)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:5, length.out=12)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 2 3 4 5 1 2 3 4 5 1 2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep_len(1:5, 12)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 2 3 4 5 1 2 3 4 5 1 2&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;length.out&lt;/code&gt; overrides &lt;code&gt;times&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(1:5, length.out=12, times=500)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] 1 2 3 4 5 1 2 3 4 5 1 2&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Repeat a sequence of numbers (0:10 by 5s) a number of times (3)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rep(seq(0, 10, by=5), 3)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1]  0  5 10  0  5 10  0  5 10&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,75 @@
+---
+title: Simulate from Existing Data
+author: ~
+date: "2018-12-29"
+slug: simdf
+categories: ["rstats"]
+tags: ["r", "simulation", "faux"]
+---
+
+
+
+<pre class="r"><code>library(faux)
+library(tidyverse)</code></pre>
+<p>I added a new function to the package <a href="https://github.com/debruine/faux"><code>faux</code></a> to generate a new dataframe from an existing dataframe, simulating all numeric columns from normal distributions with the same mean and SD as the existing data and the same correlation structure as the existing data. (Update: faux is now on CRAN!)</p>
+<p>For example, here is the relationship between speed and distance in the built-in dataset <code>cars</code>.</p>
+<pre class="r"><code>cars %&gt;%
+  ggplot(aes(speed, dist)) + 
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<div class="figure"><span id="fig:plot-cars-orig"></span>
+<img src="/posts/simdf_files/figure-html/plot-cars-orig-1.png" alt="Original cars dataset" width="672" />
+<p class="caption">
+Figure 1: Original cars dataset
+</p>
+</div>
+<p>You can create a new sample with the same parameters and 500 rows with the code <code>sim_df(cars, 500)</code>.</p>
+<pre class="r"><code>sim_df(cars, 500) %&gt;%
+  ggplot(aes(speed, dist)) + 
+    geom_point() +
+    geom_smooth(method = &quot;lm&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<div class="figure"><span id="fig:plot-cars-sim"></span>
+<img src="/posts/simdf_files/figure-html/plot-cars-sim-1.png" alt="Simulated cars dataset" width="672" />
+<p class="caption">
+Figure 2: Simulated cars dataset
+</p>
+</div>
+<p>You can also optionally add grouping variables. For example, here is the relationship between sepal length and width in the built-in dataset <code>iris</code>.</p>
+<pre class="r"><code>iris %&gt;%
+  ggplot(aes(Sepal.Width, Sepal.Length, color = Species)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<div class="figure"><span id="fig:plot-iris-orig"></span>
+<img src="/posts/simdf_files/figure-html/plot-iris-orig-1.png" alt="Original iris dataset" width="672" />
+<p class="caption">
+Figure 3: Original iris dataset
+</p>
+</div>
+<p>And here is a new sample with 50 observations of each species, made with the code <code>sim_df(iris, 100, "Species")</code>.</p>
+<pre class="r"><code>sim_df(iris, 50, between = &quot;Species&quot;) %&gt;%
+  ggplot(aes(Sepal.Width, Sepal.Length, color = Species)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<div class="figure"><span id="fig:plot-iris-sim"></span>
+<img src="/posts/simdf_files/figure-html/plot-iris-sim-1.png" alt="Simulated iris dataset" width="672" />
+<p class="caption">
+Figure 4: Simulated iris dataset
+</p>
+</div>
+<p>For now, the function only creates new variables sampled from a continuous normal distribution. I hope to add in other sampling distributions in the future. So you’d need to do any rounding or truncating yourself.</p>
+<pre class="r"><code>sim_df(iris, 50, between = &quot;Species&quot;) %&gt;%
+  mutate_if(is.numeric, round, 1) %&gt;%
+  ggplot(aes(Sepal.Width, Sepal.Length, color = Species)) +
+  geom_point() +
+  geom_smooth(method = &quot;lm&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<div class="figure"><span id="fig:plot-iris-sim-round"></span>
+<img src="/posts/simdf_files/figure-html/plot-iris-sim-round-1.png" alt="Simulated iris dataset (rounded)" width="672" />
+<p class="caption">
+Figure 5: Simulated iris dataset (rounded)
+</p>
+</div>

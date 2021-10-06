@@ -1,0 +1,164 @@
+---
+title: Simulating Multiple Vectors
+author: ~
+date: '2018-12-22'
+slug: rnorm_multi
+categories: ["rstats"]
+tags: ["R", "correlated data", "simulation", "faux"]
+---
+
+
+
+<pre class="r"><code>library(tidyverse)
+library(faux)</code></pre>
+<p>I’m working on a package for simulations called <a href="https://github.com/debruine/faux">faux</a>. (Update: faux is now on CRAN!)</p>
+<p>The first function, <code>rnorm_multi</code>, makes multiple normally distributed vectors with specified relationships and takes the following arguments:</p>
+<ul>
+<li><code>n</code> = the number of samples required (required)</li>
+<li><code>vars</code> = the number of variables to return (default = <code>3</code>)</li>
+<li><code>cors</code> = the correlations among the variables (can be a single number, vars*vars matrix, vars*vars vector, or a vars*(vars-1)/2 vector; default = <code>0</code>)</li>
+<li><code>mu</code> = a vector giving the means of the variables (numeric vector of length 1 or vars; default = <code>0</code>)</li>
+<li><code>sd</code> = the standard deviations of the variables (numeric vector of length 1 or vars; default = <code>1</code>)</li>
+<li><code>varnames</code> = optional names for the variables (string vector of length vars; default = <code>NULL</code>)</li>
+<li><code>empirical</code> = logical. If true, mu, sd and cors specify the empirical not population mean, sd and covariance (default = <code>FALSE</code>)</li>
+</ul>
+<div id="example-1" class="section level2">
+<h2>Example 1</h2>
+<p>The following example creates a 100-row dataframe of 3 columns names <code>A</code>, <code>B</code>, and <code>C</code>, with means = 0, SDs = 1, and where r<sub>AB</sub> = 0.2, r<sub>AC</sub> = -0.5, and r<sub>BC</sub> = 0.5.</p>
+<pre class="r"><code>ex1 &lt;- rnorm_multi(100, 3, c(0.2, -0.5, 0.5), varnames=c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;))</code></pre>
+<div id="correlation-matrix-of-sample-data" class="section level3">
+<h3>Correlation Matrix of Sample Data</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">A</th>
+<th align="right">B</th>
+<th align="right">C</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">A</td>
+<td align="right">1.0000000</td>
+<td align="right">-0.087499</td>
+<td align="right">-0.1202283</td>
+</tr>
+<tr class="even">
+<td align="left">B</td>
+<td align="right">-0.0874990</td>
+<td align="right">1.000000</td>
+<td align="right">0.0157210</td>
+</tr>
+<tr class="odd">
+<td align="left">C</td>
+<td align="right">-0.1202283</td>
+<td align="right">0.015721</td>
+<td align="right">1.0000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="example-2" class="section level2">
+<h2>Example 2</h2>
+<p>The following example calculates the correlation matrix, means, and SDs from the <code>iris</code> dataset and uses them to simulate a dataset of 100 rows with the same parameters.</p>
+<pre class="r"><code>dat &lt;- select_if(iris, is.numeric)
+
+iris_sim &lt;- rnorm_multi(
+  n = 100, 
+  vars = ncol(dat), 
+  r = cor(dat),
+  mu = summarise_all(dat, mean) %&gt;% t(), 
+  sd = summarise_all(dat, sd) %&gt;% t(), 
+  varnames = names(dat)
+)</code></pre>
+<div id="correlation-matrix-of-original-data" class="section level3">
+<h3>Correlation Matrix of Original Data</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Sepal.Length</th>
+<th align="right">Sepal.Width</th>
+<th align="right">Petal.Length</th>
+<th align="right">Petal.Width</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Sepal.Length</td>
+<td align="right">1.0000000</td>
+<td align="right">-0.1175698</td>
+<td align="right">0.8717538</td>
+<td align="right">0.8179411</td>
+</tr>
+<tr class="even">
+<td align="left">Sepal.Width</td>
+<td align="right">-0.1175698</td>
+<td align="right">1.0000000</td>
+<td align="right">-0.4284401</td>
+<td align="right">-0.3661259</td>
+</tr>
+<tr class="odd">
+<td align="left">Petal.Length</td>
+<td align="right">0.8717538</td>
+<td align="right">-0.4284401</td>
+<td align="right">1.0000000</td>
+<td align="right">0.9628654</td>
+</tr>
+<tr class="even">
+<td align="left">Petal.Width</td>
+<td align="right">0.8179411</td>
+<td align="right">-0.3661259</td>
+<td align="right">0.9628654</td>
+<td align="right">1.0000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="correlation-matrix-of-sample-data-1" class="section level3">
+<h3>Correlation Matrix of Sample Data</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">Sepal.Length</th>
+<th align="right">Sepal.Width</th>
+<th align="right">Petal.Length</th>
+<th align="right">Petal.Width</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Sepal.Length</td>
+<td align="right">1.0000000</td>
+<td align="right">-0.1591051</td>
+<td align="right">0.8491459</td>
+<td align="right">0.7544625</td>
+</tr>
+<tr class="even">
+<td align="left">Sepal.Width</td>
+<td align="right">-0.1591051</td>
+<td align="right">1.0000000</td>
+<td align="right">-0.4527400</td>
+<td align="right">-0.3513351</td>
+</tr>
+<tr class="odd">
+<td align="left">Petal.Length</td>
+<td align="right">0.8491459</td>
+<td align="right">-0.4527400</td>
+<td align="right">1.0000000</td>
+<td align="right">0.9485627</td>
+</tr>
+<tr class="even">
+<td align="left">Petal.Width</td>
+<td align="right">0.7544625</td>
+<td align="right">-0.3513351</td>
+<td align="right">0.9485627</td>
+<td align="right">1.0000000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>

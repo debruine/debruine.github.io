@@ -1,0 +1,149 @@
+---
+title: "Solution Feedback"
+author: ~
+date: "2017-11-15"
+slug: solution-feedback
+categories: ["rstats"]
+tags: ["R", "pedagogy"]
+---
+
+
+
+<p>Download a simple demo <a href="/files/solveme_demo.Rmd">.rmd</a>/<a href="/files/solveme_demo.html">.html</a>.</p>
+<p>I’d noticed that students were tending to just look at the <a href="hidden_solutions.html">hidden solutions</a> and not try very hard to understand the exercises, so I wanted a way for them to check if they’re right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.</p>
+<p>What is 2 + 2? <input class="solveme" size="3" answer="4"></p>
+<p>Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.</p>
+<div id="put-this-at-the-beginning-of-your-file" class="section level2">
+<h2>Put this at the beginning of your file</h2>
+<p>If you’re making your website in RMarkdown, put it after the second <code>---</code> in the yml header. If you’re writing html directly, put it inside the <code>&lt;head&gt;</code> element.</p>
+<p>You can use different colours or line types by changing the border styles.</p>
+<pre><code>&lt;style&gt;
+  /* styles for solveme */
+  .solveme { border: 2px dotted red; }
+  .solveme.correct { border: 2px solid blue; }
+&lt;/style&gt;</code></pre>
+<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put these lines of css into an external stylesheet linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.css">rguppies.css</a>).</p>
+</div>
+<div id="put-this-at-the-end-of-your-file" class="section level2">
+<h2>Put this at the end of your file</h2>
+<pre><code>&lt;script&gt;
+  tc = function() {
+    if (t = document.getElementById(&quot;total_correct&quot;)) {
+      t.innerHTML =       
+        document.getElementsByClassName(&quot;correct&quot;).length + &quot; of &quot; +
+        document.getElementsByClassName(&quot;solveme&quot;).length + &quot; correct&quot;;
+    }
+  }
+  window.onload = function() {
+    tc();
+    var solveme = document.getElementsByClassName(&quot;solveme&quot;);
+    for (var i = 0; i &lt; solveme.length; i++) {
+      solveme[i].setAttribute(&quot;autocomplete&quot;,&quot;off&quot;);
+      solveme[i].value = &quot;&quot;;
+      solveme[i].onkeyup = function(e) {
+        var real_answer = this.getAttribute(&quot;answer&quot;).trim();
+        var my_answer = this.value;
+        var cl = this.classList;
+        if (cl.contains(&quot;nospaces&quot;)) {
+          real_answer = real_answer.replace(/ /g, &quot;&quot;);
+          my_answer = my_answer.replace(/ /g, &quot;&quot;);
+        }
+        if (cl.contains(&quot;ignorecase&quot;)) {
+          real_answer = real_answer.toLowerCase();
+          my_answer = my_answer.toLowerCase();
+        }
+        var linend = new RegExp(/\s*(:or:)\s*/, &#39;g&#39;)
+        real_answer = real_answer.split(linend);
+        if (my_answer !== &quot;&quot; &amp; real_answer.includes(my_answer)) {
+          cl.add(&quot;correct&quot;);
+        } else {
+          cl.remove(&quot;correct&quot;);
+        }
+        tc();
+      }
+      solveme[i].onchange = function() {
+        this.onkeyup();
+      }
+    }
+  }
+&lt;/script&gt;</code></pre>
+<p>If you’re using <a href="http://rmarkdown.rstudio.com/rmarkdown_websites.html">RMarkdown Websites</a>, you can just put this script into an external footer or script file linked in your <code>_site.yml</code> file (e.g., <a href="rguppies.js">rguppies.js</a>).</p>
+</div>
+<div id="set-up-the-input-boxes" class="section level2">
+<h2>Set up the input boxes</h2>
+<ul>
+<li><p>Set up a basic input box like below. It needs to have <code>solveme</code> as the class and the correct answer in <code>answer</code>.</p>
+<p>What is <span class="math inline">\(5 + 5\)</span>?
+<input class="solveme" answer="10" ></p>
+<pre><code>&lt;input class=&quot;solveme&quot; answer=&quot;10&quot; &gt;</code></pre></li>
+<li><p>If you don’t care about uppercase vs lowercase letters, add <code>ignorecase</code> to the input style. You can also change the width of theinput box with <code>size</code>.</p>
+<p>What is the letter after B?
+<input class="solveme ignorecase" size="1" answer="c" ></p>
+<pre><code>&lt;input class=&quot;solveme ignorecase&quot; size=&quot;1&quot; answer=&quot;c&quot; &gt;</code></pre></li>
+<li><p>You can also put multiple correct answer possibilities separated by <code>:or:</code>.</p>
+<p>Type a vowel
+<input class="solveme ignorecase" size="1" 
+         answer="a :or: e :or: i :or: o :or: u" ></p>
+<pre><code>&lt;input class=&quot;solveme ignorecase&quot; size=&quot;1&quot; 
+       answer=&quot;a :or: e :or: i :or: o :or: u&quot; &gt;</code></pre></li>
+<li><p>If you’re asking for simple code where the spaces don’t matter, add the class <code>nospaces</code>.</p>
+<p>Draw 10 random numbers from a normal distribution with a mean of 3 and SD of 2:</p>
+<p><input class="solveme nospaces" 
+    size="30"
+    answer="rnorm(10, 3, 2) :or:
+            rnorm(10, mean = 3, sd = 2) :or:
+            rnorm(10, 3, sd = 2) :or:
+            rnorm(10, sd = 2, mean = 3) :or:
+            rnorm(x = 10, mean = 3, sd = 2)" ></p>
+<pre><code>&lt;input class=&quot;solveme nospaces&quot; 
+  size=&quot;30&quot;
+  answer=&quot;rnorm(10, 3, 2) :or:
+  rnorm(10, mean = 3, sd = 2) :or:
+  rnorm(10, 3, sd = 2) :or:
+  rnorm(10, sd = 2, mean = 3) :or:
+  rnorm(x = 10, mean = 3, sd = 2)&quot; &gt;</code></pre>
+<p class="alert alert-info">
+You can also skip a line after <code>:or:</code>. Whitespace before and after your answer is trimmed off, so your coprrect answer can’t require that the student start or end with spaces.
+</p></li>
+<li><p>This can’t handle multiple-line answers, but you can embed several input boxes in a paragraph. The formatting can get tricky, though:</p>
+<p>Complete the following function for returning the scaled values of a vector, <code>v</code>.</p>
+<pre>
+  scale_function <- function(v) { 
+    the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
+    the_sd <- sd(<input class="solveme" size="1" answer="v">)
+
+    (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
+  }
+  </pre>
+<pre><code>&lt;pre&gt;
+scale_function &lt;- function(v) { 
+  the_mean &lt;- &lt;input class=&quot;solveme&quot; size=&quot;6&quot; answer=&quot;mean&quot;&gt;(&lt;input class=&quot;solveme&quot;  size = &quot;2&quot; answer=&quot;v&quot;&gt;)
+  the_sd &lt;- sd(&lt;input class=&quot;solveme&quot; size=&quot;1&quot; answer=&quot;v&quot;&gt;)
+
+  (v &lt;input class=&quot;solveme&quot; size = &quot;1&quot; answer=&quot;-&quot;&gt; the_mean ) &lt;input class=&quot;solveme&quot; size = &quot;1&quot; answer=&quot;/&quot;&gt; the_sd
+}
+&lt;/pre&gt;</code></pre>
+<p class="alert alert-info">
+I wrapped the text in <code>&lt;pre&gt;</code> tags to format it like code, while still rendering the input boxes. If you surround it with three backticks, it will just display the code for the input boxes, not the actual boxes.
+</p></li>
+<li><p>You can also use this for a multiple choice drop-down menu.</p>
+<p>How would you model a distribution of coin flips?</p>
+<p><select class="solveme" answer="rbinom">
+<option></option>
+<option>rnorm</option>
+<option>runif</option>
+<option>rpois</option>
+<option>rbinom</option>
+</select></p>
+<pre><code>&lt;select class=&quot;solveme&quot; answer=&quot;rbinom&quot;&gt;
+  &lt;option&gt;&lt;/option&gt;
+  &lt;option&gt;rnorm&lt;/option&gt;
+  &lt;option&gt;runif&lt;/option&gt;
+  &lt;option&gt;rpois&lt;/option&gt;
+  &lt;option&gt;rbinom&lt;/option&gt;
+&lt;/select&gt;</code></pre></li>
+<li><p>You can include a line with automatically updating total correct using the following code:</p>
+<p><span id="total_correct"></span></p>
+<pre><code>&lt;span id=&quot;total_correct&quot;&gt;&lt;/span&gt;</code></pre></li>
+</ul>
+</div>

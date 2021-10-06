@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scale | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/scale/</link>
+      <atom:link href="https://debruine.github.io/tag/scale/index.xml" rel="self" type="application/rss+xml" />
+    <description>scale</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 22 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>scale</title>
+      <link>https://debruine.github.io/tag/scale/</link>
+    </image>
+    
+    <item>
+      <title>scale()</title>
+      <link>https://debruine.github.io/post/scale/</link>
+      <pubDate>Thu, 22 Jun 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/scale/</guid>
+      <description>
+
+
+&lt;p&gt;
+You can use &lt;code&gt;scale()&lt;/code&gt; to center and/or scale (i.e., Z-score) a vector of numbers.
+&lt;/p&gt;
+&lt;p&gt;Z-score a list of numbers&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- c(10, 12, 14, 16, 18)
+scale(x)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##            [,1]
+## [1,] -1.2649111
+## [2,] -0.6324555
+## [3,]  0.0000000
+## [4,]  0.6324555
+## [5,]  1.2649111
+## attr(,&amp;quot;scaled:center&amp;quot;)
+## [1] 14
+## attr(,&amp;quot;scaled:scale&amp;quot;)
+## [1] 3.162278&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, the result contains the mean and SD.
+This can cause problems if you want to assign it to a new column in a data frame,
+which you can fix using &lt;code&gt;as.vector()&lt;/code&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;as.vector(scale(x))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] -1.2649111 -0.6324555  0.0000000  0.6324555  1.2649111&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I find it more straightforward to just use the equation for a Z-score&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;( x - mean(x) ) / sd(x)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] -1.2649111 -0.6324555  0.0000000  0.6324555  1.2649111&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can just center the numbers without scaling.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;as.vector(scale(x, center=TRUE, scale=FALSE))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] -4 -2  0  2  4&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;( x - mean(x) )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] -4 -2  0  2  4&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Scaling without centering divides numbers by their root mean square.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;as.vector(scale(x, center=FALSE, scale=TRUE))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.6262243 0.7514691 0.8767140 1.0019589 1.1272037&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x / sqrt(sum(x^2)/(length(x)-1))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.6262243 0.7514691 0.8767140 1.0019589 1.1272037&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Set the scale to a number to divide by that number&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;as.vector(scale(x, center=FALSE, scale=3))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3.333333 4.000000 4.666667 5.333333 6.000000&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x / 3&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 3.333333 4.000000 4.666667 5.333333 6.000000&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create new columns in a dataframe with the scaled or centered variable&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;suppressMessages( library(tidyverse) )
+df &amp;lt;- data.frame(id = seq(1,5), x = x)
+df.s &amp;lt;- df %&amp;gt;%
+  mutate(
+    x.s = as.vector(scale(x)),
+    x.c = as.vector(scale(x, scale=F)),
+    x.z = (x - mean(x)) / sd(x)
+  )
+df.s&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id  x        x.s x.c        x.z
+## 1  1 10 -1.2649111  -4 -1.2649111
+## 2  2 12 -0.6324555  -2 -0.6324555
+## 3  3 14  0.0000000   0  0.0000000
+## 4  4 16  0.6324555   2  0.6324555
+## 5  5 18  1.2649111   4  1.2649111&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

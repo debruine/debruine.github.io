@@ -1,0 +1,125 @@
+---
+title: "Testing interactive functions"
+author: ~
+date: "2020-07-31"
+slug: interactive-test
+categories: ["rstats"]
+tags: ["R", "interactive", "test", "testthat"]
+---
+
+I'm a huge fan of unit tests, but it's tricky to test interactive functions where the user needs to enter input before the function can progress. I used to test them manually, which is incredibly tedious and time-consuming. So I ended up not testing interative functions very thoroughly. I found a [post on Stack Overflow](https://stackoverflow.com/questions/41372146/test-interaction-with-users-in-r-package) with a useful answer by [znk](https://stackoverflow.com/users/2752888/znk). I've expanded their answer into a full example of a unit test for an interactive function.
+
+```{r setup}
+library(testthat)
+```
+
+# Set up the function
+
+Your function needs to use `readLines` to get interactive input and take an argument for the connection (`con`). The default value for the connection should be the same as its default value for `readLines`, which is `stdin()` (the terminal). You can't use `readline`, which only supports connection to the terminal.
+
+This function displays a prompt and a list of valid options. If your response isn't in the list, it will repeat the prompt until it is.
+
+```{r}
+ask_opts <- function(prompt, opts = NULL, con = stdin()) {
+  # display prompt and options
+  optlist <- paste(opts, collapse = "|")
+  prompt_opt <- paste0(prompt, " [", optlist, "]\n")
+  cat(prompt_opt)
+  input <- readLines(con = con, n = 1)
+  
+  # repeat if input is not in opts
+  if (!is.null(opts) & !input %in% opts) {
+    input <- ask_opts(prompt, opts, con)
+  }
+
+  input
+}
+```
+
+
+## Set up the Test
+
+You need to create a file containing the input you want to send to the function, one input per line. I want to answer the first time with something not in the option list, then the second time with something that is in the option list.
+
+```{r}
+# set up interactive answers
+f <- file()
+lines <- c("echidna", "ferret")
+ans <- paste(lines, collapse = "\n")
+write(ans, f)
+```
+
+Then run your interactive function, setting the connection to your file. Run it inside `capture_output_lines` if you want to test the prompts and not just the output. Close the file when you are done with it.
+
+```{r}
+prompt <- "What is your favourite animal?"
+opts <- c("cat", "dog", "ferret")
+
+output_prompts <- capture_output_lines({
+  result <- ask_opts(prompt, opts, f)
+})
+
+close(f) # close the file
+```
+
+Now you can run your tests
+
+```{r}
+txt <- "What is your favourite animal? [cat|dog|ferret]"
+expect_equal(result, "ferret")
+expect_equal(output_prompts, rep(txt, 2))
+```
+
+## Without a new argument
+
+What if you don't want to change the arguments to your function to add a connection? You can set the connection in the options and test for it in the function, defaulting to `stdin()`. For example:
+
+```{r}
+ask_opts <- function(prompt, opts = NULL) {
+  # set up connection, default to stdin() if not set
+  con <- getOption("ask_opts.con", stdin())
+  
+  # display prompt and options
+  optlist <- paste(opts, collapse = "|")
+  prompt_opt <- paste0(prompt, " [", optlist, "]\n")
+  cat(prompt_opt)
+  input <- readLines(con = con, n = 1)
+  
+  # repeat if input is not in opts
+  if (!is.null(opts) & !input %in% opts) {
+    input <- ask_opts(prompt, opts)
+  }
+
+  input
+}
+```
+
+Then you just need to set this option before you run the interactive function in your testing environment. Make sure to reset it to `stdin()` when you're done.
+
+```{r}
+test_that("interactive", {
+  # set up interactive answers
+  f <- file()
+  lines <- c("maybe", "y")
+  ans <- paste(lines, collapse = "\n")
+  write(ans, f)
+  
+  options("ask_opts.con" = f) # set connection option 
+  
+  # run interactive function
+  prompt <- "Was this helpful?"
+  opts <- c("y", "n")
+  
+  output_prompts <- capture_output_lines({
+    result <- ask_opts(prompt, opts)
+  })
+  
+  close(f) # close the file
+  options("ask_opts.con" = stdin()) # reset connection option
+  
+  # tests
+  txt <- "Was this helpful? [y|n]"
+  expect_equal(result, "y")
+  expect_equal(output_prompts, rep(txt, 2))
+})
+```

@@ -1,0 +1,1425 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Lisa DeBruine" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://debruine.github.io/post/function-tips/" />
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.b87c2c9bf7b5f8f150d87aa73133e6bd.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://debruine.github.io/post/function-tips/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Lisa DeBruine" />
+  <meta property="og:url" content="https://debruine.github.io/post/function-tips/" />
+  <meta property="og:title" content="Function Tips | Lisa DeBruine" />
+  <meta property="og:description" content="I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2020-12-17T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2020-12-17T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://debruine.github.io/post/function-tips/"
+  },
+  "headline": "Function Tips",
+  
+  "datePublished": "2020-12-17T00:00:00Z",
+  "dateModified": "2020-12-17T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Lisa DeBruine"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Lisa DeBruine",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Function Tips | Lisa DeBruine</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="c732e265bd8f4cf2fabffcbea5936c02" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8988fb2a4bba758785868cfcb5244555.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="/"  aria-label="">
+              <i class="fas fa-" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Function Tips</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    2020-12-1212
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    8 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/stats/">stats</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<p>I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions.</p>
+<pre class="r"><code># my data-generating parameters
+my_n &lt;- 50
+my_mu &lt;- c(0, 0.2)
+my_sd &lt;- c(1, 1)
+my_r &lt;- 0.5
+
+my_func &lt;- function(n = my_n) {
+  # simulate data
+  dat &lt;- faux::rnorm_multi(
+    n = my_n,
+    vars = 2,
+    mu = my_mu,
+    sd = my_sd,
+    r = my_r,
+    varnames = c(&quot;low&quot;, &quot;high&quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}
+
+my_func(n = 100)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 2.0292, df = 49, p-value = 0.04789
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.002473696 0.508720912
+## sample estimates:
+## mean of the differences 
+##               0.2555973</code></pre>
+<div id="definitions" class="section level2">
+<h2>Definitions</h2>
+<p>First, it’s helpful to define a few terms I’ll use below.</p>
+<p><strong>Variables</strong> are words that identify and store the value of some data for later use. For example, in the code above, <code>my_n</code> is a variable and its <strong>value</strong> is set to <code>50</code>.</p>
+<p>The <strong>function</strong> is <code>my_func()</code> and is defined by the code inside the curly brackets <code>{...}</code>.</p>
+<p>The <strong>arguments</strong> are the variables that are set by the function. In the function above, <code>function(n = my_n)</code> has one argument: <code>n</code>.
+Arguments can have a <strong>default value</strong>. In the code above, the argument <code>n</code> has a default value of <code>my_n</code>, which is the value that argument takes if it’s not explicitly defined (e.g., if you just run <code>my_func()</code> instead of <code>my_func(n = 25)</code>).</p>
+<p>The <strong>global environment</strong> is the set of variables and functions that you create during your R session. It is what you can see in the Environment tab in RStudio.</p>
+</div>
+<div id="not-using-an-argument" class="section level2">
+<h2>Not using an argument</h2>
+<p>The biggest thing wrong with this code is that it defines an argument called <code>n</code>, but doesn’t use it in the code. It uses the variable <code>my_n</code> instead. So when I ran <code>my_func(n = 100)</code> above, I still got the result for <code>n = 50</code> (check the df in the output), because <code>my_n</code> still equals 50 and that’s what the function is using, not the value of <code>n</code>.</p>
+<p>It’s easy for this to happen when you’re first developing a function because you probably are modifying non-function code, where it does make sense to use <code>my_n</code> in the <code>rnorm_multi()</code> function. You can either make the name of the argument match (e.g., <code>function(my_n) {...}</code>) or change the name of the variable in the function code (e.g., <code>dat &lt;- faux::rnorm_multi(n = n, ...)</code>).</p>
+</div>
+<div id="externally-defined-variables" class="section level2">
+<h2>Externally defined variables</h2>
+<p>The code in a function should usually be able to run without depending on having variables with correct names in the environment. This code doesn’t run if you don’t define <code>my_mu</code>, <code>my_sd</code> and <code>my_r</code> before running it. It’s tempting to just use those variables inside the function, because it saves you typing the values as arguments to the function when you use it, especially in a script where you know you won’t need to change those values, but this makes the function less useful in other contexts (including reuse by future you).</p>
+<p>There can definitely be exceptions to this, but first master the rule that any variables used inside a function have to be defined as arguments.</p>
+</div>
+<div id="variables-as-default-values" class="section level2">
+<h2>Variables as default values</h2>
+<p>Normally, don’t set function argument defaults to a variable (again, there can be exceptions, but you need to master that rule before you understand when you can use exceptions). It will work fine when you’re testing it in context and all the variables you expect to be in the environment are there, but the point of a function is to be reusable in different contexts, so it’s best not to depend on external things.</p>
+<p>You don’t always have to set a default value for an argument, but it’s often useful to set the default value to a “neutral” thing that makes the code run even if the user doesn’t set all the arguments. So <code>n</code> should be a sensible number like 100 (e.g., if you set it to 0, then the code won’t run correctly), and <code>sd</code> should be 1 (not 0, since that’s not a valid value for SDs).</p>
+</div>
+<div id="better-versions" class="section level2">
+<h2>Better versions</h2>
+<p>In this version, I used the same argument names as the <code>rnorm_multi()</code> function from <a href="https://debruine.github.io/faux/">faux</a>, and also set their default values to the same defaults that function uses (simulating a dataset with 100 pairs of observations with means of 0, SDs of 1, and a correlation of 0).</p>
+<p>You could add more arguments to the function, like <code>vars</code> or <code>varnames</code>, but in this context I know I would never want to vary them, so I can “hard-code” them.</p>
+<pre class="r"><code>my_func2 &lt;- function(n = 100, mu = 0, sd = 1, r = 0) {
+  # simulate data
+  dat &lt;- faux::rnorm_multi(
+    n = n,
+    vars = 2,
+    mu = mu,
+    sd = sd,
+    r = r,
+    varnames = c(&quot;low&quot;, &quot;high&quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}</code></pre>
+<p>This lets you run the function without any arguments.</p>
+<pre class="r"><code>my_func2()</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = -1.3048, df = 99, p-value = 0.195
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.47076184  0.09724687
+## sample estimates:
+## mean of the differences 
+##              -0.1867575</code></pre>
+<p>And then I can add in new values or my data-generating parameters from the code above.</p>
+<pre class="r"><code>my_func2(n = 200, mu = my_mu, sd = my_sd, r = my_r)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 3.5054, df = 199, p-value = 0.0005632
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.09912782 0.35407004
+## sample estimates:
+## mean of the differences 
+##               0.2265989</code></pre>
+<p>Your function doesn’t need to use the same variable names as the functions you might be using them in. Some people find using the same variable names to be easier because you can see the connection between the variable in your function and where you’re using it. But this can be confusing for new coders. You can give your function argument names that are different to clarify where you’re using them.</p>
+<p>If this pattern makes sense to you, I recommend using a consistent prefix to the name, like <code>the_</code>, so you can always know if a variable is being defined as an argument to the function or externally.</p>
+<pre class="r"><code>my_func3 &lt;- function(the_n = 100, the_mu = 0, the_sd = 1, the_r = 0) {
+  # simulate data
+  dat &lt;- faux::rnorm_multi(
+    n = the_n,
+    vars = 2,
+    mu = the_mu,
+    sd = the_sd,
+    r = the_r,
+    varnames = c(&quot;low&quot;, &quot;high&quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}</code></pre>
+<p>If you’re using argument names in your function call, you will need to make sure they’re consistent with the function.</p>
+<pre class="r"><code>my_func3(the_n = my_n, the_mu = my_mu, the_sd = my_sd, the_r = my_r)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 0.59576, df = 49, p-value = 0.5541
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.1781599  0.3283058
+## sample estimates:
+## mean of the differences 
+##              0.07507296</code></pre>
+<p>Or you can set the arguments by order and omit the names.</p>
+<pre class="r"><code>my_func3(my_n, my_mu, my_sd, my_r)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 1.7383, df = 49, p-value = 0.08843
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.04088076  0.56488613
+## sample estimates:
+## mean of the differences 
+##               0.2620027</code></pre>
+</div>
+<div id="scope" class="section level2">
+<h2>Scope</h2>
+<p>The concept of <strong>scope</strong> can also be confusing to new coders. In this context it’s just important to know that if you have argument names that are the same as variables in your environment, the function will use the values set by its arguments, not the ones set in your <strong>global environment</strong> (what you can see in the Environment tab in RStudio).</p>
+<p>In other words, a function has access to variables in the global environment, but also has variables created by that function’s arguments, which can overwrite the values of variables with the same name in the global environment.</p>
+<p>For that reason, I advise new coders to avoid giving the parameter values in their global environment the same names as the arguments of the functions they are used in. this is fine, but can lead to confusion unless you have a very clear conceptual understanding of scope.</p>
+<pre class="r"><code>my_func4 &lt;- function(my_n = 100, my_mu = 0, my_sd = 1, my_r = 0) {
+  # simulate data
+  dat &lt;- faux::rnorm_multi(
+    n = my_n,
+    vars = 2,
+    mu = my_mu,
+    sd = my_sd,
+    r = my_r,
+    varnames = c(&quot;low&quot;, &quot;high&quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}</code></pre>
+<p>For example, the function above has arguments called <code>my_n</code>, <code>my_mu</code>, <code>my_sd</code> and <code>my_r</code>. We can also create variables with those same names in the global environment.</p>
+<pre class="r"><code># my data-generating parameters
+my_n &lt;- 50
+my_mu &lt;- c(0, 0.2)
+my_sd &lt;- c(1, 1)
+my_r &lt;- 0.5</code></pre>
+<p>However, when you run the function without setting the arguments in the function, it uses the default values of the arguments, not the values you set in the global environment.</p>
+<pre class="r"><code>my_func4()</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = -1.3053, df = 99, p-value = 0.1948
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.4908755  0.1013183
+## sample estimates:
+## mean of the differences 
+##              -0.1947786</code></pre>
+<p>If you set the values in the function, then it will work as expected.</p>
+<pre class="r"><code>my_func4(my_n, my_mu, my_sd, my_r)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 2.3301, df = 49, p-value = 0.02396
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.03896867 0.52759670
+## sample estimates:
+## mean of the differences 
+##               0.2832827</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/functions/">functions</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://debruine.github.io/post/function-tips/&amp;text=Function%20Tips" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://debruine.github.io/post/function-tips/&amp;t=Function%20Tips" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Function%20Tips&amp;body=https://debruine.github.io/post/function-tips/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://debruine.github.io/post/function-tips/&amp;title=Function%20Tips" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Function%20Tips%20https://debruine.github.io/post/function-tips/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://debruine.github.io/post/function-tips/&amp;title=Function%20Tips" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://debruine.github.io/"><img class="avatar mr-3 avatar-circle" src="/author/lisa-debruine/avatar_huc4546377bde55ecd47b44f619a7a66e6_608544_270x270_fill_q75_lanczos_center.jpg" alt="Lisa DeBruine"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://debruine.github.io/">Lisa DeBruine</a></h5>
+      <h6 class="card-subtitle">Professor of Psychology</h6>
+      <p class="card-text">Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility. matter.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/" >
+        <i class="fas fa-"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/debruine" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/LisaDeBruine" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://osf.io/4i578/" target="_blank" rel="noopener">
+        <i class="ai ai-osf"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://figshare.com/authors/Lisa_DeBruine/3235773" target="_blank" rel="noopener">
+        <i class="ai ai-figshare"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="http://orcid.org/0000-0002-7523-5539" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:lisa.debruine@glasgow.ac.uk" >
+        <i class="far fa-paper-plane"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+  
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.d68ecd57c0ec1f1f61d65fd568f1c3a0.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+---
+title: How many simulations in my power analysis?
+author: ~
+date: '2020-08-17'
+slug: how-many-sims
+categories: ["rstats", "simulation"]
+tags: ["simulation", "r", "power"]
+---
+
+
+
+<p>Today I was trying to figure out how to advise on the number of simulations to run when calculating power by simulation.</p>
+<p>I tackled this question by running a simulation (of course).</p>
+<pre class="r"><code>library(ggplot2)
+library(dplyr) # I love pipes
+set.seed(8675309)</code></pre>
+<p>I wanted to figure out how close to the true power was the calculated power from a simulation where the number of replications ranges from 100 to 10K (in steps of 100) and power ranges from 0.5 to 1 in steps of .05 (the result is symmetric around 50%, so the figures below for 80% power also apply to 20% power)..</p>
+<p>First, I made all possible combinations of replications and power.</p>
+<pre class="r"><code>x &lt;- expand.grid(
+  reps = seq(100, 1e4, 100),
+  power = seq(0.5, 1, .05)
+)</code></pre>
+<p>Then, for each combination, I calculated the proportion of significant analyses in 10K simulations. I assumed this would have a binomial distribution where size is the number of replications in each simulation and probability is the true power. I then calculated the absolute difference from the true value of power and reported the mean (I find it more intuitive than SD or variance).</p>
+<pre class="r"><code>x$diff &lt;- mapply(function(size, prob) {
+  sig &lt;- rbinom(1e4, size, prob) / size
+  diff &lt;- abs(sig - prob)
+  mean(diff)
+}, size = x$reps, prob = x$power)</code></pre>
+<p>I plotted the results to see if they make sense. As the number of replications per simulation increases, the mean difference from the true power decreases. Accuracy is higher for larger values of power.</p>
+<p><img src="/posts/how-many-sims_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>I also calculated the minimum number of replications to get a result that is, on average, less than 1% off from a power of 80%</p>
+<pre class="r"><code>filter(x, power == .8, diff &lt; .01) %&gt;% 
+  pull(reps) %&gt;%  min()</code></pre>
+<pre><code>## [1] 1100</code></pre>
+<p>I also calculated the .95 quantile to see how many replications you need to run to get within 1% of the true value.</p>
+<pre class="r"><code>x$q95 &lt;- mapply(function(size, prob) {
+  sig &lt;- rbinom(1e4, size, prob) / size
+  diff &lt;- abs(sig - prob)
+  quantile(diff, .95)
+}, size = x$reps, prob = x$power)</code></pre>
+<p><img src="/posts/how-many-sims_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Turns out you need a lot more.</p>
+<pre class="r"><code>filter(x, power == .8, q95 &lt; .01) %&gt;% 
+  pull(reps) %&gt;%  min()</code></pre>
+<pre><code>## [1] 6300</code></pre>

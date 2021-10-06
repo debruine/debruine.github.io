@@ -1,0 +1,68 @@
+---
+title: "rep()"
+author: ~
+date: "2017-06-21"
+slug: rep
+categories: ["rstats"]
+tags: ["R", "rep"]
+---
+
+<code>rep(x, times = 1, length.out = NA, each = 1)</code> is pretty useful for simulating data. Here are some common recipes:
+
+* Repeat a single number (1) a number of times (10)
+```{r}
+rep(1, 10)
+```
+
+* Repeat a series of numbers (1:5) a number of times (2)
+```{r}
+rep(1:5, 2)
+rep(1:5, times=2)
+```
+
+* If <code>times</code> is not an integer, it is truncated (not rounded).
+```{r}
+rep(1:5, times=2.9)
+```
+
+* Repeat a series of numbers (1:5) a number of times each  (2)
+```{r}
+rep(1:5, each=2)
+rep(1:5, 1, NA, 2)
+```
+
+* Repeat a list of numbers (0, 3, 6) a number of times (2)
+```{r}
+rep(c(0, 3, 6), times=2)
+```
+
+* Repeat a list of strings ("a", "b", "c") a number of times (2)
+```{r}
+rep(c("a", "b", "c"), times=2)
+```
+
+* Repeat a list of strings ("a", "b", "c") a number of times each (2)
+```{r}
+rep(c("a", "b", "c"), each=2)
+```
+
+* Repeat a list of strings ("a", "b") a number of times each (2) a number of times (3)
+```{r}
+rep(c("a", "b"), each=2, times=3)
+```
+
+* Repeat a series of numbers (1:5) until you have a specific total (12)
+```{r}
+rep(1:5, length.out=12)
+rep_len(1:5, 12)
+```
+
+* <code>length.out</code> overrides <code>times</code>
+```{r}
+rep(1:5, length.out=12, times=500)
+```
+
+* Repeat a sequence of numbers (0:10 by 5s) a number of times (3)
+```{r}
+rep(seq(0, 10, by=5), 3)
+```

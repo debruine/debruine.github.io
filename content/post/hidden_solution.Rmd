@@ -1,0 +1,94 @@
+---
+title: "Hidden Solutions"
+author: ~
+date: "2017-10-21"
+slug: hidden-solutions
+categories: ["rstats"]
+tags: ["r", "pedagogy", "web"]
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+```
+
+The [R for Reproducible Scientific Analysis](http://swcarpentry.github.io/r-novice-gapminder/) pages at software carpentry have a really nice interface for hiding and showing solutions to exercises. I've created my own lightweight solution that you can use in any html file, including those made by RMarkdown (e.g., R notebooks).
+
+## Example
+
+Graph the relationship between speed and distance for the `cars` dataset.
+
+<div class="solution"><button>Solution</button>
+
+You can put some text inside the solution, as well as code cunks.
+
+```{r cars}
+ggplot(cars, aes(speed, dist)) +
+  geom_point(color = "purple") +
+  geom_smooth(method = "lm", color = "purple")
+```
+
+</div>
+
+Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.
+
+## Put this at the beginning of your file
+
+```
+<style>
+  /* styles for hidden solutions */
+  .solution {
+    height: 2em;
+    overflow-y: hidden;
+    padding: 0.5em;
+  }
+  .solution.open { 
+    height: auto; 
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  .solution button {
+    height: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  .solution pre.sourceCode {
+    border-color: green;
+  }
+</style>
+```
+
+If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put these lines of css into an external stylesheet linked in your `_site.yml` file (e.g., [rguppies.css](rguppies.css)).
+
+## Put this at the end of your file
+
+```
+<script>
+  window.onload = function(){
+    var buttons = document.getElementsByTagName("button");
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].onclick = function() {
+        var cl = this.parentElement.classList;
+        if (cl.contains('open')) {
+          cl.remove("open");
+        } else {
+          cl.add("open");
+        }
+      }
+    }
+  }
+</script>
+```
+
+If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put this script into an external footer or script file linked in your `_site.yml` file (e.g., [rguppies.js](rguppies.js)).
+
+## Surround your hidden solutions like this
+
+```
+<div class="solution"><button>Solution</button>
+
+PUT YOUR SOLUTION HERE (including r chunks)
+
+</div>
+```
+You can change the text on the button to something else (e.g., `<button>View the Answer</button>`).
+
+Let me know if you have any suggestions or find this useful.

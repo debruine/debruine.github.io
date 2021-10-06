@@ -1,0 +1,1397 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Lisa DeBruine" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).
+library(tidyverse) library(irr) Load the rating data for the open-source Face Research Lab London Set." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://debruine.github.io/post/nest/" />
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.b87c2c9bf7b5f8f150d87aa73133e6bd.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://debruine.github.io/post/nest/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Lisa DeBruine" />
+  <meta property="og:url" content="https://debruine.github.io/post/nest/" />
+  <meta property="og:title" content="nest() and irr::icc() | Lisa DeBruine" />
+  <meta property="og:description" content="I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).
+library(tidyverse) library(irr) Load the rating data for the open-source Face Research Lab London Set." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2017-08-21T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2017-08-21T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://debruine.github.io/post/nest/"
+  },
+  "headline": "nest() and irr::icc()",
+  
+  "datePublished": "2017-08-21T00:00:00Z",
+  "dateModified": "2017-08-21T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Lisa DeBruine"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Lisa DeBruine",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).\nlibrary(tidyverse) library(irr) Load the rating data for the open-source Face Research Lab London Set."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>nest() and irr::icc() | Lisa DeBruine</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="c819c21add164de67a47adb52235cc6c" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8988fb2a4bba758785868cfcb5244555.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="/"  aria-label="">
+              <i class="fas fa-" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>nest() and irr::icc()</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    2017-08-128
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    6 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<p>I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).</p>
+<pre class="r"><code>library(tidyverse)
+library(irr)</code></pre>
+<p>Load the rating data for the open-source <a href="https://figshare.com/articles/Face_Research_Lab_London_Set/5047666">Face Research Lab London Set</a>.
+The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (<code>X001:X173</code>).</p>
+<pre class="r"><code>london &lt;- read_csv(&quot;https://ndownloader.figshare.com/files/8542045&quot;)
+
+head(london)</code></pre>
+<pre><code>## # A tibble: 6 x 105
+##   rater_sex rater_sexpref rater_age  X001  X002  X003  X004  X005  X006  X007
+##   &lt;chr&gt;     &lt;chr&gt;             &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 female    either             17       3     3     3     3     2     3     5
+## 2 female    either             17       5     2     3     2     1     5     6
+## 3 female    either             17.1     5     3     4     3     3     4     4
+## 4 female    either             17.1     4     6     5     5     3     4     5
+## 5 female    either             17.2     3     4     3     1     1     1     3
+## 6 female    either             17.3     6     5     5     3     7     5     6
+## # … with 95 more variables: X008 &lt;dbl&gt;, X009 &lt;dbl&gt;, X010 &lt;dbl&gt;, X011 &lt;dbl&gt;,
+## #   X012 &lt;dbl&gt;, X013 &lt;dbl&gt;, X014 &lt;dbl&gt;, X016 &lt;dbl&gt;, X017 &lt;dbl&gt;, X018 &lt;dbl&gt;,
+## #   X019 &lt;dbl&gt;, X020 &lt;dbl&gt;, X021 &lt;dbl&gt;, X022 &lt;dbl&gt;, X024 &lt;dbl&gt;, X025 &lt;dbl&gt;,
+## #   X026 &lt;dbl&gt;, X027 &lt;dbl&gt;, X029 &lt;dbl&gt;, X030 &lt;dbl&gt;, X031 &lt;dbl&gt;, X032 &lt;dbl&gt;,
+## #   X033 &lt;dbl&gt;, X034 &lt;dbl&gt;, X036 &lt;dbl&gt;, X037 &lt;dbl&gt;, X038 &lt;dbl&gt;, X039 &lt;dbl&gt;,
+## #   X041 &lt;dbl&gt;, X042 &lt;dbl&gt;, X043 &lt;dbl&gt;, X044 &lt;dbl&gt;, X045 &lt;dbl&gt;, X061 &lt;dbl&gt;,
+## #   X062 &lt;dbl&gt;, X063 &lt;dbl&gt;, X064 &lt;dbl&gt;, X066 &lt;dbl&gt;, X067 &lt;dbl&gt;, X068 &lt;dbl&gt;,
+## #   X069 &lt;dbl&gt;, X070 &lt;dbl&gt;, X081 &lt;dbl&gt;, X082 &lt;dbl&gt;, X083 &lt;dbl&gt;, X086 &lt;dbl&gt;,
+## #   X087 &lt;dbl&gt;, X090 &lt;dbl&gt;, X091 &lt;dbl&gt;, X092 &lt;dbl&gt;, X094 &lt;dbl&gt;, X096 &lt;dbl&gt;,
+## #   X097 &lt;dbl&gt;, X099 &lt;dbl&gt;, X100 &lt;dbl&gt;, X101 &lt;dbl&gt;, X102 &lt;dbl&gt;, X103 &lt;dbl&gt;,
+## #   X104 &lt;dbl&gt;, X105 &lt;dbl&gt;, X107 &lt;dbl&gt;, X108 &lt;dbl&gt;, X112 &lt;dbl&gt;, X113 &lt;dbl&gt;,
+## #   X114 &lt;dbl&gt;, X115 &lt;dbl&gt;, X117 &lt;dbl&gt;, X118 &lt;dbl&gt;, X119 &lt;dbl&gt;, X120 &lt;dbl&gt;,
+## #   X121 &lt;dbl&gt;, X122 &lt;dbl&gt;, X123 &lt;dbl&gt;, X124 &lt;dbl&gt;, X125 &lt;dbl&gt;, X126 &lt;dbl&gt;,
+## #   X127 &lt;dbl&gt;, X128 &lt;dbl&gt;, X129 &lt;dbl&gt;, X130 &lt;dbl&gt;, X131 &lt;dbl&gt;, X132 &lt;dbl&gt;,
+## #   X134 &lt;dbl&gt;, X135 &lt;dbl&gt;, X136 &lt;dbl&gt;, X137 &lt;dbl&gt;, X138 &lt;dbl&gt;, X139 &lt;dbl&gt;,
+## #   X140 &lt;dbl&gt;, X141 &lt;dbl&gt;, X142 &lt;dbl&gt;, X143 &lt;dbl&gt;, X144 &lt;dbl&gt;, X172 &lt;dbl&gt;,
+## #   X173 &lt;dbl&gt;</code></pre>
+<p>To calculate the ICC for ratings, first we need to get the data into a format where each column represents a rater and each row represents a stimulus. Select just the columns with ratings, then transpose (<code>t()</code>) the data.</p>
+<pre class="r"><code>london %&gt;%
+  select(X001:X173) %&gt;%
+  t() %&gt;%
+  irr::icc()</code></pre>
+<pre><code>##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 2513 
+##      ICC(1) = 0.24
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &gt; 0 
+## F(101,256224) = 793 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.196 &lt; ICC &lt; 0.298</code></pre>
+<p>But what if you want to do this for several subsets of the raters or stimuli? One solution is to run the code above several times, once for each subset, adding code to select and filter.</p>
+<pre class="r"><code>london %&gt;%
+  filter(rater_sex == &quot;male&quot;) %&gt;%
+  select(X001:X173) %&gt;%
+  t() %&gt;%
+  irr::icc()</code></pre>
+<pre><code>##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 955 
+##      ICC(1) = 0.225
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &gt; 0 
+## F(101,97308) = 279 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.183 &lt; ICC &lt; 0.281</code></pre>
+<pre class="r"><code>london %&gt;%
+  filter(rater_sex == &quot;female&quot;) %&gt;%
+  select(X001:X173) %&gt;%
+  t() %&gt;%
+  irr::icc()</code></pre>
+<pre><code>##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 1552 
+##      ICC(1) = 0.253
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &gt; 0 
+## F(101,158202) = 526 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.207 &lt; ICC &lt; 0.313</code></pre>
+<p>But what if you want to calculate ICCs for lots of subdivisions? It’s tedious and error-prone to do each one by hand, but you can group your data into the subdivisions, nest the ratings, and map them onto a function.</p>
+<p>First, we have to write a function that takes the data and returns a table of the stats you’re interested in. The <code>irr::icc()</code> function returns a list, which won’t play well with nesting later, so we <code>unlist()</code> it, transpose it so it’s a row of values, not a column, turn it back into a tibble (transposing turns it into a matrix), and select just the columns you want.</p>
+<pre class="r"><code>my_icc &lt;- function(data) {
+  data %&gt;%
+    select(X001:X173) %&gt;% # select just the rating columns
+    t() %&gt;%               # transpose so columns are raters and rows are stimuli
+    irr::icc() %&gt;%        # calculate the ICC
+    unlist() %&gt;%          # turn the output list into a vector
+    t() %&gt;%               # transpose this vector
+    as_tibble() %&gt;%       # turn the vector into a table 
+    select(               # select just the columns you want
+      stimuli = subjects, # rename subjects to stimuli     
+      raters, 
+      icc = value,        # rename value to icc
+      lbound, 
+      ubound
+    ) %&gt;%
+    # fix column modes (unlisting turned them all into characters)
+    mutate_at(vars(stimuli, raters), as.integer) %&gt;% 
+    mutate_at(vars(icc:ubound), as.numeric)
+}</code></pre>
+<p>Test the function on the whole dataset to check it gives you the right data.</p>
+<pre class="r"><code>my_icc(london)</code></pre>
+<pre><code>## # A tibble: 1 x 5
+##   stimuli raters   icc lbound ubound
+##     &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1     102   2513 0.240  0.196  0.298</code></pre>
+<p>Then we can group our full dataframe. Here I’ve created a new column of age group and filtered out age/sex groups with fewer than 10 raters. After you group your data, use the <code>nest()</code> function to turn all the rest of the columns into a separate table for each group (stored in the column <code>data</code>). Then you can map these tables onto your <code>my_icc</code> function. Finally, unnest this new <code>icc</code> column to re-expand your table.</p>
+<pre class="r"><code>london_icc_grouped &lt;- london %&gt;%
+  mutate(age_group = round(rater_age / 10)*10) %&gt;% # create age group by decade
+  group_by(rater_sex, age_group) %&gt;%               # group by rater age and sex
+  filter(n() &gt;= 10) %&gt;%                            # remove groups smaller than 10
+  nest() %&gt;%                                       # nest the rest of the columns
+  mutate(icc = map(data, my_icc)) %&gt;%              # calculate ICC for each group
+  unnest(icc) %&gt;%                                  # expand the tables returned to icc
+  select(-data)                                    # get rid of the data column
+  
+london_icc_grouped</code></pre>
+<pre><code>## # A tibble: 10 x 7
+## # Groups:   rater_sex, age_group [10]
+##    rater_sex age_group stimuli raters   icc lbound ubound
+##    &lt;chr&gt;         &lt;dbl&gt;   &lt;int&gt;  &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+##  1 female           20     102   1035 0.253  0.207  0.313
+##  2 female           30     102    317 0.257  0.211  0.319
+##  3 female           40     102    123 0.264  0.216  0.327
+##  4 female           50     102     54 0.255  0.206  0.319
+##  5 female           60     102     20 0.271  0.215  0.342
+##  6 male             20     102    478 0.211  0.171  0.265
+##  7 male             30     102    253 0.252  0.206  0.312
+##  8 male             40     102    119 0.217  0.175  0.274
+##  9 male             50     102     74 0.267  0.218  0.332
+## 10 male             60     102     27 0.245  0.194  0.311</code></pre>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r/">r</a>
+  
+  <a class="badge badge-light" href="/tag/tidyverse/">tidyverse</a>
+  
+  <a class="badge badge-light" href="/tag/nest/">nest</a>
+  
+  <a class="badge badge-light" href="/tag/icc/">icc</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://debruine.github.io/post/nest/&amp;text=nest%28%29%20and%20irr::icc%28%29" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://debruine.github.io/post/nest/&amp;t=nest%28%29%20and%20irr::icc%28%29" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=nest%28%29%20and%20irr::icc%28%29&amp;body=https://debruine.github.io/post/nest/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://debruine.github.io/post/nest/&amp;title=nest%28%29%20and%20irr::icc%28%29" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=nest%28%29%20and%20irr::icc%28%29%20https://debruine.github.io/post/nest/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://debruine.github.io/post/nest/&amp;title=nest%28%29%20and%20irr::icc%28%29" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://debruine.github.io/"><img class="avatar mr-3 avatar-circle" src="/author/lisa-debruine/avatar_huc4546377bde55ecd47b44f619a7a66e6_608544_270x270_fill_q75_lanczos_center.jpg" alt="Lisa DeBruine"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://debruine.github.io/">Lisa DeBruine</a></h5>
+      <h6 class="card-subtitle">Professor of Psychology</h6>
+      <p class="card-text">Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility. matter.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/" >
+        <i class="fas fa-"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/debruine" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/LisaDeBruine" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://osf.io/4i578/" target="_blank" rel="noopener">
+        <i class="ai ai-osf"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://figshare.com/authors/Lisa_DeBruine/3235773" target="_blank" rel="noopener">
+        <i class="ai ai-figshare"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="http://orcid.org/0000-0002-7523-5539" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:lisa.debruine@glasgow.ac.uk" >
+        <i class="far fa-paper-plane"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/experimentum-data/">Experimentum Data Wrangling Demo</a></li>
+      
+      <li><a href="/post/pipes/">Pipes</a></li>
+      
+      <li><a href="/post/plot-comparison/">Plot Comparison</a></li>
+      
+      <li><a href="/post/recode/">recode()</a></li>
+      
+      <li><a href="/post/normality/">Testing for normality</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+  
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.d68ecd57c0ec1f1f61d65fd568f1c3a0.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

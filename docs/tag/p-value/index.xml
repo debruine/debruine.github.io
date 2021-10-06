@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>p-value | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/p-value/</link>
+      <atom:link href="https://debruine.github.io/tag/p-value/index.xml" rel="self" type="application/rss+xml" />
+    <description>p-value</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Jul 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>p-value</title>
+      <link>https://debruine.github.io/tag/p-value/</link>
+    </image>
+    
+    <item>
+      <title>Cumulative p</title>
+      <link>https://debruine.github.io/post/cumulative-p/</link>
+      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/cumulative-p/</guid>
+      <description>
+
+
+&lt;p&gt;EJ Wagenmakers started an interesting debate last night with a &lt;a href=&#34;https://twitter.com/EJWagenmakers/status/889987997046910978&#34;&gt;twitter poll on p-values&lt;/a&gt;. Some responses suggested you can multiply p-values from several tests to create a sort of &lt;a href=&#34;https://twitter.com/VladMalik/status/890246773515722752&#34;&gt;cumulative p-value&lt;/a&gt; that is the joint probability of the null hypothesis.&lt;/p&gt;
+&lt;p&gt;I also used to believe that you could multiply p-values, but am now a bit embarassed at my misunderstanding, common as it is. The p-value is &lt;em&gt;not&lt;/em&gt; the probability that the null hypothesis is true, it is the probability of obtaining the current (or more extreme) values under the null hypothesis. This important distinction means you cannot multiply p-values to obtain the joint probability of several tests.&lt;/p&gt;
+&lt;p&gt;First, I’ll write a simple function to generate two sets of &lt;code&gt;n&lt;/code&gt; samples from a normal distribution with the same mean and SD, then return the p-value for a t-test.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nullp &amp;lt;- function(n) {
+  a = rnorm(n)
+  b = rnorm(n)
+  t = t.test(a, b)
+  t$p.value
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’ll run this simulation 10000 times with samples of n = 1000 to get a good distribution of p-values under the null hypothesis. The histogram shows that this is a unifrom distribution.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ps &amp;lt;- replicate(10000, nullp(1000))
+
+hist(ps)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Then sample 1000 p-values from this distributions once, twice, thrice, and whatever the word is for four times. This should convince you that the cumulative p-value cannot provide the joint probability of the null hypothesis for multiple tests.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tibble(
+  x1 = sample(ps, 1000),
+  x2 = sample(ps, 1000) * sample(ps, 1000),
+  x3 = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000),
+  x4 = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000)
+) %&amp;gt;%
+  gather(&amp;quot;n_tests&amp;quot;, &amp;quot;cum_p&amp;quot;, x1:x4) %&amp;gt;%
+  ggplot(aes(cum_p, fill=n_tests)) +
+  geom_density(alpha = 0.5) +
+  labs(x =&amp;quot;Cumulative p-value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:unnamed-chunk-3&#34;&gt;&lt;/span&gt;
+&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-3-1.png&#34; alt=&#34;Cumulative p-value distribution under the null hypothesis&#34; width=&#34;672&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;
+Figure 1: Cumulative p-value distribution under the null hypothesis
+&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

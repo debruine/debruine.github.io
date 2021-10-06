@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>simulation | Lisa DeBruine</title>
+    <link>https://debruine.github.io/category/simulation/</link>
+      <atom:link href="https://debruine.github.io/category/simulation/index.xml" rel="self" type="application/rss+xml" />
+    <description>simulation</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 17 Aug 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>simulation</title>
+      <link>https://debruine.github.io/category/simulation/</link>
+    </image>
+    
+    <item>
+      <title>How many simulations in my power analysis?</title>
+      <link>https://debruine.github.io/post/how-many-sims/</link>
+      <pubDate>Mon, 17 Aug 2020 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/how-many-sims/</guid>
+      <description>
+
+
+&lt;p&gt;Today I was trying to figure out how to advise on the number of simulations to run when calculating power by simulation.&lt;/p&gt;
+&lt;p&gt;I tackled this question by running a simulation (of course).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2)
+library(dplyr) # I love pipes
+set.seed(8675309)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I wanted to figure out how close to the true power was the calculated power from a simulation where the number of replications ranges from 100 to 10K (in steps of 100) and power ranges from 0.5 to 1 in steps of .05 (the result is symmetric around 50%, so the figures below for 80% power also apply to 20% power)..&lt;/p&gt;
+&lt;p&gt;First, I made all possible combinations of replications and power.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- expand.grid(
+  reps = seq(100, 1e4, 100),
+  power = seq(0.5, 1, .05)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, for each combination, I calculated the proportion of significant analyses in 10K simulations. I assumed this would have a binomial distribution where size is the number of replications in each simulation and probability is the true power. I then calculated the absolute difference from the true value of power and reported the mean (I find it more intuitive than SD or variance).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x$diff &amp;lt;- mapply(function(size, prob) {
+  sig &amp;lt;- rbinom(1e4, size, prob) / size
+  diff &amp;lt;- abs(sig - prob)
+  mean(diff)
+}, size = x$reps, prob = x$power)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I plotted the results to see if they make sense. As the number of replications per simulation increases, the mean difference from the true power decreases. Accuracy is higher for larger values of power.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/how-many-sims_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;I also calculated the minimum number of replications to get a result that is, on average, less than 1% off from a power of 80%&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter(x, power == .8, diff &amp;lt; .01) %&amp;gt;% 
+  pull(reps) %&amp;gt;%  min()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1100&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I also calculated the .95 quantile to see how many replications you need to run to get within 1% of the true value.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x$q95 &amp;lt;- mapply(function(size, prob) {
+  sig &amp;lt;- rbinom(1e4, size, prob) / size
+  diff &amp;lt;- abs(sig - prob)
+  quantile(diff, .95)
+}, size = x$reps, prob = x$power)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/how-many-sims_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Turns out you need a lot more.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;filter(x, power == .8, q95 &amp;lt; .01) %&amp;gt;% 
+  pull(reps) %&amp;gt;%  min()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 6300&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

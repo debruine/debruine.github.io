@@ -1,0 +1,173 @@
+---
+title: "sample()"
+author: ~
+date: "2017-07-26"
+slug: sample
+categories: ["rstats"]
+tags: ["R", "simulation"]
+---
+
+
+First, let's make a data frame with two variables, `a` and `b` that are both sampled from a normal distribution with a mean of 0 and SD of 1. The variablle `n` will be how many samples we'll take (100). Then we can run a t-test to see if they are different.
+
+```{r}
+
+library(tidyverse)
+```
+
+```{r}
+n = 100
+
+data <- data.frame(
+  a = rnorm(n, 0, 1),
+  b = rnorm(n, 0, 1)
+)
+
+t <- t.test(data$a,data$b)
+
+t$p.value
+
+```
+
+Now let's repeat that procedure 1000 times. The easiest way to do that is to make a function that returns the information you want. 
+
+```{r}
+
+tPower <- function() {
+  n = 100
+
+  data <- data.frame(
+    a = rnorm(n, 0, 1),
+    b = rnorm(n, 0, 1)
+  )
+
+  t <- t.test(data$a,data$b)
+  
+  return(t$p.value)
+}
+
+tPower()
+
+```
+
+
+```{r}
+
+mySample <- data.frame(
+  p = replicate(10000, tPower())
+) 
+
+mySample %>%
+  ggplot(aes(p)) +
+  geom_histogram(bins = 20, boundary = 0)
+```
+
+
+```{r}
+mean(mySample$p < .05)
+```
+
+What if you induced a small effect of 0.2 SD?
+
+```{r}
+
+tPower2 <- function() {
+  n = 100
+
+  data <- data.frame(
+    a = rnorm(n, 0, 1),
+    b = rnorm(n, 0.2, 1)
+  )
+
+  t <- t.test(data$a,data$b)
+  
+  return(t$p.value)
+}
+
+tPower2()
+
+```
+
+```{r}
+
+mySample2 <- data.frame(
+  p = replicate(10000, tPower2())
+) 
+
+mySample2 %>%
+  ggplot(aes(p)) +
+  geom_histogram(bins = 20, boundary = 0)
+
+```
+
+```{r}
+mean(mySample2$p < .05)
+```
+
+Hmm, you only get a p-value less than .05 30% of the time. That means that your study would only have 30% power to detect an effect this big with 100 subjects. Let's make a new function to give you the p-value of a study with any number of subjects (you put the N inside the parentheses of the function).
+
+```{r}
+
+tPowerN <- function(n) {
+
+  data <- data.frame(
+    a = rnorm(n, 0, 1),
+    b = rnorm(n, 0.2, 1)
+  )
+
+  t <- t.test(data$a,data$b)
+  
+  return(t$p.value)
+}
+
+tPowerN(200)
+
+```
+
+
+
+
+```{r}
+
+mySampleN <- data.frame(
+  p200 = replicate(10000, tPowerN(200))
+) 
+
+mySampleN %>%
+  ggplot(aes(p200)) +
+  geom_histogram(bins = 20, boundary = 0)
+
+```
+
+```{r}
+mean(mySampleN$p200 < .05)
+```
+
+
+```{r}
+
+nlist <- seq(200, 1000, by = 100)
+
+remove(mySampleN)
+for (n in nlist) {
+  temp <- data.frame(
+    n = n,
+    p = replicate(1000, tPowerN(n))
+  ) 
+  
+  if (exists("mySampleN")) {
+    mySampleN <- rbind(mySampleN, temp)
+  } else {
+    mySampleN <- temp
+  }
+  remove(temp)
+  print(n)
+}
+
+mySampleN %>%
+  ggplot(aes(p)) +
+  geom_histogram(bins = 20, boundary = 0) +
+  facet_wrap(~n, nrow = 3)
+
+```
+

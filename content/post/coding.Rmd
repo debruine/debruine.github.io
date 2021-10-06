@@ -1,0 +1,147 @@
+---
+title: "Coding Schemes"
+author: ~
+date: "2017-06-23"
+slug: coding-schemes
+categories: ["rstats"]
+tags: ["r", "coding", "effect", "treatment", "lmer", "mixed effects", "simulation"]
+---
+
+```{r setup, message=FALSE}
+library(tidyverse)
+library(lmerTest)
+```
+
+How you choose to code categorical variables changes how you can interpret the intercept and effects of those variables. My favourite [tutorial on coding schemes](http://talklab.psy.gla.ac.uk/tvw/catpred/) explains things in detail. I'm just adding some concrete examples below.
+
+First, I simulated a data frame of 100 raters rating 100 faces each. Female faces get ratings with a mean of 6; male faces get ratings with a mean of 5 (I know, ratings are usually ordinal integers, but let's pretend we used something like a slider). To simulate random effects, both raters and faces have random intercepts with SDs of 1.
+
+```{r, coding-sim-data}
+
+set.seed(555)  # for reproducibility; delete when running simulations
+
+n_raters <- 100
+n_faces <- 100
+
+female_mean <- 6
+male_mean <- 5
+
+raters <- tibble(
+  rater_id = 1:n_raters,
+  rater_i = rnorm(n_raters)
+)
+
+faces <- tibble(
+  face_id = 1:n_faces,
+  face_i = rnorm(n_faces),
+  face_sex = rep(c("female", "male"), each = n_faces/2)
+)
+
+df <- expand.grid(
+  face_id = faces$face_id,
+  rater_id = raters$rater_id
+) %>%
+  left_join(faces, by = "face_id") %>%
+  left_join(raters, by = "rater_id") %>%
+  mutate(
+    face_sex_i = ifelse(face_sex=="male", male_mean, female_mean),
+    error = rnorm(nrow(.)),
+    rating = face_i + rater_i + face_sex_i + error
+  )
+```
+
+Calculate the means and SDs of the female and male faces.
+
+```{r, echo = FALSE}
+sumstat <- df %>%
+  group_by(face_sex) %>%
+  summarise(
+    mean = mean(rating) %>% round(3),
+    SD = sd(rating) %>% round(3)
+  ) 
+
+sumstat %>% knitr::kable()
+```
+
+
+Always graph your data to confirm you simulated it correctly.
+
+```{r, coding-orig-data}
+df %>% 
+  ggplot(aes(face_sex, rating)) + 
+  geom_violin() +
+  geom_boxplot(width=0.2)
+```
+
+Recode face sex using treatment, sum, or effect coding.
+
+```{r coding-recode}
+df2 <- df %>%
+  mutate(
+    face_sex.tr = recode(face_sex, "female" = 1, "male" = 0),
+    face_sex.sum = recode(face_sex, "female" = -1, "male" = 1),
+    face_sex.e = recode(face_sex, "female" = -0.5, "male" = 0.5)
+  )
+```
+
+Now we analyse the data using each of the 4 styles of coding. I'm just going to show the table of fixed effects.
+
+## Categorical coding
+```{r coding-categorical}
+m1 <- lmerTest::lmer(rating ~ face_sex + 
+                       (1 | face_id) + 
+                       (1 + face_sex | rater_id), 
+                     data = df2)
+```
+
+```{r, echo = FALSE}
+sum1 <- summary(m1)
+sum1$coefficients %>% round(3) %>% knitr::kable()
+```
+
+Note that the intercept coefficient is equal to the female mean (`r sumstat[1,2]`) and the effect of face sex is how much less the male mean is (`r sumstat[2,2]` - `r sumstat[1,2]` = `r sumstat[2,2]-sumstat[1,2]`).
+
+## Treatment coding
+```{r coding-treatment}
+m.tr <- lmerTest::lmer(rating ~ face_sex.tr + 
+               (1 | face_id) + 
+               (1 + face_sex.tr | rater_id), 
+             data = df2)
+```
+
+```{r, echo = FALSE}
+sum.tr <- summary(m.tr)
+sum.tr$coefficients %>% round(3) %>% knitr::kable()
+```
+
+Treatment coding is the same as categorical coding, but gives you more control over what the reference category is. Here, the reference category is `male` and the "treatment" category is `female`, so the intercept coefficient is equal to the male mean (`r sumstat[2,2]`) and the effect of face sex is how much more the female mean is (`r sumstat[1,2]` - `r sumstat[2,2]` = `r sumstat[1,2]-sumstat[2,2]`).
+
+## Sum coding
+```{r coding-sum}
+m.sum <- lmerTest::lmer(rating ~ face_sex.sum + 
+                (1 | face_id) + 
+                (1 + face_sex.sum | rater_id), 
+              data = df2)
+```
+
+```{r, echo = FALSE}
+sum.sum <- summary(m.sum)
+sum.sum$coefficients %>% round(3) %>% knitr::kable()
+```
+
+With sum coding, the intercept coefficient is equal to the overall mean ignoring face sex (i.e.,  (`r sumstat[1,2]` + `r sumstat[2,2]`)/2 = `r (sumstat[1,2] + sumstat[2,2])/2`) and the effect of face sex is how much above and below that each of the two face sexes differ from the mean (i.e., (`r sumstat[1,2]` - `r sumstat[2,2]`)/2 =  `r abs(sumstat[1,2] - sumstat[2,2])/2`).
+
+## Effect coding
+```{r coding-effect}
+m.e <- lmerTest::lmer(rating ~ face_sex.e + 
+              (1 | face_id) + 
+              (1 + face_sex.e | rater_id), 
+            data = df2)
+```
+
+```{r, echo = FALSE}
+sum.e <- summary(m.e)
+sum.e$coefficients %>% round(3) %>% knitr::kable()
+```
+
+With effect coding, the intercept coefficient is the same as sum coding and the effect of face sex is how much the two face sexes differ from each other (i.e., `r sumstat[1,2]` - `r sumstat[2,2]` =  `r abs(sumstat[1,2] - sumstat[2,2])`). Note that this coefficient is double that from the sum coding.

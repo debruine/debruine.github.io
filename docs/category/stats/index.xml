@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>stats | Lisa DeBruine</title>
+    <link>https://debruine.github.io/category/stats/</link>
+      <atom:link href="https://debruine.github.io/category/stats/index.xml" rel="self" type="application/rss+xml" />
+    <description>stats</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 17 Dec 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>stats</title>
+      <link>https://debruine.github.io/category/stats/</link>
+    </image>
+    
+    <item>
+      <title>Function Tips</title>
+      <link>https://debruine.github.io/post/function-tips/</link>
+      <pubDate>Thu, 17 Dec 2020 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/function-tips/</guid>
+      <description>
+
+
+&lt;p&gt;I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# my data-generating parameters
+my_n &amp;lt;- 50
+my_mu &amp;lt;- c(0, 0.2)
+my_sd &amp;lt;- c(1, 1)
+my_r &amp;lt;- 0.5
+
+my_func &amp;lt;- function(n = my_n) {
+  # simulate data
+  dat &amp;lt;- faux::rnorm_multi(
+    n = my_n,
+    vars = 2,
+    mu = my_mu,
+    sd = my_sd,
+    r = my_r,
+    varnames = c(&amp;quot;low&amp;quot;, &amp;quot;high&amp;quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}
+
+my_func(n = 100)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 2.0292, df = 49, p-value = 0.04789
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.002473696 0.508720912
+## sample estimates:
+## mean of the differences 
+##               0.2555973&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;definitions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Definitions&lt;/h2&gt;
+&lt;p&gt;First, it’s helpful to define a few terms I’ll use below.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Variables&lt;/strong&gt; are words that identify and store the value of some data for later use. For example, in the code above, &lt;code&gt;my_n&lt;/code&gt; is a variable and its &lt;strong&gt;value&lt;/strong&gt; is set to &lt;code&gt;50&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;function&lt;/strong&gt; is &lt;code&gt;my_func()&lt;/code&gt; and is defined by the code inside the curly brackets &lt;code&gt;{...}&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;arguments&lt;/strong&gt; are the variables that are set by the function. In the function above, &lt;code&gt;function(n = my_n)&lt;/code&gt; has one argument: &lt;code&gt;n&lt;/code&gt;.
+Arguments can have a &lt;strong&gt;default value&lt;/strong&gt;. In the code above, the argument &lt;code&gt;n&lt;/code&gt; has a default value of &lt;code&gt;my_n&lt;/code&gt;, which is the value that argument takes if it’s not explicitly defined (e.g., if you just run &lt;code&gt;my_func()&lt;/code&gt; instead of &lt;code&gt;my_func(n = 25)&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;global environment&lt;/strong&gt; is the set of variables and functions that you create during your R session. It is what you can see in the Environment tab in RStudio.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;not-using-an-argument&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Not using an argument&lt;/h2&gt;
+&lt;p&gt;The biggest thing wrong with this code is that it defines an argument called &lt;code&gt;n&lt;/code&gt;, but doesn’t use it in the code. It uses the variable &lt;code&gt;my_n&lt;/code&gt; instead. So when I ran &lt;code&gt;my_func(n = 100)&lt;/code&gt; above, I still got the result for &lt;code&gt;n = 50&lt;/code&gt; (check the df in the output), because &lt;code&gt;my_n&lt;/code&gt; still equals 50 and that’s what the function is using, not the value of &lt;code&gt;n&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;It’s easy for this to happen when you’re first developing a function because you probably are modifying non-function code, where it does make sense to use &lt;code&gt;my_n&lt;/code&gt; in the &lt;code&gt;rnorm_multi()&lt;/code&gt; function. You can either make the name of the argument match (e.g., &lt;code&gt;function(my_n) {...}&lt;/code&gt;) or change the name of the variable in the function code (e.g., &lt;code&gt;dat &amp;lt;- faux::rnorm_multi(n = n, ...)&lt;/code&gt;).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;externally-defined-variables&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Externally defined variables&lt;/h2&gt;
+&lt;p&gt;The code in a function should usually be able to run without depending on having variables with correct names in the environment. This code doesn’t run if you don’t define &lt;code&gt;my_mu&lt;/code&gt;, &lt;code&gt;my_sd&lt;/code&gt; and &lt;code&gt;my_r&lt;/code&gt; before running it. It’s tempting to just use those variables inside the function, because it saves you typing the values as arguments to the function when you use it, especially in a script where you know you won’t need to change those values, but this makes the function less useful in other contexts (including reuse by future you).&lt;/p&gt;
+&lt;p&gt;There can definitely be exceptions to this, but first master the rule that any variables used inside a function have to be defined as arguments.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variables-as-default-values&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Variables as default values&lt;/h2&gt;
+&lt;p&gt;Normally, don’t set function argument defaults to a variable (again, there can be exceptions, but you need to master that rule before you understand when you can use exceptions). It will work fine when you’re testing it in context and all the variables you expect to be in the environment are there, but the point of a function is to be reusable in different contexts, so it’s best not to depend on external things.&lt;/p&gt;
+&lt;p&gt;You don’t always have to set a default value for an argument, but it’s often useful to set the default value to a “neutral” thing that makes the code run even if the user doesn’t set all the arguments. So &lt;code&gt;n&lt;/code&gt; should be a sensible number like 100 (e.g., if you set it to 0, then the code won’t run correctly), and &lt;code&gt;sd&lt;/code&gt; should be 1 (not 0, since that’s not a valid value for SDs).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;better-versions&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Better versions&lt;/h2&gt;
+&lt;p&gt;In this version, I used the same argument names as the &lt;code&gt;rnorm_multi()&lt;/code&gt; function from &lt;a href=&#34;https://debruine.github.io/faux/&#34;&gt;faux&lt;/a&gt;, and also set their default values to the same defaults that function uses (simulating a dataset with 100 pairs of observations with means of 0, SDs of 1, and a correlation of 0).&lt;/p&gt;
+&lt;p&gt;You could add more arguments to the function, like &lt;code&gt;vars&lt;/code&gt; or &lt;code&gt;varnames&lt;/code&gt;, but in this context I know I would never want to vary them, so I can “hard-code” them.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func2 &amp;lt;- function(n = 100, mu = 0, sd = 1, r = 0) {
+  # simulate data
+  dat &amp;lt;- faux::rnorm_multi(
+    n = n,
+    vars = 2,
+    mu = mu,
+    sd = sd,
+    r = r,
+    varnames = c(&amp;quot;low&amp;quot;, &amp;quot;high&amp;quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This lets you run the function without any arguments.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func2()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = -1.3048, df = 99, p-value = 0.195
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.47076184  0.09724687
+## sample estimates:
+## mean of the differences 
+##              -0.1867575&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And then I can add in new values or my data-generating parameters from the code above.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func2(n = 200, mu = my_mu, sd = my_sd, r = my_r)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 3.5054, df = 199, p-value = 0.0005632
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.09912782 0.35407004
+## sample estimates:
+## mean of the differences 
+##               0.2265989&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Your function doesn’t need to use the same variable names as the functions you might be using them in. Some people find using the same variable names to be easier because you can see the connection between the variable in your function and where you’re using it. But this can be confusing for new coders. You can give your function argument names that are different to clarify where you’re using them.&lt;/p&gt;
+&lt;p&gt;If this pattern makes sense to you, I recommend using a consistent prefix to the name, like &lt;code&gt;the_&lt;/code&gt;, so you can always know if a variable is being defined as an argument to the function or externally.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func3 &amp;lt;- function(the_n = 100, the_mu = 0, the_sd = 1, the_r = 0) {
+  # simulate data
+  dat &amp;lt;- faux::rnorm_multi(
+    n = the_n,
+    vars = 2,
+    mu = the_mu,
+    sd = the_sd,
+    r = the_r,
+    varnames = c(&amp;quot;low&amp;quot;, &amp;quot;high&amp;quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you’re using argument names in your function call, you will need to make sure they’re consistent with the function.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func3(the_n = my_n, the_mu = my_mu, the_sd = my_sd, the_r = my_r)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 0.59576, df = 49, p-value = 0.5541
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.1781599  0.3283058
+## sample estimates:
+## mean of the differences 
+##              0.07507296&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Or you can set the arguments by order and omit the names.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func3(my_n, my_mu, my_sd, my_r)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 1.7383, df = 49, p-value = 0.08843
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.04088076  0.56488613
+## sample estimates:
+## mean of the differences 
+##               0.2620027&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;scope&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Scope&lt;/h2&gt;
+&lt;p&gt;The concept of &lt;strong&gt;scope&lt;/strong&gt; can also be confusing to new coders. In this context it’s just important to know that if you have argument names that are the same as variables in your environment, the function will use the values set by its arguments, not the ones set in your &lt;strong&gt;global environment&lt;/strong&gt; (what you can see in the Environment tab in RStudio).&lt;/p&gt;
+&lt;p&gt;In other words, a function has access to variables in the global environment, but also has variables created by that function’s arguments, which can overwrite the values of variables with the same name in the global environment.&lt;/p&gt;
+&lt;p&gt;For that reason, I advise new coders to avoid giving the parameter values in their global environment the same names as the arguments of the functions they are used in. this is fine, but can lead to confusion unless you have a very clear conceptual understanding of scope.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func4 &amp;lt;- function(my_n = 100, my_mu = 0, my_sd = 1, my_r = 0) {
+  # simulate data
+  dat &amp;lt;- faux::rnorm_multi(
+    n = my_n,
+    vars = 2,
+    mu = my_mu,
+    sd = my_sd,
+    r = my_r,
+    varnames = c(&amp;quot;low&amp;quot;, &amp;quot;high&amp;quot;)
+  )
+  
+  # test high-low difference
+  t.test(dat$high, dat$low, paired = TRUE)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For example, the function above has arguments called &lt;code&gt;my_n&lt;/code&gt;, &lt;code&gt;my_mu&lt;/code&gt;, &lt;code&gt;my_sd&lt;/code&gt; and &lt;code&gt;my_r&lt;/code&gt;. We can also create variables with those same names in the global environment.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# my data-generating parameters
+my_n &amp;lt;- 50
+my_mu &amp;lt;- c(0, 0.2)
+my_sd &amp;lt;- c(1, 1)
+my_r &amp;lt;- 0.5&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, when you run the function without setting the arguments in the function, it uses the default values of the arguments, not the values you set in the global environment.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func4()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = -1.3053, df = 99, p-value = 0.1948
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.4908755  0.1013183
+## sample estimates:
+## mean of the differences 
+##              -0.1947786&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you set the values in the function, then it will work as expected.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func4(my_n, my_mu, my_sd, my_r)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Paired t-test
+## 
+## data:  dat$high and dat$low
+## t = 2.3301, df = 49, p-value = 0.02396
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.03896867 0.52759670
+## sample estimates:
+## mean of the differences 
+##               0.2832827&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Cumulative p</title>
+      <link>https://debruine.github.io/post/cumulative-p/</link>
+      <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/cumulative-p/</guid>
+      <description>
+
+
+&lt;p&gt;EJ Wagenmakers started an interesting debate last night with a &lt;a href=&#34;https://twitter.com/EJWagenmakers/status/889987997046910978&#34;&gt;twitter poll on p-values&lt;/a&gt;. Some responses suggested you can multiply p-values from several tests to create a sort of &lt;a href=&#34;https://twitter.com/VladMalik/status/890246773515722752&#34;&gt;cumulative p-value&lt;/a&gt; that is the joint probability of the null hypothesis.&lt;/p&gt;
+&lt;p&gt;I also used to believe that you could multiply p-values, but am now a bit embarassed at my misunderstanding, common as it is. The p-value is &lt;em&gt;not&lt;/em&gt; the probability that the null hypothesis is true, it is the probability of obtaining the current (or more extreme) values under the null hypothesis. This important distinction means you cannot multiply p-values to obtain the joint probability of several tests.&lt;/p&gt;
+&lt;p&gt;First, I’ll write a simple function to generate two sets of &lt;code&gt;n&lt;/code&gt; samples from a normal distribution with the same mean and SD, then return the p-value for a t-test.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nullp &amp;lt;- function(n) {
+  a = rnorm(n)
+  b = rnorm(n)
+  t = t.test(a, b)
+  t$p.value
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’ll run this simulation 10000 times with samples of n = 1000 to get a good distribution of p-values under the null hypothesis. The histogram shows that this is a unifrom distribution.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ps &amp;lt;- replicate(10000, nullp(1000))
+
+hist(ps)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Then sample 1000 p-values from this distributions once, twice, thrice, and whatever the word is for four times. This should convince you that the cumulative p-value cannot provide the joint probability of the null hypothesis for multiple tests.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tibble(
+  x1 = sample(ps, 1000),
+  x2 = sample(ps, 1000) * sample(ps, 1000),
+  x3 = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000),
+  x4 = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000)
+) %&amp;gt;%
+  gather(&amp;quot;n_tests&amp;quot;, &amp;quot;cum_p&amp;quot;, x1:x4) %&amp;gt;%
+  ggplot(aes(cum_p, fill=n_tests)) +
+  geom_density(alpha = 0.5) +
+  labs(x =&amp;quot;Cumulative p-value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:unnamed-chunk-3&#34;&gt;&lt;/span&gt;
+&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-3-1.png&#34; alt=&#34;Cumulative p-value distribution under the null hypothesis&#34; width=&#34;672&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;
+Figure 1: Cumulative p-value distribution under the null hypothesis
+&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

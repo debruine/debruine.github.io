@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>alpha | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/alpha/</link>
+      <atom:link href="https://debruine.github.io/tag/alpha/index.xml" rel="self" type="application/rss+xml" />
+    <description>alpha</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 17 Feb 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>alpha</title>
+      <link>https://debruine.github.io/tag/alpha/</link>
+    </image>
+    
+    <item>
+      <title>How many raters do I need?</title>
+      <link>https://debruine.github.io/post/how-many-raters/</link>
+      <pubDate>Sat, 17 Feb 2018 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/how-many-raters/</guid>
+      <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;I’ve often wondered how many raters I need to sample to get reliable stimulus ratings.&lt;/p&gt;
+&lt;p&gt;This will obviously depend on the stimuli and what they’re being rated for. If there is a lot of inter-rater variation or very little inter-stimulus variation, you will need more raters to generate mean ratings with any reliability.&lt;/p&gt;
+&lt;p&gt;If you have a large set of ratings of a type of stimulus, population of rater, and type of rating you’re interested in, you can use the script below to figure out how many raters you need to sample to get mean stimulus ratings that are well-correlated with mean ratings from very large samples.&lt;/p&gt;
+&lt;p&gt;The example below is for attractiveness ratings using an open-access image set from my lab.&lt;/p&gt;
+&lt;p&gt;You can cite this method as:
+&lt;a href=&#34;https://osf.io/x7fus/&#34;&gt;DeBruine, Lisa &amp;amp; Jones, Benedict C. (2018) Determining the number of raters for reliable mean ratings. OSF. doi: 10.17605/OSF.IO/X7FUS&lt;/a&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(psych)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Read data from DeBruine, Lisa; Jones, Benedict (2017): Face Research Lab London Set. figshare. &lt;a href=&#34;https://doi.org/10.6084/m9.figshare.5047666&#34;&gt;doi: 10.6084/m9.figshare.5047666&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;images/facelab_london.jpg&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- read_csv(&amp;quot;https://ndownloader.figshare.com/files/8542045&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Calculate canonical mean ratings (average of all available ratings)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;canon &amp;lt;- data %&amp;gt;%
+  select(X001:X173) %&amp;gt;%
+  group_by() %&amp;gt;%
+  summarise_all(mean) %&amp;gt;%
+  t()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Below is a function to sample n raters from the set and calculate Cronbach’s &lt;code&gt;alpha&lt;/code&gt; and &lt;code&gt;r&lt;/code&gt; from the Pearson’s correlation with the canonical ratings.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_alpha &amp;lt;- function(data, n) {
+  # sample your full dataset
+  data_sample &amp;lt;- data %&amp;gt;%
+    sample_n(n) %&amp;gt;%
+    select(X001:X173) # select only columns with your stimuli
+  
+  # calculate cronbach&amp;#39;s alpha
+  capture.output(suppressWarnings(a &amp;lt;- alpha(t(data_sample))))
+  alpha &amp;lt;- a$total[&amp;quot;std.alpha&amp;quot;] %&amp;gt;% pluck(1)
+
+  # calculate mean sample ratings
+  sample_means &amp;lt;- data_sample %&amp;gt;%
+    group_by() %&amp;gt;%
+    summarise_all(mean) %&amp;gt;%
+    t()
+  
+  # calculate correlation between sample mean ratings and canon
+  r &amp;lt;- cor(sample_means, canon)[[1,1]]
+  
+  # return relevant data
+  tibble(
+    n = n,
+    alpha = alpha,
+    r = r
+  )
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Generate 100 samples for 5 to 50 raters.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_samples &amp;lt;- 100
+n_raters &amp;lt;- seq(5, 50, by = 5)
+
+sim &amp;lt;- rep(n_raters, each = n_samples) %&amp;gt;% 
+  purrr::map_df( function(n) { 
+    get_alpha(data, n)
+  })&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This graph of the distribution of Cronbach’s alphas shows that alphas tend to be fairly “high” (&amp;gt;.8) after about 15 raters for this stimulus set and rating.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/raters_files/figure-html/alphas-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Here is a graph of the distribution of correlations between sample means and canonical mean ratings. Again, the sample mean ratings are very highly correlated with the canonical ratings from the full set of 2513 raters after about 15 raters.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/raters_files/figure-html/cors-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This table gives the median and 10th percentiles for &lt;code&gt;alpha&lt;/code&gt; and &lt;code&gt;r&lt;/code&gt;, as well as the proportion of &lt;code&gt;alpha&lt;/code&gt;s over 0.8 (typically considered high).&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-striped table-hover&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+median alpha
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+90% alpha &amp;gt;
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+alpha &amp;gt;= 0.8
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+median r
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+90% r &amp;gt;
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.73
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.58
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.13
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.87
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.79
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.85
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.78
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.82
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.92
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.89
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+15
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.89
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.85
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.99
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.95
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.93
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+20
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.91
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.89
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.96
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.94
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+25
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.93
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.91
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.97
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.96
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+30
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.94
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.93
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.97
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.96
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+35
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.95
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.94
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.98
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.97
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+40
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.96
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.95
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.98
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.97
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+45
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.96
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.95
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.98
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.97
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+50
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.96
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.96
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.98
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.98
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>psych::alpha()</title>
+      <link>https://debruine.github.io/post/psych-alpha/</link>
+      <pubDate>Tue, 12 Sep 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/psych-alpha/</guid>
+      <description>
+
+
+&lt;p&gt;This is a tutorial in progress on how to calculate Cronbach’s alphas using the &lt;code&gt;psych&lt;/code&gt; package in R.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(psych)
+
+disgust &amp;lt;- read_csv(&amp;quot;https://psyteachr.github.io/msc-data-skills/data/disgust.csv&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;spss&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;SPSS&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Under the &lt;code&gt;Analyze&lt;/code&gt; menu, choose &lt;code&gt;Scale&lt;/code&gt; and &lt;code&gt;Reliability Analysis...&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Choose the 7 moral disgust items&lt;/li&gt;
+&lt;li&gt;Make sure the Model is “Alpha”&lt;/li&gt;
+&lt;li&gt;Under &lt;code&gt;Statistics&lt;/code&gt;, add descriptives for Item, Scale, and Scale if Item Deleted&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/images/moral_alpha.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;psychalpha&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;psych::alpha()&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;alpha(x, keys=NULL, cumulative=FALSE, title=NULL, max=10, na.rm=TRUE,&lt;/code&gt;&lt;br /&gt;
+      &lt;code&gt;check.keys=FALSE, n.iter=1, delete=TRUE, use=&#34;pairwise&#34;, warnings=TRUE, n.obs=NULL)&lt;/code&gt;&lt;/p&gt;
+&lt;div id=&#34;arguments&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Arguments&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt; A data.frame or matrix of data, or a covariance or correlation matrix&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;keys&lt;/code&gt; If some items are to be reversed keyed, then either specify the direction of all items or just a vector of which items to reverse&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;title&lt;/code&gt; Any text string to identify this run&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;cumulative&lt;/code&gt; should means reflect the sum of items or the mean of the items. The default value is means.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;max&lt;/code&gt; the number of categories/item to consider if reporting category frequencies. Defaults to 10, passed to link{response.frequencies}&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;na.rm&lt;/code&gt; The default is to remove missing values and find pairwise correlations&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;check.keys&lt;/code&gt; if TRUE, then find the first principal component and reverse key items with negative loadings. Give a warning if this happens.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;n.iter&lt;/code&gt; Number of iterations if bootstrapped confidence intervals are desired&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;delete&lt;/code&gt; Delete items with no variance and issue a warning&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;use&lt;/code&gt; Options to pass to the cor function: “everything”, “all.obs”, “complete.obs”, “na.or.complete”, or “pairwise.complete.obs”. The default is “pairwise”&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;warnings&lt;/code&gt; By default print a warning and a message that items were reversed. Suppress the message if warnings = FALSE&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;n.obs&lt;/code&gt; If using correlation matrices as input, by specify the number of observations, we can find confidence intervals&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;disgust %&amp;gt;%
+  select(moral1:moral7) %&amp;gt;%
+  psych::alpha(title = &amp;quot;moral&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Reliability analysis  moral  
+## Call: psych::alpha(x = ., title = &amp;quot;moral&amp;quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.85      0.85    0.84      0.45 5.8 0.0016  3.8 1.3     0.46
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.85 0.85 0.85 
+## 
+##  Reliability if an item is dropped:
+##        raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## moral1      0.83      0.83    0.81      0.45 4.9   0.0019 0.0035  0.45
+## moral2      0.82      0.82    0.80      0.43 4.6   0.0019 0.0033  0.42
+## moral3      0.83      0.83    0.81      0.45 5.0   0.0019 0.0040  0.45
+## moral4      0.84      0.84    0.82      0.47 5.3   0.0017 0.0023  0.48
+## moral5      0.83      0.83    0.81      0.44 4.8   0.0019 0.0038  0.45
+## moral6      0.84      0.84    0.82      0.47 5.4   0.0017 0.0033  0.49
+## moral7      0.82      0.83    0.81      0.44 4.8   0.0019 0.0043  0.44
+## 
+##  Item statistics 
+##            n raw.r std.r r.cor r.drop mean  sd
+## moral1 19668  0.74  0.73  0.67   0.62  3.1 1.9
+## moral2 19662  0.77  0.78  0.75   0.68  4.6 1.5
+## moral3 19681  0.74  0.73  0.67   0.62  3.2 1.8
+## moral4 19656  0.66  0.68  0.60   0.54  4.5 1.5
+## moral5 19668  0.76  0.75  0.70   0.64  3.8 1.9
+## moral6 19679  0.68  0.67  0.58   0.54  3.8 1.8
+## moral7 19665  0.76  0.76  0.70   0.65  3.7 1.7
+## 
+## Non missing response frequency for each item
+##           0    1    2    3    4    5    6 miss
+## moral1 0.11 0.13 0.14 0.18 0.18 0.15 0.12 0.02
+## moral2 0.03 0.03 0.05 0.09 0.18 0.28 0.34 0.02
+## moral3 0.10 0.11 0.13 0.17 0.20 0.17 0.12 0.02
+## moral4 0.03 0.03 0.06 0.11 0.19 0.29 0.30 0.02
+## moral5 0.07 0.08 0.10 0.15 0.17 0.21 0.23 0.02
+## moral6 0.07 0.07 0.10 0.14 0.20 0.22 0.20 0.02
+## moral7 0.06 0.08 0.10 0.17 0.21 0.22 0.16 0.02&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;disgust %&amp;gt;%
+  select(sexual1:sexual7) %&amp;gt;%
+  psych::alpha(title = &amp;quot;sexual disgust&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Reliability analysis  sexual disgust  
+## Call: psych::alpha(x = ., title = &amp;quot;sexual disgust&amp;quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.81      0.81     0.8      0.38 4.3 0.0021  2.6 1.4      0.4
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.8 0.81 0.81 
+## 
+##  Reliability if an item is dropped:
+##         raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## sexual1      0.77      0.78    0.76      0.37 3.5   0.0025 0.0073  0.38
+## sexual2      0.79      0.79    0.77      0.38 3.7   0.0023 0.0043  0.40
+## sexual3      0.77      0.77    0.74      0.36 3.3   0.0025 0.0045  0.38
+## sexual4      0.79      0.80    0.77      0.39 3.9   0.0023 0.0073  0.40
+## sexual5      0.77      0.78    0.76      0.37 3.5   0.0025 0.0077  0.37
+## sexual6      0.80      0.80    0.78      0.40 4.0   0.0022 0.0052  0.40
+## sexual7      0.79      0.79    0.77      0.38 3.7   0.0024 0.0078  0.40
+## 
+##  Item statistics 
+##             n raw.r std.r r.cor r.drop mean  sd
+## sexual1 19693  0.71  0.72  0.66   0.59  2.4 1.9
+## sexual2 19664  0.65  0.67  0.59   0.52  1.4 1.8
+## sexual3 19690  0.74  0.75  0.71   0.63  1.6 1.9
+## sexual4 19703  0.64  0.64  0.54   0.49  3.0 2.0
+## sexual5 19695  0.73  0.72  0.66   0.59  2.7 2.1
+## sexual6 19670  0.62  0.62  0.52   0.46  3.9 2.1
+## sexual7 19684  0.69  0.67  0.59   0.53  2.9 2.2
+## 
+## Non missing response frequency for each item
+##            0    1    2    3    4    5    6 miss
+## sexual1 0.20 0.19 0.16 0.16 0.13 0.09 0.07 0.02
+## sexual2 0.47 0.19 0.10 0.09 0.05 0.04 0.05 0.02
+## sexual3 0.41 0.20 0.11 0.10 0.07 0.05 0.06 0.02
+## sexual4 0.14 0.13 0.14 0.15 0.16 0.14 0.13 0.01
+## sexual5 0.20 0.16 0.13 0.14 0.11 0.11 0.14 0.02
+## sexual6 0.10 0.08 0.08 0.11 0.12 0.19 0.33 0.02
+## sexual7 0.21 0.15 0.11 0.11 0.10 0.12 0.20 0.02&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;disgust %&amp;gt;%
+  select(pathogen1:pathogen7) %&amp;gt;%
+  psych::alpha(title = &amp;quot;pathogen disgust&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Reliability analysis  pathogen disgust  
+## Call: psych::alpha(x = ., title = &amp;quot;pathogen disgust&amp;quot;)
+## 
+##   raw_alpha std.alpha G6(smc) average_r S/N    ase mean  sd median_r
+##       0.74      0.74    0.72      0.29 2.9 0.0028  3.7 1.1      0.3
+## 
+##  lower alpha upper     95% confidence boundaries
+## 0.73 0.74 0.74 
+## 
+##  Reliability if an item is dropped:
+##           raw_alpha std.alpha G6(smc) average_r S/N alpha se  var.r med.r
+## pathogen1      0.71      0.71    0.69      0.29 2.5   0.0032 0.0042  0.26
+## pathogen2      0.70      0.71    0.68      0.29 2.5   0.0032 0.0033  0.30
+## pathogen3      0.70      0.70    0.67      0.28 2.4   0.0033 0.0028  0.26
+## pathogen4      0.71      0.72    0.69      0.30 2.5   0.0032 0.0042  0.30
+## pathogen5      0.70      0.70    0.67      0.28 2.4   0.0033 0.0030  0.26
+## pathogen6      0.72      0.72    0.70      0.30 2.6   0.0031 0.0042  0.31
+## pathogen7      0.71      0.72    0.69      0.30 2.6   0.0031 0.0037  0.30
+## 
+##  Item statistics 
+##               n raw.r std.r r.cor r.drop mean  sd
+## pathogen1 19668  0.60  0.63  0.53   0.45  4.4 1.5
+## pathogen2 19683  0.64  0.63  0.54   0.46  3.3 1.7
+## pathogen3 19687  0.65  0.66  0.58   0.49  3.2 1.6
+## pathogen4 19683  0.62  0.62  0.52   0.44  3.7 1.8
+## pathogen5 19678  0.64  0.67  0.59   0.50  4.3 1.4
+## pathogen6 19655  0.61  0.59  0.48   0.41  3.8 1.9
+## pathogen7 19692  0.63  0.61  0.50   0.43  3.5 1.9
+## 
+## Non missing response frequency for each item
+##              0    1    2    3    4    5    6 miss
+## pathogen1 0.01 0.04 0.07 0.11 0.22 0.26 0.29 0.02
+## pathogen2 0.07 0.12 0.14 0.18 0.22 0.16 0.11 0.02
+## pathogen3 0.05 0.14 0.17 0.19 0.24 0.14 0.08 0.02
+## pathogen4 0.04 0.11 0.12 0.15 0.21 0.19 0.18 0.02
+## pathogen5 0.01 0.04 0.08 0.13 0.24 0.27 0.23 0.02
+## pathogen6 0.06 0.10 0.10 0.13 0.18 0.19 0.25 0.02
+## pathogen7 0.08 0.12 0.12 0.13 0.17 0.17 0.20 0.02&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

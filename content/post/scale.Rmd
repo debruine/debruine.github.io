@@ -1,0 +1,60 @@
+---
+title: "scale()"
+author: "Lisa DeBruine"
+date: "2017-06-22"
+slug: scale
+categories: ["rstats"]
+tags: ["R", "scale"]
+---
+
+<p>You can use <code>scale()</code> to center and/or scale (i.e., Z-score) a vector of numbers.</p>
+
+Z-score a list of numbers
+```{r}
+x <- c(10, 12, 14, 16, 18)
+scale(x)
+```
+
+However, the result contains the mean and SD. 
+  This can cause problems if you want to assign it to a new column in a data frame, 
+  which you can fix using <code>as.vector()</code>
+```{r} 
+as.vector(scale(x))
+```
+
+I find it more straightforward to just use the equation for a Z-score
+```{r}
+( x - mean(x) ) / sd(x)
+```
+
+You can just center the numbers without scaling.
+```{r}
+as.vector(scale(x, center=TRUE, scale=FALSE))
+( x - mean(x) )
+```
+
+Scaling without centering divides numbers by their root mean square.
+```{r}
+as.vector(scale(x, center=FALSE, scale=TRUE))
+x / sqrt(sum(x^2)/(length(x)-1))
+```
+  
+Set the scale to a number to divide by that number
+```{r}
+as.vector(scale(x, center=FALSE, scale=3))
+x / 3
+```
+  
+Create new columns in a dataframe with the scaled or centered variable
+```{r}
+suppressMessages( library(tidyverse) )
+df <- data.frame(id = seq(1,5), x = x)
+df.s <- df %>%
+  mutate(
+    x.s = as.vector(scale(x)),
+    x.c = as.vector(scale(x, scale=F)),
+    x.z = (x - mean(x)) / sd(x)
+  )
+df.s
+```
+

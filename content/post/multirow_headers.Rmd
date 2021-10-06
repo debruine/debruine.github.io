@@ -1,0 +1,120 @@
+---
+title: Multi-Row Headers
+author: ~
+date: '2018-02-22'
+slug: multi-row-headers
+categories: ["rstats"]
+tags: ["R", "data import", "headers"]
+---
+
+```{r load-libraries, include = FALSE}
+library(tidyverse)
+```
+
+A student on our help forum recently asked for help making a wide-format dataset long. When I tried to load the data, I realised the first three rows were all header rows. Here's the code I wrote to deal with it.
+
+First, I'll make a small CSV "file" below. In a typical case, you'd read the data in from a file.
+```{r data}
+demo_csv <- "SUB1, SUB1, SUB1, SUB1, SUB2, SUB2, SUB2, SUB2
+COND1, COND1, COND2, COND2, COND1, COND1, COND2, COND2
+X, Y, X, Y, X, Y, X, Y
+10, 15, 6, 2, 42, 4, 32, 5
+4, 43, 7, 34, 56, 43, 2, 33
+77, 12, 14, 75, 36, 85, 3, 2"
+```
+
+If you try to read in this data, you'll get an error message about the duplicate column names.
+```{r get-data-bad, error=TRUE}
+data <- read_csv(demo_csv)
+```
+
+Instead, you should read in just the header rows by setting `n_max` equal to the number of header rows and `col_names` to `FALSE`.
+
+```{r get-headers}
+data_head <- read_csv(demo_csv, n_max = 3, col_names = FALSE)
+```
+
+You will get a table that looks like this:
+
+```{r, echo = F, results='asis'}
+knitr::kable(data_head, "html") %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+You can then transpose the table (rotate it) and make new header names by pasting together the names of the three headers.
+
+```{r new-names}
+new_names <- data_head %>%
+  t() %>% # transposes the data and turns it into a matrix
+  as_tibble() %>% # turn it back to a tibble
+  mutate(name = paste(V1, V2, V3, sep = "_")) %>%
+  pull(name)
+```
+
+Now you can read in the data without the three header rows. Use `skip` to skip the headers and set `col_names` to the new names.
+
+```{r get-data}
+data <- read_csv(demo_csv, skip = 3, col_names = new_names)
+```
+
+If you have an excel file that merges the duplicate headers across rows, it's a little trickier, but still do-able. 
+
+![](/images/multirow-excel.png)
+
+The first steps is the same: read in the first three rows.
+
+```{r}
+data_head <- readxl::read_excel("3headers_demo.xlsx", n_max = 3, col_names = FALSE)
+```
+
+```{r, echo = F, results='asis'}
+knitr::kable(data_head, "html") %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+The function below starts at the top and fills in any missing data with the value in the previous row. You'll have to define this function in your script before you run the next part.
+
+```{r}
+fillHeaders <- function(header_table) {
+  for (row in 2:nrow(header_table)) {
+    this_row <- header_table[row, ]
+    last_row <- header_table[row-1, ]
+    new_row <- ifelse(is.na(this_row), last_row, this_row)
+    header_table[row, ] <- new_row
+  }
+  header_table
+}
+```
+
+Just run the `fillHeaders()` function after you transpose as re-tibble the header data, then continue generating the pasted name the same as above.
+
+```{r}
+new_names <- data_head %>%
+  t() %>% # transposes the data and turns it into a matrix
+  as_tibble() %>% # turn it back to a tibble
+  fillHeaders() %>% # fill in missing headers 
+  mutate(name = paste(V1, V2, V3, sep = "_")) %>%
+  pull(name)
+```
+
+If your data are set up with multiple headers, you'll probably want to change them from wide to long format. Here's a quick example how to use `gather`, `separate`, and `spread` to do this with variable names like above.
+
+```{r wide-to-long}
+data <- readxl::read_excel("3headers_demo.xlsx", skip = 3, col_names = new_names)
+
+data_long <- data %>%
+  # add row IDs if each row doesn't already have uniquely identifying column(s)
+  mutate(trial = row_number()) %>% 
+  # gather creates a column of variable names and a column of values
+  gather("var", "val", new_names) %>% 
+  # split the variable names into their three component parts
+  separate(var, c("subID", "condition", "coord"), sep = "_") %>%
+  # put X and Y in separate columns 
+  spread(coord, val)
+```
+
+```{r, echo = F, results='asis'}
+knitr::kable(data_long, "html") %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
+```
+

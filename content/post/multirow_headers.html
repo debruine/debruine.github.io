@@ -1,0 +1,735 @@
+---
+title: Multi-Row Headers
+author: ~
+date: '2018-02-22'
+slug: multi-row-headers
+categories: ["rstats"]
+tags: ["R", "data import", "headers"]
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+
+<p>A student on our help forum recently asked for help making a wide-format dataset long. When I tried to load the data, I realised the first three rows were all header rows. Here’s the code I wrote to deal with it.</p>
+<p>First, I’ll make a small CSV “file” below. In a typical case, you’d read the data in from a file.</p>
+<pre class="r"><code>demo_csv &lt;- &quot;SUB1, SUB1, SUB1, SUB1, SUB2, SUB2, SUB2, SUB2
+COND1, COND1, COND2, COND2, COND1, COND1, COND2, COND2
+X, Y, X, Y, X, Y, X, Y
+10, 15, 6, 2, 42, 4, 32, 5
+4, 43, 7, 34, 56, 43, 2, 33
+77, 12, 14, 75, 36, 85, 3, 2&quot;</code></pre>
+<p>If you try to read in this data, you’ll get an error message about the duplicate column names.</p>
+<pre class="r"><code>data &lt;- read_csv(demo_csv)</code></pre>
+<pre><code>## Warning: Duplicated column names deduplicated: &#39;SUB1&#39; =&gt; &#39;SUB1_1&#39; [2], &#39;SUB1&#39;
+## =&gt; &#39;SUB1_2&#39; [3], &#39;SUB1&#39; =&gt; &#39;SUB1_3&#39; [4], &#39;SUB2&#39; =&gt; &#39;SUB2_1&#39; [6], &#39;SUB2&#39; =&gt;
+## &#39;SUB2_2&#39; [7], &#39;SUB2&#39; =&gt; &#39;SUB2_3&#39; [8]</code></pre>
+<p>Instead, you should read in just the header rows by setting <code>n_max</code> equal to the number of header rows and <code>col_names</code> to <code>FALSE</code>.</p>
+<pre class="r"><code>data_head &lt;- read_csv(demo_csv, n_max = 3, col_names = FALSE)</code></pre>
+<p>You will get a table that looks like this:</p>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+X1
+</th>
+<th style="text-align:left;">
+X2
+</th>
+<th style="text-align:left;">
+X3
+</th>
+<th style="text-align:left;">
+X4
+</th>
+<th style="text-align:left;">
+X5
+</th>
+<th style="text-align:left;">
+X6
+</th>
+<th style="text-align:left;">
+X7
+</th>
+<th style="text-align:left;">
+X8
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+</tr>
+</tbody>
+</table>
+<p>You can then transpose the table (rotate it) and make new header names by pasting together the names of the three headers.</p>
+<pre class="r"><code>new_names &lt;- data_head %&gt;%
+  t() %&gt;% # transposes the data and turns it into a matrix
+  as_tibble() %&gt;% # turn it back to a tibble
+  mutate(name = paste(V1, V2, V3, sep = &quot;_&quot;)) %&gt;%
+  pull(name)</code></pre>
+<pre><code>## Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.
+## Using compatibility `.name_repair`.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_warnings()` to see where this warning was generated.</code></pre>
+<p>Now you can read in the data without the three header rows. Use <code>skip</code> to skip the headers and set <code>col_names</code> to the new names.</p>
+<pre class="r"><code>data &lt;- read_csv(demo_csv, skip = 3, col_names = new_names)</code></pre>
+<p>If you have an excel file that merges the duplicate headers across rows, it’s a little trickier, but still do-able.</p>
+<p><img src="/images/multirow-excel.png" /></p>
+<p>The first steps is the same: read in the first three rows.</p>
+<pre class="r"><code>data_head &lt;- readxl::read_excel(&quot;3headers_demo.xlsx&quot;, n_max = 3, col_names = FALSE)</code></pre>
+<pre><code>## New names:
+## * `` -&gt; ...1
+## * `` -&gt; ...2
+## * `` -&gt; ...3
+## * `` -&gt; ...4
+## * `` -&gt; ...5
+## * ...</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+…1
+</th>
+<th style="text-align:left;">
+…2
+</th>
+<th style="text-align:left;">
+…3
+</th>
+<th style="text-align:left;">
+…4
+</th>
+<th style="text-align:left;">
+…5
+</th>
+<th style="text-align:left;">
+…6
+</th>
+<th style="text-align:left;">
+…7
+</th>
+<th style="text-align:left;">
+…8
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:left;">
+NA
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+<td style="text-align:left;">
+X
+</td>
+<td style="text-align:left;">
+Y
+</td>
+</tr>
+</tbody>
+</table>
+<p>The function below starts at the top and fills in any missing data with the value in the previous row. You’ll have to define this function in your script before you run the next part.</p>
+<pre class="r"><code>fillHeaders &lt;- function(header_table) {
+  for (row in 2:nrow(header_table)) {
+    this_row &lt;- header_table[row, ]
+    last_row &lt;- header_table[row-1, ]
+    new_row &lt;- ifelse(is.na(this_row), last_row, this_row)
+    header_table[row, ] &lt;- new_row
+  }
+  header_table
+}</code></pre>
+<p>Just run the <code>fillHeaders()</code> function after you transpose as re-tibble the header data, then continue generating the pasted name the same as above.</p>
+<pre class="r"><code>new_names &lt;- data_head %&gt;%
+  t() %&gt;% # transposes the data and turns it into a matrix
+  as_tibble() %&gt;% # turn it back to a tibble
+  fillHeaders() %&gt;% # fill in missing headers 
+  mutate(name = paste(V1, V2, V3, sep = &quot;_&quot;)) %&gt;%
+  pull(name)</code></pre>
+<p>If your data are set up with multiple headers, you’ll probably want to change them from wide to long format. Here’s a quick example how to use <code>gather</code>, <code>separate</code>, and <code>spread</code> to do this with variable names like above.</p>
+<pre class="r"><code>data &lt;- readxl::read_excel(&quot;3headers_demo.xlsx&quot;, skip = 3, col_names = new_names)
+
+data_long &lt;- data %&gt;%
+  # add row IDs if each row doesn&#39;t already have uniquely identifying column(s)
+  mutate(trial = row_number()) %&gt;% 
+  # gather creates a column of variable names and a column of values
+  gather(&quot;var&quot;, &quot;val&quot;, new_names) %&gt;% 
+  # split the variable names into their three component parts
+  separate(var, c(&quot;subID&quot;, &quot;condition&quot;, &quot;coord&quot;), sep = &quot;_&quot;) %&gt;%
+  # put X and Y in separate columns 
+  spread(coord, val)</code></pre>
+<pre><code>## Note: Using an external vector in selections is ambiguous.
+## ℹ Use `all_of(new_names)` instead of `new_names` to silence this message.
+## ℹ See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.
+## This message is displayed once per session.</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+trial
+</th>
+<th style="text-align:left;">
+subID
+</th>
+<th style="text-align:left;">
+condition
+</th>
+<th style="text-align:right;">
+X
+</th>
+<th style="text-align:right;">
+Y
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.8316380
+</td>
+<td style="text-align:right;">
+0.7881552
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.3941482
+</td>
+<td style="text-align:right;">
+0.2056488
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.9332829
+</td>
+<td style="text-align:right;">
+0.1530898
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.6189847
+</td>
+<td style="text-align:right;">
+0.9400281
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.4147148
+</td>
+<td style="text-align:right;">
+0.1366791
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.9805130
+</td>
+<td style="text-align:right;">
+0.7493469
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.1048907
+</td>
+<td style="text-align:right;">
+0.6573472
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.9579583
+</td>
+<td style="text-align:right;">
+0.3430333
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.5577673
+</td>
+<td style="text-align:right;">
+0.0956297
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.3045316
+</td>
+<td style="text-align:right;">
+0.3540656
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.3621907
+</td>
+<td style="text-align:right;">
+0.8460132
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.0167339
+</td>
+<td style="text-align:right;">
+0.1886913
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.4326746
+</td>
+<td style="text-align:right;">
+0.8276863
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.2845026
+</td>
+<td style="text-align:right;">
+0.6236266
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.0439374
+</td>
+<td style="text-align:right;">
+0.5379287
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.0712748
+</td>
+<td style="text-align:right;">
+0.3511542
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.6545546
+</td>
+<td style="text-align:right;">
+0.6501679
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.9202481
+</td>
+<td style="text-align:right;">
+0.2525272
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.8117072
+</td>
+<td style="text-align:right;">
+0.3455603
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.7073851
+</td>
+<td style="text-align:right;">
+0.4249118
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.0679236
+</td>
+<td style="text-align:right;">
+0.6978207
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+SUB1
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.3979061
+</td>
+<td style="text-align:right;">
+0.6922928
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND1
+</td>
+<td style="text-align:right;">
+0.5282960
+</td>
+<td style="text-align:right;">
+0.1093352
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+SUB2
+</td>
+<td style="text-align:left;">
+COND2
+</td>
+<td style="text-align:right;">
+0.6622162
+</td>
+<td style="text-align:right;">
+0.5567239
+</td>
+</tr>
+</tbody>
+</table>

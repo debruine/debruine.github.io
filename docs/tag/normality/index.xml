@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>normality | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/normality/</link>
+      <atom:link href="https://debruine.github.io/tag/normality/index.xml" rel="self" type="application/rss+xml" />
+    <description>normality</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 01 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>normality</title>
+      <link>https://debruine.github.io/tag/normality/</link>
+    </image>
+    
+    <item>
+      <title>Testing for normality</title>
+      <link>https://debruine.github.io/post/normality/</link>
+      <pubDate>Mon, 01 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/normality/</guid>
+      <description>
+
+
+&lt;p&gt;You’ve probably been directed here because you asked someone about how to test the normality of predictors in an analysis. However, statistical tests like t-tests, ANOVAs, and other &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A mathematical model comparing how one or more independent variables affect a continuous dependent variable&#39; href=&#39;https://psyteachr.github.io/glossary/g#general-linear-model&#39;&gt;GLM&lt;/a&gt;-based tests assume that the &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;That part of an observation that cannot be captured by the statistical model, and thus is assumed to reflect unknown factors.&#39; href=&#39;https://psyteachr.github.io/glossary/r#residual-error&#39;&gt;residuals&lt;/a&gt; will be normally distributed and it doesn’t matter at all if the &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A variable whose value is used (in a model) to predict the value of a response variable.&#39; href=&#39;https://psyteachr.github.io/glossary/p#predictor-variable&#39;&gt;predictors&lt;/a&gt; and even the &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;The target variable that is being analyzed, whose value is assumed to depend on other variables.&#39; href=&#39;https://psyteachr.github.io/glossary/d#dependent-variable&#39;&gt;dependent variable&lt;/a&gt; aren’t.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse) # for data wrangling
+library(faux)      # for data simulation
+library(afex)      # for anova
+library(cowplot)   # for dataviz
+set.seed(8675309)  # to make sure simulation values don&amp;#39;t vary between runs&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this blog post, I’m going to use data simulation to show you how you can visualise the normality of residuals with &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A scatterplot created by plotting two sets of quantiles against each other, used to check if data come from a specified distribution&#39; href=&#39;https://psyteachr.github.io/glossary/q#q-q-plot&#39;&gt;QQ plots&lt;/a&gt;. We’re going to simulate data from a totally hypothetical population of ferrets and cats. We’re going to try to predict the energy levels of these pets from their weight. In my limited experience, tiny ferrets are way more energetic than big ferrets. I know nothing about cats.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;https://debruine.github.io/images/darwin_oy.png&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Tiny, energetic Darwin and her big, lazy brother, Oy&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;simulate-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Simulate Data&lt;/h2&gt;
+&lt;p&gt;We’ll use &lt;a href=&#34;https://debruine.github.io/faux/&#34;&gt;faux&lt;/a&gt; to simulate data based on data parameters like means, SDs and correlations for each group. At the moment, faux can only simulate multivariate normal distributions and then you can convert them to other distributions. So we’ll simulate weights from a &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A symmetric distribution of data where values near the centre are most probable.&#39; href=&#39;https://psyteachr.github.io/glossary/n#normal-distribution&#39;&gt;normal distribution&lt;/a&gt; with a mean of 0 and SD of 1, and then convert these to a &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;All numbers in the range have an equal probability of being sampled&#39; href=&#39;https://psyteachr.github.io/glossary/u#uniform-distribution&#39;&gt;uniform distribution&lt;/a&gt; for each pet type based on ranges I found online. Energy will be simulated from normal distributions with different means and SDs for cats and ferrets. Energy will be uncorrelated with weight for cats and negatively correlated for ferrets.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- faux::sim_design(
+  within = list(vars = c(&amp;quot;weight&amp;quot;, &amp;quot;energy&amp;quot;)),
+  between = list(species = c(&amp;quot;cat&amp;quot;, &amp;quot;ferret&amp;quot;)),
+  n = 50,
+  mu = list(weight = c(cat = 0, ferret = 0),
+            energy = c(cat = 50, energy = 100)),
+  sd = list(weight = c(cat = 1, ferret = 1),
+            energy = c(cat = 15, energy = 20)),
+  r = list(cat = 0, ferret = -0.5),
+  plot = FALSE
+) %&amp;gt;%
+  mutate(weight = case_when(
+    species == &amp;quot;cat&amp;quot; ~ norm2unif(weight, 3.6, 4.5),
+    species == &amp;quot;ferret&amp;quot; ~ norm2unif(weight, 0.7, 2.0)
+  ))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;N.B. If you’re more used to &lt;a href=&#34;https://debruine.github.io/tutorials/sim-data.html#intercept-model&#34;&gt;simulating data using model parameters&lt;/a&gt;, this way might make more sense to you, but it’s often difficult to figure out what the &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A value that describes a distribution, such as the mean or SD&#39; href=&#39;https://psyteachr.github.io/glossary/p#parameter&#39;&gt;parameters&lt;/a&gt; should be if you don’t already have pilot data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n &amp;lt;- 50
+
+# values approximated from an lm analysis
+b_0  &amp;lt;-  92 # intercept
+b_w  &amp;lt;- -13 # fixed effect of weight
+b_s  &amp;lt;-  85 # fixed effect of species
+b_ws &amp;lt;- -26 # weight*species interaction
+err_sd &amp;lt;- 16 # SD of error term
+
+# simulate populations of cats and ferrets 
+# with weights from uniform distributions
+cat &amp;lt;- data.frame(
+  id = paste0(&amp;quot;C&amp;quot;, 1:n),
+  species = &amp;quot;cat&amp;quot;,
+  weight = runif(n, 3.6, 4.5)
+)
+
+ferret &amp;lt;- data.frame(
+  id = paste0(&amp;quot;F&amp;quot;, 1:n),
+  species = &amp;quot;ferret&amp;quot;,
+  weight = runif(n, 0.7, 2.0)
+)
+
+# join data and calculate DV based on GLM
+data &amp;lt;- bind_rows(cat, ferret) %&amp;gt;%
+  mutate(
+    # effect-code species
+    species.e = recode(species, cat = -0.5, ferret = 0.5),
+    # simulate error term
+    err = rnorm(2*n, 0, err_sd),
+    # calculate DV
+    energy = b_0 + species.e*b_s + weight*b_w + 
+             species.e*weight*b_ws + err
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;So weight is bimodal and made of two uniform distributions, while energy is bimodal and made of two normal distributions.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:unnamed-chunk-4&#34;&gt;&lt;/span&gt;
+&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-4-1.png&#34; alt=&#34;Distibutions overall and within species.&#34; width=&#34;100%&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;
+Figure 1: Distibutions overall and within species.
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;If you run a Shapiro-Wilk test on these variables, you’d conclude they are &lt;em&gt;definitely&lt;/em&gt; not normally distributed, but this doesn’t matter at all!&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shapiro.test(data$energy)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Shapiro-Wilk normality test
+## 
+## data:  data$energy
+## W = 0.95486, p-value = 0.001759&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shapiro.test(data$weight)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Shapiro-Wilk normality test
+## 
+## data:  data$weight
+## W = 0.82694, p-value = 1.821e-09&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;calculate-residuals&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Calculate Residuals&lt;/h2&gt;
+&lt;p&gt;We will predict energy from weight, species, and their interaction using a &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A mathematical model comparing how one or more independent variables affect a continuous dependent variable&#39; href=&#39;https://psyteachr.github.io/glossary/g#general-linear-model&#39;&gt;linear model&lt;/a&gt;. We’ll &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A coding scheme for categorical variables that contrasts each group mean with the mean of all the group means.&#39; href=&#39;https://psyteachr.github.io/glossary/e#effect-code&#39;&gt;effect code&lt;/a&gt; species to make the output more similar to what you’d get from ANOVA (and it doesn’t really make sense to &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A coding scheme for categorical variables that creates (n_levels -1) dichotomous variables where each level of the categorical variable is contrasted to a reference level.&#39; href=&#39;https://psyteachr.github.io/glossary/t#treatment-code&#39;&gt;treatment code&lt;/a&gt; them, since neither cats nor ferrets are a meaningful “baseline”).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# effect-code species
+data$species.e &amp;lt;- recode(data$species, cat = -0.5, ferret = 0.5)
+
+m1 &amp;lt;- lm(energy ~ weight*species.e, data = data)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;term&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;estimate&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;std.error&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;statistic&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;p.value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;(Intercept)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;85.414&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;16.204&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5.271&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;weight&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-7.928&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.674&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-1.696&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.093&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;species.e&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;76.821&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;32.407&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.370&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.020&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;weight:species.e&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-18.107&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9.348&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-1.937&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.056&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;You can use the &lt;code&gt;resid()&lt;/code&gt; function to get the &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;That part of an observation that cannot be captured by the statistical model, and thus is assumed to reflect unknown factors.&#39; href=&#39;https://psyteachr.github.io/glossary/r#residual-error&#39;&gt;residual error&lt;/a&gt; term from your model. This is the difference between the predicted value (based on the weight and species for each subject and the model parameters) and the actual value. Those values should be normally distributed.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;err &amp;lt;- resid(m1)
+
+ggplot() + geom_density(aes(err))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;shapiro-wilk&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Shapiro-Wilk&lt;/h2&gt;
+&lt;p&gt;I don’t recommend using statistical tests for normality. Essentially, they are underpowered in small samples and overpowered in large samples. &lt;a href=&#34;https://towardsdatascience.com/stop-testing-for-normality-dba96bb73f90&#34;&gt;Robert Greener has a good discussion of this.&lt;/a&gt;. However, the residuals do “pass” the Shapiro-Wilk normality test.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;shapiro.test(err)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+##  Shapiro-Wilk normality test
+## 
+## data:  err
+## W = 0.99579, p-value = 0.9905&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;qq-plots&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;QQ plots&lt;/h2&gt;
+&lt;p&gt;It’s better to assess normality visually, but it’s quite hard to judge normality from a density plot, especially when you have small samples, so we can use a &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A scatterplot created by plotting two sets of quantiles against each other, used to check if data come from a specified distribution&#39; href=&#39;https://psyteachr.github.io/glossary/q#q-q-plot&#39;&gt;QQ plot&lt;/a&gt; to visualise how close a distribution is to normal. This is a scatterplot created by plotting two sets of &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;Cutoffs dividing the range of a distribution into continuous intervals with equal probabilities.&#39; href=&#39;https://psyteachr.github.io/glossary/q#quantile&#39;&gt;quantiles&lt;/a&gt; against each other, used to check if data come from a specified distribution (here the normal distribution).&lt;/p&gt;
+&lt;p&gt;These data are simulated, so will show an almost perfect straight line. Real data are always a bit messier. But even here, the points at the extremes are often not exactly on the line. It takes practice to tell if a QQ-plot shows clear signs of non-normality.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# ggplot function for more customisation
+qplot(sample = err) + 
+  stat_qq_line(colour = &amp;quot;dodgerblue&amp;quot;) +
+  labs(x = &amp;quot;Theoretical distribution&amp;quot;,
+       y = &amp;quot;Sample distribution&amp;quot;,
+       title = &amp;quot;QQ Plot for Residual Error&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-10-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Our bimodal energy data are a good example of a QQ plot showing a non-normal distribution (see how the points move away from the line at the ends), but that doesn’t matter for your model at all.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data, aes(sample = energy)) +
+  stat_qq() +
+  stat_qq_line(colour = &amp;quot;dodgerblue&amp;quot;) +
+  labs(x = &amp;quot;Theoretical distribution&amp;quot;,
+       y = &amp;quot;Sample distribution&amp;quot;,
+       title = &amp;quot;QQ Plot for Energy&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;other-tests&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Other tests&lt;/h2&gt;
+&lt;p&gt;So how do you get the residuals for other tests? All functions that return models in R should have a &lt;code&gt;resid()&lt;/code&gt; function. T-tests are a little trickier, but you can just convert them to their GLM equivalents (&lt;a href=&#34;https://lindeloev.github.io/tests-as-linear/&#34;&gt;Jonas Lindeløv has a great tutorial&lt;/a&gt;) or use the formulas below.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# simulated data to use below
+A &amp;lt;- rnorm(50, 0, 1)
+B &amp;lt;- rnorm(50, 0.5, 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;one-sample-t-test&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;One-sample t-test&lt;/h3&gt;
+&lt;p&gt;The residuals for a one-samples t-test are the scores minus the mean difference. (You don’t &lt;em&gt;have to&lt;/em&gt; subtract the mean difference, since the distribution won’t change if you add a constant value.)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# one-sample t-test against 0
+mu = 0
+t_o &amp;lt;- t.test(A, mu = mu)
+err_t &amp;lt;- A - mean(A)
+plot_t &amp;lt;- qplot(sample = err_t) + stat_qq_line()
+
+# lm equivalent to one-sample t-test
+m_o &amp;lt;- lm(A - mu ~ 1)
+err_lm &amp;lt;- resid(m_o)
+plot_lm &amp;lt;- qplot(sample = err_lm) + stat_qq_line()
+
+cowplot::plot_grid(plot_t, plot_lm, labels = c(&amp;quot;t&amp;quot;, &amp;quot;lm&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;paired-samples-t-test&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Paired samples t-test&lt;/h3&gt;
+&lt;p&gt;The residuals for a paired-samples t-test are the difference between the paired values, minus the mean difference.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# paired samples t-test
+t_p &amp;lt;- t.test(A, B, paired = TRUE)
+diff &amp;lt;- A - B
+err_t &amp;lt;- diff - mean(diff)
+plot_t &amp;lt;- qplot(sample = err_t) + stat_qq_line()
+
+# lm equivalent to paired-samples t-test
+m_p &amp;lt;- lm(A-B ~ 1)
+err_lm &amp;lt;- resid(m_p)
+plot_lm &amp;lt;- qplot(sample = err_lm) + stat_qq_line()
+
+cowplot::plot_grid(plot_t, plot_lm, labels = c(&amp;quot;t&amp;quot;, &amp;quot;lm&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;independent-samples-t-test&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Independent-samples t-test&lt;/h3&gt;
+&lt;p&gt;The residuals for an independent-samples t-test are the scores minus their own group mean.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# independent-sample t-test
+t_i &amp;lt;- t.test(A, B)
+err_t &amp;lt;- c(A-mean(A), B-mean(B))
+plot_t &amp;lt;- qplot(sample = err_t) + stat_qq_line()
+
+# lm equivalent to one-sample t-test
+dat &amp;lt;- data.frame(
+  val = c(A, B),
+  grp = rep(0:1, each = 50)
+)
+
+m_o &amp;lt;- lm(val ~ 1 + grp, dat)
+err_lm &amp;lt;- resid(m_o)
+plot_lm &amp;lt;- qplot(sample = err_lm) + stat_qq_line()
+
+cowplot::plot_grid(plot_t, plot_lm, labels = c(&amp;quot;t&amp;quot;, &amp;quot;lm&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-15-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;anova&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;ANOVA&lt;/h3&gt;
+&lt;p&gt;You can use the &lt;code&gt;resid()&lt;/code&gt; function on the models output by ANOVAs or ANCOVAs.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;m_aov &amp;lt;- afex::aov_4(energy ~ weight*species.e + (1|id),
+  data = data,
+  factorize = FALSE
+)
+plot_aov &amp;lt;- qplot(sample = resid(m_aov)) + stat_qq_line()
+
+m_lm &amp;lt;- lm(energy ~ weight*species.e, data = data)
+plot_lm &amp;lt;- qplot(sample = resid(m_lm)) + stat_qq_line()
+
+cowplot::plot_grid(plot_aov, plot_lm, labels = c(&amp;quot;aov&amp;quot;, &amp;quot;lm&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/normality_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Dale Barr has a great blog post on &lt;a href=&#34;https://datahowler.wordpress.com/2018/08/04/checking-model-assumptions-look-at-the-residuals-not-the-raw-data/&#34;&gt;checking assumptions for multilevel data&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;glossary&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Glossary&lt;/h2&gt;
+&lt;table&gt;
+&lt;colgroup&gt;
+&lt;col width=&#34;42%&#34; /&gt;
+&lt;col width=&#34;57%&#34; /&gt;
+&lt;/colgroup&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;term&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/d#dependent-variable&#39;&gt;dependent-variable&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;The target variable that is being analyzed, whose value is assumed to depend on other variables.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/e#effect-code&#39;&gt;effect-code&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A coding scheme for categorical variables that contrasts each group mean with the mean of all the group means.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/g#general-linear-model&#39;&gt;general-linear-model&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A mathematical model comparing how one or more independent variables affect a continuous dependent variable&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/n#normal-distribution&#39;&gt;normal-distribution&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A symmetric distribution of data where values near the centre are most probable.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/p#parameter&#39;&gt;parameter&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A value that describes a distribution, such as the mean or SD&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/p#predictor-variable&#39;&gt;predictor-variable&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A variable whose value is used (in a model) to predict the value of a response variable.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/q#q-q-plot&#39;&gt;q-q-plot&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A scatterplot created by plotting two sets of quantiles against each other, used to check if data come from a specified distribution&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/q#quantile&#39;&gt;quantile&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Cutoffs dividing the range of a distribution into continuous intervals with equal probabilities.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/r#residual-error&#39;&gt;residual-error&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;That part of an observation that cannot be captured by the statistical model, and thus is assumed to reflect unknown factors.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/t#treatment-code&#39;&gt;treatment-code&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;A coding scheme for categorical variables that creates (n_levels -1) dichotomous variables where each level of the categorical variable is contrasted to a reference level.&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; href=&#39;https://psyteachr.github.io/glossary/u#uniform-distribution&#39;&gt;uniform-distribution&lt;/a&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;All numbers in the range have an equal probability of being sampled&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

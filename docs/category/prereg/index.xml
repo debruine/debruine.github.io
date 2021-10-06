@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>prereg | Lisa DeBruine</title>
+    <link>https://debruine.github.io/category/prereg/</link>
+      <atom:link href="https://debruine.github.io/category/prereg/index.xml" rel="self" type="application/rss+xml" />
+    <description>prereg</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 23 Oct 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>prereg</title>
+      <link>https://debruine.github.io/category/prereg/</link>
+    </image>
+    
+    <item>
+      <title>Face Research Lab PreReg Example</title>
+      <link>https://debruine.github.io/post/frl-prereg/</link>
+      <pubDate>Mon, 23 Oct 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/frl-prereg/</guid>
+      <description>
+
+
+&lt;style&gt;
+   input[type=text] { width: 100%; }
+   textarea { width: 100%; height: 6em; }
+   .example { background-color: #DDEEFF; border: 1px solid #BBCCDD; border-radius: 0.5em; padding: 0.5em 0.5em 0.5em 0.5em;}
+   .eval { font-size: smaller; color: #666666; }
+&lt;/style&gt;
+&lt;p&gt;Here is my internal lab pre-registration form (including an example). It is based on the &lt;a href=&#34;https://cos.io/prereg/&#34;&gt;OSF Preregistration Challenge&lt;/a&gt; forms. We use this for student projects to train them about open science practices and to prepare formal preregistrations on the OSF for postgraduate students and other lab members.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;prereg.Rmd&#34;&gt;Download the Rmd notebook for this example&lt;/a&gt;&lt;/p&gt;
+&lt;div id=&#34;study-information&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Study Information&lt;/h2&gt;
+&lt;div id=&#34;title&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Title&lt;/h3&gt;
+&lt;p&gt;Provide the working title of your study.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;The effect of facial expression on third party kin recognition&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+The title should be a specific and informative description of a project. Vague titles such as ‘Faces preregistration plan’ are not appropriate.
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;research-questions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Research Questions&lt;/h3&gt;
+&lt;p&gt;Please list each research question included in this study.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Does facial expression influence the accuracy of third party kin recognition?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;The type of submissions for this question will vary widely by discipline, and we cannot determine if the question is worth asking. However, questions that are excessively vague so as to make understanding later sections difficult are not appropriate. For some studies, the research questions and hypotheses are extremely similar, so overlap between this and the subsequent question is expected.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;hypotheses&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Hypotheses&lt;/h3&gt;
+&lt;p&gt;For each of the research questions listed in the previous section, provide one or multiple specific and testable hypotheses. Please state if the hypotheses are directional or non-directional. If directional, state the direction. A predicted effect is also appropriate here.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Third party kinship recognition accuracy will be higher for stimuli displaying a smiling facial expression than a neutral facial expression.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;In this section, the submission should provide a prediction as to the outcome of the study or a statement that no specific prediction is expected.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sampling-plan&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Sampling Plan&lt;/h2&gt;
+&lt;p&gt;In this section we’ll ask you to describe how you plan to collect samples, as well as the number of samples you plan to collect and your rationale for this decision. Please keep in mind that the data described in this section should be the actual data used for analysis, so if you are using a subset of a larger dataset, please describe the subset that will actually be used in your study.&lt;/p&gt;
+&lt;div id=&#34;data-collection-procedures&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data collection procedures&lt;/h3&gt;
+&lt;p&gt;Please describe the process by which you will collect your data. If you are using human subjects, this should include the population from which you obtain subjects, recruitment efforts, payment for participation, how subjects will be selected for eligibility from the initial pool (e.g. inclusion and exclusion rules), and your study timeline. For studies that don’t include human subjects, include information about how you will collect samples, duration of data gathering efforts, source or location of samples, or batch numbers you will use.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Raters will take part in this study online at &lt;a href=&#34;http://faceresearch.org&#34;&gt;faceresearch.org&lt;/a&gt;. Raters need to be at least 16 years old and give consent to participate in the study. Data collection will start in January 2017 and continue until we obtain complete data from 50 people, with no further restrictions for sex, nationality, language, or other characteristics.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;The answer to this question requires a specific set of instructions so that another person could repeat the data collection procedures and recreate the study population. Alternatively, if the study population would be unable to be reproduced because it relies on a specific set of circumstances unlikely to be recreated (e.g., a community of people from a specific time and location), the criteria and methods for creating the group and the rationale for this unique set of subjects should be clear.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sample-size&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Sample size&lt;/h3&gt;
+&lt;p&gt;Describe the sample size of your study. How many units will be analyzed in the study? This could be the number of people, birds, classrooms, plots, interactions, or countries included. If the units are not individuals, then describe the size requirements for each unit. If you are using a clustered or multilevel design, how many units are you collecting at each level of the analysis?&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Our target sample size is 50 raters. Due to constraints of online data collection, we may collect more than 50 raters if many people participate in a short period of time. Data will not be excluded if more than 50 people complete the study.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;For some studies, this will simply be the number of samples or the number of clusters. For others, this could be an expected range, minimum, or maximum number.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sample-size-rationale&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Sample size rationale&lt;/h3&gt;
+&lt;p&gt;This could include a power analysis or an arbitrary constraint such as time, money, or personnel.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;We performed a power calculation using simulated data (R script attached) to ascertain that our design has &amp;gt;90% power to detect a third party kin recognition ability difference of at least 5% between neutral and smiling faces.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;This gives you an opportunity to specifically state how the sample size will be determined. A wide range of possible answers is acceptable; remember that transparency is more important than principled justifications. If you state any reason for a sample size upfront, it is better than stating no reason and leaving the reader to “fill in the blanks.” Acceptable rationales include: a power analysis, an arbitrary number of subjects, or a number based on time or monetary constraints.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;variables&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Variables&lt;/h2&gt;
+&lt;p&gt;In this section you can describe all variables (both manipulated and measured variables) that will later be used in your confirmatory analysis plan. In your analysis plan, you will have the opportunity to describe how each variable will be used. If you have variables which you are measuring for exploratory analyses, you are not required to list them, though you are permitted to do so.&lt;/p&gt;
+&lt;div id=&#34;manipulated-variables&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Manipulated variables&lt;/h3&gt;
+&lt;p&gt;Describe all variables you plan to manipulate and the levels or treatment arms of each variable. For observational studies and meta-analyses, simply state that this is not applicable.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Relatedness (related/unrelated): Half of the stimulus pairs are &lt;em&gt;related&lt;/em&gt;; half are &lt;em&gt;unrelated&lt;/em&gt; age- and sex-matched pairs.&lt;/p&gt;
+&lt;p&gt;Facial expression (smiling/neutral): Each rater will see half of the stimulus pairs with a &lt;em&gt;smiling&lt;/em&gt; facial expression and the other half with a &lt;em&gt;neutral&lt;/em&gt; facial expression.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;For any experimental manipulation, you should give a precise definition of each manipulated variable. This must include a precise description of the levels at which each variable will be set, or a specific definition for each categorical treatment. For example, “loud or quiet,” should instead give either a precise decibel level or a means of recreating each level. ‘Presence/absence’ or ‘positive/negative’ is an acceptable description if the variable is precisely described.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;measured-variables&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Measured variables&lt;/h3&gt;
+&lt;p&gt;Describe each variable that you will measure. This will include outcome measures, as well as any predictors or covariates that you will measure. You do not need to include any variables that you plan on collecting if they are not going to be included in the confirmatory analyses of this study.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;The outcome variable will be the perceived kinship status of each presented stimulus pair (related/unrelated).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;Observational studies and meta-analyses will include only measured variables. As with the previous questions, the answers here must be precise. For example, ‘intelligence,’ ‘accuracy,’ ‘aggression,’ and ‘color’ are too vague. Acceptable alternatives could be ‘IQ as measured by Wechsler Adult Intelligence Scale’ ‘percent correct,’ ‘number of threat displays,’ and ‘percent reflectance at 400 nm.’&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;indices&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Indices&lt;/h3&gt;
+&lt;p&gt;If any measurements are going to be combined into an index (or even a mean), what measures will you use and how will they be combined? Include either a formula or a precise description of your method. If your are using a more complicated statistical method to combine measures (e.g. a factor analysis), you can note that here but describe the exact method in the analysis plan section.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Our analyses do not require transformation beyond assigning 0/1 to the response labels (related = 1, unrelated = 0).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;If you are using multiple pieces of data to construct a single variable, how will this occur? Both the data that are included and the formula or weights for each measure must be specified. Standard summary statistics, such as “means” do not require a formula, though more complicated indices require either the exact formula or, if it is an established index in the field, the index must be unambiguously defined. For example, “biodiversity index” is too broad, whereas “Shannon’s biodiversity index” is appropriate.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;design-plan&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Design Plan&lt;/h2&gt;
+&lt;p&gt;In this section, you will be asked to describe the overall design of your study. Remember that this research plan is designed to register a single study, so if you have multiple experimental designs, please complete a separate preregistration.&lt;/p&gt;
+&lt;div id=&#34;study-design&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Study design&lt;/h3&gt;
+&lt;p&gt;Describe your study design. Examples include two-group, factorial, randomized block, and repeated measures. Is it a between (unpaired), within-subject (paired), or mixed design? Describe any counterbalancing required. Typical study designs for observation studies include cohort, cross sectional, and case-control studies.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Each rater will be presented with 100 stimulus pairs, presented in a random order. Half of the stimulus pairs are related (full siblings) and half are unrelated age- and sex-matched pairs. Half of each group will be shown with smiling expressions, the other half with neutral expressions, ensuring that the same stimuli are never presented as both smiling and neutral to the same rater. Raters will be randomly assigned to one of two versions containing the same stimuli, but the opposite facial expression (e.g., the stimuli with a smiling expression in version A are neutral in version B).&lt;/p&gt;
+&lt;p&gt;Raters will receive the following instructions before the study:&lt;/p&gt;
+&lt;blockquote&gt;
+In this experiment you will be shown 100 pairs of faces. Some are siblings, some are an unrelated pair. You will be asked to determine whether each pair is “unrelated” or “related”. After the experiment, you will be told how many of the 100 pairs you correctly determined and what the average performance on this task was.
+&lt;/blockquote&gt;
+&lt;p&gt;After this, they will see 100 trials in a randomised order. Each trial has the questions, “Please indicate if this pair of faces shows siblings or an unrelated pair”, two respinse buttons (“unrelated”, “related”) and the faces of the stimulus pair shown side-by-side below at a maximum of 600x800 pixels (or sized to fit screen width if the device screen is smaller than 1200px). Face images have hair and clothing masked in black.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;prereg/interface.png&#34; alt=&#34;&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;An example trial&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;This question has a variety of possible answers. The key is for a researcher to be as detailed as is necessary given the specifics of their design. Be careful to determine if every parameter has been specified in the description of the study design. There may be some overlap between this question and the following questions. That is OK, as long as sufficient detail is given in one of the areas to provide all of the requested information. For example, if the study design describes a complete factorial, 2 X 3 design and the treatments and levels are specified previously, you do not have to repeat that information.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;randomization&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Randomization&lt;/h3&gt;
+&lt;p&gt;If you are doing a randomized study, how will you randomize, and at what level?&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Each rater will be assigned to one of the 2 counterbalanced versions. Raters will be assigned to whichever version currently has fewer completions by their sex, or randomly when both versions have the same number (this is done by the online platform). The order of stimuli is randomized for each rater.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;Typical randomization techniques include: simple, block, stratified, and adaptive covariate randomization. If randomization is required for the study, the method should be specified here, not simply the source of random numbers.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;analysis-plan&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Analysis Plan&lt;/h2&gt;
+&lt;p&gt;You may describe one or more confirmatory analysis in this preregistration. Please remember that all analyses specified below must be reported in the final article, and any additional analyses must be noted as exploratory or hypothesis-generating.&lt;/p&gt;
+&lt;p&gt;A confirmatory analysis plan must state up front which variables are predictors (independent) and which are the outcomes (dependent), otherwise it is an exploratory analysis. You are allowed to describe any exploratory work here, but a clear confirmatory analysis is required.&lt;/p&gt;
+&lt;div id=&#34;statistical-models&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Statistical models&lt;/h3&gt;
+&lt;p&gt;What statistical model will you use to test each hypothesis? Please include the type of model (e.g. ANOVA, multiple regression, SEM, etc) and the specification of the model (this includes each variable that will be included as predictors, outcomes, or covariates). Please specify any interactions that will be tested and remember that any test not included here must be noted as an exploratory test in your final article.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Binary relatedness judgments will be analyzed using binomial logistic mixed regression in &lt;code&gt;R&lt;/code&gt; using &lt;code&gt;lme4&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(lmerTest)
+model &amp;lt;- glmer(judgement ~ related * expression + 
+                (1 + related | rater) + 
+                (1 + expression | stimulus),
+              data = my_data,
+              family = binomial)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Relatedness judgment (0 = unrelated, 1 = related) is the dependent variable, relatedness (0.5 = related, -0.5 = unrelated) and expression (0.5 = smiling, -0.5 = neutral) are the independent variables. We include the rater and stimulus id as random effects and use maximally specified slopes.&lt;/p&gt;
+&lt;p&gt;See the attached RMarkdown file with the proposed analysis script.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;This is perhaps the most important and most complicated question within the preregistration. As with all of the other questions, the key is to provide a specific recipe for analyzing the collected data. Ask yourself: is enough detail provided to run the same analysis again with the information provided by the user? Be aware for instances where the statistical models appear specific, but actually leave openings for the precise test. See the following examples:&lt;/p&gt;
+&lt;p&gt;If someone specifies a 2x3 ANOVA with both factors within subjects, there is still flexibility with the various types of ANOVAs that could be run. Either a repeated measures ANOVA (RMANOVA) or a multivariate ANOVA (MANOVA) could be used for that design, which are two different tests.&lt;/p&gt;
+&lt;p&gt;If you are going to perform a sequential analysis and check after 50, 100, and 150 samples, you must also specify the p-values you’ll test against at those three points.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;transformations&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Transformations&lt;/h3&gt;
+&lt;p&gt;If you plan on transforming, centering, recoding the data, or will require a coding scheme for categorical variables, please describe that process.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Relatedness judgments are coded as 1 for related and 0 for unrelated. Actual relatedness will be effect-coded as -0.5 for unrelated and 0.5 for related, and facial expression will be effect-coded as -0.5 for neutral and 0.5 for smiling.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;If any categorical predictors are included in a regression, indicate how those variables will be coded (e.g. dummy coding, summation coding, etc.) and what the reference category will be.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;follow-up-analyses&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Follow-up analyses&lt;/h3&gt;
+&lt;p&gt;If not specified previously, will you be conducting any confirmatory analyses to follow up on effects in your statistical model, such as subgroup analyses, pairwise or complex contrasts, or follow-up tests from interactions? Remember that any analyses not specified in this research plan must be noted as exploratory.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;If there is an interaction between expression and relatedness, separate models will be run for smiling and neutral expressions to determine whether kin recognition is apparent for both expressions.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;model_s &amp;lt;- glmer(judgement ~ related + 
+                 (1 + related | rater) + 
+                 (1 | stimulus),
+              data = filter(my_data, expression == &amp;quot;smiling&amp;quot;),
+              family = binomial)
+
+model_n &amp;lt;- glmer(judgement ~ related + 
+                 (1 + related | rater) + 
+                 (1 | stimulus),
+              data = filter(my_data, expression == &amp;quot;neutral&amp;quot;),
+              family = binomial)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;This is simply a place to allow entering in any additional analyses. The criteria for these follow up analyses are identical to any analyses listed in other sections. It is also fine to enter these follow up analyses in a separate analysis section. The purpose of this question is to allow entering of any follow up tests that naturally follow from a primary analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;inference-criteria&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Inference criteria&lt;/h3&gt;
+&lt;p&gt;What criteria will you use to make inferences? Please describe the information you’ll use (e.g. specify the p-values, Bayes factors, specific model fit indices), as well as cut-off criterion, where appropriate. Will you be using one or two tailed tests for each of your analyses? If you are comparing multiple conditions or testing multiple hypotheses, will you account for this?&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+We will use an alpha criterion of .05, given that our specific predictions are pre-registered and our power analyses were calculated using this alpha.
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+P-values, confidence intervals, and effect sizes are standard means for making an inference, and any level is acceptable, though some criteria must be specified in this or previous fields. Bayesian analyses should specify a Bayes factor or a credible interval. If you are selecting models, then how will you determine the relative quality of each? In regards to multiple comparisons, this is a question with few “wrong” answers. In other words, transparency is more important than any specific method of controlling the false discovery rate or false error rate. One may state an intention to report all tests conducted or one may conduct a specific correction procedure; either strategy is acceptable.
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data-exclusion&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Data exclusion&lt;/h3&gt;
+&lt;p&gt;How will you determine which data points or samples (if any) to exclude from your analyses? How will outliers be handled?&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;Only responses of raters who have completed all 100 trials will be included in the analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;Any rule for excluding a particular set of data is acceptable. One may describe rules for excluding a rater or for identifying outlier data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;missing-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Missing data&lt;/h3&gt;
+&lt;p&gt;How will you deal with incomplete or missing data?&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;If a rater does not complete all 100 trials they will be excluded from the analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class=&#34;eval&#34;&gt;
+&lt;p&gt;Any relevant explanation is acceptable. As a final reminder, remember that the final analysis must follow the specified plan, and deviations must be either strongly justified or included as a separate, exploratory analysis.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;exploratory-analysis-optional&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Exploratory analysis (optional)&lt;/h3&gt;
+&lt;p&gt;If you plan to explore your data set to look for unexpected differences or relationships, you may describe those tests here. An exploratory test is any test where a prediction is not made up front, or there are multiple possible tests that you are going to use. A statistically significant finding in an exploratory test is a great way to form a new confirmatory hypothesis, which could be registered at a later time.&lt;/p&gt;
+&lt;div class=&#34;example&#34;&gt;
+&lt;p&gt;We will explore whether demographic traits of the raters are related to kin recognition. Therefore, we will look for relationships between demographic variables (age, sex, parental status) and third party kinship detection accuracy.&lt;/p&gt;
+&lt;/div&gt;
+&lt;script&gt;
+/*
+  document.body.onclick= function(e){
+    e = window.event ? event.srcElement : e.target;
+    if (e.className &amp;&amp; e.className.indexOf(&#39;example&#39;)!=-1) {
+        var tbox = document.createElement(&#34;textarea&#34;);
+        tbox.value = e.innerText.trim();
+        e.parentNode.replaceChild(tbox, e);
+    } else if (e.tagName != &#34;TEXTAREA&#34;) {
+      var tboxes = document.getElementsByTagName(&#34;textarea&#34;)[0];
+      var divbox = document.createElement(&#34;div&#34;);
+      divbox.innerHTML = tboxes.value;
+      divbox.className = &#34;example&#34;;
+      e.parentNode.replaceChild(divbox, tboxes);
+    }
+  }
+*/
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

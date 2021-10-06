@@ -1,0 +1,2407 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tidyverse | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/tidyverse/</link>
+      <atom:link href="https://debruine.github.io/tag/tidyverse/index.xml" rel="self" type="application/rss+xml" />
+    <description>tidyverse</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 20 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>tidyverse</title>
+      <link>https://debruine.github.io/tag/tidyverse/</link>
+    </image>
+    
+    <item>
+      <title>Experimentum Data Wrangling Demo</title>
+      <link>https://debruine.github.io/post/experimentum-data/</link>
+      <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/experimentum-data/</guid>
+      <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://debruine.github.io/rmarkdown-libs/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+
+
+&lt;p&gt;(updated 2021-01-21)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/debruine/experimentum&#34;&gt;Experimentum&lt;/a&gt; studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can &lt;a href=&#34;https://exp.psy.gla.ac.uk/project?demodata&amp;amp;autond&#34; target=&#34;_blank&#34;&gt;participate anonymously in the demo study&lt;/a&gt; (the median completion time is 3.8 minutes). The links below update dynamically, so your data will be available immediately.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&amp;amp;download=exp&#34; target=&#34;_blank&#34;&gt;questionnaire data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://exp.psy.gla.ac.uk/include/scripts/public_download?id=520&amp;amp;download=quest&#34; target=&#34;_blank&#34;&gt;experiment data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;data/project_520_structure.json&#34;&gt;project structure&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The project structure file above is a JSON-formatted file that contains all of the information needed to run a study in Experimentum. In future versions of Experimentum, you will be able to directly edit this file, for example translating the questions into another language, and set up a study by simply uploading the file.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;proj &amp;lt;- jsonlite::read_json(&amp;quot;data/project_520_structure.json&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;questionnaire-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Questionnaire Data&lt;/h2&gt;
+&lt;p&gt;The study has two questionnaires: &lt;strong&gt;Groups&lt;/strong&gt;, a few questions you can use to divide the participants into groups of varying sizes, and &lt;strong&gt;BMIS&lt;/strong&gt;, the &lt;a href=&#34;https://mypages.unh.edu/jdmayer/brief-mood-introspection-scale-bmis&#34;&gt;Brief Mood Introspection Scale&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;load-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Load Data&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;quest_data &amp;lt;- read_csv(&amp;quot;data/Demo-Data-quests_2021-01-21.csv&amp;quot;)
+
+glimpse(quest_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 2,807
+## Columns: 14
+## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
+## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
+## $ quest_name  &amp;lt;chr&amp;gt; &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups…
+## $ quest_id    &amp;lt;dbl&amp;gt; 2921, 2921, 2921, 2921, 2921, 2921, 2921, 2920, 2920, 292…
+## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;…
+## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
+## $ q_name      &amp;lt;chr&amp;gt; &amp;quot;fiber_arts&amp;quot;, &amp;quot;native_english&amp;quot;, &amp;quot;hats&amp;quot;, &amp;quot;pets&amp;quot;, &amp;quot;colour&amp;quot;,…
+## $ q_id        &amp;lt;dbl&amp;gt; 92833810, 92833809, 92833814, 92833811, 92833813, 9283381…
+## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1…
+## $ dv          &amp;lt;chr&amp;gt; &amp;quot;1&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;Yes&amp;quot;, &amp;quot;Red&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;today&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;2&amp;quot;,…
+## $ starttime   &amp;lt;dttm&amp;gt; 2021-01-19 17:48:15, 2021-01-19 17:48:15, 2021-01-19 17:…
+## $ endtime     &amp;lt;dttm&amp;gt; 2021-01-19 17:48:31, 2021-01-19 17:48:31, 2021-01-19 17:…&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;session_id&lt;/code&gt; a unique ID generated each time someone starts a study&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;project_id&lt;/code&gt; a unique ID for this study&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;quest_name&lt;/code&gt; the name of each questionnaire (not guaranteed to be unique)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;quest_id&lt;/code&gt; uniquely identifies each questionnaire&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;user_id&lt;/code&gt; registered participants have a unique ID that is the same across logins, while guest participants get a new ID each time they log in&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;user_sex&lt;/code&gt; gender from the options “male”, “female”, “nonbinary”, “na” (specifically chose not to answer), or &lt;code&gt;NA&lt;/code&gt; (did not complete the question)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;user_status&lt;/code&gt; whether use is a researcher (“admin”, “super”, “res”, “student”), a “registered” user, a “guest” user, or “test”&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;user_age&lt;/code&gt; the user’s age; registered accounts are asked for their birthdate, and their age is calculated to the nearest 0.1 years; guest users may be asked their age in years&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;q_name&lt;/code&gt; name of the question&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;q_id&lt;/code&gt; uniquely identifies each question&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;order&lt;/code&gt; the order the question was presented in (not necessarily answered in) or questionnaires with randomised order&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dv&lt;/code&gt; the response&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;starttime&lt;/code&gt; the time that the questionnaire was started&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;endtime&lt;/code&gt; the time that the questionnaire was submitted&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;removing-duplicate-answers&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Removing duplicate answers&lt;/h3&gt;
+&lt;p&gt;Although Experimentum tries to prevent people accidentally using the back button during a study, there are some ways around this, so sometimes a person will submit the same questionnaire twice in a row. You can filter your data down to only the first time each person completed each question with the following code (do not use this if your study actually gives people the same questionnaire more than once).&lt;/p&gt;
+&lt;p&gt;The questions are recorded in the order that they were answered, so we can just group by participant (&lt;code&gt;user_id&lt;/code&gt;) and question (&lt;code&gt;q_id&lt;/code&gt;) and choose the first answer. If you have a longitudinal study, group by &lt;code&gt;session_id&lt;/code&gt; to allow multiple sessions per user.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;quest_distinct &amp;lt;- quest_data %&amp;gt;%
+  group_by(user_id, q_id) %&amp;gt;% # or add session_id 
+  # chooses the first time each user answered each question
+  filter(row_number() == 1) %&amp;gt;%
+  ungroup()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Check how many duplicate rows were excluded.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;setdiff(quest_data, quest_distinct) %&amp;gt;% nrow()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;groups&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Groups&lt;/h3&gt;
+&lt;p&gt;Here, we select just the data from the Groups questionnaire and keep only the session_id, user_id, q_name, and dv columns, and convert the data to wide format. If you restricted your data to only one session per user, as above, then &lt;code&gt;user_id&lt;/code&gt; and &lt;code&gt;session_id&lt;/code&gt; are redundant. The code below works for both types of data, though.&lt;/p&gt;
+&lt;p&gt;If the &lt;code&gt;dv&lt;/code&gt; column contains both numeric and character data, the new columns will all be characters, so add &lt;code&gt;convert = TRUE&lt;/code&gt; if you are using &lt;code&gt;spread()&lt;/code&gt;. If you use the &lt;code&gt;pivot_wider()&lt;/code&gt; function, it doesn’t have a &lt;code&gt;convert&lt;/code&gt; argument, so you have to pipe the data frame to a separate function, &lt;code&gt;type.convert()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;groups &amp;lt;- quest_distinct %&amp;gt;%
+  filter(quest_name == &amp;quot;Groups&amp;quot;) %&amp;gt;%
+  select(session_id, user_id, q_name, dv) %&amp;gt;%
+  spread(q_name, dv, convert = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+session_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+user_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+colour
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+exercise
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+fiber_arts
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+hats
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+native_english
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+pets
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+spiders
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Red
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60495
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+31625
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Green
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60509
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53422
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+black
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+more
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60550
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53458
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+purplE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60552
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53460
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+green
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60553
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53461
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Blue
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;questionnaire-options&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Questionnaire options&lt;/h3&gt;
+&lt;p&gt;I usually recommend recording the actual text chosen from drop-down menus, rather than integers that you will have to remember how you mapped onto the answers. If you need to check how you set up the coding, you can look at the info page on Experimentum or check the project json file that we loaded above. It’s a nested list and contains all the info, but can be a little tricky to parse (I’ll work on making an R package to make this easier in the future).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# get question names, text and type, plus options if select
+qs &amp;lt;- proj$quest_2921$question %&amp;gt;%
+  map(~{
+    x &amp;lt;- .x[c(&amp;quot;name&amp;quot;, &amp;quot;question&amp;quot;, &amp;quot;type&amp;quot;)]
+    if (!is.null(.x$options)) {
+      x$options &amp;lt;- sapply(.x$options, `[[`, &amp;quot;display&amp;quot;)
+      names(x$options) &amp;lt;- sapply(.x$options, `[[`, &amp;quot;opt_value&amp;quot;)
+    }
+    x
+  })&lt;/code&gt;&lt;/pre&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;name: native_english&lt;/li&gt;
+&lt;li&gt;question: Is English your native language?&lt;/li&gt;
+&lt;li&gt;type: select&lt;/li&gt;
+&lt;li&gt;options:
+&lt;ul&gt;
+&lt;li&gt;1: Yes&lt;/li&gt;
+&lt;li&gt;0: No&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;name: fiber_arts&lt;/li&gt;
+&lt;li&gt;question: Do you know how to knit or crochet?&lt;/li&gt;
+&lt;li&gt;type: select&lt;/li&gt;
+&lt;li&gt;options:
+&lt;ul&gt;
+&lt;li&gt;1: Yes&lt;/li&gt;
+&lt;li&gt;0: No&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;name: pets&lt;/li&gt;
+&lt;li&gt;question: Do you have a pet?&lt;/li&gt;
+&lt;li&gt;type: select&lt;/li&gt;
+&lt;li&gt;options:
+&lt;ul&gt;
+&lt;li&gt;Yes: Yes&lt;/li&gt;
+&lt;li&gt;No: No&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;name: exercise&lt;/li&gt;
+&lt;li&gt;question: When was the last time you exercised?&lt;/li&gt;
+&lt;li&gt;type: select&lt;/li&gt;
+&lt;li&gt;options:
+&lt;ul&gt;
+&lt;li&gt;today: today or yesterday&lt;/li&gt;
+&lt;li&gt;week: in the past week&lt;/li&gt;
+&lt;li&gt;more: more than a week ago&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;name: colour&lt;/li&gt;
+&lt;li&gt;question: What is your favourite colour?&lt;/li&gt;
+&lt;li&gt;type: text&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;name: hats&lt;/li&gt;
+&lt;li&gt;question: How many hats do you own (approximately)?&lt;/li&gt;
+&lt;li&gt;type: selectnum&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;ul&gt;
+&lt;li&gt;name: spiders&lt;/li&gt;
+&lt;li&gt;question: Are you afraid of spiders?&lt;/li&gt;
+&lt;li&gt;type: radioanchor&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div id=&#34;plots-and-tables&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Plots and tables&lt;/h4&gt;
+&lt;p&gt;Plot your data or create summary tables to help you spot any problems. The &lt;code&gt;count()&lt;/code&gt; function is useful for variables with a small number of options.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# count a single column
+count(groups, exercise)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+exercise
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+more
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+24
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+69
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+week
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+31
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# count multiple columns
+count(groups, fiber_arts, native_english, pets)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+fiber_arts
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+native_english
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+pets
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+10
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+20
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+20
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+18
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+39
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Histograms or density plots are best for columns with many continuous values.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(groups, aes(hats)) +
+  geom_histogram(binwidth = 1, 
+                 fill = &amp;quot;dodgerblue&amp;quot;,
+                 color = &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/hats-plot-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(groups, aes(spiders)) +
+  geom_histogram(binwidth = 1, 
+                 fill = &amp;quot;violetred&amp;quot;,
+                 color = &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/spiders-plot-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;recode-variables&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Recode variables&lt;/h4&gt;
+&lt;p&gt;You might want to do some recoding of variables here. The &lt;code&gt;pets&lt;/code&gt; column contains the words “Yes” and “No”; maybe you want to code this as 1s and 0s.The column &lt;code&gt;fiber_arts&lt;/code&gt; has a 1 if a person knows how to knit or crochet, and a 0 if they don’t. You might want to change this to the words “Yes” and “No”. The &lt;code&gt;recode()&lt;/code&gt; function is useful for this. I like to give the binary-coded version of a variable the suffix “.b”.&lt;/p&gt;
+&lt;p&gt;Note that in the &lt;code&gt;recode()&lt;/code&gt; function, numbers that are on the left side of an equal sign need to be in quotes. This just has to do with the way R treats argument names and doesn’t mean that the recoded column has to be a character type.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;groups_coded &amp;lt;- groups %&amp;gt;%
+  mutate(
+    pets.b = recode(pets, &amp;quot;Yes&amp;quot; = 1, &amp;quot;No&amp;quot; = 0),
+    fiber_arts.b = fiber_arts,
+    fiber_arts = recode(fiber_arts, &amp;quot;1&amp;quot; = &amp;quot;Yes&amp;quot;, &amp;quot;0&amp;quot; = &amp;quot;No&amp;quot;)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+session_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+user_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+colour
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+exercise
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+fiber_arts
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+hats
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+native_english
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+pets
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+spiders
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+pets.b
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+fiber_arts.b
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Red
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60495
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+31625
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Green
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60509
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53422
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+black
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+more
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60550
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53458
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+purplE
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60552
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53460
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+green
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60553
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53461
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Blue
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+today
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+No
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Yes
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;free-text&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Free text&lt;/h4&gt;
+&lt;p&gt;If you have any free-text responses, you will probably need to code them. I always start by looking at all of the possible values after transforming the value to lowercase and getting rid of spaces around the text.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;colours &amp;lt;- groups_coded %&amp;gt;%
+  mutate(colour = tolower(colour) %&amp;gt;% trimws()) %&amp;gt;%
+  count(colour) %&amp;gt;%
+  arrange(n, colour) %&amp;gt;%
+  group_by(n) %&amp;gt;%
+  summarise(colours = paste(colour, collapse = &amp;quot;, &amp;quot;),
+            .groups = &amp;quot;drop&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+colours
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+amber, cornflower, grey, indian orange, magenta, monochrome grey/white tones, petroleum blue, teal, violet, white, yes.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+pink, turquoise
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+6
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+orange
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+7
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+black
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+8
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+yellow
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+12
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+red
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+17
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+purple
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+26
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+green
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+29
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+blue
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;You can then decide to recode some colours to fix misspellings, etc. One tricky part of using &lt;code&gt;recode()&lt;/code&gt; is that all replaced values have to be the same data type, so use &lt;code&gt;NA_character_&lt;/code&gt; if you are replacing values with strings, &lt;code&gt;NA_real_&lt;/code&gt; for doubles, and &lt;code&gt;NA_integer_&lt;/code&gt; for integers.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;groups_colours &amp;lt;- groups_coded %&amp;gt;%
+  mutate(colour = tolower(colour) %&amp;gt;% trimws()) %&amp;gt;%
+  mutate(colours_fixed = recode(colour,
+                                &amp;quot;amber&amp;quot; = &amp;quot;yellow&amp;quot;, 
+                                &amp;quot;yes.&amp;quot; = NA_character_,
+                                &amp;quot;violet&amp;quot; = &amp;quot;purple&amp;quot;,
+                                &amp;quot;petroleum blue&amp;quot; = &amp;quot;blue&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;bmis&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;BMIS&lt;/h3&gt;
+&lt;p&gt;The second questionnaire is the Brief Mood Introspection Scale (BMIS). The BMIS has 16 questions divided into positive and negative adjectives. The question names are all in the format &lt;code&gt;valence_adjective&lt;/code&gt;, so you can easily separate the question name into two columns.&lt;/p&gt;
+&lt;p&gt;Because the original &lt;code&gt;quest_data&lt;/code&gt; had both character and numeric values in the &lt;code&gt;dv&lt;/code&gt; column, it is still a character type even now that the dv column only contains numbers. You can fix this using the &lt;code&gt;type_convert()&lt;/code&gt; function. Set col_types manually or use &lt;code&gt;cols()&lt;/code&gt; to automatically guess.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bmis_raw &amp;lt;- quest_distinct %&amp;gt;%
+  filter(quest_name == &amp;quot;BMIS&amp;quot;) %&amp;gt;%
+  select(session_id, user_id, q_name, dv) %&amp;gt;%
+  separate(q_name, c(&amp;quot;valence&amp;quot;, &amp;quot;adjective&amp;quot;)) %&amp;gt;%
+  type_convert(col_types = cols())&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+session_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+user_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+valence
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+adjective
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dv
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+nervous
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+pos
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+caring
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+pos
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+peppy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+tired
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+grouchy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+sad
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div id=&#34;summary-scores&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Summary scores&lt;/h4&gt;
+&lt;p&gt;The BMIS is coded as the sum of the forward-coded scores for all the positive adjectives and the reverse-coded scores for all negative adjectives. Experimentum has a function to reverse code selected items in the “radiopage” questionnaire type, but we didn’t do that here so you can see how to manually recode. The scores are 1 to 4, so subjtract them from 5 to get the reverse-coded value. Make sure to look at a few of your recoded values to make sure it’s doing what you expect.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bmis_coded &amp;lt;- bmis_raw %&amp;gt;%
+  mutate(recoded_dv = case_when(
+    valence == &amp;quot;pos&amp;quot; ~ dv,
+    valence == &amp;quot;neg&amp;quot; ~ 5 - dv
+  ))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+session_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+user_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+valence
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+adjective
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+dv
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+recoded_dv
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+nervous
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+pos
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+caring
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+pos
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+peppy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+tired
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+grouchy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+neg
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+sad
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Create the summary score by grouping by user_id and session_id and summing the responses. We use &lt;code&gt;sum()&lt;/code&gt; here because the BMIS is not valid if people skipped any questions, so we want the result to be &lt;code&gt;NA&lt;/code&gt; if they did. Some questionnaire scoring allows you to calculate an average score omitting missed questions, so you could use &lt;code&gt;mean(recoded_dv, na.rm = TRUE)&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bmis &amp;lt;- bmis_coded %&amp;gt;%
+  group_by(session_id, user_id) %&amp;gt;%
+  summarise(bmis = sum(recoded_dv),
+            .groups = &amp;quot;drop&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;plots&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Plots&lt;/h4&gt;
+&lt;p&gt;Always plot your summary scores. This helps you to double-check your logic and identify outliers.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(bmis, aes(bmis)) + 
+  geom_histogram(binwidth = 1, 
+                 fill = &amp;quot;dodgerblue&amp;quot;,
+                 color = &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/bmis-hist-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;user-demographics&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;User Demographics&lt;/h3&gt;
+&lt;p&gt;Experimentum data always contains user demographic data, which is collected when the user signs up for a registered account or logs in as a guest. This study did not ask users for their age or sex, so that info is only available from registered users.&lt;/p&gt;
+&lt;p&gt;First, we select the session_id and all of the user variables, then make sure we have only one row for each participant.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;user &amp;lt;- quest_distinct %&amp;gt;%
+  select(session_id, starts_with(&amp;quot;user_&amp;quot;)) %&amp;gt;%
+  distinct()&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+session_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+user_id
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+user_sex
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+user_status
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+user_age
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60481
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+43533
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+female
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+res
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+26.6
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60495
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+31625
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+female
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+student
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+22.1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60509
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53422
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+female
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+guest
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+61.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60550
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53458
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+guest
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60552
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53460
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+guest
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+60553
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+53461
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NA
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+guest
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+0.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rejoining&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Rejoining&lt;/h3&gt;
+&lt;p&gt;Now you can rejoin your questionnaire data. Start with the user table and only join on matching data from the individual questionnaires. Use &lt;code&gt;session_id&lt;/code&gt; and &lt;code&gt;user_id&lt;/code&gt; to join.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;q_data &amp;lt;- user %&amp;gt;%
+  left_join(bmis, by = c(&amp;quot;session_id&amp;quot;, &amp;quot;user_id&amp;quot;)) %&amp;gt;%
+  left_join(groups_colours, by = c(&amp;quot;session_id&amp;quot;, &amp;quot;user_id&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;exclusions&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Exclusions&lt;/h3&gt;
+&lt;p&gt;You will usually want to exclude participants with user_status that are not “registered” or “guest”. Statuses “admin”, “super”, “res”, and “student” refer to different types of researchers (with different privileges on the Experimentum platform). The status “test” is for test runs with different user demographics. You can also apply other exclusion criteria here like age restrictions or requiring that summary score not be missing.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;q_data_excl &amp;lt;- q_data %&amp;gt;%
+  filter(user_status %in% c(&amp;quot;guest&amp;quot;, &amp;quot;registered&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+user_status
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+guest
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+121
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;experiment-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Experiment Data&lt;/h2&gt;
+&lt;p&gt;Our study has one rating experiment with two between-subject conditions: cuteness ratings and appropriateness as pet ratings.&lt;/p&gt;
+&lt;div id=&#34;load-data-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Load Data&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;exp_data &amp;lt;- read_csv(&amp;quot;data/Demo-Data-exps_2021-01-21.csv&amp;quot;)
+
+glimpse(exp_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 1,476
+## Columns: 15
+## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
+## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
+## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuten…
+## $ exp_id      &amp;lt;dbl&amp;gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 70…
+## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;…
+## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
+## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;animal-967657_640&amp;quot;, &amp;quot;surprised-3786845_640&amp;quot;, &amp;quot;penguins-4…
+## $ trial_n     &amp;lt;dbl&amp;gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, …
+## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, …
+## $ dv          &amp;lt;dbl&amp;gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, …
+## $ rt          &amp;lt;dbl&amp;gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003…
+## $ side        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ dt          &amp;lt;dttm&amp;gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:…&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Experiment data have the same session and user columns as questionnaire data, plus columns for the experiment name (&lt;code&gt;exp_name&lt;/code&gt;) and unique id (&lt;code&gt;exp_id&lt;/code&gt;). The remaining columns give data specific to each trial:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;trial_name&lt;/code&gt; not necessarily unique&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;trial_n&lt;/code&gt; uniquely identifies each trial within an experiment&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;order&lt;/code&gt; (the order the trial was shown to that participant&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dv&lt;/code&gt; the response&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rt&lt;/code&gt; the rough reaction time in milliseconds (web data have many sources of possible bias so do not use Experimentum to do RT experiments that require millisecond precision)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;side&lt;/code&gt; if the experiment has multiple images, the order of the images if side is set to random (not relevant here)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dt&lt;/code&gt; the timestamp of the response&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(exp_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 1,476
+## Columns: 15
+## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
+## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
+## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuten…
+## $ exp_id      &amp;lt;dbl&amp;gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 70…
+## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;…
+## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
+## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;animal-967657_640&amp;quot;, &amp;quot;surprised-3786845_640&amp;quot;, &amp;quot;penguins-4…
+## $ trial_n     &amp;lt;dbl&amp;gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, …
+## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, …
+## $ dv          &amp;lt;dbl&amp;gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, …
+## $ rt          &amp;lt;dbl&amp;gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003…
+## $ side        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+## $ dt          &amp;lt;dttm&amp;gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:…&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Most researchers don’t want all that data, so we can select just the important columns. The exp_name contains info we don’t need, so we’ll also process that.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;exp_selected &amp;lt;- exp_data %&amp;gt;%
+  select(session_id, user_id, exp_name, trial_name, dv) %&amp;gt;%
+  mutate(exp_name = sub(&amp;quot;Animals: &amp;quot;, &amp;quot;&amp;quot;, exp_name))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;count(exp_selected, exp_name)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+exp_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Appropriate
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+696
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Cuteness
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+780
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;count(exp_selected, trial_name)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+trial_name
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+n
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+adorable-5059091_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+animal-967657_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+bird-349035_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+dolphin-203875_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+frog-3312038_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+hedgehog-468228_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+kitty-2948404_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+meerkat-459171_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+penguins-429134_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+pug-690566_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+spider-2313079_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+surprised-3786845_640
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+123
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;adding-trial-data&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Adding trial data&lt;/h3&gt;
+&lt;p&gt;It’s common that you need to add some data about each trial.&lt;/p&gt;
+&lt;div class=&#34;figure&#34; style=&#34;text-align: center&#34;&gt;&lt;span id=&#34;fig:unnamed-chunk-20&#34;&gt;&lt;/span&gt;
+&lt;img src=&#34;cute/adorable-5059091_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/animal-967657_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/bird-349035_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/dolphin-203875_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/frog-3312038_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/hedgehog-468228_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/kitty-2948404_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/meerkat-459171_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/penguins-429134_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/pug-690566_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/spider-2313079_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/surprised-3786845_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;
+Figure 1: images from the experiment
+&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;You will probably have you trial information in a separate table, so you can load that here. In this case, we’ll use the &lt;code&gt;tribble()&lt;/code&gt; function to create a table by rows.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trial_info &amp;lt;- tribble(
+  ~photo,                  ~name,    ~is_baby, ~mammal,
+  &amp;quot;adorable-5059091_640&amp;quot;,  &amp;quot;kitten1&amp;quot;,   1,        1,
+  &amp;quot;animal-967657_640&amp;quot;,     &amp;quot;fox&amp;quot;,       0,        1,
+  &amp;quot;bird-349035_640&amp;quot;,       &amp;quot;chicken&amp;quot;,   1,        0,
+  &amp;quot;dolphin-203875_640&amp;quot;,    &amp;quot;dolphin&amp;quot;,   0,        1,
+  &amp;quot;frog-3312038_640&amp;quot;,      &amp;quot;frog&amp;quot;,      0,        0,
+  &amp;quot;hedgehog-468228_640&amp;quot;,   &amp;quot;hedgehog&amp;quot;,  0,        1,
+  &amp;quot;kitty-2948404_640&amp;quot;,     &amp;quot;kitten2&amp;quot;,   1,        1,
+  &amp;quot;meerkat-459171_640&amp;quot;,    &amp;quot;meerkat&amp;quot;,   0,        1,
+  &amp;quot;penguins-429134_640&amp;quot;,   &amp;quot;penguin&amp;quot;,   1,        0,
+  &amp;quot;pug-690566_640&amp;quot;,        &amp;quot;dog&amp;quot;,       1,        1,
+  &amp;quot;spider-2313079_640&amp;quot;,    &amp;quot;spider&amp;quot;,    0,        0,
+  &amp;quot;surprised-3786845_640&amp;quot;, &amp;quot;squirrel&amp;quot;,  0,        1
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then you can join it to the experiment data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;exp_full &amp;lt;- exp_selected %&amp;gt;%
+  left_join(trial_info, by = c(&amp;quot;trial_name&amp;quot; = &amp;quot;photo&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And create some plots.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(exp_full, aes(dv, colour = exp_name)) +
+  geom_freqpoly(binwidth = 1) +
+  facet_wrap(~name) +
+  scale_x_continuous(breaks = 1:7) +
+  labs(colour = &amp;quot;Rating Type&amp;quot;, x = &amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;demographs-exclusions-and-rejoin&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Demographs, exclusions and rejoin&lt;/h3&gt;
+&lt;p&gt;As for the questionnaire data above, you can pull out the user demographics, apply exclusions, and rejoin to the experiment data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# user table with exclusions
+user_excl &amp;lt;- exp_data %&amp;gt;%
+  select(session_id, starts_with(&amp;quot;user_&amp;quot;)) %&amp;gt;%
+  distinct() %&amp;gt;%
+  filter(user_status %in% c(&amp;quot;guest&amp;quot;, &amp;quot;registered&amp;quot;))
+
+e_data_excl &amp;lt;- user_excl %&amp;gt;%
+  left_join(exp_full, by = c(&amp;quot;session_id&amp;quot;, &amp;quot;user_id&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(e_data_excl)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Rows: 1,440
+## Columns: 11
+## $ session_id  &amp;lt;dbl&amp;gt; 60509, 60509, 60509, 60509, 60509, 60509, 60509, 60509, 6…
+## $ user_id     &amp;lt;dbl&amp;gt; 53422, 53422, 53422, 53422, 53422, 53422, 53422, 53422, 5…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;gu…
+## $ user_age    &amp;lt;dbl&amp;gt; 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 0, 0, 0, …
+## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate…
+## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;penguins-429134_640&amp;quot;, &amp;quot;bird-349035_640&amp;quot;, &amp;quot;hedgehog-46822…
+## $ dv          &amp;lt;dbl&amp;gt; 1, 4, 5, 1, 7, 1, 7, 6, 1, 7, 1, 1, 4, 4, 4, 4, 4, 4, 4, …
+## $ name        &amp;lt;chr&amp;gt; &amp;quot;penguin&amp;quot;, &amp;quot;chicken&amp;quot;, &amp;quot;hedgehog&amp;quot;, &amp;quot;squirrel&amp;quot;, &amp;quot;kitten2&amp;quot;, …
+## $ is_baby     &amp;lt;dbl&amp;gt; 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, …
+## $ mammal      &amp;lt;dbl&amp;gt; 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, …&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;joining-questionnaire-and-experiment-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Joining Questionnaire and Experiment Data&lt;/h2&gt;
+&lt;p&gt;Often, it makes most sense to process questionnaire data in wide format and experiment data in long format. If you need to add wide questionnaire data to a long experiment table, left join the questionnaire like this:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all_data &amp;lt;- e_data_excl %&amp;gt;%
+  left_join(q_data_excl, by = c(&amp;quot;session_id&amp;quot;, &amp;quot;user_id&amp;quot;))
+
+names(all_data)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;session_id&amp;quot;     &amp;quot;user_id&amp;quot;        &amp;quot;user_sex.x&amp;quot;     &amp;quot;user_status.x&amp;quot; 
+##  [5] &amp;quot;user_age.x&amp;quot;     &amp;quot;exp_name&amp;quot;       &amp;quot;trial_name&amp;quot;     &amp;quot;dv&amp;quot;            
+##  [9] &amp;quot;name&amp;quot;           &amp;quot;is_baby&amp;quot;        &amp;quot;mammal&amp;quot;         &amp;quot;user_sex.y&amp;quot;    
+## [13] &amp;quot;user_status.y&amp;quot;  &amp;quot;user_age.y&amp;quot;     &amp;quot;bmis&amp;quot;           &amp;quot;colour&amp;quot;        
+## [17] &amp;quot;exercise&amp;quot;       &amp;quot;fiber_arts&amp;quot;     &amp;quot;hats&amp;quot;           &amp;quot;native_english&amp;quot;
+## [21] &amp;quot;pets&amp;quot;           &amp;quot;spiders&amp;quot;        &amp;quot;pets.b&amp;quot;         &amp;quot;fiber_arts.b&amp;quot;  
+## [25] &amp;quot;colours_fixed&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now go explore your data!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-27-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Pipes</title>
+      <link>https://debruine.github.io/post/pipes/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/pipes/</guid>
+      <description>
+
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/images/pipe_sticker.png&#34; style=&#34;width: 200px; float: right;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Pipes are a way to order your code in a more readable format.&lt;/p&gt;
+&lt;p&gt;Let’s say you have a small data table with 10 participant IDs, two columns with variable type A, and 2 columns with variable type B. You want to calculate the mean of the A variables and the mean of the B variables and return a table with 10 rows (1 for each participant) and 3 columns (&lt;code&gt;id&lt;/code&gt;, &lt;code&gt;A_mean&lt;/code&gt; and &lt;code&gt;B_mean&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;One way you could do this is by creating a new object at every step and using that object in the next step. This is pretty clear, but you’ve created 6 unnecessary data objects in your environment. This can get confusing in very long scripts.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# make a data table with 10 subjects
+data_original &amp;lt;- tibble(
+  id = 1:10,
+  A1 = rnorm(10, 0),
+  A2 = rnorm(10, 1),
+  B1 = rnorm(10, 2),
+  B2 = rnorm(10, 3)
+)
+
+# gather columns A1 to B2 into &amp;quot;variable&amp;quot; and &amp;quot;value&amp;quot; columns
+data_gathered &amp;lt;- gather(data_original, variable, value, A1:B2)
+
+# separate the variable column at the _ into &amp;quot;var&amp;quot; and &amp;quot;var_n&amp;quot; columns
+data_separated &amp;lt;- separate(data_gathered, variable, c(&amp;quot;var&amp;quot;, &amp;quot;var_n&amp;quot;), sep = 1)
+
+# group the data by id and var
+data_grouped &amp;lt;- group_by(data_separated, id, var)
+
+# calculate the mean value for each id/var 
+data_summarised &amp;lt;- summarise(data_grouped, mean = mean(value))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;id&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# spread the mean column into A and B columns
+data_spread &amp;lt;- spread(data_summarised, var, mean)
+
+# rename A and B to A_mean and B_mean
+data &amp;lt;- rename(data_spread, A_mean = A, B_mean = B)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;id&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;A_mean&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;B_mean&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2304382&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3.376790&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.2460394&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3.150984&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.4908918&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.020612&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.3616511&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.706038&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5155883&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.599207&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.0474370&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.913186&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1864482&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.065799&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.5501416&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.405596&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2093015&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.425043&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.7423514&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2.399520&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p class=&#34;warning&#34;&gt;
+You &lt;em&gt;can&lt;/em&gt; name each object &lt;code&gt;data&lt;/code&gt; and keep replacing the old data object with the new one at each step. This will keep you environment clean, but I don’t recommend it because it makes it too easy to accidentally run your code out of order when you are running line-by-line for development or debugging.
+&lt;/p&gt;
+&lt;p&gt;One way to avoid extra objects is to nest your functions, literally replacing each data object with the code that generated it in the previous step. This can be fine for very short chains.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean_petal_width &amp;lt;- round(mean(iris$Petal.Width), 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But it gets extremely confusing for long chains:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# do not ever do this!!
+data &amp;lt;- rename(
+  spread(
+    summarise(
+      group_by(
+        separate(
+          gather(
+            tibble(
+              id = 1:10,
+              A1 = rnorm(10, 0),
+              A2 = rnorm(10, 1),
+              B1 = rnorm(10, 2),
+              B2 = rnorm(10, 3)), 
+            variable, value, A1:B2), 
+          variable, c(&amp;quot;var&amp;quot;, &amp;quot;var_n&amp;quot;), sep = 1), 
+        id, var), 
+      mean = mean(value)), 
+    var, mean), 
+  A_mean = A, B_mean = B)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;id&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The pipe lets you “pipe” the result of each function into the next function, allowing you to put your code in a logical order without creating too many extra objects.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# calculate mean of A and B variables for each participant
+data &amp;lt;- tibble(
+  id = 1:10,
+  A1 = rnorm(10, 0),
+  A2 = rnorm(10, 1),
+  B1 = rnorm(10, 2),
+  B2 = rnorm(10, 3)
+) %&amp;gt;%
+  gather(variable, value, A1:B2) %&amp;gt;%
+  separate(variable, c(&amp;quot;var&amp;quot;, &amp;quot;var_n&amp;quot;), sep=1) %&amp;gt;%
+  group_by(id, var) %&amp;gt;%
+  summarise(mean = mean(value)) %&amp;gt;%
+  spread(var, mean) %&amp;gt;%
+  rename(A_mean = A, B_mean = B)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;id&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can read this code from top to bottom as follows:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Make a tibble called &lt;code&gt;data&lt;/code&gt; with
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;id&lt;/code&gt; of 1 to 10,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;A1&lt;/code&gt; of 10 random numbers from a normal distribution with a mean of 0,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;A2&lt;/code&gt; of 10 random numbers from a normal distribution with a mean of 1,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;B1&lt;/code&gt; of 10 random numbers from a normal distribution with a mean of 2,&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;B2&lt;/code&gt; of 10 random numbers from a normal distribution with a mean of 3; and then&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Gather to create &lt;code&gt;variable&lt;/code&gt; and &lt;code&gt;value&lt;/code&gt; column from columns &lt;code&gt;A_1&lt;/code&gt; to &lt;code&gt;B_2&lt;/code&gt;; and then&lt;/li&gt;
+&lt;li&gt;Separate the column &lt;code&gt;variable&lt;/code&gt; into 2 new columns called &lt;code&gt;var&lt;/code&gt;and &lt;code&gt;var_n&lt;/code&gt;, separate at character 1; and then&lt;/li&gt;
+&lt;li&gt;Group by columns &lt;code&gt;id&lt;/code&gt; and &lt;code&gt;var&lt;/code&gt;; and then&lt;/li&gt;
+&lt;li&gt;Summarise and new column called &lt;code&gt;mean&lt;/code&gt; as the mean of the &lt;code&gt;value&lt;/code&gt; column for each group; and then&lt;/li&gt;
+&lt;li&gt;Spread to make new columns with the key names in &lt;code&gt;var&lt;/code&gt; and values in &lt;code&gt;mean&lt;/code&gt;; and then&lt;/li&gt;
+&lt;li&gt;Rename to make columns called &lt;code&gt;A_mean&lt;/code&gt; (old &lt;code&gt;A&lt;/code&gt;) and &lt;code&gt;B_mean&lt;/code&gt; (old &lt;code&gt;B&lt;/code&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You can make intermediate objects whenever you need to break up your code because it’s getting too complicated or you need to debug something.&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+You can debug a pipe by running just the first few functions by highlighting from the beginning to just before the pipe you want to stop at. Try this by highlighting from &lt;code&gt;data &amp;lt;-&lt;/code&gt; to the end of the &lt;code&gt;separate&lt;/code&gt; function and typing cmd-return. What does &lt;code&gt;data&lt;/code&gt; look like now?
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Plot Comparison</title>
+      <link>https://debruine.github.io/post/plot-comparison/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/plot-comparison/</guid>
+      <description>
+
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I compared bar plots to violin plots in a recent talk to make the point that real data plotted with the full distribution make your effects look less impressive than minimalist bar charts that just show the means and standard errors, but give you a much better idea of what’s going on with your data.&lt;/p&gt;
+&lt;p&gt;I also made a &lt;a href=&#34;http://shiny.psy.gla.ac.uk/debruine/plotdemo/&#34;&gt;shiny app&lt;/a&gt; where you can set the sample size, main effects, and interaction effect, then view six different visualisations of the simulated data.&lt;/p&gt;
+&lt;p&gt;I thought I’d post a quick tutorial for anyone who wants to see some code for creating violin-box plots and split-violin plots.&lt;/p&gt;
+&lt;p&gt;First, let’s simulate some data from a 2x2 design with a cross-over interaction with a 0.5 SD effect size.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n &amp;lt;- 100
+data &amp;lt;- tibble(
+  sex = rep(c(&amp;quot;male&amp;quot;, &amp;quot;female&amp;quot;), n),
+  face_sex = rep(c(&amp;quot;male&amp;quot;, &amp;quot;female&amp;quot;), each = n)
+) %&amp;gt;%
+  mutate(
+    dv = rnorm(n*2, 0, 1),
+    effect = ifelse(sex==face_sex, .5, 0),
+    dv = dv + effect
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I like to create a theme for all the plots in a talk or paper. This one is my standard white-on-black talk theme.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bgcolor &amp;lt;- &amp;quot;black&amp;quot;
+textcolor &amp;lt;- &amp;quot;white&amp;quot;
+my_theme &amp;lt;- theme(
+    plot.background = element_rect(fill = bgcolor, colour = bgcolor),
+    panel.background = element_rect(fill = NA),
+    legend.background = element_rect(fill = NA),
+    legend.position=&amp;quot;none&amp;quot;,
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    text = element_text(family=&amp;#39;Fira Code&amp;#39;, colour = textcolor, size=20),
+    axis.text = element_text(family=&amp;#39;Fira Code&amp;#39;, colour = textcolor, size=15)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;bar-plot&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Bar Plot&lt;/h2&gt;
+&lt;p&gt;I’ve commented it out below, but I recommend alsways using &lt;code&gt;ggsave&lt;/code&gt; to save your plots for papers or talks. They are much better resolution than the plots you copy out of an Rmarkdown notebook.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data %&amp;gt;%
+  group_by(sex, face_sex) %&amp;gt;%
+  summarise(
+    mean = mean(dv),
+    se = sd(dv)/sqrt(n())
+  ) %&amp;gt;%
+  ggplot(aes(sex, mean, fill=face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_col(color = &amp;quot;white&amp;quot;, position=&amp;quot;dodge&amp;quot;, alpha = 0.5) +
+  geom_errorbar(aes(ymin = mean-se, ymax=mean+se), 
+                width=0.1, 
+                position=position_dodge(0.9), 
+                color=textcolor) +
+  ylab(&amp;quot;DV&amp;quot;) +
+  xlab(&amp;quot;Participant Sex&amp;quot;) +
+  scale_fill_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  my_theme&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;sex&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/plot_comparison_files/figure-html/plotcomp-bar-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#ggsave(&amp;quot;bar.png&amp;quot;, width=10, height = 6)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Notice how the bar plot hides the real range of the data. This is what it would look like plotted with the y-axis ranges shown below.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data %&amp;gt;%
+  group_by(sex, face_sex) %&amp;gt;%
+  summarise(
+    mean = mean(dv),
+    se = sd(dv)/sqrt(n())
+  ) %&amp;gt;%
+  ggplot(aes(sex, mean, fill=face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_col(color = &amp;quot;white&amp;quot;, position=&amp;quot;dodge&amp;quot;, alpha = 0.5) +
+  geom_errorbar(aes(ymin = mean-se, ymax=mean+se), 
+                width=0.1, 
+                position=position_dodge(0.9), 
+                color=textcolor) +
+  ylab(&amp;quot;DV&amp;quot;) +
+  xlab(&amp;quot;Participant Sex&amp;quot;) +
+  ylim(-5, 5) +
+  scale_fill_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  my_theme&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;sex&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/plot_comparison_files/figure-html/plotcomp-bar-range-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;violinbox-plot&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;ViolinBox Plot&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data %&amp;gt;%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_boxplot(color = textcolor, width = 0.25, position = position_dodge(width=0.9)) +
+  ylab(&amp;quot;DV&amp;quot;) +
+  xlab(&amp;quot;Participant Sex&amp;quot;) +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  my_theme&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/plot_comparison_files/figure-html/plotcomp-violin-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#ggsave(&amp;quot;violinbox.png&amp;quot;, width=10, height = 6)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;violin-point-plot&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Violin-Point Plot&lt;/h2&gt;
+&lt;p&gt;The boxplot above showss the median and quartiles, which sometimes isn’t the summary statistic you want to emphasise (HT &lt;a href=&#34;@PaulMinda1&#34;&gt;https://twitter.com/PaulMinda1&lt;/a&gt;). You can alternatively plot the mean and 95% CI using &lt;code&gt;geom_pointrange&lt;/code&gt;. This requires a bit of data wrangling first.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary_data &amp;lt;- data %&amp;gt;%
+  group_by(sex, face_sex) %&amp;gt;%
+  summarise(
+    mean = mean(dv),
+    min = mean(dv) - qnorm(0.975)*sd(dv)/sqrt(n()),
+    max = mean(dv) + qnorm(0.975)*sd(dv)/sqrt(n())
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;sex&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data %&amp;gt;%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_pointrange(
+    data = summary_data,
+    aes(sex, mean, ymin=min, ymax=max),
+    shape = 20,
+    color = textcolor, 
+    position = position_dodge(width = 0.9)
+  ) +
+  ylab(&amp;quot;DV&amp;quot;) +
+  xlab(&amp;quot;Participant Sex&amp;quot;) +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  scale_color_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  my_theme&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/plot_comparison_files/figure-html/plotcomp-pointrange-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#ggsave(&amp;quot;violin_pointrange.png&amp;quot;, width=10, height = 6)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;split-violin-plots&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Split-Violin Plots&lt;/h2&gt;
+&lt;p&gt;To make a split violin plot, first you have to define &lt;code&gt;geom_split_violin()&lt;/code&gt;. I derived the code from
+&lt;a href=&#34;&#34;&gt;https://stackoverflow.com/questions/35717353/split-violin-plot-with-ggplot2&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;GeomSplitViolin &amp;lt;- ggproto(
+  &amp;quot;GeomSplitViolin&amp;quot;, 
+  GeomViolin, 
+  draw_group = function(self, data, ..., draw_quantiles = NULL) {
+    data &amp;lt;- transform(data, 
+                      xminv = x - violinwidth * (x - xmin), 
+                      xmaxv = x + violinwidth * (xmax - x))
+    grp &amp;lt;- data[1,&amp;#39;group&amp;#39;]
+    newdata &amp;lt;- plyr::arrange(
+      transform(data, x = if(grp%%2==1) xminv else xmaxv), 
+      if(grp%%2==1) y else -y
+    )
+    newdata &amp;lt;- rbind(newdata[1, ], newdata, newdata[nrow(newdata), ], newdata[1, ])
+    newdata[c(1,nrow(newdata)-1,nrow(newdata)), &amp;#39;x&amp;#39;] &amp;lt;- round(newdata[1, &amp;#39;x&amp;#39;]) 
+    if (length(draw_quantiles) &amp;gt; 0 &amp;amp; !scales::zero_range(range(data$y))) {
+      stopifnot(all(draw_quantiles &amp;gt;= 0), all(draw_quantiles &amp;lt;= 1))
+      quantiles &amp;lt;- ggplot2:::create_quantile_segment_frame(data, draw_quantiles)
+      aesthetics &amp;lt;- data[rep(1, nrow(quantiles)), setdiff(names(data), c(&amp;quot;x&amp;quot;, &amp;quot;y&amp;quot;)), drop = FALSE]
+      aesthetics$alpha &amp;lt;- rep(1, nrow(quantiles))
+      both &amp;lt;- cbind(quantiles, aesthetics)
+      quantile_grob &amp;lt;- GeomPath$draw_panel(both, ...)
+      ggplot2:::ggname(&amp;quot;geom_split_violin&amp;quot;, 
+                       grid::grobTree(GeomPolygon$draw_panel(newdata, ...), quantile_grob))
+    } else {
+      ggplot2:::ggname(&amp;quot;geom_split_violin&amp;quot;, GeomPolygon$draw_panel(newdata, ...))
+    }
+  }
+)
+
+geom_split_violin &amp;lt;- function (mapping = NULL, 
+                               data = NULL, 
+                               stat = &amp;quot;ydensity&amp;quot;, 
+                               position = &amp;quot;identity&amp;quot;, ..., 
+                               draw_quantiles = NULL, 
+                               trim = TRUE, 
+                               scale = &amp;quot;area&amp;quot;, 
+                               na.rm = FALSE, 
+                               show.legend = NA, 
+                               inherit.aes = TRUE) {
+  layer(data = data, 
+        mapping = mapping, 
+        stat = stat, 
+        geom = GeomSplitViolin, 
+        position = position, 
+        show.legend = show.legend, 
+        inherit.aes = inherit.aes, 
+        params = list(trim = trim, 
+                      scale = scale, 
+                      draw_quantiles = draw_quantiles, 
+                      na.rm = na.rm, ...)
+        )
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Once you’ve defined the new geom, you can use &lt;code&gt;geom_split_violin&lt;/code&gt; pretty much like &lt;code&gt;geom_violin&lt;/code&gt;. Note how the position of the &lt;code&gt;geom_boxplot&lt;/code&gt; changes to put the boxplots side-by-side.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data %&amp;gt;%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_split_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_boxplot(color = textcolor, 
+               width = 0.25, 
+               position = position_dodge(width=0.25)) +
+  ylab(&amp;quot;DV&amp;quot;) +
+  xlab(&amp;quot;Participant Sex&amp;quot;) +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  my_theme&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/plot_comparison_files/figure-html/plotcomp-split-violin-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#ggsave(&amp;quot;split_violin.png&amp;quot;, width=10, height = 6)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is a split violin with means and 95% CIs defined.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary_data &amp;lt;- data %&amp;gt;%
+  group_by(sex, face_sex) %&amp;gt;%
+  summarise(
+    mean = mean(dv),
+    min = mean(dv) - qnorm(0.975)*sd(dv)/sqrt(n()),
+    max = mean(dv) + qnorm(0.975)*sd(dv)/sqrt(n())
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;sex&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data %&amp;gt;%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_split_violin(color=textcolor, trim=FALSE, alpha = 0.5) +
+  geom_pointrange(
+    data = summary_data,
+    aes(sex, mean, ymin=min, ymax=max),
+    color = textcolor, 
+    shape = 20, # 95,
+    position = position_dodge(width = 0.25)
+  ) +
+  ylab(&amp;quot;DV&amp;quot;) +
+  xlab(&amp;quot;Participant Sex&amp;quot;) +
+  ylim(-5, 5) + 
+  scale_fill_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  scale_color_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  my_theme&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/plot_comparison_files/figure-html/plotcomp-splitpointrange-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;#ggsave(&amp;quot;split_violin_pointrange.png&amp;quot;, width=10, height = 6)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;raincloud-plots&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Raincloud Plots&lt;/h2&gt;
+&lt;p&gt;The code for raincloud plots is from &lt;a href=&#34;https://micahallen.org/2018/03/15/introducing-raincloud-plots/&#34;&gt;Micah Allen&lt;/a&gt; and
+&lt;a href=&#34;https://gist.githubusercontent.com/benmarwick/2a1bb0133ff568cbe28d/raw/fb53bd97121f7f9ce947837ef1a4c65a73bffb3f/geom_flat_violin.R&#34;&gt;Ben Marwick&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;&amp;quot;%||%&amp;quot; &amp;lt;- function(a, b) {
+  if (!is.null(a)) a else b
+}
+
+geom_flat_violin &amp;lt;- function(mapping = NULL, data = NULL, stat = &amp;quot;ydensity&amp;quot;,
+                             position = &amp;quot;dodge&amp;quot;, trim = TRUE, scale = &amp;quot;area&amp;quot;,
+                             show.legend = NA, inherit.aes = TRUE, ...) {
+  layer(
+    data = data,
+    mapping = mapping,
+    stat = stat,
+    geom = GeomFlatViolin,
+    position = position,
+    show.legend = show.legend,
+    inherit.aes = inherit.aes,
+    params = list(
+      trim = trim,
+      scale = scale,
+      ...
+    )
+  )
+}
+
+GeomFlatViolin &amp;lt;-
+  ggproto(&amp;quot;GeomFlatViolin&amp;quot;, Geom,
+          setup_data = function(data, params) {
+            data$width &amp;lt;- data$width %||%
+              params$width %||% (resolution(data$x, FALSE) * 0.9)
+            
+            # ymin, ymax, xmin, and xmax define the bounding rectangle for each group
+            data %&amp;gt;%
+              group_by(group) %&amp;gt;%
+              mutate(ymin = min(y),
+                     ymax = max(y),
+                     xmin = x,
+                     xmax = x + width / 2)
+            
+          },
+          
+          draw_group = function(data, panel_scales, coord) {
+            # Find the points for the line to go all the way around
+            data &amp;lt;- transform(data, xminv = x,
+                              xmaxv = x + violinwidth * (xmax - x))
+            
+            # Make sure it&amp;#39;s sorted properly to draw the outline
+            newdata &amp;lt;- rbind(plyr::arrange(transform(data, x = xminv), y),
+                             plyr::arrange(transform(data, x = xmaxv), -y))
+            
+            # Close the polygon: set first and last point the same
+            # Needed for coord_polar and such
+            newdata &amp;lt;- rbind(newdata, newdata[1,])
+            
+            ggplot2:::ggname(&amp;quot;geom_flat_violin&amp;quot;, GeomPolygon$draw_panel(newdata, panel_scales, coord))
+          },
+          
+          draw_key = draw_key_polygon,
+          
+          default_aes = aes(weight = 1, colour = &amp;quot;grey20&amp;quot;, fill = &amp;quot;white&amp;quot;, size = 0.5,
+                            alpha = NA, linetype = &amp;quot;solid&amp;quot;),
+          
+          required_aes = c(&amp;quot;x&amp;quot;, &amp;quot;y&amp;quot;)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt; data %&amp;gt;%
+  ggplot(aes(sex, dv, fill = face_sex)) +
+  geom_hline(yintercept=0, color=textcolor, size=1) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0), 
+                   color=textcolor, trim=FALSE, alpha = 0.75) +
+  geom_point(aes(color = face_sex), 
+             position = position_jitter(width = .2, height = 0), 
+             size = .5, alpha = .75) +
+  ylab(&amp;quot;DV&amp;quot;) +
+  xlab(&amp;quot;Participant Sex&amp;quot;) +
+  coord_flip() +
+  scale_fill_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  scale_color_manual(values = c(&amp;quot;#3D66CC&amp;quot;, &amp;quot;#892110&amp;quot;)) +
+  my_theme&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/plot_comparison_files/figure-html/plot-raincloud-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>nest() and irr::icc()</title>
+      <link>https://debruine.github.io/post/nest/</link>
+      <pubDate>Mon, 21 Aug 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/nest/</guid>
+      <description>
+
+
+&lt;p&gt;I’m going to use intra-class correlations to demonstrate how to run an analysis on subgroups of data (because I’m constantly forgetting exactly how to do it).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(irr)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Load the rating data for the open-source &lt;a href=&#34;https://figshare.com/articles/Face_Research_Lab_London_Set/5047666&#34;&gt;Face Research Lab London Set&lt;/a&gt;.
+The data set contains 1-7 attractiveness ratings from 2513 raters for the 102 faces in the set (&lt;code&gt;X001:X173&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london &amp;lt;- read_csv(&amp;quot;https://ndownloader.figshare.com/files/8542045&amp;quot;)
+
+head(london)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 105
+##   rater_sex rater_sexpref rater_age  X001  X002  X003  X004  X005  X006  X007
+##   &amp;lt;chr&amp;gt;     &amp;lt;chr&amp;gt;             &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+## 1 female    either             17       3     3     3     3     2     3     5
+## 2 female    either             17       5     2     3     2     1     5     6
+## 3 female    either             17.1     5     3     4     3     3     4     4
+## 4 female    either             17.1     4     6     5     5     3     4     5
+## 5 female    either             17.2     3     4     3     1     1     1     3
+## 6 female    either             17.3     6     5     5     3     7     5     6
+## # … with 95 more variables: X008 &amp;lt;dbl&amp;gt;, X009 &amp;lt;dbl&amp;gt;, X010 &amp;lt;dbl&amp;gt;, X011 &amp;lt;dbl&amp;gt;,
+## #   X012 &amp;lt;dbl&amp;gt;, X013 &amp;lt;dbl&amp;gt;, X014 &amp;lt;dbl&amp;gt;, X016 &amp;lt;dbl&amp;gt;, X017 &amp;lt;dbl&amp;gt;, X018 &amp;lt;dbl&amp;gt;,
+## #   X019 &amp;lt;dbl&amp;gt;, X020 &amp;lt;dbl&amp;gt;, X021 &amp;lt;dbl&amp;gt;, X022 &amp;lt;dbl&amp;gt;, X024 &amp;lt;dbl&amp;gt;, X025 &amp;lt;dbl&amp;gt;,
+## #   X026 &amp;lt;dbl&amp;gt;, X027 &amp;lt;dbl&amp;gt;, X029 &amp;lt;dbl&amp;gt;, X030 &amp;lt;dbl&amp;gt;, X031 &amp;lt;dbl&amp;gt;, X032 &amp;lt;dbl&amp;gt;,
+## #   X033 &amp;lt;dbl&amp;gt;, X034 &amp;lt;dbl&amp;gt;, X036 &amp;lt;dbl&amp;gt;, X037 &amp;lt;dbl&amp;gt;, X038 &amp;lt;dbl&amp;gt;, X039 &amp;lt;dbl&amp;gt;,
+## #   X041 &amp;lt;dbl&amp;gt;, X042 &amp;lt;dbl&amp;gt;, X043 &amp;lt;dbl&amp;gt;, X044 &amp;lt;dbl&amp;gt;, X045 &amp;lt;dbl&amp;gt;, X061 &amp;lt;dbl&amp;gt;,
+## #   X062 &amp;lt;dbl&amp;gt;, X063 &amp;lt;dbl&amp;gt;, X064 &amp;lt;dbl&amp;gt;, X066 &amp;lt;dbl&amp;gt;, X067 &amp;lt;dbl&amp;gt;, X068 &amp;lt;dbl&amp;gt;,
+## #   X069 &amp;lt;dbl&amp;gt;, X070 &amp;lt;dbl&amp;gt;, X081 &amp;lt;dbl&amp;gt;, X082 &amp;lt;dbl&amp;gt;, X083 &amp;lt;dbl&amp;gt;, X086 &amp;lt;dbl&amp;gt;,
+## #   X087 &amp;lt;dbl&amp;gt;, X090 &amp;lt;dbl&amp;gt;, X091 &amp;lt;dbl&amp;gt;, X092 &amp;lt;dbl&amp;gt;, X094 &amp;lt;dbl&amp;gt;, X096 &amp;lt;dbl&amp;gt;,
+## #   X097 &amp;lt;dbl&amp;gt;, X099 &amp;lt;dbl&amp;gt;, X100 &amp;lt;dbl&amp;gt;, X101 &amp;lt;dbl&amp;gt;, X102 &amp;lt;dbl&amp;gt;, X103 &amp;lt;dbl&amp;gt;,
+## #   X104 &amp;lt;dbl&amp;gt;, X105 &amp;lt;dbl&amp;gt;, X107 &amp;lt;dbl&amp;gt;, X108 &amp;lt;dbl&amp;gt;, X112 &amp;lt;dbl&amp;gt;, X113 &amp;lt;dbl&amp;gt;,
+## #   X114 &amp;lt;dbl&amp;gt;, X115 &amp;lt;dbl&amp;gt;, X117 &amp;lt;dbl&amp;gt;, X118 &amp;lt;dbl&amp;gt;, X119 &amp;lt;dbl&amp;gt;, X120 &amp;lt;dbl&amp;gt;,
+## #   X121 &amp;lt;dbl&amp;gt;, X122 &amp;lt;dbl&amp;gt;, X123 &amp;lt;dbl&amp;gt;, X124 &amp;lt;dbl&amp;gt;, X125 &amp;lt;dbl&amp;gt;, X126 &amp;lt;dbl&amp;gt;,
+## #   X127 &amp;lt;dbl&amp;gt;, X128 &amp;lt;dbl&amp;gt;, X129 &amp;lt;dbl&amp;gt;, X130 &amp;lt;dbl&amp;gt;, X131 &amp;lt;dbl&amp;gt;, X132 &amp;lt;dbl&amp;gt;,
+## #   X134 &amp;lt;dbl&amp;gt;, X135 &amp;lt;dbl&amp;gt;, X136 &amp;lt;dbl&amp;gt;, X137 &amp;lt;dbl&amp;gt;, X138 &amp;lt;dbl&amp;gt;, X139 &amp;lt;dbl&amp;gt;,
+## #   X140 &amp;lt;dbl&amp;gt;, X141 &amp;lt;dbl&amp;gt;, X142 &amp;lt;dbl&amp;gt;, X143 &amp;lt;dbl&amp;gt;, X144 &amp;lt;dbl&amp;gt;, X172 &amp;lt;dbl&amp;gt;,
+## #   X173 &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To calculate the ICC for ratings, first we need to get the data into a format where each column represents a rater and each row represents a stimulus. Select just the columns with ratings, then transpose (&lt;code&gt;t()&lt;/code&gt;) the data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london %&amp;gt;%
+  select(X001:X173) %&amp;gt;%
+  t() %&amp;gt;%
+  irr::icc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 2513 
+##      ICC(1) = 0.24
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &amp;gt; 0 
+## F(101,256224) = 793 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.196 &amp;lt; ICC &amp;lt; 0.298&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But what if you want to do this for several subsets of the raters or stimuli? One solution is to run the code above several times, once for each subset, adding code to select and filter.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london %&amp;gt;%
+  filter(rater_sex == &amp;quot;male&amp;quot;) %&amp;gt;%
+  select(X001:X173) %&amp;gt;%
+  t() %&amp;gt;%
+  irr::icc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 955 
+##      ICC(1) = 0.225
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &amp;gt; 0 
+## F(101,97308) = 279 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.183 &amp;lt; ICC &amp;lt; 0.281&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london %&amp;gt;%
+  filter(rater_sex == &amp;quot;female&amp;quot;) %&amp;gt;%
+  select(X001:X173) %&amp;gt;%
+  t() %&amp;gt;%
+  irr::icc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  Single Score Intraclass Correlation
+## 
+##    Model: oneway 
+##    Type : consistency 
+## 
+##    Subjects = 102 
+##      Raters = 1552 
+##      ICC(1) = 0.253
+## 
+##  F-Test, H0: r0 = 0 ; H1: r0 &amp;gt; 0 
+## F(101,158202) = 526 , p = 0 
+## 
+##  95%-Confidence Interval for ICC Population Values:
+##   0.207 &amp;lt; ICC &amp;lt; 0.313&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;But what if you want to calculate ICCs for lots of subdivisions? It’s tedious and error-prone to do each one by hand, but you can group your data into the subdivisions, nest the ratings, and map them onto a function.&lt;/p&gt;
+&lt;p&gt;First, we have to write a function that takes the data and returns a table of the stats you’re interested in. The &lt;code&gt;irr::icc()&lt;/code&gt; function returns a list, which won’t play well with nesting later, so we &lt;code&gt;unlist()&lt;/code&gt; it, transpose it so it’s a row of values, not a column, turn it back into a tibble (transposing turns it into a matrix), and select just the columns you want.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_icc &amp;lt;- function(data) {
+  data %&amp;gt;%
+    select(X001:X173) %&amp;gt;% # select just the rating columns
+    t() %&amp;gt;%               # transpose so columns are raters and rows are stimuli
+    irr::icc() %&amp;gt;%        # calculate the ICC
+    unlist() %&amp;gt;%          # turn the output list into a vector
+    t() %&amp;gt;%               # transpose this vector
+    as_tibble() %&amp;gt;%       # turn the vector into a table 
+    select(               # select just the columns you want
+      stimuli = subjects, # rename subjects to stimuli     
+      raters, 
+      icc = value,        # rename value to icc
+      lbound, 
+      ubound
+    ) %&amp;gt;%
+    # fix column modes (unlisting turned them all into characters)
+    mutate_at(vars(stimuli, raters), as.integer) %&amp;gt;% 
+    mutate_at(vars(icc:ubound), as.numeric)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Test the function on the whole dataset to check it gives you the right data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_icc(london)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 5
+##   stimuli raters   icc lbound ubound
+##     &amp;lt;int&amp;gt;  &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;
+## 1     102   2513 0.240  0.196  0.298&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then we can group our full dataframe. Here I’ve created a new column of age group and filtered out age/sex groups with fewer than 10 raters. After you group your data, use the &lt;code&gt;nest()&lt;/code&gt; function to turn all the rest of the columns into a separate table for each group (stored in the column &lt;code&gt;data&lt;/code&gt;). Then you can map these tables onto your &lt;code&gt;my_icc&lt;/code&gt; function. Finally, unnest this new &lt;code&gt;icc&lt;/code&gt; column to re-expand your table.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;london_icc_grouped &amp;lt;- london %&amp;gt;%
+  mutate(age_group = round(rater_age / 10)*10) %&amp;gt;% # create age group by decade
+  group_by(rater_sex, age_group) %&amp;gt;%               # group by rater age and sex
+  filter(n() &amp;gt;= 10) %&amp;gt;%                            # remove groups smaller than 10
+  nest() %&amp;gt;%                                       # nest the rest of the columns
+  mutate(icc = map(data, my_icc)) %&amp;gt;%              # calculate ICC for each group
+  unnest(icc) %&amp;gt;%                                  # expand the tables returned to icc
+  select(-data)                                    # get rid of the data column
+  
+london_icc_grouped&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 10 x 7
+## # Groups:   rater_sex, age_group [10]
+##    rater_sex age_group stimuli raters   icc lbound ubound
+##    &amp;lt;chr&amp;gt;         &amp;lt;dbl&amp;gt;   &amp;lt;int&amp;gt;  &amp;lt;int&amp;gt; &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;
+##  1 female           20     102   1035 0.253  0.207  0.313
+##  2 female           30     102    317 0.257  0.211  0.319
+##  3 female           40     102    123 0.264  0.216  0.327
+##  4 female           50     102     54 0.255  0.206  0.319
+##  5 female           60     102     20 0.271  0.215  0.342
+##  6 male             20     102    478 0.211  0.171  0.265
+##  7 male             30     102    253 0.252  0.206  0.312
+##  8 male             40     102    119 0.217  0.175  0.274
+##  9 male             50     102     74 0.267  0.218  0.332
+## 10 male             60     102     27 0.245  0.194  0.311&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>recode()</title>
+      <link>https://debruine.github.io/post/recode/</link>
+      <pubDate>Fri, 14 Jul 2017 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/recode/</guid>
+      <description>
+
+
+&lt;p&gt;I often find myself needing to recode variables. I wrote previously about recoding a characters into a numbers using various &lt;a href=&#34;coding.html&#34;&gt;coding schemes&lt;/a&gt;. But sometimes I want to recode numeric values into characters; this is particularly useful for graphing and for double-checking the meaning of your variable levels.&lt;/p&gt;
+&lt;p&gt;First, I’ll create a data frame with 50 subjects and randomly choose their genders from a list of 4 possibilities with the population proportions 40% male, 40% female, 10% non-binary, and 10% missing data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;suppressMessages( library(tidyverse) )
+
+set.seed(12)  # for reproducibility; delete when running simulations
+
+genders &amp;lt;- c(&amp;quot;male&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;nonbinary&amp;quot;, NA)
+
+df &amp;lt;- data.frame(
+  id = rep(1:50),
+  gender = sample(genders, 50, replace = TRUE, prob = c(.4, .4, .1, .1))
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I’ll graph it to make sure it looks like I expect. This is one of the few times a &lt;a href=&#34;https://barbarplots.github.io/&#34;&gt;bar plot&lt;/a&gt; is appropriate.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  ggplot(aes(gender)) +
+  geom_bar(fill=&amp;quot;red&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/recode_files/figure-html/recode-orig-data-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now I’m going to transform the character variables into numbers and graph it again. As you can see, when a categorical variable is coded with numbers, the missing values are omitted from the graph.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df2 &amp;lt;- df %&amp;gt;%
+  mutate(
+    gender.num = recode(gender, &amp;quot;male&amp;quot; = 1, &amp;quot;female&amp;quot; = 2, &amp;quot;nonbinary&amp;quot; = 3)
+  )
+
+df2 %&amp;gt;%
+  ggplot(aes(gender.num)) +
+  geom_bar(fill=&amp;quot;darkorange&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning: Removed 3 rows containing non-finite values (stat_count).&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/recode_files/figure-html/recode-numbers-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Now I’m going to recode the numeric column back into words.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# this won&amp;#39;t work
+df3 &amp;lt;- df2 %&amp;gt;%
+  mutate(
+    gender.cat = recode(gender.num, 1 = &amp;quot;male&amp;quot;, 2 = &amp;quot;female&amp;quot;, 3 = &amp;quot;nonbinary&amp;quot;)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;That didn’t work. You’ll get an error that looks like:&lt;/p&gt;
+&lt;pre style=&#34;color: red;&#34;&gt;Error: unexpected &#39;=&#39; in:
+&#34;  mutate(
+    gender.cat = recode(gender.num, 1 =&#34;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;recode()&lt;/code&gt; requires that the left side of the equal sign be in quotes. Let’s try this again and graph it.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df3 &amp;lt;- df2 %&amp;gt;%
+  mutate(
+    gender.cat = recode(gender.num, &amp;quot;1&amp;quot; = &amp;quot;male&amp;quot;, &amp;quot;2&amp;quot; = &amp;quot;female&amp;quot;, &amp;quot;3&amp;quot; = &amp;quot;nonbinary&amp;quot;)
+  )
+
+df3 %&amp;gt;%
+  ggplot(aes(gender.cat)) +
+  geom_bar(fill=&amp;quot;goldenrod&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/recode_files/figure-html/recode-characters-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;What if you want your variables in a different order? You can use the &lt;code&gt;factor()&lt;/code&gt; function to set the order of the levels.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df4 &amp;lt;- df3 %&amp;gt;%
+  mutate(
+    gender.ordered = factor(gender.cat, levels = c(&amp;quot;nonbinary&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;male&amp;quot;))
+  )
+
+df4 %&amp;gt;%
+  ggplot(aes(gender.ordered)) +
+  geom_bar(fill=&amp;quot;darkgreen&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/recode_files/figure-html/recode-ordered-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Let’s put it all together to see how you can go from numeric to character values and get them in the order you want. We’ll start with an “original” dataframe of just the numerically coded genders from the previous data. Then we’ll make a new data frame by recoding the numeric column into words and then ordering this.&lt;/p&gt;
+&lt;p&gt;Note that I’ve given the new column the name &lt;code&gt;gender.ordered&lt;/code&gt; and then redefined this column with the reordered levels. This is a nice feature of the tidyverse. You could put all that code on one line with complicated brackets, but it’s easier to manipulate a variable in steps and you can use previously created variables in subsequent steps of a &lt;code&gt;mutate()&lt;/code&gt; function.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.original &amp;lt;- df4 %&amp;gt;% select(gender.num)
+
+data.recoded &amp;lt;- data.original %&amp;gt;%
+  mutate(
+    gender.ordered = recode(gender.num, &amp;quot;1&amp;quot; = &amp;quot;male&amp;quot;, &amp;quot;2&amp;quot; = &amp;quot;female&amp;quot;, &amp;quot;3&amp;quot; = &amp;quot;nonbinary&amp;quot;),
+    gender.ordered = factor(gender.ordered, levels = c(&amp;quot;nonbinary&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;male&amp;quot;))
+  )
+
+data.recoded %&amp;gt;%
+  ggplot(aes(gender.ordered)) +
+  geom_bar(fill=&amp;quot;blue&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/recode_files/figure-html/recode-all-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

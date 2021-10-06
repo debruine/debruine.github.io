@@ -1,0 +1,328 @@
+---
+title: "PCA"
+author: ~
+date: "2017-06-26"
+slug: pca
+categories: ["rstats"]
+tags: ["r", "pca", "princomp", "psych", "factanal"]
+---
+
+
+
+<p><a href="pca.Rmd">Download the Rmd notebook for this example</a></p>
+<p>Putting together this page made me realise I still don’t know anything about PCA and factor analysis.</p>
+<p>I use the <code>psych</code> package for SPSS-style PCA.</p>
+<pre class="r"><code>library(tidyverse)
+library(psych)
+library(viridis)</code></pre>
+<p>First, I’ll simulate some data with an underlying structure of three factors.</p>
+<pre class="r"><code>set.seed(444)  # for reproducibility; delete when running simulations
+
+a &lt;- rnorm(100, 0, 1)
+b &lt;- rnorm(100, 0, 1)
+c &lt;- rnorm(100, 0, 1)
+
+df &lt;- data.frame(
+  id = seq(1,100),
+  a1 = a + rnorm(100, 0, 1),
+  a2 = a + rnorm(100, 0, .8),
+  a3 = a + rnorm(100, 0, .6),
+  a4 = -a + rnorm(100, 0, .4),
+  b1 = b + rnorm(100, 0, 1),
+  b2 = b + rnorm(100, 0, .8),
+  b3 = b + rnorm(100, 0, .6),
+  b4 = -b + rnorm(100, 0, .4),
+  c1 = c + rnorm(100, 0, 1),
+  c2 = c + rnorm(100, 0, .8),
+  c3 = c + rnorm(100, 0, .6),
+  c4 = -c + rnorm(100, 0, .4)
+)</code></pre>
+<p>Select just the columns you want for your PCA. You can visualise their correlations with <code>cor()</code> and <code>ggplot()</code>.</p>
+<pre class="r"><code>traits &lt;- df %&gt;% select(-id) 
+
+traits %&gt;%
+  cor() %&gt;%
+  as.data.frame() %&gt;%
+  mutate(var1 = rownames(.)) %&gt;%
+  gather(&quot;var2&quot;, &quot;value&quot;, a1:c4) %&gt;%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %&gt;%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = &quot;top&quot;) +
+  xlab(&quot;&quot;) + ylab(&quot;&quot;) +
+  scale_fill_viridis(limits=c(-1, 1))</code></pre>
+<p><img src="/posts/pca_files/figure-html/pca-cor-vars-1.png" width="672" /></p>
+<p>Determine the number of factors to extract. Here I use the SPSS-style default criterion of Eigenvalues &gt; 1</p>
+<pre class="r"><code>ev &lt;- eigen(cor(traits));
+nfactors &lt;- length(ev$values[ev$values &gt; 1]);
+nfactors</code></pre>
+<pre><code>## [1] 3</code></pre>
+<div id="principal-components-analysis-spss-style" class="section level2">
+<h2>Principal components analysis (SPSS-style)</h2>
+<div id="principalrotation-none" class="section level3">
+<h3>principal(rotation = “none”)</h3>
+<pre class="r"><code>traits.principal &lt;- principal(traits, nfactors=nfactors, rotate=&quot;none&quot;, scores=TRUE)
+traits.principal</code></pre>
+<pre><code>## Principal Components Analysis
+## Call: principal(r = traits, nfactors = nfactors, rotate = &quot;none&quot;, scores = TRUE)
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##      PC1   PC2   PC3   h2   u2 com
+## a1 -0.63  0.24  0.42 0.63 0.37 2.1
+## a2 -0.72  0.12  0.50 0.77 0.23 1.8
+## a3 -0.65  0.26  0.55 0.79 0.21 2.3
+## a4  0.73 -0.23 -0.49 0.83 0.17 2.0
+## b1  0.14  0.75 -0.19 0.62 0.38 1.2
+## b2  0.09  0.83 -0.16 0.71 0.29 1.1
+## b3  0.10  0.89 -0.16 0.83 0.17 1.1
+## b4 -0.12 -0.88  0.15 0.81 0.19 1.1
+## c1  0.64  0.04  0.50 0.66 0.34 1.9
+## c2  0.77  0.10  0.42 0.78 0.22 1.6
+## c3  0.70  0.08  0.54 0.79 0.21 1.9
+## c4 -0.80 -0.04 -0.49 0.88 0.12 1.7
+## 
+##                        PC1  PC2  PC3
+## SS loadings           4.05 3.02 2.03
+## Proportion Var        0.34 0.25 0.17
+## Cumulative Var        0.34 0.59 0.76
+## Proportion Explained  0.45 0.33 0.22
+## Cumulative Proportion 0.45 0.78 1.00
+## 
+## Mean item complexity =  1.6
+## Test of the hypothesis that 3 components are sufficient.
+## 
+## The root mean square of the residuals (RMSR) is  0.05 
+##  with the empirical chi square  33.59  with prob &lt;  0.44 
+## 
+## Fit based upon off diagonal values = 0.98</code></pre>
+<pre class="r"><code>scores.principal &lt;- traits.principal$scores</code></pre>
+<pre class="r"><code>cor(scores.principal, traits) %&gt;%
+  as.data.frame() %&gt;%
+  mutate(var1 = rownames(.)) %&gt;%
+  gather(&quot;var2&quot;, &quot;value&quot;, a1:c4) %&gt;%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %&gt;%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = &quot;top&quot;) +
+  xlab(&quot;&quot;) + ylab(&quot;&quot;) +
+  scale_fill_viridis(limits=c(-1, 1))</code></pre>
+<p><img src="/posts/pca_files/figure-html/pca-principal-none-1.png" width="672" /></p>
+</div>
+<div id="principalrotation-varimax" class="section level3">
+<h3>principal(rotation = “varimax”)</h3>
+<pre class="r"><code>traits.varimax &lt;- principal(traits, nfactors=nfactors, rotate=&quot;varimax&quot;, scores=TRUE)
+traits.varimax</code></pre>
+<pre><code>## Principal Components Analysis
+## Call: principal(r = traits, nfactors = nfactors, rotate = &quot;varimax&quot;, 
+##     scores = TRUE)
+## Standardized loadings (pattern matrix) based upon correlation matrix
+##      RC1   RC3   RC2   h2   u2 com
+## a1 -0.15  0.78  0.06 0.63 0.37 1.1
+## a2 -0.16  0.86 -0.09 0.77 0.23 1.1
+## a3 -0.07  0.89  0.05 0.79 0.21 1.0
+## a4  0.17 -0.90 -0.02 0.83 0.17 1.1
+## b1  0.03 -0.05  0.79 0.62 0.38 1.0
+## b2  0.02  0.03  0.84 0.71 0.29 1.0
+## b3  0.03  0.05  0.91 0.83 0.17 1.0
+## b4 -0.05 -0.03 -0.90 0.81 0.19 1.0
+## c1  0.81 -0.08  0.00 0.66 0.34 1.0
+## c2  0.85 -0.21  0.09 0.78 0.22 1.1
+## c3  0.88 -0.09  0.04 0.79 0.21 1.0
+## c4 -0.92  0.20 -0.02 0.88 0.12 1.1
+## 
+##                        RC1  RC3  RC2
+## SS loadings           3.09 3.03 2.98
+## Proportion Var        0.26 0.25 0.25
+## Cumulative Var        0.26 0.51 0.76
+## Proportion Explained  0.34 0.33 0.33
+## Cumulative Proportion 0.34 0.67 1.00
+## 
+## Mean item complexity =  1
+## Test of the hypothesis that 3 components are sufficient.
+## 
+## The root mean square of the residuals (RMSR) is  0.05 
+##  with the empirical chi square  33.59  with prob &lt;  0.44 
+## 
+## Fit based upon off diagonal values = 0.98</code></pre>
+<pre class="r"><code>scores.varimax &lt;- traits.varimax$scores</code></pre>
+<pre class="r"><code>cor(scores.varimax, traits) %&gt;%
+  as.data.frame() %&gt;%
+  mutate(var1 = rownames(.)) %&gt;%
+  gather(&quot;var2&quot;, &quot;value&quot;, a1:c4) %&gt;%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %&gt;%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = &quot;top&quot;) +
+  xlab(&quot;&quot;) + ylab(&quot;&quot;) +
+  scale_fill_viridis(limits=c(-1, 1))</code></pre>
+<p><img src="/posts/pca_files/figure-html/pca-principal-varimax-1.png" width="672" /></p>
+</div>
+</div>
+<div id="here-are-some-other-functions-for-pcafactor-analysis" class="section level2">
+<h2>Here are some other functions for PCA/Factor Analysis</h2>
+<div id="princomp" class="section level3">
+<h3>princomp()</h3>
+<pre class="r"><code>traits.princomp &lt;- princomp(traits)
+traits.princomp$loadings[,1:nfactors]</code></pre>
+<pre><code>##         Comp.1       Comp.2      Comp.3
+## a1  0.33006521  0.181709692  0.45906811
+## a2  0.29151833  0.067518916  0.38086462
+## a3  0.23950762  0.132057875  0.38289101
+## a4 -0.25823681 -0.112938603 -0.32926216
+## b1 -0.10631062  0.507810878 -0.12639281
+## b2 -0.07370167  0.500188081 -0.09771759
+## b3 -0.06894907  0.491029731 -0.08032005
+## b4  0.07460353 -0.426344256  0.07374535
+## c1 -0.44100481 -0.021914387  0.38825383
+## c2 -0.42646359  0.010511567  0.23488306
+## c3 -0.35757417 -0.001802824  0.29574993
+## c4  0.38827130  0.026358392 -0.24163371</code></pre>
+<pre class="r"><code>scores.princomp &lt;- traits.princomp$scores[,1:nfactors]</code></pre>
+<pre class="r"><code>cor(scores.princomp, traits) %&gt;%
+  as.data.frame() %&gt;%
+  mutate(var1 = rownames(.)) %&gt;%
+  gather(&quot;var2&quot;, &quot;value&quot;, a1:c4) %&gt;%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %&gt;%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = &quot;top&quot;) +
+  xlab(&quot;&quot;) + ylab(&quot;&quot;) +
+  scale_fill_viridis(limits=c(-1, 1))</code></pre>
+<p><img src="/posts/pca_files/figure-html/pca-princomp-1.png" width="672" /></p>
+</div>
+<div id="factanalrotation-none" class="section level3">
+<h3>factanal(rotation = “none”)</h3>
+<pre class="r"><code>traits.fa &lt;- factanal(traits, nfactors, rotation=&quot;none&quot;, scores=&quot;regression&quot;)
+print(traits.fa, digits=2, cutoff=0, sort=FALSE)</code></pre>
+<pre><code>## 
+## Call:
+## factanal(x = traits, factors = nfactors, scores = &quot;regression&quot;,     rotation = &quot;none&quot;)
+## 
+## Uniquenesses:
+##   a1   a2   a3   a4   b1   b2   b3   b4   c1   c2   c3   c4 
+## 0.52 0.32 0.26 0.18 0.53 0.40 0.18 0.23 0.50 0.27 0.32 0.08 
+## 
+## Loadings:
+##    Factor1 Factor2 Factor3
+## a1 -0.46    0.26    0.45  
+## a2 -0.55    0.17    0.60  
+## a3 -0.47    0.32    0.64  
+## a4  0.57   -0.30   -0.64  
+## b1  0.09    0.63   -0.25  
+## b2  0.07    0.74   -0.21  
+## b3  0.08    0.87   -0.24  
+## b4 -0.10   -0.84    0.24  
+## c1  0.66    0.03    0.25  
+## c2  0.83    0.09    0.19  
+## c3  0.77    0.08    0.29  
+## c4 -0.92   -0.05   -0.28  
+## 
+##                Factor1 Factor2 Factor3
+## SS loadings       3.65    2.71    1.86
+## Proportion Var    0.30    0.23    0.16
+## Cumulative Var    0.30    0.53    0.68
+## 
+## Test of the hypothesis that 3 factors are sufficient.
+## The chi square statistic is 22.21 on 33 degrees of freedom.
+## The p-value is 0.923</code></pre>
+<pre class="r"><code>scores.fa &lt;- traits.fa$scores</code></pre>
+<pre class="r"><code>cor(scores.fa, traits) %&gt;%
+  as.data.frame() %&gt;%
+  mutate(var1 = rownames(.)) %&gt;%
+  gather(&quot;var2&quot;, &quot;value&quot;, a1:c4) %&gt;%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %&gt;%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = &quot;top&quot;) +
+  xlab(&quot;&quot;) + ylab(&quot;&quot;) +
+  scale_fill_viridis(limits=c(-1, 1))</code></pre>
+<p><img src="/posts/pca_files/figure-html/pca-factanal-none-1.png" width="672" /></p>
+</div>
+<div id="factanalrotation-varimax" class="section level3">
+<h3>factanal(rotation = “varimax”)</h3>
+<pre class="r"><code>traits.fa.vm &lt;- factanal(traits, nfactors, rotation=&quot;varimax&quot;, scores=&quot;regression&quot;)
+print(traits.fa.vm, digits=2, cutoff=0, sort=FALSE)</code></pre>
+<pre><code>## 
+## Call:
+## factanal(x = traits, factors = nfactors, scores = &quot;regression&quot;,     rotation = &quot;varimax&quot;)
+## 
+## Uniquenesses:
+##   a1   a2   a3   a4   b1   b2   b3   b4   c1   c2   c3   c4 
+## 0.52 0.32 0.26 0.18 0.53 0.40 0.18 0.23 0.50 0.27 0.32 0.08 
+## 
+## Loadings:
+##    Factor1 Factor2 Factor3
+## a1 -0.16    0.67    0.06  
+## a2 -0.18    0.80   -0.08  
+## a3 -0.08    0.85    0.05  
+## a4  0.17   -0.89   -0.03  
+## b1  0.02   -0.04    0.68  
+## b2  0.03    0.04    0.77  
+## b3  0.04    0.05    0.91  
+## b4 -0.05   -0.03   -0.87  
+## c1  0.70   -0.10    0.00  
+## c2  0.82   -0.21    0.09  
+## c3  0.82   -0.11    0.04  
+## c4 -0.94    0.19   -0.02  
+## 
+##                Factor1 Factor2 Factor3
+## SS loadings       2.82    2.73    2.67
+## Proportion Var    0.23    0.23    0.22
+## Cumulative Var    0.23    0.46    0.68
+## 
+## Test of the hypothesis that 3 factors are sufficient.
+## The chi square statistic is 22.21 on 33 degrees of freedom.
+## The p-value is 0.923</code></pre>
+<pre class="r"><code>scores.fa.vm &lt;- traits.fa.vm$scores</code></pre>
+<pre class="r"><code>cor(scores.fa.vm, traits) %&gt;%
+  as.data.frame() %&gt;%
+  mutate(var1 = rownames(.)) %&gt;%
+  gather(&quot;var2&quot;, &quot;value&quot;, a1:c4) %&gt;%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %&gt;%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = &quot;top&quot;) +
+  xlab(&quot;&quot;) + ylab(&quot;&quot;) +
+  scale_fill_viridis(limits=c(-1, 1))</code></pre>
+<p><img src="/posts/pca_files/figure-html/pca-factanal-varimax-1.png" width="672" /></p>
+</div>
+</div>
+<div id="how-do-they-compare" class="section level2">
+<h2>How do they compare?</h2>
+<p>Here, I’ll plot the absolute value of all the correlations (since the sign on factors/PCs is arbitrary).</p>
+<p>The functions principal(rotation = “varimax”) and factanal(rotation = “varimax”) are nearly (but not perfectly) identical.</p>
+<pre class="r"><code>scores.fa &lt;- traits.fa$scores
+colnames(scores.principal) &lt;- c(&quot;principal() 1&quot;, &quot;principal() 2&quot;, &quot;principal() 3&quot;)
+colnames(scores.varimax) &lt;- c(&quot;principal(vm) 1&quot;, &quot;principal(vm) 2&quot;, &quot;principal(vm) 3&quot;)
+colnames(scores.princomp) &lt;- c(&quot;princomp() 1&quot;, &quot;princomp() 2&quot;, &quot;princomp() 3&quot;)
+colnames(scores.fa) &lt;- c(&quot;factanal() 1&quot;, &quot;factanal() 2&quot;, &quot;factanal() 3&quot;)
+colnames(scores.fa.vm) &lt;- c(&quot;factanal(vm) 1&quot;, &quot;factanal(vm) 2&quot;, &quot;factanal(vm) 3&quot;)
+
+cbind(
+  scores.princomp,
+  scores.principal,
+  scores.fa,
+  scores.varimax,
+  scores.fa.vm
+) %&gt;% 
+  cor() %&gt;%
+  as.data.frame() %&gt;%
+  mutate(var1 = rownames(.)) %&gt;%
+  gather(&quot;var2&quot;, &quot;value&quot;, 1:15) %&gt;%
+  mutate(var1 = factor(var1), var1 = factor(var1, levels = rev(levels(var1)))) %&gt;%
+  mutate(value = abs(value)) %&gt;%
+  ggplot(aes(var2, var1, fill=value)) +
+  geom_tile() +
+  scale_x_discrete(position = &quot;top&quot;) +
+  xlab(&quot;&quot;) + ylab(&quot;&quot;) +
+  scale_fill_viridis(limits=c(0, 1)) +
+  geom_hline(yintercept = 3.5, color=&quot;white&quot;) +
+  geom_hline(yintercept = 6.5, color=&quot;white&quot;) +
+  geom_hline(yintercept = 9.5, color=&quot;white&quot;) +
+  geom_hline(yintercept = 12.5, color=&quot;white&quot;) +
+  geom_vline(xintercept = 3.5, color=&quot;white&quot;) +
+  geom_vline(xintercept = 6.5, color=&quot;white&quot;) +
+  geom_vline(xintercept = 9.5, color=&quot;white&quot;) +
+  geom_vline(xintercept = 12.5, color=&quot;white&quot;) +
+  theme(axis.text.x=element_text(angle=90,hjust=1))</code></pre>
+<p><img src="/posts/pca_files/figure-html/pca-compare-all-1.png" width="672" /></p>
+</div>

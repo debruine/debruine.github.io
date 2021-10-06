@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lme4 | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/lme4/</link>
+      <atom:link href="https://debruine.github.io/tag/lme4/index.xml" rel="self" type="application/rss+xml" />
+    <description>lme4</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 09 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>lme4</title>
+      <link>https://debruine.github.io/tag/lme4/</link>
+    </image>
+    
+    <item>
+      <title>Simulating Random Slopes</title>
+      <link>https://debruine.github.io/post/simulating-random-slopes/</link>
+      <pubDate>Wed, 09 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/simulating-random-slopes/</guid>
+      <description>
+
+
+&lt;p&gt;This tutorial has been moved to the &lt;a href=&#34;https://debruine.github.io/tutorials/&#34;&gt;tutorials&lt;/a&gt; section.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Simulating Mixed Effects</title>
+      <link>https://debruine.github.io/post/simulating-mixed-effects/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/simulating-mixed-effects/</guid>
+      <description>
+
+
+&lt;p&gt;This tutorial has been moved to the &lt;a href=&#34;https://debruine.github.io/tutorials/&#34;&gt;tutorials&lt;/a&gt; section.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
