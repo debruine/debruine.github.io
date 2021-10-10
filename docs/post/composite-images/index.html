@@ -502,6 +502,43 @@ Can you tell a Dark Triad person from the face?" /><meta property="og:image" con
         
 
         <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
           <a class="nav-link " href="/#posts"><span>Posts</span></a>
         </li>
 
@@ -539,7 +576,7 @@ Can you tell a Dark Triad person from the face?" /><meta property="og:image" con
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
         </li>
 
         
@@ -725,6 +762,7 @@ Can you tell a Dark Triad person from the face?" /><meta property="og:image" con
 
     <div class="article-style">
       
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>I recently responded to a <a href="https://twitter.com/PsychoSchmitt/status/1221883383778811906?s=20">tweet</a> about a preprint about whether people can see Dark Triad traits (narcissism, Machiavellianism, and psychopathy) in facial appearance.</p>
@@ -790,7 +828,7 @@ bt &lt;- binom.test(sum(judgment), obs_n, p = 0.5) %&gt;% print()</code></pre>
 ##                   0.65</code></pre>
 <p>A binomial test shows that they are significantly better than chance at this (p = 0.004). What’s going on?</p>
 <p>We can be sure that by chance alone, our two composites will be at least slightly different on any measure, even if they are drawn from identical populations. The mean (unsigned) size of this difference is larger, the smaller the number of stimuli that go into each composite. The graph below shows simulations of the unsigned difference between composites for 1000 samples per number of stimuli per composite.</p>
-<p><img src="/posts/composite_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="/post/composite_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>x &lt;- replicate(10000, mean(rnorm(10))-mean(rnorm(10)))</code></pre>
 <p>With only 10 stimuli per composite, the mean unsigned effect size of the difference between composites is 0.36 (in units of SD of the original trait distribution). 65% of random pairs have a difference of greater than 0.2 SD. If our observers are accurate enough at perceiving this difference or we run a very large number of observers, we are virtually guarateed to find significant results every time, and we have a 50% chance that all of these results will be in the predicted direction.</p>
 </div>
@@ -1101,6 +1139,8 @@ bt &lt;- binom.test(sum(judgment), obs_n, p = 0.5) %&gt;% print()</code></pre>
     <h3>Related</h3>
     <ul>
       
+      <li><a href="/publication/lmem-ampps/">Understanding mixed effects models through data simulation</a></li>
+      
       <li><a href="/post/mann-whitney/">Mann-Whitney False Positives</a></li>
       
       <li><a href="/post/how-many-sims/">How many simulations in my power analysis?</a></li>
@@ -1108,8 +1148,6 @@ bt &lt;- binom.test(sum(judgment), obs_n, p = 0.5) %&gt;% print()</code></pre>
       <li><a href="/post/pmap_df/">Inputting data table rows as function arguments</a></li>
       
       <li><a href="/post/aggregating/">What&#39;s wrong with aggregating data?</a></li>
-      
-      <li><a href="/post/simulating-random-slopes/">Simulating Random Slopes</a></li>
       
     </ul>
   </div>

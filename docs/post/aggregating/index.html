@@ -500,6 +500,43 @@
         
 
         <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
           <a class="nav-link " href="/#posts"><span>Posts</span></a>
         </li>
 
@@ -537,7 +574,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
         </li>
 
         
@@ -723,6 +760,7 @@
 
     <div class="article-style">
       
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p class="info">
@@ -743,8 +781,7 @@ stim &lt;- tibble(
   birthday = rep(c(&quot;odd&quot;, &quot;even&quot;), stim_n),
   height = rnorm(stim_n*2, height_m, height_sd)
 )</code></pre>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
-<p><img src="/posts/aggregation_files/figure-html/unnamed-chunk-3-1.png" width="100%" /></p>
+<p><img src="/post/aggregation_files/figure-html/unnamed-chunk-3-1.png" width="100%" /></p>
 <p>Obviously, the oddness of date of birth is not going to have any effect on women’s actual height and a two-sample t-test confirms this. However, there is a small difference between the means of the groups just due to chance (2.81 cm).</p>
 <pre class="r"><code>t.test(stim$height ~ stim$birthday)</code></pre>
 <pre><code>## 
@@ -752,7 +789,7 @@ stim &lt;- tibble(
 ## 
 ## data:  stim$height by stim$birthday
 ## t = -1.5, df = 38, p-value = 0.1
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group even and group odd is not equal to 0
 ## 95 percent confidence interval:
 ##  -6.4997  0.8767
 ## sample estimates:
@@ -768,7 +805,7 @@ rater &lt;- tibble(
   rater_id = 1:rater_n,
   rater_bias = rnorm(rater_n, 0, rater_bias_sd)
 )</code></pre>
-<p><img src="/posts/aggregation_files/figure-html/unnamed-chunk-6-1.png" width="100%" /></p>
+<p><img src="/post/aggregation_files/figure-html/unnamed-chunk-6-1.png" width="100%" /></p>
 <p>New we can get each rater to estimate the height of each woman. Their estimate is the woman’s actual height, plus the rater’s bias, plus some error (sampled from a normal distribution with a mean of 0 and an SD of 4 cm, since estimating height is hard).</p>
 <pre class="r"><code>dat &lt;- expand.grid(
   rater_id = rater$rater_id,
@@ -787,8 +824,8 @@ rater &lt;- tibble(
 <pre class="r"><code>dat_agg_by_stim &lt;- dat %&gt;%
   group_by(stim_id, birthday, height) %&gt;%
   summarise(mean_estimate = mean(estimate))</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;stim_id&#39;, &#39;birthday&#39; (override with `.groups` argument)</code></pre>
-<p><img src="/posts/aggregation_files/figure-html/unnamed-chunk-9-1.png" width="100%" /></p>
+<pre><code>## `summarise()` has grouped output by &#39;stim_id&#39;, &#39;birthday&#39;. You can override using the `.groups` argument.</code></pre>
+<p><img src="/post/aggregation_files/figure-html/unnamed-chunk-9-1.png" width="100%" /></p>
 <p>You get pretty much the same result when you compare these mean estimates between the groups of women with odd and even birthdays.</p>
 <pre class="r"><code>t.test(dat_agg_by_stim$mean_estimate ~ dat_agg_by_stim$birthday)</code></pre>
 <pre><code>## 
@@ -796,7 +833,7 @@ rater &lt;- tibble(
 ## 
 ## data:  dat_agg_by_stim$mean_estimate by dat_agg_by_stim$birthday
 ## t = -1.4, df = 38, p-value = 0.2
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group even and group odd is not equal to 0
 ## 95 percent confidence interval:
 ##  -6.473  1.130
 ## sample estimates:
@@ -810,7 +847,7 @@ rater &lt;- tibble(
   group_by(rater_id, birthday) %&gt;%
   summarise(mean_estimate = mean(estimate)) %&gt;%
   spread(birthday, mean_estimate)</code></pre>
-<pre><code>## `summarise()` regrouping output by &#39;rater_id&#39; (override with `.groups` argument)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;rater_id&#39;. You can override using the `.groups` argument.</code></pre>
 <pre class="r"><code>t.test(dat_agg_by_rater$odd, dat_agg_by_rater$even, paired = TRUE)</code></pre>
 <pre><code>## 
 ##  Paired t-test
@@ -858,9 +895,9 @@ summary(mod)</code></pre>
 ## 
 ## Random effects:
 ##  Groups     Name        Variance      Std.Dev.
-##  stim_id    (Intercept) 34.4640965331 5.870613
+##  stim_id    (Intercept) 34.4640965341 5.870613
 ##  rater_id   birthday.e   0.0000000214 0.000146
-##  rater_id.1 (Intercept) 10.0890113688 3.176320
+##  rater_id.1 (Intercept) 10.0890113704 3.176320
 ##  Residual               15.8201186615 3.977451
 ## Number of obs: 800, groups:  stim_id, 40; rater_id, 20
 ## 
@@ -874,7 +911,7 @@ summary(mod)</code></pre>
 ## Correlation of Fixed Effects:
 ##            (Intr)
 ## birthday.e 0.000 
-## convergence code: 0
+## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see ?isSingular</code></pre>
 <p>The estimate for <code>(Intercept)</code> is just the mean height estimate (156.55 cm) and the estimate for <code>birthday.e</code> is the mean difference between the odd and even birthday groups (2.67 cm). You can now generalise the conclusions of this mixed effects model to both the population of raters and the population of stimuli.</p>
 <p class="info">
@@ -883,19 +920,19 @@ Thanks to <a href="https://twitter.com/lpsatchell">Liam Satchell</a>, <a href="h
 </div>
 <div id="references" class="section level3">
 <h3>References</h3>
-<p>Plenty of papers have made this point much more thoroughly <span class="citation">(Barr et al. 2013, @Coleman1964, @Judd2012, @Wolsiefer2017)</span>.</p>
-<div id="refs" class="references">
-<div id="ref-KeepItMaximal">
-<p>Barr, Dale J, Roger Levy, Christoph Scheepers, and Harry J Tily. 2013. “Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.” <em>Journal of Memory and Language</em> 68 (3): 10.1016/j.jml.2012.11.001.</p>
+<p>Plenty of papers have made this point much more thoroughly <span class="citation"><a href="#ref-Wolsiefer2017" role="doc-biblioref">Wolsiefer, Westfall, and Judd</a> (<a href="#ref-Wolsiefer2017" role="doc-biblioref">2017</a>)</span>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-KeepItMaximal" class="csl-entry">
+Barr, Dale J, Roger Levy, Christoph Scheepers, and Harry J Tily. 2013. <span>“Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.”</span> <em>Journal of Memory and Language</em> 68 (3): 10.1016/j.jml.2012.11.001.
 </div>
-<div id="ref-Coleman1964">
-<p>Coleman, E. B. 1964. “Generalizing to a Language Population.” <em>Psychological Reports</em> 14 (1): 219–26. <a href="https://doi.org/10.2466/pr0.1964.14.1.219">https://doi.org/10.2466/pr0.1964.14.1.219</a>.</p>
+<div id="ref-Coleman1964" class="csl-entry">
+Coleman, E. B. 1964. <span>“Generalizing to a Language Population.”</span> <em>Psychological Reports</em> 14 (1): 219–26. <a href="https://doi.org/10.2466/pr0.1964.14.1.219">https://doi.org/10.2466/pr0.1964.14.1.219</a>.
 </div>
-<div id="ref-Judd2012">
-<p>Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. “Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.” <em>Journal of Personality and Social Psychology</em> 103 (1): 54–69. <a href="https://doi.org/doi:10.1037/a0028347">https://doi.org/doi:10.1037/a0028347</a>.</p>
+<div id="ref-Judd2012" class="csl-entry">
+Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. <span>“Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.”</span> <em>Journal of Personality and Social Psychology</em> 103 (1): 54–69. <a href="https://doi.org/doi:10.1037/a0028347">https://doi.org/doi:10.1037/a0028347</a>.
 </div>
-<div id="ref-Wolsiefer2017">
-<p>Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. “Modeling Stimulus Variation in Three Common Implicit Attitude Tasks.” <em>Behavior Research Methods</em> 49 (4): 1193–1209. <a href="https://doi.org/10.3758/s13428-016-0779-0">https://doi.org/10.3758/s13428-016-0779-0</a>.</p>
+<div id="ref-Wolsiefer2017" class="csl-entry">
+Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. <span>“Modeling Stimulus Variation in Three Common Implicit Attitude Tasks.”</span> <em>Behavior Research Methods</em> 49 (4): 1193–1209. <a href="https://doi.org/10.3758/s13428-016-0779-0">https://doi.org/10.3758/s13428-016-0779-0</a>.
 </div>
 </div>
 </div>

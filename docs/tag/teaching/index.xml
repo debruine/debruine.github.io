@@ -5,12 +5,28 @@
     <link>https://debruine.github.io/tag/teaching/</link>
       <atom:link href="https://debruine.github.io/tag/teaching/index.xml" rel="self" type="application/rss+xml" />
     <description>teaching</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 13 Oct 2021 15:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>teaching</title>
       <link>https://debruine.github.io/tag/teaching/</link>
     </image>
+    
+    <item>
+      <title>An ounce of prevention is worth a pound of cure</title>
+      <link>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</link>
+      <pubDate>Wed, 13 Oct 2021 15:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Skills for Reproducible Research</title>
+      <link>https://debruine.github.io/publication/reprores/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/reprores/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>psyTeachR</title>

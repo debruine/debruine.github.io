@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Phil McAleer | Lisa DeBruine</title>
+    <link>https://debruine.github.io/author/phil-mcaleer/</link>
+      <atom:link href="https://debruine.github.io/author/phil-mcaleer/index.xml" rel="self" type="application/rss+xml" />
+    <description>Phil McAleer</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 19 Oct 2021 13:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>Phil McAleer</title>
+      <link>https://debruine.github.io/author/phil-mcaleer/</link>
+    </image>
+    
+    <item>
+      <title>Open Science Practices in the School of Psychology and Neuroscience</title>
+      <link>https://debruine.github.io/talk/open-science-practices-in-the-school-of-psychology-and-neuroscience/</link>
+      <pubDate>Tue, 19 Oct 2021 13:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/open-science-practices-in-the-school-of-psychology-and-neuroscience/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>An ounce of prevention is worth a pound of cure</title>
+      <link>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</link>
+      <pubDate>Wed, 13 Oct 2021 15:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

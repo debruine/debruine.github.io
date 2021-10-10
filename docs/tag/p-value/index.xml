@@ -18,6 +18,7 @@
       <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/cumulative-p/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;EJ Wagenmakers started an interesting debate last night with a &lt;a href=&#34;https://twitter.com/EJWagenmakers/status/889987997046910978&#34;&gt;twitter poll on p-values&lt;/a&gt;. Some responses suggested you can multiply p-values from several tests to create a sort of &lt;a href=&#34;https://twitter.com/VladMalik/status/890246773515722752&#34;&gt;cumulative p-value&lt;/a&gt; that is the joint probability of the null hypothesis.&lt;/p&gt;
@@ -33,7 +34,7 @@
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ps &amp;lt;- replicate(10000, nullp(1000))
 
 hist(ps)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/cumulative-p_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Then sample 1000 p-values from this distributions once, twice, thrice, and whatever the word is for four times. This should convince you that the cumulative p-value cannot provide the joint probability of the null hypothesis for multiple tests.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tibble(
   x1 = sample(ps, 1000),
@@ -45,8 +46,8 @@ hist(ps)&lt;/code&gt;&lt;/pre&gt;
   ggplot(aes(cum_p, fill=n_tests)) +
   geom_density(alpha = 0.5) +
   labs(x =&amp;quot;Cumulative p-value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:unnamed-chunk-3&#34;&gt;&lt;/span&gt;
-&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-3-1.png&#34; alt=&#34;Cumulative p-value distribution under the null hypothesis&#34; width=&#34;672&#34; /&gt;
+&lt;div class=&#34;figure&#34;&gt;&lt;span style=&#34;display:block;&#34; id=&#34;fig:unnamed-chunk-3&#34;&gt;&lt;/span&gt;
+&lt;img src=&#34;https://debruine.github.io/post/cumulative-p_files/figure-html/unnamed-chunk-3-1.png&#34; alt=&#34;Cumulative p-value distribution under the null hypothesis&#34; width=&#34;672&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;
 Figure 1: Cumulative p-value distribution under the null hypothesis
 &lt;/p&gt;

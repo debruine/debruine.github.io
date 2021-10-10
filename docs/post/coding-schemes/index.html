@@ -500,6 +500,43 @@
         
 
         <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
           <a class="nav-link " href="/#posts"><span>Posts</span></a>
         </li>
 
@@ -537,7 +574,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
         </li>
 
         
@@ -688,7 +725,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    4 min read
+    3 min read
   </span>
   
 
@@ -723,6 +760,7 @@
 
     <div class="article-style">
       
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <pre class="r"><code>library(tidyverse)
@@ -760,7 +798,6 @@ df &lt;- expand.grid(
     rating = face_i + rater_i + face_sex_i + error
   )</code></pre>
 <p>Calculate the means and SDs of the female and male faces.</p>
-<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -787,7 +824,7 @@ df &lt;- expand.grid(
   ggplot(aes(face_sex, rating)) + 
   geom_violin() +
   geom_boxplot(width=0.2)</code></pre>
-<p><img src="/posts/coding_files/figure-html/coding-orig-data-1.png" width="672" /></p>
+<p><img src="/post/coding_files/figure-html/coding-orig-data-1.png" width="672" /></p>
 <p>Recode face sex using treatment, sum, or effect coding.</p>
 <pre class="r"><code>df2 &lt;- df %&gt;%
   mutate(

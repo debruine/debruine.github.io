@@ -1,10 +1,14 @@
 ---
 date: "2021-010-05T00:00:00Z"
-external_link: "https://psysciacc.org/"
+external_link: ""
 image:
   caption: PSA
   focal_point: Smart
 links:
+- icon: 
+  icon_pack: fa
+  name: PSA
+  url: https://psysciacc.org/
 - icon: file
   icon_pack: fa
   name: PSA001 Paper

@@ -18,6 +18,7 @@
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/aggregating/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p class=&#34;info&#34;&gt;
@@ -38,8 +39,7 @@ stim &amp;lt;- tibble(
   birthday = rep(c(&amp;quot;odd&amp;quot;, &amp;quot;even&amp;quot;), stim_n),
   height = rnorm(stim_n*2, height_m, height_sd)
 )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/aggregation_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Obviously, the oddness of date of birth is not going to have any effect on women’s actual height and a two-sample t-test confirms this. However, there is a small difference between the means of the groups just due to chance (2.81 cm).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(stim$height ~ stim$birthday)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
@@ -47,7 +47,7 @@ stim &amp;lt;- tibble(
 ## 
 ## data:  stim$height by stim$birthday
 ## t = -1.5, df = 38, p-value = 0.1
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group even and group odd is not equal to 0
 ## 95 percent confidence interval:
 ##  -6.4997  0.8767
 ## sample estimates:
@@ -63,7 +63,7 @@ rater &amp;lt;- tibble(
   rater_id = 1:rater_n,
   rater_bias = rnorm(rater_n, 0, rater_bias_sd)
 )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/aggregation_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;New we can get each rater to estimate the height of each woman. Their estimate is the woman’s actual height, plus the rater’s bias, plus some error (sampled from a normal distribution with a mean of 0 and an SD of 4 cm, since estimating height is hard).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat &amp;lt;- expand.grid(
   rater_id = rater$rater_id,
@@ -82,8 +82,8 @@ rater &amp;lt;- tibble(
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat_agg_by_stim &amp;lt;- dat %&amp;gt;%
   group_by(stim_id, birthday, height) %&amp;gt;%
   summarise(mean_estimate = mean(estimate))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;stim_id&amp;#39;, &amp;#39;birthday&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` has grouped output by &amp;#39;stim_id&amp;#39;, &amp;#39;birthday&amp;#39;. You can override using the `.groups` argument.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/aggregation_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;You get pretty much the same result when you compare these mean estimates between the groups of women with odd and even birthdays.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(dat_agg_by_stim$mean_estimate ~ dat_agg_by_stim$birthday)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
@@ -91,7 +91,7 @@ rater &amp;lt;- tibble(
 ## 
 ## data:  dat_agg_by_stim$mean_estimate by dat_agg_by_stim$birthday
 ## t = -1.4, df = 38, p-value = 0.2
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group even and group odd is not equal to 0
 ## 95 percent confidence interval:
 ##  -6.473  1.130
 ## sample estimates:
@@ -105,7 +105,7 @@ rater &amp;lt;- tibble(
   group_by(rater_id, birthday) %&amp;gt;%
   summarise(mean_estimate = mean(estimate)) %&amp;gt;%
   spread(birthday, mean_estimate)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;rater_id&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` has grouped output by &amp;#39;rater_id&amp;#39;. You can override using the `.groups` argument.&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(dat_agg_by_rater$odd, dat_agg_by_rater$even, paired = TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##  Paired t-test
@@ -153,9 +153,9 @@ summary(mod)&lt;/code&gt;&lt;/pre&gt;
 ## 
 ## Random effects:
 ##  Groups     Name        Variance      Std.Dev.
-##  stim_id    (Intercept) 34.4640965331 5.870613
+##  stim_id    (Intercept) 34.4640965341 5.870613
 ##  rater_id   birthday.e   0.0000000214 0.000146
-##  rater_id.1 (Intercept) 10.0890113688 3.176320
+##  rater_id.1 (Intercept) 10.0890113704 3.176320
 ##  Residual               15.8201186615 3.977451
 ## Number of obs: 800, groups:  stim_id, 40; rater_id, 20
 ## 
@@ -169,7 +169,7 @@ summary(mod)&lt;/code&gt;&lt;/pre&gt;
 ## Correlation of Fixed Effects:
 ##            (Intr)
 ## birthday.e 0.000 
-## convergence code: 0
+## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see ?isSingular&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The estimate for &lt;code&gt;(Intercept)&lt;/code&gt; is just the mean height estimate (156.55 cm) and the estimate for &lt;code&gt;birthday.e&lt;/code&gt; is the mean difference between the odd and even birthday groups (2.67 cm). You can now generalise the conclusions of this mixed effects model to both the population of raters and the population of stimuli.&lt;/p&gt;
 &lt;p class=&#34;info&#34;&gt;
@@ -178,19 +178,19 @@ Thanks to &lt;a href=&#34;https://twitter.com/lpsatchell&#34;&gt;Liam Satchell&l
 &lt;/div&gt;
 &lt;div id=&#34;references&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;References&lt;/h3&gt;
-&lt;p&gt;Plenty of papers have made this point much more thoroughly &lt;span class=&#34;citation&#34;&gt;(Barr et al. 2013, @Coleman1964, @Judd2012, @Wolsiefer2017)&lt;/span&gt;.&lt;/p&gt;
-&lt;div id=&#34;refs&#34; class=&#34;references&#34;&gt;
-&lt;div id=&#34;ref-KeepItMaximal&#34;&gt;
-&lt;p&gt;Barr, Dale J, Roger Levy, Christoph Scheepers, and Harry J Tily. 2013. “Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.” &lt;em&gt;Journal of Memory and Language&lt;/em&gt; 68 (3): 10.1016/j.jml.2012.11.001.&lt;/p&gt;
+&lt;p&gt;Plenty of papers have made this point much more thoroughly &lt;span class=&#34;citation&#34;&gt;&lt;a href=&#34;#ref-Wolsiefer2017&#34; role=&#34;doc-biblioref&#34;&gt;Wolsiefer, Westfall, and Judd&lt;/a&gt; (&lt;a href=&#34;#ref-Wolsiefer2017&#34; role=&#34;doc-biblioref&#34;&gt;2017&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;
+&lt;div id=&#34;refs&#34; class=&#34;references csl-bib-body hanging-indent&#34;&gt;
+&lt;div id=&#34;ref-KeepItMaximal&#34; class=&#34;csl-entry&#34;&gt;
+Barr, Dale J, Roger Levy, Christoph Scheepers, and Harry J Tily. 2013. &lt;span&gt;“Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.”&lt;/span&gt; &lt;em&gt;Journal of Memory and Language&lt;/em&gt; 68 (3): 10.1016/j.jml.2012.11.001.
 &lt;/div&gt;
-&lt;div id=&#34;ref-Coleman1964&#34;&gt;
-&lt;p&gt;Coleman, E. B. 1964. “Generalizing to a Language Population.” &lt;em&gt;Psychological Reports&lt;/em&gt; 14 (1): 219–26. &lt;a href=&#34;https://doi.org/10.2466/pr0.1964.14.1.219&#34;&gt;https://doi.org/10.2466/pr0.1964.14.1.219&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;ref-Coleman1964&#34; class=&#34;csl-entry&#34;&gt;
+Coleman, E. B. 1964. &lt;span&gt;“Generalizing to a Language Population.”&lt;/span&gt; &lt;em&gt;Psychological Reports&lt;/em&gt; 14 (1): 219–26. &lt;a href=&#34;https://doi.org/10.2466/pr0.1964.14.1.219&#34;&gt;https://doi.org/10.2466/pr0.1964.14.1.219&lt;/a&gt;.
 &lt;/div&gt;
-&lt;div id=&#34;ref-Judd2012&#34;&gt;
-&lt;p&gt;Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. “Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.” &lt;em&gt;Journal of Personality and Social Psychology&lt;/em&gt; 103 (1): 54–69. &lt;a href=&#34;https://doi.org/doi:10.1037/a0028347&#34;&gt;https://doi.org/doi:10.1037/a0028347&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;ref-Judd2012&#34; class=&#34;csl-entry&#34;&gt;
+Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. &lt;span&gt;“Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.”&lt;/span&gt; &lt;em&gt;Journal of Personality and Social Psychology&lt;/em&gt; 103 (1): 54–69. &lt;a href=&#34;https://doi.org/doi:10.1037/a0028347&#34;&gt;https://doi.org/doi:10.1037/a0028347&lt;/a&gt;.
 &lt;/div&gt;
-&lt;div id=&#34;ref-Wolsiefer2017&#34;&gt;
-&lt;p&gt;Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. “Modeling Stimulus Variation in Three Common Implicit Attitude Tasks.” &lt;em&gt;Behavior Research Methods&lt;/em&gt; 49 (4): 1193–1209. &lt;a href=&#34;https://doi.org/10.3758/s13428-016-0779-0&#34;&gt;https://doi.org/10.3758/s13428-016-0779-0&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;ref-Wolsiefer2017&#34; class=&#34;csl-entry&#34;&gt;
+Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. &lt;span&gt;“Modeling Stimulus Variation in Three Common Implicit Attitude Tasks.”&lt;/span&gt; &lt;em&gt;Behavior Research Methods&lt;/em&gt; 49 (4): 1193–1209. &lt;a href=&#34;https://doi.org/10.3758/s13428-016-0779-0&#34;&gt;https://doi.org/10.3758/s13428-016-0779-0&lt;/a&gt;.
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -227,6 +227,7 @@ Thanks to &lt;a href=&#34;https://twitter.com/lpsatchell&#34;&gt;Liam Satchell&l
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/coding-schemes/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
@@ -264,7 +265,6 @@ df &amp;lt;- expand.grid(
     rating = face_i + rater_i + face_sex_i + error
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Calculate the means and SDs of the female and male faces.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr class=&#34;header&#34;&gt;
@@ -291,7 +291,7 @@ df &amp;lt;- expand.grid(
   ggplot(aes(face_sex, rating)) + 
   geom_violin() +
   geom_boxplot(width=0.2)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/coding_files/figure-html/coding-orig-data-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/coding_files/figure-html/coding-orig-data-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Recode face sex using treatment, sum, or effect coding.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df2 &amp;lt;- df %&amp;gt;%
   mutate(

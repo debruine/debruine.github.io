@@ -5,7 +5,7 @@
     <link>https://debruine.github.io/</link>
       <atom:link href="https://debruine.github.io/index.xml" rel="self" type="application/rss+xml" />
     <description>Lisa DeBruine</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 05 Oct 2021 16:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 19 Oct 2021 16:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Lisa DeBruine</title>
@@ -108,10 +108,50 @@ The variance of the distribution is $\sigma^{2}$.
     </item>
     
     <item>
+      <title>Everything is cool when you&#39;re part of a team</title>
+      <link>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</link>
+      <pubDate>Tue, 19 Oct 2021 16:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Open Science Practices in the School of Psychology and Neuroscience</title>
+      <link>https://debruine.github.io/talk/open-science-practices-in-the-school-of-psychology-and-neuroscience/</link>
+      <pubDate>Tue, 19 Oct 2021 13:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/open-science-practices-in-the-school-of-psychology-and-neuroscience/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>An ounce of prevention is worth a pound of cure</title>
+      <link>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</link>
+      <pubDate>Wed, 13 Oct 2021 15:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Mixed effects models for designs with randomly sampled stimuli</title>
       <link>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</link>
       <pubDate>Tue, 05 Oct 2021 16:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Skills for Reproducible Research</title>
+      <link>https://debruine.github.io/publication/reprores/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/reprores/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Understanding mixed effects models through data simulation</title>
+      <link>https://debruine.github.io/publication/lmem-ampps/</link>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/lmem-ampps/</guid>
       <description></description>
     </item>
     
@@ -441,6 +481,7 @@ cowplot::plot_grid(plot_aov, plot_lm, labels = c(&amp;quot;aov&amp;quot;, &amp;q
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/experimentum-data/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 &lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 &lt;link href=&#34;https://debruine.github.io/rmarkdown-libs/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
 
@@ -464,20 +505,20 @@ cowplot::plot_grid(plot_aov, plot_lm, labels = c(&amp;quot;aov&amp;quot;, &amp;q
 glimpse(quest_data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Rows: 2,807
 ## Columns: 14
-## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
-## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
-## $ quest_name  &amp;lt;chr&amp;gt; &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups…
-## $ quest_id    &amp;lt;dbl&amp;gt; 2921, 2921, 2921, 2921, 2921, 2921, 2921, 2920, 2920, 292…
-## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
-## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
-## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;…
-## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
-## $ q_name      &amp;lt;chr&amp;gt; &amp;quot;fiber_arts&amp;quot;, &amp;quot;native_english&amp;quot;, &amp;quot;hats&amp;quot;, &amp;quot;pets&amp;quot;, &amp;quot;colour&amp;quot;,…
-## $ q_id        &amp;lt;dbl&amp;gt; 92833810, 92833809, 92833814, 92833811, 92833813, 9283381…
-## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1…
-## $ dv          &amp;lt;chr&amp;gt; &amp;quot;1&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;Yes&amp;quot;, &amp;quot;Red&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;today&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;2&amp;quot;,…
-## $ starttime   &amp;lt;dttm&amp;gt; 2021-01-19 17:48:15, 2021-01-19 17:48:15, 2021-01-19 17:…
-## $ endtime     &amp;lt;dttm&amp;gt; 2021-01-19 17:48:31, 2021-01-19 17:48:31, 2021-01-19 17:…&lt;/code&gt;&lt;/pre&gt;
+## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60…
+## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520…
+## $ quest_name  &amp;lt;chr&amp;gt; &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;, &amp;quot;Groups&amp;quot;…
+## $ quest_id    &amp;lt;dbl&amp;gt; 2921, 2921, 2921, 2921, 2921, 2921, 2921, 2920, 2920, 2920…
+## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;r…
+## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6…
+## $ q_name      &amp;lt;chr&amp;gt; &amp;quot;fiber_arts&amp;quot;, &amp;quot;native_english&amp;quot;, &amp;quot;hats&amp;quot;, &amp;quot;pets&amp;quot;, &amp;quot;colour&amp;quot;, …
+## $ q_id        &amp;lt;dbl&amp;gt; 92833810, 92833809, 92833814, 92833811, 92833813, 92833815…
+## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12…
+## $ dv          &amp;lt;chr&amp;gt; &amp;quot;1&amp;quot;, &amp;quot;0&amp;quot;, &amp;quot;5&amp;quot;, &amp;quot;Yes&amp;quot;, &amp;quot;Red&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;today&amp;quot;, &amp;quot;2&amp;quot;, &amp;quot;1&amp;quot;, &amp;quot;2&amp;quot;, …
+## $ starttime   &amp;lt;dttm&amp;gt; 2021-01-19 17:48:15, 2021-01-19 17:48:15, 2021-01-19 17:4…
+## $ endtime     &amp;lt;dttm&amp;gt; 2021-01-19 17:48:31, 2021-01-19 17:48:31, 2021-01-19 17:4…&lt;/code&gt;&lt;/pre&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;session_id&lt;/code&gt; a unique ID generated each time someone starts a study&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;project_id&lt;/code&gt; a unique ID for this study&lt;/li&gt;
@@ -979,12 +1020,12 @@ Yes
   geom_histogram(binwidth = 1, 
                  fill = &amp;quot;dodgerblue&amp;quot;,
                  color = &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/hats-plot-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/demodata_files/figure-html/hats-plot-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(groups, aes(spiders)) +
   geom_histogram(binwidth = 1, 
                  fill = &amp;quot;violetred&amp;quot;,
                  color = &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/spiders-plot-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/demodata_files/figure-html/spiders-plot-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;recode-variables&#34; class=&#34;section level4&#34;&gt;
 &lt;h4&gt;Recode variables&lt;/h4&gt;
@@ -1655,7 +1696,7 @@ sad
   geom_histogram(binwidth = 1, 
                  fill = &amp;quot;dodgerblue&amp;quot;,
                  color = &amp;quot;white&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/bmis-hist-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/demodata_files/figure-html/bmis-hist-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;user-demographics&#34; class=&#34;section level3&#34;&gt;
@@ -1837,21 +1878,21 @@ guest
 glimpse(exp_data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Rows: 1,476
 ## Columns: 15
-## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
-## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
-## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuten…
-## $ exp_id      &amp;lt;dbl&amp;gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 70…
-## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
-## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
-## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;…
-## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
-## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;animal-967657_640&amp;quot;, &amp;quot;surprised-3786845_640&amp;quot;, &amp;quot;penguins-4…
-## $ trial_n     &amp;lt;dbl&amp;gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, …
-## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, …
-## $ dv          &amp;lt;dbl&amp;gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, …
-## $ rt          &amp;lt;dbl&amp;gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003…
-## $ side        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-## $ dt          &amp;lt;dttm&amp;gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:…&lt;/code&gt;&lt;/pre&gt;
+## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60…
+## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520…
+## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cutene…
+## $ exp_id      &amp;lt;dbl&amp;gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707…
+## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;r…
+## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6…
+## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;animal-967657_640&amp;quot;, &amp;quot;surprised-3786845_640&amp;quot;, &amp;quot;penguins-42…
+## $ trial_n     &amp;lt;dbl&amp;gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, 9…
+## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7…
+## $ dv          &amp;lt;dbl&amp;gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, 4…
+## $ rt          &amp;lt;dbl&amp;gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003,…
+## $ side        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ dt          &amp;lt;dttm&amp;gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:4…&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Experiment data have the same session and user columns as questionnaire data, plus columns for the experiment name (&lt;code&gt;exp_name&lt;/code&gt;) and unique id (&lt;code&gt;exp_id&lt;/code&gt;). The remaining columns give data specific to each trial:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;trial_name&lt;/code&gt; not necessarily unique&lt;/li&gt;
@@ -1865,21 +1906,21 @@ glimpse(exp_data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(exp_data)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Rows: 1,476
 ## Columns: 15
-## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 6…
-## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 52…
-## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuten…
-## $ exp_id      &amp;lt;dbl&amp;gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 70…
-## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 4…
-## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
-## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;…
-## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.…
-## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;animal-967657_640&amp;quot;, &amp;quot;surprised-3786845_640&amp;quot;, &amp;quot;penguins-4…
-## $ trial_n     &amp;lt;dbl&amp;gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, …
-## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, …
-## $ dv          &amp;lt;dbl&amp;gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, …
-## $ rt          &amp;lt;dbl&amp;gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003…
-## $ side        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
-## $ dt          &amp;lt;dttm&amp;gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:…&lt;/code&gt;&lt;/pre&gt;
+## $ session_id  &amp;lt;dbl&amp;gt; 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60481, 60…
+## $ project_id  &amp;lt;dbl&amp;gt; 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520, 520…
+## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cuteness&amp;quot;, &amp;quot;Animals: Cutene…
+## $ exp_id      &amp;lt;dbl&amp;gt; 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707, 707…
+## $ user_id     &amp;lt;dbl&amp;gt; 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43533, 43…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;res&amp;quot;, &amp;quot;r…
+## $ user_age    &amp;lt;dbl&amp;gt; 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6, 26.6…
+## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;animal-967657_640&amp;quot;, &amp;quot;surprised-3786845_640&amp;quot;, &amp;quot;penguins-42…
+## $ trial_n     &amp;lt;dbl&amp;gt; 2, 12, 9, 3, 8, 10, 5, 6, 7, 11, 4, 1, 4, 10, 7, 11, 12, 9…
+## $ order       &amp;lt;dbl&amp;gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7…
+## $ dv          &amp;lt;dbl&amp;gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 1, 7, 7, 3, 4, 2, 7, 4…
+## $ rt          &amp;lt;dbl&amp;gt; 1756, 1103, 842, 735, 755, 845, 878, 842, 812, 1421, 1003,…
+## $ side        &amp;lt;dbl&amp;gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ dt          &amp;lt;dttm&amp;gt; 2021-01-19 17:48:35, 2021-01-19 17:48:36, 2021-01-19 17:4…&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Most researchers don’t want all that data, so we can select just the important columns. The exp_name contains info we don’t need, so we’ll also process that.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;exp_selected &amp;lt;- exp_data %&amp;gt;%
   select(session_id, user_id, exp_name, trial_name, dv) %&amp;gt;%
@@ -2030,7 +2071,7 @@ surprised-3786845_640
 &lt;div id=&#34;adding-trial-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Adding trial data&lt;/h3&gt;
 &lt;p&gt;It’s common that you need to add some data about each trial.&lt;/p&gt;
-&lt;div class=&#34;figure&#34; style=&#34;text-align: center&#34;&gt;&lt;span id=&#34;fig:unnamed-chunk-20&#34;&gt;&lt;/span&gt;
+&lt;div class=&#34;figure&#34; style=&#34;text-align: center&#34;&gt;&lt;span style=&#34;display:block;&#34; id=&#34;fig:unnamed-chunk-20&#34;&gt;&lt;/span&gt;
 &lt;img src=&#34;cute/adorable-5059091_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/animal-967657_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/bird-349035_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/dolphin-203875_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/frog-3312038_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/hedgehog-468228_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/kitty-2948404_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/meerkat-459171_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/penguins-429134_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/pug-690566_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/spider-2313079_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;&lt;img src=&#34;cute/surprised-3786845_640.jpg&#34; alt=&#34;images from the experiment&#34; width=&#34;24%&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;
 Figure 1: images from the experiment
@@ -2061,7 +2102,7 @@ Figure 1: images from the experiment
   facet_wrap(~name) +
   scale_x_continuous(breaks = 1:7) +
   labs(colour = &amp;quot;Rating Type&amp;quot;, x = &amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/demodata_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;demographs-exclusions-and-rejoin&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Demographs, exclusions and rejoin&lt;/h3&gt;
@@ -2077,17 +2118,17 @@ e_data_excl &amp;lt;- user_excl %&amp;gt;%
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;glimpse(e_data_excl)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## Rows: 1,440
 ## Columns: 11
-## $ session_id  &amp;lt;dbl&amp;gt; 60509, 60509, 60509, 60509, 60509, 60509, 60509, 60509, 6…
-## $ user_id     &amp;lt;dbl&amp;gt; 53422, 53422, 53422, 53422, 53422, 53422, 53422, 53422, 5…
-## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female…
-## $ user_status &amp;lt;chr&amp;gt; &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;gu…
-## $ user_age    &amp;lt;dbl&amp;gt; 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 0, 0, 0, …
-## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate…
-## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;penguins-429134_640&amp;quot;, &amp;quot;bird-349035_640&amp;quot;, &amp;quot;hedgehog-46822…
-## $ dv          &amp;lt;dbl&amp;gt; 1, 4, 5, 1, 7, 1, 7, 6, 1, 7, 1, 1, 4, 4, 4, 4, 4, 4, 4, …
-## $ name        &amp;lt;chr&amp;gt; &amp;quot;penguin&amp;quot;, &amp;quot;chicken&amp;quot;, &amp;quot;hedgehog&amp;quot;, &amp;quot;squirrel&amp;quot;, &amp;quot;kitten2&amp;quot;, …
-## $ is_baby     &amp;lt;dbl&amp;gt; 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, …
-## $ mammal      &amp;lt;dbl&amp;gt; 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, …&lt;/code&gt;&lt;/pre&gt;
+## $ session_id  &amp;lt;dbl&amp;gt; 60509, 60509, 60509, 60509, 60509, 60509, 60509, 60509, 60…
+## $ user_id     &amp;lt;dbl&amp;gt; 53422, 53422, 53422, 53422, 53422, 53422, 53422, 53422, 53…
+## $ user_sex    &amp;lt;chr&amp;gt; &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;, &amp;quot;female&amp;quot;…
+## $ user_status &amp;lt;chr&amp;gt; &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;guest&amp;quot;, &amp;quot;gue…
+## $ user_age    &amp;lt;dbl&amp;gt; 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 61, 0, 0, 0, 0…
+## $ exp_name    &amp;lt;chr&amp;gt; &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate&amp;quot;, &amp;quot;Appropriate&amp;quot;…
+## $ trial_name  &amp;lt;chr&amp;gt; &amp;quot;penguins-429134_640&amp;quot;, &amp;quot;bird-349035_640&amp;quot;, &amp;quot;hedgehog-468228…
+## $ dv          &amp;lt;dbl&amp;gt; 1, 4, 5, 1, 7, 1, 7, 6, 1, 7, 1, 1, 4, 4, 4, 4, 4, 4, 4, 4…
+## $ name        &amp;lt;chr&amp;gt; &amp;quot;penguin&amp;quot;, &amp;quot;chicken&amp;quot;, &amp;quot;hedgehog&amp;quot;, &amp;quot;squirrel&amp;quot;, &amp;quot;kitten2&amp;quot;, &amp;quot;…
+## $ is_baby     &amp;lt;dbl&amp;gt; 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0…
+## $ mammal      &amp;lt;dbl&amp;gt; 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 1…&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;joining-questionnaire-and-experiment-data&#34; class=&#34;section level2&#34;&gt;
@@ -2105,7 +2146,7 @@ names(all_data)&lt;/code&gt;&lt;/pre&gt;
 ## [21] &amp;quot;pets&amp;quot;           &amp;quot;spiders&amp;quot;        &amp;quot;pets.b&amp;quot;         &amp;quot;fiber_arts.b&amp;quot;  
 ## [25] &amp;quot;colours_fixed&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now go explore your data!&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/demodata_files/figure-html/unnamed-chunk-27-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/demodata_files/figure-html/unnamed-chunk-27-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -2116,6 +2157,7 @@ names(all_data)&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Thu, 17 Dec 2020 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/function-tips/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions.&lt;/p&gt;
@@ -2145,13 +2187,13 @@ my_func(n = 100)&lt;/code&gt;&lt;/pre&gt;
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 2.0292, df = 49, p-value = 0.04789
+## t = 1.9282, df = 49, p-value = 0.05964
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.002473696 0.508720912
+##  -0.01142952  0.55308436
 ## sample estimates:
 ## mean of the differences 
-##               0.2555973&lt;/code&gt;&lt;/pre&gt;
+##               0.2708274&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;definitions&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Definitions&lt;/h2&gt;
 &lt;p&gt;First, it’s helpful to define a few terms I’ll use below.&lt;/p&gt;
@@ -2200,26 +2242,26 @@ Arguments can have a &lt;strong&gt;default value&lt;/strong&gt;. In the code abo
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = -1.3048, df = 99, p-value = 0.195
+## t = 0.94057, df = 99, p-value = 0.3492
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.47076184  0.09724687
+##  -0.1338159  0.3750168
 ## sample estimates:
 ## mean of the differences 
-##              -0.1867575&lt;/code&gt;&lt;/pre&gt;
+##               0.1206004&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And then I can add in new values or my data-generating parameters from the code above.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func2(n = 200, mu = my_mu, sd = my_sd, r = my_r)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 3.5054, df = 199, p-value = 0.0005632
+## t = 2.2674, df = 199, p-value = 0.02444
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.09912782 0.35407004
+##  0.02327751 0.33404535
 ## sample estimates:
 ## mean of the differences 
-##               0.2265989&lt;/code&gt;&lt;/pre&gt;
+##               0.1786614&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Your function doesn’t need to use the same variable names as the functions you might be using them in. Some people find using the same variable names to be easier because you can see the connection between the variable in your function and where you’re using it. But this can be confusing for new coders. You can give your function argument names that are different to clarify where you’re using them.&lt;/p&gt;
 &lt;p&gt;If this pattern makes sense to you, I recommend using a consistent prefix to the name, like &lt;code&gt;the_&lt;/code&gt;, so you can always know if a variable is being defined as an argument to the function or externally.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func3 &amp;lt;- function(the_n = 100, the_mu = 0, the_sd = 1, the_r = 0) {
@@ -2242,26 +2284,26 @@ Arguments can have a &lt;strong&gt;default value&lt;/strong&gt;. In the code abo
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 0.59576, df = 49, p-value = 0.5541
+## t = 0.80255, df = 49, p-value = 0.4261
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.1781599  0.3283058
+##  -0.1585849  0.3694730
 ## sample estimates:
 ## mean of the differences 
-##              0.07507296&lt;/code&gt;&lt;/pre&gt;
+##                0.105444&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Or you can set the arguments by order and omit the names.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func3(my_n, my_mu, my_sd, my_r)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 1.7383, df = 49, p-value = 0.08843
+## t = 0.29191, df = 49, p-value = 0.7716
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.04088076  0.56488613
+##  -0.2255497  0.3022130
 ## sample estimates:
 ## mean of the differences 
-##               0.2620027&lt;/code&gt;&lt;/pre&gt;
+##              0.03833165&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;scope&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Scope&lt;/h2&gt;
@@ -2294,26 +2336,26 @@ my_r &amp;lt;- 0.5&lt;/code&gt;&lt;/pre&gt;
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = -1.3053, df = 99, p-value = 0.1948
+## t = -0.25649, df = 99, p-value = 0.7981
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -0.4908755  0.1013183
+##  -0.3074508  0.2370637
 ## sample estimates:
 ## mean of the differences 
-##              -0.1947786&lt;/code&gt;&lt;/pre&gt;
+##             -0.03519355&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you set the values in the function, then it will work as expected.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_func4(my_n, my_mu, my_sd, my_r)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##  Paired t-test
 ## 
 ## data:  dat$high and dat$low
-## t = 2.3301, df = 49, p-value = 0.02396
+## t = 4.0469, df = 49, p-value = 0.0001838
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  0.03896867 0.52759670
+##  0.2497333 0.7423856
 ## sample estimates:
 ## mean of the differences 
-##               0.2832827&lt;/code&gt;&lt;/pre&gt;
+##               0.4960594&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -2842,6 +2884,7 @@ expect_equal(output_prompts, rep(txt, 2))&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Fri, 31 Jan 2020 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/composite-images/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;I recently responded to a &lt;a href=&#34;https://twitter.com/PsychoSchmitt/status/1221883383778811906?s=20&#34;&gt;tweet&lt;/a&gt; about a preprint about whether people can see Dark Triad traits (narcissism, Machiavellianism, and psychopathy) in facial appearance.&lt;/p&gt;
@@ -2907,7 +2950,7 @@ bt &amp;lt;- binom.test(sum(judgment), obs_n, p = 0.5) %&amp;gt;% print()&lt;/co
 ##                   0.65&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;A binomial test shows that they are significantly better than chance at this (p = 0.004). What’s going on?&lt;/p&gt;
 &lt;p&gt;We can be sure that by chance alone, our two composites will be at least slightly different on any measure, even if they are drawn from identical populations. The mean (unsigned) size of this difference is larger, the smaller the number of stimuli that go into each composite. The graph below shows simulations of the unsigned difference between composites for 1000 samples per number of stimuli per composite.&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/composite_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/composite_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- replicate(10000, mean(rnorm(10))-mean(rnorm(10)))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;With only 10 stimuli per composite, the mean unsigned effect size of the difference between composites is 0.36 (in units of SD of the original trait distribution). 65% of random pairs have a difference of greater than 0.2 SD. If our observers are accurate enough at perceiving this difference or we run a very large number of observers, we are virtually guarateed to find significant results every time, and we have a 50% chance that all of these results will be in the predicted direction.&lt;/p&gt;
 &lt;/div&gt;
@@ -2930,25 +2973,12 @@ bt &amp;lt;- binom.test(sum(judgment), obs_n, p = 0.5) %&amp;gt;% print()&lt;/co
     </item>
     
     <item>
-      <title>An example preprint / working paper</title>
-      <link>https://debruine.github.io/publication/preprint/</link>
-      <pubDate>Sun, 07 Apr 2019 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/publication/preprint/</guid>
-      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    Create your slides in Markdown - click the &lt;em&gt;Slides&lt;/em&gt; button to check out the example.
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Supplementary notes can be added here, including &lt;a href=&#34;https://wowchemy.com/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;code, math, and images&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>What&#39;s wrong with aggregating data?</title>
       <link>https://debruine.github.io/post/aggregating/</link>
       <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/aggregating/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p class=&#34;info&#34;&gt;
@@ -2969,8 +2999,7 @@ stim &amp;lt;- tibble(
   birthday = rep(c(&amp;quot;odd&amp;quot;, &amp;quot;even&amp;quot;), stim_n),
   height = rnorm(stim_n*2, height_m, height_sd)
 )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/aggregation_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Obviously, the oddness of date of birth is not going to have any effect on women’s actual height and a two-sample t-test confirms this. However, there is a small difference between the means of the groups just due to chance (2.81 cm).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(stim$height ~ stim$birthday)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
@@ -2978,7 +3007,7 @@ stim &amp;lt;- tibble(
 ## 
 ## data:  stim$height by stim$birthday
 ## t = -1.5, df = 38, p-value = 0.1
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group even and group odd is not equal to 0
 ## 95 percent confidence interval:
 ##  -6.4997  0.8767
 ## sample estimates:
@@ -2994,7 +3023,7 @@ rater &amp;lt;- tibble(
   rater_id = 1:rater_n,
   rater_bias = rnorm(rater_n, 0, rater_bias_sd)
 )&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/aggregation_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;New we can get each rater to estimate the height of each woman. Their estimate is the woman’s actual height, plus the rater’s bias, plus some error (sampled from a normal distribution with a mean of 0 and an SD of 4 cm, since estimating height is hard).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat &amp;lt;- expand.grid(
   rater_id = rater$rater_id,
@@ -3013,8 +3042,8 @@ rater &amp;lt;- tibble(
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat_agg_by_stim &amp;lt;- dat %&amp;gt;%
   group_by(stim_id, birthday, height) %&amp;gt;%
   summarise(mean_estimate = mean(estimate))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;stim_id&amp;#39;, &amp;#39;birthday&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/aggregation_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` has grouped output by &amp;#39;stim_id&amp;#39;, &amp;#39;birthday&amp;#39;. You can override using the `.groups` argument.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/aggregation_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;You get pretty much the same result when you compare these mean estimates between the groups of women with odd and even birthdays.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(dat_agg_by_stim$mean_estimate ~ dat_agg_by_stim$birthday)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
@@ -3022,7 +3051,7 @@ rater &amp;lt;- tibble(
 ## 
 ## data:  dat_agg_by_stim$mean_estimate by dat_agg_by_stim$birthday
 ## t = -1.4, df = 38, p-value = 0.2
-## alternative hypothesis: true difference in means is not equal to 0
+## alternative hypothesis: true difference in means between group even and group odd is not equal to 0
 ## 95 percent confidence interval:
 ##  -6.473  1.130
 ## sample estimates:
@@ -3036,7 +3065,7 @@ rater &amp;lt;- tibble(
   group_by(rater_id, birthday) %&amp;gt;%
   summarise(mean_estimate = mean(estimate)) %&amp;gt;%
   spread(birthday, mean_estimate)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` regrouping output by &amp;#39;rater_id&amp;#39; (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## `summarise()` has grouped output by &amp;#39;rater_id&amp;#39;. You can override using the `.groups` argument.&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;t.test(dat_agg_by_rater$odd, dat_agg_by_rater$even, paired = TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## 
 ##  Paired t-test
@@ -3084,9 +3113,9 @@ summary(mod)&lt;/code&gt;&lt;/pre&gt;
 ## 
 ## Random effects:
 ##  Groups     Name        Variance      Std.Dev.
-##  stim_id    (Intercept) 34.4640965331 5.870613
+##  stim_id    (Intercept) 34.4640965341 5.870613
 ##  rater_id   birthday.e   0.0000000214 0.000146
-##  rater_id.1 (Intercept) 10.0890113688 3.176320
+##  rater_id.1 (Intercept) 10.0890113704 3.176320
 ##  Residual               15.8201186615 3.977451
 ## Number of obs: 800, groups:  stim_id, 40; rater_id, 20
 ## 
@@ -3100,7 +3129,7 @@ summary(mod)&lt;/code&gt;&lt;/pre&gt;
 ## Correlation of Fixed Effects:
 ##            (Intr)
 ## birthday.e 0.000 
-## convergence code: 0
+## optimizer (nloptwrap) convergence code: 0 (OK)
 ## boundary (singular) fit: see ?isSingular&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The estimate for &lt;code&gt;(Intercept)&lt;/code&gt; is just the mean height estimate (156.55 cm) and the estimate for &lt;code&gt;birthday.e&lt;/code&gt; is the mean difference between the odd and even birthday groups (2.67 cm). You can now generalise the conclusions of this mixed effects model to both the population of raters and the population of stimuli.&lt;/p&gt;
 &lt;p class=&#34;info&#34;&gt;
@@ -3109,19 +3138,19 @@ Thanks to &lt;a href=&#34;https://twitter.com/lpsatchell&#34;&gt;Liam Satchell&l
 &lt;/div&gt;
 &lt;div id=&#34;references&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;References&lt;/h3&gt;
-&lt;p&gt;Plenty of papers have made this point much more thoroughly &lt;span class=&#34;citation&#34;&gt;(Barr et al. 2013, @Coleman1964, @Judd2012, @Wolsiefer2017)&lt;/span&gt;.&lt;/p&gt;
-&lt;div id=&#34;refs&#34; class=&#34;references&#34;&gt;
-&lt;div id=&#34;ref-KeepItMaximal&#34;&gt;
-&lt;p&gt;Barr, Dale J, Roger Levy, Christoph Scheepers, and Harry J Tily. 2013. “Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.” &lt;em&gt;Journal of Memory and Language&lt;/em&gt; 68 (3): 10.1016/j.jml.2012.11.001.&lt;/p&gt;
+&lt;p&gt;Plenty of papers have made this point much more thoroughly &lt;span class=&#34;citation&#34;&gt;&lt;a href=&#34;#ref-Wolsiefer2017&#34; role=&#34;doc-biblioref&#34;&gt;Wolsiefer, Westfall, and Judd&lt;/a&gt; (&lt;a href=&#34;#ref-Wolsiefer2017&#34; role=&#34;doc-biblioref&#34;&gt;2017&lt;/a&gt;)&lt;/span&gt;.&lt;/p&gt;
+&lt;div id=&#34;refs&#34; class=&#34;references csl-bib-body hanging-indent&#34;&gt;
+&lt;div id=&#34;ref-KeepItMaximal&#34; class=&#34;csl-entry&#34;&gt;
+Barr, Dale J, Roger Levy, Christoph Scheepers, and Harry J Tily. 2013. &lt;span&gt;“Random Effects Structure for Confirmatory Hypothesis Testing: Keep It Maximal.”&lt;/span&gt; &lt;em&gt;Journal of Memory and Language&lt;/em&gt; 68 (3): 10.1016/j.jml.2012.11.001.
 &lt;/div&gt;
-&lt;div id=&#34;ref-Coleman1964&#34;&gt;
-&lt;p&gt;Coleman, E. B. 1964. “Generalizing to a Language Population.” &lt;em&gt;Psychological Reports&lt;/em&gt; 14 (1): 219–26. &lt;a href=&#34;https://doi.org/10.2466/pr0.1964.14.1.219&#34;&gt;https://doi.org/10.2466/pr0.1964.14.1.219&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;ref-Coleman1964&#34; class=&#34;csl-entry&#34;&gt;
+Coleman, E. B. 1964. &lt;span&gt;“Generalizing to a Language Population.”&lt;/span&gt; &lt;em&gt;Psychological Reports&lt;/em&gt; 14 (1): 219–26. &lt;a href=&#34;https://doi.org/10.2466/pr0.1964.14.1.219&#34;&gt;https://doi.org/10.2466/pr0.1964.14.1.219&lt;/a&gt;.
 &lt;/div&gt;
-&lt;div id=&#34;ref-Judd2012&#34;&gt;
-&lt;p&gt;Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. “Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.” &lt;em&gt;Journal of Personality and Social Psychology&lt;/em&gt; 103 (1): 54–69. &lt;a href=&#34;https://doi.org/doi:10.1037/a0028347&#34;&gt;https://doi.org/doi:10.1037/a0028347&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;ref-Judd2012&#34; class=&#34;csl-entry&#34;&gt;
+Judd, Charles M., Jacob Westfall, and David A. Kenny. 2012. &lt;span&gt;“Treating Stimuli as a Random Factor in Social Psychology: A New and Comprehensive Solution to a Pervasive but Largely Ignored Problem.”&lt;/span&gt; &lt;em&gt;Journal of Personality and Social Psychology&lt;/em&gt; 103 (1): 54–69. &lt;a href=&#34;https://doi.org/doi:10.1037/a0028347&#34;&gt;https://doi.org/doi:10.1037/a0028347&lt;/a&gt;.
 &lt;/div&gt;
-&lt;div id=&#34;ref-Wolsiefer2017&#34;&gt;
-&lt;p&gt;Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. “Modeling Stimulus Variation in Three Common Implicit Attitude Tasks.” &lt;em&gt;Behavior Research Methods&lt;/em&gt; 49 (4): 1193–1209. &lt;a href=&#34;https://doi.org/10.3758/s13428-016-0779-0&#34;&gt;https://doi.org/10.3758/s13428-016-0779-0&lt;/a&gt;.&lt;/p&gt;
+&lt;div id=&#34;ref-Wolsiefer2017&#34; class=&#34;csl-entry&#34;&gt;
+Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. &lt;span&gt;“Modeling Stimulus Variation in Three Common Implicit Attitude Tasks.”&lt;/span&gt; &lt;em&gt;Behavior Research Methods&lt;/em&gt; 49 (4): 1193–1209. &lt;a href=&#34;https://doi.org/10.3758/s13428-016-0779-0&#34;&gt;https://doi.org/10.3758/s13428-016-0779-0&lt;/a&gt;.
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -5731,6 +5760,7 @@ london_icc_grouped&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Thu, 27 Jul 2017 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/cumulative-p/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;p&gt;EJ Wagenmakers started an interesting debate last night with a &lt;a href=&#34;https://twitter.com/EJWagenmakers/status/889987997046910978&#34;&gt;twitter poll on p-values&lt;/a&gt;. Some responses suggested you can multiply p-values from several tests to create a sort of &lt;a href=&#34;https://twitter.com/VladMalik/status/890246773515722752&#34;&gt;cumulative p-value&lt;/a&gt; that is the joint probability of the null hypothesis.&lt;/p&gt;
@@ -5746,7 +5776,7 @@ london_icc_grouped&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ps &amp;lt;- replicate(10000, nullp(1000))
 
 hist(ps)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/cumulative-p_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Then sample 1000 p-values from this distributions once, twice, thrice, and whatever the word is for four times. This should convince you that the cumulative p-value cannot provide the joint probability of the null hypothesis for multiple tests.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tibble(
   x1 = sample(ps, 1000),
@@ -5758,8 +5788,8 @@ hist(ps)&lt;/code&gt;&lt;/pre&gt;
   ggplot(aes(cum_p, fill=n_tests)) +
   geom_density(alpha = 0.5) +
   labs(x =&amp;quot;Cumulative p-value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;figure&#34;&gt;&lt;span id=&#34;fig:unnamed-chunk-3&#34;&gt;&lt;/span&gt;
-&lt;img src=&#34;https://debruine.github.io/posts/cumulative-p_files/figure-html/unnamed-chunk-3-1.png&#34; alt=&#34;Cumulative p-value distribution under the null hypothesis&#34; width=&#34;672&#34; /&gt;
+&lt;div class=&#34;figure&#34;&gt;&lt;span style=&#34;display:block;&#34; id=&#34;fig:unnamed-chunk-3&#34;&gt;&lt;/span&gt;
+&lt;img src=&#34;https://debruine.github.io/post/cumulative-p_files/figure-html/unnamed-chunk-3-1.png&#34; alt=&#34;Cumulative p-value distribution under the null hypothesis&#34; width=&#34;672&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;
 Figure 1: Cumulative p-value distribution under the null hypothesis
 &lt;/p&gt;
@@ -6324,6 +6354,7 @@ cbind(
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/post/coding-schemes/</guid>
       <description>
+&lt;script src=&#34;https://debruine.github.io/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
 
 
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
@@ -6361,7 +6392,6 @@ df &amp;lt;- expand.grid(
     rating = face_i + rater_i + face_sex_i + error
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Calculate the means and SDs of the female and male faces.&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;## `summarise()` ungrouping output (override with `.groups` argument)&lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr class=&#34;header&#34;&gt;
@@ -6388,7 +6418,7 @@ df &amp;lt;- expand.grid(
   ggplot(aes(face_sex, rating)) + 
   geom_violin() +
   geom_boxplot(width=0.2)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/posts/coding_files/figure-html/coding-orig-data-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/coding_files/figure-html/coding-orig-data-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Recode face sex using treatment, sum, or effect coding.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df2 &amp;lt;- df %&amp;gt;%
   mutate(
@@ -6692,49 +6722,31 @@ df.s&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
-      <title>An example journal article</title>
-      <link>https://debruine.github.io/publication/journal-article/</link>
-      <pubDate>Tue, 01 Sep 2015 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/publication/journal-article/</guid>
-      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    Create your slides in Markdown - click the &lt;em&gt;Slides&lt;/em&gt; button to check out the example.
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Supplementary notes can be added here, including &lt;a href=&#34;https://wowchemy.com/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;code, math, and images&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>An example conference paper</title>
-      <link>https://debruine.github.io/publication/conference-paper/</link>
-      <pubDate>Mon, 01 Jul 2013 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/publication/conference-paper/</guid>
-      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    Click the &lt;em&gt;Cite&lt;/em&gt; button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;div&gt;
-    Create your slides in Markdown - click the &lt;em&gt;Slides&lt;/em&gt; button to check out the example.
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;Supplementary notes can be added here, including &lt;a href=&#34;https://wowchemy.com/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;code, math, and images&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title></title>
       <link>https://debruine.github.io/admin/config.yml</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/admin/config.yml</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Coding Club</title>
+      <link>https://debruine.github.io/project/shiny/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/shiny/</guid>
+      <description>&lt;p&gt;Do you want to take your R coding skills to the next level in a fun atmosphere where we learn by doing? Join the Coding Club!&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll be starting from the very basics to use the shiny R package to create an interactive web app that can read from a Google Form and display tables and plots describing your data.&lt;/p&gt;
+&lt;p&gt;When: Every other Wednesday 14:00-15:00, starting 6 October 2021.&lt;/p&gt;
+&lt;h3 id=&#34;faq&#34;&gt;FAQ&lt;/h3&gt;
+&lt;h4 id=&#34;do-i-have-enough-experience&#34;&gt;Do I have enough experience?&lt;/h4&gt;
+&lt;p&gt;Don&amp;rsquo;t worry if you&amp;rsquo;re new to R coding; as long as you can open RStudio and load the shiny package, you&amp;rsquo;ll be able to participate. All levels are welcome, including undergraduate students and staff.&lt;/p&gt;
+&lt;h4 id=&#34;will-it-be-recorded&#34;&gt;Will it be recorded?&lt;/h4&gt;
+&lt;p&gt;Yes, if you&amp;rsquo;re staff or a student at the University of Glasgow, join the Methods &amp;amp; Metascience Team with the code j2z7m4w in Teams to access recordings on the Coding Club channel.&lt;/p&gt;
+&lt;h4 id=&#34;what-computing-resources-do-i-need&#34;&gt;What computing resources do I need?&lt;/h4&gt;
+&lt;p&gt;You need to have access to R and RStudio. We will use these packages to start: shiny, shinydashboard, tidyverse. See &lt;a href=&#34;https://psyteachr.github.io/reprores-v2/installingr.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;instructions for installing on your own computer&lt;/a&gt; or use a university computer or &lt;a href=&#34;https://rstudio.cloud/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RStudio Cloud&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;i-have-more-questions&#34;&gt;I have more questions&lt;/h4&gt;
+&lt;p&gt;Join the Methods &amp;amp; MetaScience Team (it&amp;rsquo;s open to all at UofG) with the join code j2z7m4w in Teams and post questions in the Coding Club channel or email &lt;a href=&#34;mailto:Lisa.DeBruine@glasgow.ac.uk&#34;&gt;Lisa.DeBruine@glasgow.ac.uk&lt;/a&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>

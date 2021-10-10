@@ -13,6 +13,26 @@
     </image>
     
     <item>
+      <title>Coding Club</title>
+      <link>https://debruine.github.io/project/shiny/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/shiny/</guid>
+      <description>&lt;p&gt;Do you want to take your R coding skills to the next level in a fun atmosphere where we learn by doing? Join the Coding Club!&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll be starting from the very basics to use the shiny R package to create an interactive web app that can read from a Google Form and display tables and plots describing your data.&lt;/p&gt;
+&lt;p&gt;When: Every other Wednesday 14:00-15:00, starting 6 October 2021.&lt;/p&gt;
+&lt;h3 id=&#34;faq&#34;&gt;FAQ&lt;/h3&gt;
+&lt;h4 id=&#34;do-i-have-enough-experience&#34;&gt;Do I have enough experience?&lt;/h4&gt;
+&lt;p&gt;Don&amp;rsquo;t worry if you&amp;rsquo;re new to R coding; as long as you can open RStudio and load the shiny package, you&amp;rsquo;ll be able to participate. All levels are welcome, including undergraduate students and staff.&lt;/p&gt;
+&lt;h4 id=&#34;will-it-be-recorded&#34;&gt;Will it be recorded?&lt;/h4&gt;
+&lt;p&gt;Yes, if you&amp;rsquo;re staff or a student at the University of Glasgow, join the Methods &amp;amp; Metascience Team with the code j2z7m4w in Teams to access recordings on the Coding Club channel.&lt;/p&gt;
+&lt;h4 id=&#34;what-computing-resources-do-i-need&#34;&gt;What computing resources do I need?&lt;/h4&gt;
+&lt;p&gt;You need to have access to R and RStudio. We will use these packages to start: shiny, shinydashboard, tidyverse. See &lt;a href=&#34;https://psyteachr.github.io/reprores-v2/installingr.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;instructions for installing on your own computer&lt;/a&gt; or use a university computer or &lt;a href=&#34;https://rstudio.cloud/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RStudio Cloud&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;i-have-more-questions&#34;&gt;I have more questions&lt;/h4&gt;
+&lt;p&gt;Join the Methods &amp;amp; MetaScience Team (it&amp;rsquo;s open to all at UofG) with the join code j2z7m4w in Teams and post questions in the Coding Club channel or email &lt;a href=&#34;mailto:Lisa.DeBruine@glasgow.ac.uk&#34;&gt;Lisa.DeBruine@glasgow.ac.uk&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Experimentum</title>
       <link>https://debruine.github.io/project/experimentum/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

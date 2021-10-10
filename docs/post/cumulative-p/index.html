@@ -500,6 +500,43 @@
         
 
         <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
           <a class="nav-link " href="/#posts"><span>Posts</span></a>
         </li>
 
@@ -537,7 +574,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
         </li>
 
         
@@ -723,6 +760,7 @@
 
     <div class="article-style">
       
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>EJ Wagenmakers started an interesting debate last night with a <a href="https://twitter.com/EJWagenmakers/status/889987997046910978">twitter poll on p-values</a>. Some responses suggested you can multiply p-values from several tests to create a sort of <a href="https://twitter.com/VladMalik/status/890246773515722752">cumulative p-value</a> that is the joint probability of the null hypothesis.</p>
@@ -738,7 +776,7 @@
 <pre class="r"><code>ps &lt;- replicate(10000, nullp(1000))
 
 hist(ps)</code></pre>
-<p><img src="/posts/cumulative-p_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p><img src="/post/cumulative-p_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <p>Then sample 1000 p-values from this distributions once, twice, thrice, and whatever the word is for four times. This should convince you that the cumulative p-value cannot provide the joint probability of the null hypothesis for multiple tests.</p>
 <pre class="r"><code>tibble(
   x1 = sample(ps, 1000),
@@ -750,8 +788,8 @@ hist(ps)</code></pre>
   ggplot(aes(cum_p, fill=n_tests)) +
   geom_density(alpha = 0.5) +
   labs(x =&quot;Cumulative p-value&quot;)</code></pre>
-<div class="figure"><span id="fig:unnamed-chunk-3"></span>
-<img src="/posts/cumulative-p_files/figure-html/unnamed-chunk-3-1.png" alt="Cumulative p-value distribution under the null hypothesis" width="672" />
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-3"></span>
+<img src="/post/cumulative-p_files/figure-html/unnamed-chunk-3-1.png" alt="Cumulative p-value distribution under the null hypothesis" width="672" />
 <p class="caption">
 Figure 1: Cumulative p-value distribution under the null hypothesis
 </p>
