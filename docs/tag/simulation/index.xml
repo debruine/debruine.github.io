@@ -5,12 +5,20 @@
     <link>https://debruine.github.io/tag/simulation/</link>
       <atom:link href="https://debruine.github.io/tag/simulation/index.xml" rel="self" type="application/rss+xml" />
     <description>simulation</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 05 Oct 2021 16:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>simulation</title>
       <link>https://debruine.github.io/tag/simulation/</link>
     </image>
+    
+    <item>
+      <title>Mixed effects models for designs with randomly sampled stimuli</title>
+      <link>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</link>
+      <pubDate>Tue, 05 Oct 2021 16:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Understanding mixed effects models through data simulation</title>

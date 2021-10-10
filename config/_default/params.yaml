@@ -8,15 +8,15 @@
 theme: minimal
 day_night: true
 font: ''
-font_size: L
+font_size: M
 
 # SEO
 
 site_type: Person
 local_business_type: ''
 org_name: ''
-description: ''
-twitter: ''
+description: 'Professor Lisa DeBruine from the University of Glasgow School of Psychology and Neuroscience'
+twitter: '@lisadebruine'
 
 # Contact (edit or remove options as required)
 
@@ -39,7 +39,7 @@ main_menu:
 
 date_format: '2006-01-31'
 time_format: '3:04 PM'
-address_format: en-us
+address_format: en-gb
 
 # Site features
 

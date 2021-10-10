@@ -41,6 +41,9 @@
     <loc>https://debruine.github.io/author/emily-nordmann/</loc>
     <lastmod>2021-10-19T13:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/author/lisa-debruine/</loc>
+    <lastmod>2021-10-19T13:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/tag/open-science/</loc>
     <lastmod>2021-10-19T13:00:00+00:00</lastmod>
   </url><url>
@@ -68,7 +71,16 @@
     <loc>https://debruine.github.io/tag/teaching/</loc>
     <lastmod>2021-10-13T15:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/tag/mixed-effects/</loc>
+    <lastmod>2021-10-05T16:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</loc>
+    <lastmod>2021-10-05T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/r/</loc>
+    <lastmod>2021-10-05T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/simulation/</loc>
     <lastmod>2021-10-05T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/publication-type/3/</loc>
@@ -80,9 +92,6 @@
     <loc>https://debruine.github.io/publication/reprores/</loc>
     <lastmod>2021-09-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/author/lisa-debruine/</loc>
-    <lastmod>2021-09-01T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/tag/psyteachr/</loc>
     <lastmod>2021-09-01T00:00:00+00:00</lastmod>
   </url><url>
@@ -92,9 +101,6 @@
     <loc>https://debruine.github.io/publication/</loc>
     <lastmod>2021-09-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/tag/r/</loc>
-    <lastmod>2021-09-01T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/publication-type/2/</loc>
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url><url>
@@ -102,9 +108,6 @@
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/mixed-models/</loc>
-    <lastmod>2021-03-23T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/simulation/</loc>
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/tutorial/</loc>
@@ -234,9 +237,6 @@
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/lmer/</loc>
-    <lastmod>2019-03-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/mixed-effects/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/aggregating/</loc>

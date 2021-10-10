@@ -6,12 +6,13 @@ event: Seminar in Advanced Research Methods
 location: Princeton University
 
 summary: How and why to use linear mixed effects models.
-tags: []
+tags: [mixed effects, simulation, R]
 
 abstract: Experimental designs that sample both subjects and stimuli from a larger population need to account for random effects of both subjects and stimuli using mixed-effects models. However, much of this research is analyzed using analysis of variance on aggregated responses because researchers are not confident specifying and interpreting mixed-effects models. I will explain how to simulate data with random-effects structure (using the faux R package) and analyze the data using linear mixed-effects regression (with the lme4 R package), with a focus on interpreting the output in light of the simulated parameters. 
 #address:
 all_day: false
-authors: []
+authors: 
+- admin
 #event_url: https://example.org
 featured: false
 image:
