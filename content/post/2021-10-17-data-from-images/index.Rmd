@@ -20,6 +20,7 @@ I saw this a few days ago and sympathised, because I've often wanted to use data
 
 A tweet by [Abiyu Giday](https://twitter.com/abiyugiday/status/1449257787821789184?s=20) reminded me that the `magick` package has OCR (optical character recognition), so I decided to try it out.
 
+### Required packages
 
 ```{r, message=FALSE, warning=FALSE}
 library(magick)    # for image processing
@@ -29,6 +30,9 @@ library(tidyr)     # for data wrangling
 library(stringr)   # for string manipulation
 library(ggplot2)   # for plots
 ```
+
+
+### Read the image
 
 First, you need to read in the image and convert it to text using two functions from the [`magick`](https://cran.r-project.org/web/packages/magick/vignettes/intro.html) package. 
 
@@ -43,6 +47,8 @@ imgtext <- magick::image_read("data_image.jpg") %>%
   magick::image_ocr()
 ```
 
+### Process the text
+
 The result is a single `r glossary("character")` string that looks like this, so we're going to need to do quite a bit of processing to get it into a `r glossary("tabular data", "tabular")` format.
 
 <pre>
@@ -52,7 +58,7 @@ The result is a single `r glossary("character")` string that looks like this, so
 
 First, I'll get rid of the first three lines.
 
-You need to put two backslashes before the `\\|` to mark it as a literal `|`, since `|` has a special meaning in regular expressions (it means "or"). This is called `r glossary("escape", "escaping")` the character. The combination `\n` represents a line break.
+You need to put two backslashes before the `"\\|"` to mark it as a literal `|`, since `|` has a special meaning in regular expressions (it means "or"). This is called `r glossary("escape", "escaping")` the character. The combination `"\n"` represents a line break.
 
 
 ```{r}
@@ -61,7 +67,9 @@ trimmed <- gsub("rs\nCOUNTY VACCINES AL \\|\n\n", "", imgtext)
 trimmed
 ```
 
-Since there are two rows of data on each row, I'll convert all of the line breaks (`\n`) into spaces and then split the result wherever there is 0 or 1 spaces (` ?`), followed by 1 or more digits (`[0-9]+`), followed by a full stop and a space (`\\. `).
+### Split into rows
+
+Since there are two rows of data on each row, I'll convert all of the line breaks (`"\n"`) into spaces and then split the result wherever there is 0 or 1 spaces (`" ?"`), followed by 1 or more digits (`"[0-9]+"`), followed by a full stop and a space (`"\\. "`).
 
 ```{r}
 split_base <- gsub("\n", " ", trimmed) %>%
@@ -76,13 +84,15 @@ split_stringr <- trimmed %>%
   stringr::str_split(" ?s[0-9]+\\. ")
 ```
 
+### Fix encoding errors
+
 Make sure you look through all of your data at this point. The first time I did this, I didn't notice that `11.` got read in as `ll.`, so line 21 didn't split.
 
 ```{r}
 split_base[[1]][21]
 ```
 
-You can fix that by replacing `ll. ` with `11. ` before you split the data.
+You can fix that by replacing `"ll. "` with `"11. "` before you split the data.
 
 ```{r}
 split_base <- trimmed %>%
@@ -90,6 +100,8 @@ split_base <- trimmed %>%
   gsub("\n", " ", .) %>%
   strsplit(" ?[0-9]+\\. ")
 ```
+
+### Tabular format
 
 Now we need to get this into a tabular format. The objects `split_base` and `split_stringr` are 1-item `r glossary("list", "lists")` where the first item contains the `r glossary("vector")` of our rows. The first row is blank (the content before the first split at `1. `) so we have to omit that. The code below creates a data frame.
 
@@ -101,6 +113,8 @@ data1 <- data.frame(x = split_base[[1]][-1])
 kable(head(data1)) %>%
   kable_styling(position = "center", full_width = FALSE)
 ```
+
+### Seaparate columns
 
 Now we have to separate the columns out. There are several ways to do this. Using `gsub()` to create new columns by replacing parts of the original column is a straightforward way (HT [Tan Ho](https://twitter.com/_TanHo)).
 
@@ -133,7 +147,9 @@ kable(head(data3)) %>%
   kable_styling(position = "center", full_width = FALSE)
 ```
 
-Now we just need to clean up some extra characters in the `number` and `percent` columns. Get rid of the comma in the `number column and the `%)` in the `percent` column (remember to escape the parenthesis).
+### Clean up the data
+
+Now we just need to clean up some extra characters in the `number` and `percent` columns. Get rid of the comma in the `number` column and the `"%\\)"` in the `percent` column (remember to escape the parenthesis).
 
 ```{r}
 data4 <- data3 %>%
@@ -147,6 +163,8 @@ kable(head(data4)) %>%
   kable_styling(position = "center", 
                 full_width = FALSE)
 ```
+
+### Check data types
 
 This looks good, but there is still a problem. We can't do anything useful with this data set because the `number` and `percent` columns are actually still character ` r glossary("data type", "data types")`.
 

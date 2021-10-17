@@ -739,6 +739,10 @@
 
   
   
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
+  
 
 </div>
 
@@ -771,12 +775,17 @@ crucial data being published as images … 😭😭😭😭 <a href="https://t.c
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 <p>A tweet by <a href="https://twitter.com/abiyugiday/status/1449257787821789184?s=20">Abiyu Giday</a> reminded me that the <code>magick</code> package has OCR (optical character recognition), so I decided to try it out.</p>
+<div id="required-packages" class="section level3">
+<h3>Required packages</h3>
 <pre class="r"><code>library(magick)    # for image processing
 library(tesseract) # for OCR image reading
 library(dplyr)     # for data wrangling and pipes
 library(tidyr)     # for data wrangling
 library(stringr)   # for string manipulation
 library(ggplot2)   # for plots</code></pre>
+</div>
+<div id="read-the-image" class="section level3">
+<h3>Read the image</h3>
 <p>First, you need to read in the image and convert it to text using two functions from the <a href="https://cran.r-project.org/web/packages/magick/vignettes/intro.html"><code>magick</code></a> package.</p>
 <p>I use <a href="https://imagemagick.org/">ImageMagick</a> for webmorph development, so had it installed previously. I’m not sure if installing the R package also sets up the ImageMagick installation. If you’re on a Windows machine, the easiest way is to use <code>installr::install.imagemagick()</code>. On a Mac, you can install it with <a href="https://brew.sh/">Homebrew</a> using <code>brew install imagemagick@6</code>.</p>
 <p>Now You can read in the image with <code>image_read()</code> and run OCR on it with <code>image_ocr()</code>. If you haven’t installed the <code>tesseract</code> package yet, the second function will prompt you to.</p>
@@ -784,6 +793,9 @@ library(ggplot2)   # for plots</code></pre>
 # https://pbs.twimg.com/media/FBv8P8XXEBgCBvS?format=jpg&amp;name=medium
 imgtext &lt;- magick::image_read(&quot;data_image.jpg&quot;) %&gt;%
   magick::image_ocr()</code></pre>
+</div>
+<div id="process-the-text" class="section level3">
+<h3>Process the text</h3>
 <p>The result is a single <a class='glossary' target='_blank' title='A data type representing strings of text.' href='https://psyteachr.github.io/glossary/c#character'>character</a> string that looks like this, so we’re going to need to do quite a bit of processing to get it into a <a class='glossary' target='_blank' title='Data in a rectangular table format, where each row has an entry for each column.' href='https://psyteachr.github.io/glossary/t#tabular-data'>tabular</a> format.</p>
 <pre>
 rs
@@ -816,26 +828,35 @@ ll. Kajiado 75,960 (11.5%) 35. Elgeyo Marakwet 17,574 (7.2%)
 
 </pre>
 <p>First, I’ll get rid of the first three lines.</p>
-<p>You need to put two backslashes before the <code>\\|</code> to mark it as a literal <code>|</code>, since <code>|</code> has a special meaning in regular expressions (it means “or”). This is called <a class='glossary' target='_blank' title='Include special characters like " inside of a string by prefacing them with a backslash.' href='https://psyteachr.github.io/glossary/e#escape'>escaping</a> the character. The combination <code>\n</code> represents a line break.</p>
+<p>You need to put two backslashes before the <code>"\\|"</code> to mark it as a literal <code>|</code>, since <code>|</code> has a special meaning in regular expressions (it means “or”). This is called <a class='glossary' target='_blank' title='Include special characters like " inside of a string by prefacing them with a backslash.' href='https://psyteachr.github.io/glossary/e#escape'>escaping</a> the character. The combination <code>"\n"</code> represents a line break.</p>
 <pre class="r"><code>trimmed &lt;- gsub(&quot;rs\nCOUNTY VACCINES AL \\|\n\n&quot;, &quot;&quot;, imgtext)
 
 trimmed</code></pre>
 <pre><code>## [1] &quot;1. Nairobi 957,147 (31.4%) 25. Homa Bay 33,290 (5.5%)\n2. Kiambu 298,723 (18.4%) 26. Migori 32,670 (5.9%)\n3. Nakuru 170,684 (13.4%) 27. Kilifi 31,611 (4.0%)\n4. Nyeri 134,166 (26.3%) 28. Kisii 30,204 (4.3%)\n5. Murang’a 110,825 (16.4%) 29. Nyamira 29,142 (8.5%)\n6. Machakos 100,671 (11.1%) 30. Busia 26,792 (5.8%)\n7. Uasin Gishu 92,142 (13.3%) 31. Vihiga 25,172 (7.6%)\n8. Kisumu 90,495 (13.8%) 32. Tharaka Nithi 24,386 (9.9%)\n9. Mombasa 82,814 (10.3%) 33. Baringo 21,176 (6.2%)\n10. Kirinyaga 81,233 (19.6%) 34. Bomet 20,885 (4.5%)\nll. Kajiado 75,960 (11.5%) 35. Elgeyo Marakwet 17,574 (7.2%)\n12. Bungoma 66,688 (7.9%) 36. Kwale 17,185 (3.8%)\n13. Meru 66,270 (7.0%) 37. Narok 15,410 (2.8%)\n14. Kakamega 62,043 (6.3%) 38. Turkana 9,249 (2.0%)\n15. Nyandarua 60,574 (16.1%) 39. West Pokot 8,207 (2.9%)\n16. Laikipia 58,141 (19.0%) 40. Garissa 7,694 (1.9%)\n17. Makueni 57,435 (9.8%) 41. Samburu 6,686 (4.6%)\n18. Embu 56,082 (14.2%) 42. Mandera 6,220 (1.8%)\n19. Trans Nzoia 45,228 (8.7%) 43. Isiolo 5,653 (4.2%)\n20. Kitui 40,663 (6.5%) 44. Wajir 5,003 (1.5%)\n21. Kericho 38,497 (7.6%) 45. Lamu 4,692 (5.6%)\n22. Siaya 38,313 (7.1%) 46. Tana River 3,440 (2.3%)\n23. Nandi 38,243 (7.8%) 47. Marsabit 2,953 ( 1.3%)\n24. Taita Taveta 34,478 (16.2%)\n&quot;</code></pre>
-<p>Since there are two rows of data on each row, I’ll convert all of the line breaks (<code>\n</code>) into spaces and then split the result wherever there is 0 or 1 spaces (<code>?</code>), followed by 1 or more digits (<code>[0-9]+</code>), followed by a full stop and a space (<code>\\.</code>).</p>
+</div>
+<div id="split-into-rows" class="section level3">
+<h3>Split into rows</h3>
+<p>Since there are two rows of data on each row, I’ll convert all of the line breaks (<code>"\n"</code>) into spaces and then split the result wherever there is 0 or 1 spaces (<code>" ?"</code>), followed by 1 or more digits (<code>"[0-9]+"</code>), followed by a full stop and a space (<code>"\\. "</code>).</p>
 <pre class="r"><code>split_base &lt;- gsub(&quot;\n&quot;, &quot; &quot;, trimmed) %&gt;%
   strsplit(&quot; ?[0-9]+\\. &quot;)</code></pre>
 <p>If you prefer <code>stringr</code> functions to base functions, you can do it this way:</p>
 <pre class="r"><code>split_stringr &lt;- trimmed %&gt;%
   stringr::str_replace(&quot;\n&quot;, &quot; &quot;) %&gt;%
   stringr::str_split(&quot; ?s[0-9]+\\. &quot;)</code></pre>
+</div>
+<div id="fix-encoding-errors" class="section level3">
+<h3>Fix encoding errors</h3>
 <p>Make sure you look through all of your data at this point. The first time I did this, I didn’t notice that <code>11.</code> got read in as <code>ll.</code>, so line 21 didn’t split.</p>
 <pre class="r"><code>split_base[[1]][21]</code></pre>
 <pre><code>## [1] &quot;Bomet 20,885 (4.5%) ll. Kajiado 75,960 (11.5%)&quot;</code></pre>
-<p>You can fix that by replacing <code>ll.</code> with <code>11.</code> before you split the data.</p>
+<p>You can fix that by replacing <code>"ll. "</code> with <code>"11. "</code> before you split the data.</p>
 <pre class="r"><code>split_base &lt;- trimmed %&gt;%
   gsub(&quot;ll. &quot;, &quot;11. &quot;, .) %&gt;%
   gsub(&quot;\n&quot;, &quot; &quot;, .) %&gt;%
   strsplit(&quot; ?[0-9]+\\. &quot;)</code></pre>
+</div>
+<div id="tabular-format" class="section level3">
+<h3>Tabular format</h3>
 <p>Now we need to get this into a tabular format. The objects <code>split_base</code> and <code>split_stringr</code> are 1-item <a class='glossary' target='_blank' title='A container data type that allows items with different data types to be grouped together.' href='https://psyteachr.github.io/glossary/l#list'>lists</a> where the first item contains the <a class='glossary' target='_blank' title='A type of data structure that collects values with the same data type, like T/F values, numbers, or strings.' href='https://psyteachr.github.io/glossary/v#vector'>vector</a> of our rows. The first row is blank (the content before the first split at <code>1.</code>) so we have to omit that. The code below creates a data frame.</p>
 <pre class="r"><code>data1 &lt;- data.frame(x = split_base[[1]][-1]) </code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -879,6 +900,9 @@ Kilifi 31,611 (4.0%)
 </tr>
 </tbody>
 </table>
+</div>
+<div id="seaparate-columns" class="section level3">
+<h3>Seaparate columns</h3>
 <p>Now we have to separate the columns out. There are several ways to do this. Using <code>gsub()</code> to create new columns by replacing parts of the original column is a straightforward way (HT <a href="https://twitter.com/_TanHo">Tan Ho</a>).</p>
 <p>Create the <code>county</code> column by replacing all characters from the space before the first digit (<code>[0-9]</code>) plus any characters after that (<code>.*</code>) until the end of the string (<code>$</code>). Create the <code>number</code> column by replacing from the start of the string (<code>^</code>) plus any non-numbers (<code>[^0-9]+</code>) that follow it.</p>
 <pre class="r"><code>data2 &lt;- data1 %&gt;%
@@ -1077,7 +1101,10 @@ Kilifi
 </tr>
 </tbody>
 </table>
-<p>Now we just need to clean up some extra characters in the <code>number</code> and <code>percent</code> columns. Get rid of the comma in the <code>number column and the</code>%)<code>in the</code>percent` column (remember to escape the parenthesis).</p>
+</div>
+<div id="clean-up-the-data" class="section level3">
+<h3>Clean up the data</h3>
+<p>Now we just need to clean up some extra characters in the <code>number</code> and <code>percent</code> columns. Get rid of the comma in the <code>number</code> column and the <code>"%\\)"</code> in the <code>percent</code> column (remember to escape the parenthesis).</p>
 <pre class="r"><code>data4 &lt;- data3 %&gt;%
   mutate(number = gsub(&quot;,&quot;, &quot;&quot;, number),
          percent = gsub(&quot;%\\)&quot;, &quot;&quot;, percent)) %&gt;%
@@ -1165,6 +1192,9 @@ Kilifi
 </tr>
 </tbody>
 </table>
+</div>
+<div id="check-data-types" class="section level3">
+<h3>Check data types</h3>
 <p>This looks good, but there is still a problem. We can’t do anything useful with this data set because the <code>number</code> and <code>percent</code> columns are actually still character <code>r glossary("data type", "data types")</code>.</p>
 <pre class="r"><code>summary(data4)</code></pre>
 <pre><code>##     county             number            percent         
@@ -1273,6 +1303,7 @@ Kilifi
                      labels = paste0(seq(0, 40, 10), &quot;%&quot;)) +
   theme_bw()</code></pre>
 <p><img src="https://debruine.github.io/post/data-from-images/index_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+</div>
 <div id="glossary" class="section level3">
 <h3>Glossary</h3>
 <table>
@@ -1355,6 +1386,16 @@ A type of data structure that collects values with the same data type, like T/F 
 
 
 
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r/">R</a>
+  
+  <a class="badge badge-light" href="/tag/data/">data</a>
+  
+  <a class="badge badge-light" href="/tag/wrangling/">wrangling</a>
+  
+</div>
 
 
 
@@ -1625,6 +1666,23 @@ A type of data structure that collects values with the same data type, like T/F 
 
 
   
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/experimentum-data/">Experimentum Data Wrangling Demo</a></li>
+      
+      <li><a href="/post/normality/">Testing for normality</a></li>
+      
+      <li><a href="/post/mann-whitney/">Mann-Whitney False Positives</a></li>
+      
+      <li><a href="/post/how-many-sims/">How many simulations in my power analysis?</a></li>
+      
+      <li><a href="/post/interactive-test/">Testing interactive functions</a></li>
+      
+    </ul>
+  </div>
   
 
 

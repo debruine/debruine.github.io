@@ -53,10 +53,25 @@
     <loc>https://debruine.github.io/author/phil-mcaleer/</loc>
     <lastmod>2021-10-19T13:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/categories/</loc>
+    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/data/</loc>
+    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/post/data-from-images/</loc>
     <lastmod>2021-10-17T11:22:13+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/</loc>
+    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/r/</loc>
+    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/category/rstats/</loc>
+    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/wrangling/</loc>
     <lastmod>2021-10-17T11:22:13+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</loc>
@@ -81,9 +96,6 @@
     <lastmod>2021-10-05T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</loc>
-    <lastmod>2021-10-05T16:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/r/</loc>
     <lastmod>2021-10-05T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/simulation/</loc>
@@ -122,16 +134,10 @@
     <loc>https://debruine.github.io/publication/lmem-ampps/</loc>
     <lastmod>2021-03-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/categories/</loc>
-    <lastmod>2021-02-01T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/tag/normality/</loc>
     <lastmod>2021-02-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/qqplot/</loc>
-    <lastmod>2021-02-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/category/rstats/</loc>
     <lastmod>2021-02-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/normality/</loc>
@@ -142,9 +148,6 @@
   </url><url>
     <loc>https://debruine.github.io/courses/example/</loc>
     <lastmod>2021-01-24T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/data/</loc>
-    <lastmod>2021-01-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/experimentum/</loc>
     <lastmod>2021-01-20T00:00:00+00:00</lastmod>
