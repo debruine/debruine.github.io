@@ -53,6 +53,12 @@
     <loc>https://debruine.github.io/author/phil-mcaleer/</loc>
     <lastmod>2021-10-19T13:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/post/data-from-images/</loc>
+    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/post/</loc>
+    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</loc>
     <lastmod>2021-10-13T15:00:00+00:00</lastmod>
   </url><url>
@@ -122,9 +128,6 @@
     <loc>https://debruine.github.io/tag/normality/</loc>
     <lastmod>2021-02-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/post/</loc>
-    <lastmod>2021-02-01T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/tag/qqplot/</loc>
     <lastmod>2021-02-01T00:00:00+00:00</lastmod>
   </url><url>
@@ -160,21 +163,6 @@
   </url><url>
     <loc>https://debruine.github.io/category/stats/</loc>
     <lastmod>2020-12-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/post/2020-12-01-r-rmarkdown/</loc>
-    <lastmod>2020-12-01T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/plot/</loc>
-    <lastmod>2020-12-01T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/category/r/</loc>
-    <lastmod>2020-12-01T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/r-markdown/</loc>
-    <lastmod>2020-12-01T21:13:14-05:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/regression/</loc>
-    <lastmod>2020-12-01T21:13:14-05:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/false-positives/</loc>
     <lastmod>2020-09-03T00:00:00+00:00</lastmod>

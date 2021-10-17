@@ -5,18 +5,50 @@
     <link>https://debruine.github.io/author/lisa-debruine/</link>
       <atom:link href="https://debruine.github.io/author/lisa-debruine/index.xml" rel="self" type="application/rss+xml" />
     <description>Lisa DeBruine</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 19 Oct 2021 13:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 19 Oct 2021 16:00:00 +0000</lastBuildDate>
     <image>
-      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <url>https://debruine.github.io/author/lisa-debruine/avatar_huc4546377bde55ecd47b44f619a7a66e6_608544_270x270_fill_q75_lanczos_center.jpg</url>
       <title>Lisa DeBruine</title>
       <link>https://debruine.github.io/author/lisa-debruine/</link>
     </image>
     
     <item>
-      <title>Open Science Practices in the School of Psychology and Neuroscience</title>
-      <link>https://debruine.github.io/talk/open-science-practices-in-the-school-of-psychology-and-neuroscience/</link>
-      <pubDate>Tue, 19 Oct 2021 13:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/talk/open-science-practices-in-the-school-of-psychology-and-neuroscience/</guid>
+      <title>Everything is cool when you&#39;re part of a team</title>
+      <link>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</link>
+      <pubDate>Tue, 19 Oct 2021 16:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>An ounce of prevention is worth a pound of cure</title>
+      <link>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</link>
+      <pubDate>Wed, 13 Oct 2021 15:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/an-ounce-of-prevention-is-worth-a-pound-of-cure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mixed effects models for designs with randomly sampled stimuli</title>
+      <link>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</link>
+      <pubDate>Tue, 05 Oct 2021 16:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Skills for Reproducible Research</title>
+      <link>https://debruine.github.io/publication/reprores/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/reprores/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Understanding mixed effects models through data simulation</title>
+      <link>https://debruine.github.io/publication/lmem-ampps/</link>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/lmem-ampps/</guid>
       <description></description>
     </item>
     

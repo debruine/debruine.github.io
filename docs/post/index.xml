@@ -5,12 +5,610 @@
     <link>https://debruine.github.io/post/</link>
       <atom:link href="https://debruine.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     <description>Posts</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 01 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 17 Oct 2021 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Posts</title>
       <link>https://debruine.github.io/post/</link>
     </image>
+    
+    <item>
+      <title>Data from Images</title>
+      <link>https://debruine.github.io/post/data-from-images/</link>
+      <pubDate>Sun, 17 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/data-from-images/</guid>
+      <description>
+&lt;script src=&#34;https://debruine.github.io/post/data-from-images/index_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://debruine.github.io/post/data-from-images/index_files/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://debruine.github.io/post/data-from-images/index_files/lightable/lightable.css&#34; rel=&#34;stylesheet&#34; /&gt;
+
+
+&lt;p&gt;I saw this a few days ago and sympathised, because I’ve often wanted to use data that is trapped in images or PDFs. If it’s not too much, I’ll manually transcribe it, but that’s so tedious!&lt;/p&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34;&gt;
+&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
+crucial data being published as images … 😭😭😭😭 &lt;a href=&#34;https://t.co/9CKg9NhYtA&#34;&gt;https://t.co/9CKg9NhYtA&lt;/a&gt;
+&lt;/p&gt;
+— Shel 🇰🇪 (&lt;span class=&#34;citation&#34;&gt;@Shel_Kariuki&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/Shel_Kariuki/status/1449029768763084814?ref_src=twsrc%5Etfw&#34;&gt;October 15, 2021&lt;/a&gt;
+&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;p&gt;A tweet by &lt;a href=&#34;https://twitter.com/abiyugiday/status/1449257787821789184?s=20&#34;&gt;Abiyu Giday&lt;/a&gt; reminded me that the &lt;code&gt;magick&lt;/code&gt; package has OCR (optical character recognition), so I decided to try it out.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(magick)    # for image processing
+library(tesseract) # for OCR image reading
+library(dplyr)     # for data wrangling and pipes
+library(tidyr)     # for data wrangling
+library(stringr)   # for string manipulation
+library(ggplot2)   # for plots&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;First, you need to read in the image and convert it to text using two functions from the &lt;a href=&#34;https://cran.r-project.org/web/packages/magick/vignettes/intro.html&#34;&gt;&lt;code&gt;magick&lt;/code&gt;&lt;/a&gt; package.&lt;/p&gt;
+&lt;p&gt;I use &lt;a href=&#34;https://imagemagick.org/&#34;&gt;ImageMagick&lt;/a&gt; for webmorph development, so had it installed previously. I’m not sure if installing the R package also sets up the ImageMagick installation. If you’re on a Windows machine, the easiest way is to use &lt;code&gt;installr::install.imagemagick()&lt;/code&gt;. On a Mac, you can install it with &lt;a href=&#34;https://brew.sh/&#34;&gt;Homebrew&lt;/a&gt; using &lt;code&gt;brew install imagemagick@6&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Now You can read in the image with &lt;code&gt;image_read()&lt;/code&gt; and run OCR on it with &lt;code&gt;image_ocr()&lt;/code&gt;. If you haven’t installed the &lt;code&gt;tesseract&lt;/code&gt; package yet, the second function will prompt you to.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# original image source:
+# https://pbs.twimg.com/media/FBv8P8XXEBgCBvS?format=jpg&amp;amp;name=medium
+imgtext &amp;lt;- magick::image_read(&amp;quot;data_image.jpg&amp;quot;) %&amp;gt;%
+  magick::image_ocr()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The result is a single &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A data type representing strings of text.&#39; href=&#39;https://psyteachr.github.io/glossary/c#character&#39;&gt;character&lt;/a&gt; string that looks like this, so we’re going to need to do quite a bit of processing to get it into a &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;Data in a rectangular table format, where each row has an entry for each column.&#39; href=&#39;https://psyteachr.github.io/glossary/t#tabular-data&#39;&gt;tabular&lt;/a&gt; format.&lt;/p&gt;
+&lt;pre&gt;
+rs
+COUNTY VACCINES AL |
+
+1. Nairobi 957,147 (31.4%) 25. Homa Bay 33,290 (5.5%)
+2. Kiambu 298,723 (18.4%) 26. Migori 32,670 (5.9%)
+3. Nakuru 170,684 (13.4%) 27. Kilifi 31,611 (4.0%)
+4. Nyeri 134,166 (26.3%) 28. Kisii 30,204 (4.3%)
+5. Murang’a 110,825 (16.4%) 29. Nyamira 29,142 (8.5%)
+6. Machakos 100,671 (11.1%) 30. Busia 26,792 (5.8%)
+7. Uasin Gishu 92,142 (13.3%) 31. Vihiga 25,172 (7.6%)
+8. Kisumu 90,495 (13.8%) 32. Tharaka Nithi 24,386 (9.9%)
+9. Mombasa 82,814 (10.3%) 33. Baringo 21,176 (6.2%)
+10. Kirinyaga 81,233 (19.6%) 34. Bomet 20,885 (4.5%)
+ll. Kajiado 75,960 (11.5%) 35. Elgeyo Marakwet 17,574 (7.2%)
+12. Bungoma 66,688 (7.9%) 36. Kwale 17,185 (3.8%)
+13. Meru 66,270 (7.0%) 37. Narok 15,410 (2.8%)
+14. Kakamega 62,043 (6.3%) 38. Turkana 9,249 (2.0%)
+15. Nyandarua 60,574 (16.1%) 39. West Pokot 8,207 (2.9%)
+16. Laikipia 58,141 (19.0%) 40. Garissa 7,694 (1.9%)
+17. Makueni 57,435 (9.8%) 41. Samburu 6,686 (4.6%)
+18. Embu 56,082 (14.2%) 42. Mandera 6,220 (1.8%)
+19. Trans Nzoia 45,228 (8.7%) 43. Isiolo 5,653 (4.2%)
+20. Kitui 40,663 (6.5%) 44. Wajir 5,003 (1.5%)
+21. Kericho 38,497 (7.6%) 45. Lamu 4,692 (5.6%)
+22. Siaya 38,313 (7.1%) 46. Tana River 3,440 (2.3%)
+23. Nandi 38,243 (7.8%) 47. Marsabit 2,953 ( 1.3%)
+24. Taita Taveta 34,478 (16.2%)
+
+&lt;/pre&gt;
+&lt;p&gt;First, I’ll get rid of the first three lines.&lt;/p&gt;
+&lt;p&gt;You need to put two backslashes before the &lt;code&gt;\\|&lt;/code&gt; to mark it as a literal &lt;code&gt;|&lt;/code&gt;, since &lt;code&gt;|&lt;/code&gt; has a special meaning in regular expressions (it means “or”). This is called &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;Include special characters like &#34; inside of a string by prefacing them with a backslash.&#39; href=&#39;https://psyteachr.github.io/glossary/e#escape&#39;&gt;escaping&lt;/a&gt; the character. The combination &lt;code&gt;\n&lt;/code&gt; represents a line break.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;trimmed &amp;lt;- gsub(&amp;quot;rs\nCOUNTY VACCINES AL \\|\n\n&amp;quot;, &amp;quot;&amp;quot;, imgtext)
+
+trimmed&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;1. Nairobi 957,147 (31.4%) 25. Homa Bay 33,290 (5.5%)\n2. Kiambu 298,723 (18.4%) 26. Migori 32,670 (5.9%)\n3. Nakuru 170,684 (13.4%) 27. Kilifi 31,611 (4.0%)\n4. Nyeri 134,166 (26.3%) 28. Kisii 30,204 (4.3%)\n5. Murang’a 110,825 (16.4%) 29. Nyamira 29,142 (8.5%)\n6. Machakos 100,671 (11.1%) 30. Busia 26,792 (5.8%)\n7. Uasin Gishu 92,142 (13.3%) 31. Vihiga 25,172 (7.6%)\n8. Kisumu 90,495 (13.8%) 32. Tharaka Nithi 24,386 (9.9%)\n9. Mombasa 82,814 (10.3%) 33. Baringo 21,176 (6.2%)\n10. Kirinyaga 81,233 (19.6%) 34. Bomet 20,885 (4.5%)\nll. Kajiado 75,960 (11.5%) 35. Elgeyo Marakwet 17,574 (7.2%)\n12. Bungoma 66,688 (7.9%) 36. Kwale 17,185 (3.8%)\n13. Meru 66,270 (7.0%) 37. Narok 15,410 (2.8%)\n14. Kakamega 62,043 (6.3%) 38. Turkana 9,249 (2.0%)\n15. Nyandarua 60,574 (16.1%) 39. West Pokot 8,207 (2.9%)\n16. Laikipia 58,141 (19.0%) 40. Garissa 7,694 (1.9%)\n17. Makueni 57,435 (9.8%) 41. Samburu 6,686 (4.6%)\n18. Embu 56,082 (14.2%) 42. Mandera 6,220 (1.8%)\n19. Trans Nzoia 45,228 (8.7%) 43. Isiolo 5,653 (4.2%)\n20. Kitui 40,663 (6.5%) 44. Wajir 5,003 (1.5%)\n21. Kericho 38,497 (7.6%) 45. Lamu 4,692 (5.6%)\n22. Siaya 38,313 (7.1%) 46. Tana River 3,440 (2.3%)\n23. Nandi 38,243 (7.8%) 47. Marsabit 2,953 ( 1.3%)\n24. Taita Taveta 34,478 (16.2%)\n&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since there are two rows of data on each row, I’ll convert all of the line breaks (&lt;code&gt;\n&lt;/code&gt;) into spaces and then split the result wherever there is 0 or 1 spaces (&lt;code&gt;?&lt;/code&gt;), followed by 1 or more digits (&lt;code&gt;[0-9]+&lt;/code&gt;), followed by a full stop and a space (&lt;code&gt;\\.&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;split_base &amp;lt;- gsub(&amp;quot;\n&amp;quot;, &amp;quot; &amp;quot;, trimmed) %&amp;gt;%
+  strsplit(&amp;quot; ?[0-9]+\\. &amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you prefer &lt;code&gt;stringr&lt;/code&gt; functions to base functions, you can do it this way:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;split_stringr &amp;lt;- trimmed %&amp;gt;%
+  stringr::str_replace(&amp;quot;\n&amp;quot;, &amp;quot; &amp;quot;) %&amp;gt;%
+  stringr::str_split(&amp;quot; ?s[0-9]+\\. &amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Make sure you look through all of your data at this point. The first time I did this, I didn’t notice that &lt;code&gt;11.&lt;/code&gt; got read in as &lt;code&gt;ll.&lt;/code&gt;, so line 21 didn’t split.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;split_base[[1]][21]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Bomet 20,885 (4.5%) ll. Kajiado 75,960 (11.5%)&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can fix that by replacing &lt;code&gt;ll.&lt;/code&gt; with &lt;code&gt;11.&lt;/code&gt; before you split the data.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;split_base &amp;lt;- trimmed %&amp;gt;%
+  gsub(&amp;quot;ll. &amp;quot;, &amp;quot;11. &amp;quot;, .) %&amp;gt;%
+  gsub(&amp;quot;\n&amp;quot;, &amp;quot; &amp;quot;, .) %&amp;gt;%
+  strsplit(&amp;quot; ?[0-9]+\\. &amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we need to get this into a tabular format. The objects &lt;code&gt;split_base&lt;/code&gt; and &lt;code&gt;split_stringr&lt;/code&gt; are 1-item &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A container data type that allows items with different data types to be grouped together.&#39; href=&#39;https://psyteachr.github.io/glossary/l#list&#39;&gt;lists&lt;/a&gt; where the first item contains the &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A type of data structure that collects values with the same data type, like T/F values, numbers, or strings.&#39; href=&#39;https://psyteachr.github.io/glossary/v#vector&#39;&gt;vector&lt;/a&gt; of our rows. The first row is blank (the content before the first split at &lt;code&gt;1.&lt;/code&gt;) so we have to omit that. The code below creates a data frame.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data1 &amp;lt;- data.frame(x = split_base[[1]][-1]) &lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+x
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nairobi 957,147 (31.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Homa Bay 33,290 (5.5%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kiambu 298,723 (18.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Migori 32,670 (5.9%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nakuru 170,684 (13.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kilifi 31,611 (4.0%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Now we have to separate the columns out. There are several ways to do this. Using &lt;code&gt;gsub()&lt;/code&gt; to create new columns by replacing parts of the original column is a straightforward way (HT &lt;a href=&#34;https://twitter.com/_TanHo&#34;&gt;Tan Ho&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Create the &lt;code&gt;county&lt;/code&gt; column by replacing all characters from the space before the first digit (&lt;code&gt;[0-9]&lt;/code&gt;) plus any characters after that (&lt;code&gt;.*&lt;/code&gt;) until the end of the string (&lt;code&gt;$&lt;/code&gt;). Create the &lt;code&gt;number&lt;/code&gt; column by replacing from the start of the string (&lt;code&gt;^&lt;/code&gt;) plus any non-numbers (&lt;code&gt;[^0-9]+&lt;/code&gt;) that follow it.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data2 &amp;lt;- data1 %&amp;gt;%
+  mutate(county = gsub(&amp;quot; [0-9].*$&amp;quot;, &amp;quot;&amp;quot;, x),
+         number = gsub(&amp;quot;^[^0-9]+&amp;quot;, &amp;quot;&amp;quot;, x))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+x
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+county
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+number
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nairobi 957,147 (31.4%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nairobi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+957,147 (31.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Homa Bay 33,290 (5.5%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Homa Bay
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+33,290 (5.5%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kiambu 298,723 (18.4%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kiambu
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+298,723 (18.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Migori 32,670 (5.9%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Migori
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+32,670 (5.9%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nakuru 170,684 (13.4%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nakuru
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+170,684 (13.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kilifi 31,611 (4.0%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kilifi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+31,611 (4.0%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The &lt;code&gt;county&lt;/code&gt; column looks fine, but the &lt;code&gt;number&lt;/code&gt; column needs to be split into the number of vaccinations and the percent. Use the &lt;code&gt;separate()&lt;/code&gt; function to split this column on the left parenthesis (remember to escape the parenthesis).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data3 &amp;lt;- data2 %&amp;gt;%
+  separate(col = number, 
+           into = c(&amp;quot;number&amp;quot;, &amp;quot;percent&amp;quot;), 
+           sep = &amp;quot;\\(&amp;quot;,
+           extra = &amp;quot;drop&amp;quot;) &lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+x
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+county
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+number
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+percent
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nairobi 957,147 (31.4%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nairobi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+957,147
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+31.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Homa Bay 33,290 (5.5%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Homa Bay
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+33,290
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+5.5%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kiambu 298,723 (18.4%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kiambu
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+298,723
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+18.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Migori 32,670 (5.9%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Migori
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+32,670
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+5.9%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nakuru 170,684 (13.4%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nakuru
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+170,684
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+13.4%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kilifi 31,611 (4.0%)
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kilifi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+31,611
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+4.0%)
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Now we just need to clean up some extra characters in the &lt;code&gt;number&lt;/code&gt; and &lt;code&gt;percent&lt;/code&gt; columns. Get rid of the comma in the &lt;code&gt;number column and the&lt;/code&gt;%)&lt;code&gt;in the&lt;/code&gt;percent` column (remember to escape the parenthesis).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data4 &amp;lt;- data3 %&amp;gt;%
+  mutate(number = gsub(&amp;quot;,&amp;quot;, &amp;quot;&amp;quot;, number),
+         percent = gsub(&amp;quot;%\\)&amp;quot;, &amp;quot;&amp;quot;, percent)) %&amp;gt;%
+  select(-x)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+county
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+number
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+percent
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nairobi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+957147
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+31.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Homa Bay
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+33290
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+5.5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kiambu
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+298723
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+18.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Migori
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+32670
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+5.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nakuru
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+170684
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+13.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kilifi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+31611
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+4.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This looks good, but there is still a problem. We can’t do anything useful with this data set because the &lt;code&gt;number&lt;/code&gt; and &lt;code&gt;percent&lt;/code&gt; columns are actually still character &lt;code&gt;r glossary(&#34;data type&#34;, &#34;data types&#34;)&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(data4)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     county             number            percent         
+##  Length:47          Length:47          Length:47         
+##  Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;m &amp;lt;- mean(data4$number)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Warning in mean.default(data4$number): argument is not numeric or logical:
+## returning NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Convert the &lt;code&gt;number&lt;/code&gt; column to an &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A data type representing whole numbers.&#39; href=&#39;https://psyteachr.github.io/glossary/i#integer&#39;&gt;integer&lt;/a&gt; and the &lt;code&gt;percent&lt;/code&gt; column to a &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;A data type representing a real decimal number&#39; href=&#39;https://psyteachr.github.io/glossary/d#double&#39;&gt;double&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data &amp;lt;- data4 %&amp;gt;%
+  mutate(number = as.integer(number),
+         percent = as.double(percent))&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+county
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+number
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+percent
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nairobi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+957147
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+31.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Homa Bay
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+33290
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5.5
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kiambu
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+298723
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+18.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Migori
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+32670
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5.9
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Nakuru
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+170684
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+13.4
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Kilifi
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+31611
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+4.0
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Now you’re ready to plot the data or use it in analyses.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplot(data, aes(x = number, y = percent)) +
+  geom_point(color = &amp;quot;dodgerblue&amp;quot;) +
+  scale_x_continuous(&amp;quot;Number of Vaccinated People&amp;quot;,
+                     breaks = seq(0, 1e6, 2e5),
+                     labels = c(paste0(seq(0, 800, 200), &amp;quot;K&amp;quot;), &amp;quot;1M&amp;quot;),
+                     limits = c(0, 1e6)) +
+  scale_y_continuous(&amp;quot;Percent of County&amp;quot;,
+                     breaks = seq(0, 40, 10),
+                     labels = paste0(seq(0, 40, 10), &amp;quot;%&amp;quot;)) +
+  theme_bw()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/data-from-images/index_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;glossary&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Glossary&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+term
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+definition
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/c.html#character&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;character&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+A data type representing strings of text.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/d.html#double&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;double&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+A data type representing a real decimal number
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/e.html#escape&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;escape&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Include special characters like &#34; inside of a string by prefacing them with a backslash.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/i.html#integer&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;integer&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+A data type representing whole numbers.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/l.html#list&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;list&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+A container data type that allows items with different data types to be grouped together.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/t.html#tabular-data&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;tabular data&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Data in a rectangular table format, where each row has an entry for each column.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/v.html#vector&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;vector&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+A type of data structure that collects values with the same data type, like T/F values, numbers, or strings.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Testing for normality</title>
@@ -2213,57 +2811,6 @@ my_r &amp;lt;- 0.5&lt;/code&gt;&lt;/pre&gt;
 ## sample estimates:
 ## mean of the differences 
 ##               0.4960594&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Hello R Markdown</title>
-      <link>https://debruine.github.io/post/2020-12-01-r-rmarkdown/</link>
-      <pubDate>Tue, 01 Dec 2020 21:13:14 -0500</pubDate>
-      <guid>https://debruine.github.io/post/2020-12-01-r-rmarkdown/</guid>
-      <description>
-&lt;script src=&#34;https://debruine.github.io/post/2020-12-01-r-rmarkdown/index.en_files/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
-
-
-&lt;div id=&#34;r-markdown&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;R Markdown&lt;/h1&gt;
-&lt;p&gt;This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see &lt;a href=&#34;http://rmarkdown.rstudio.com&#34; class=&#34;uri&#34;&gt;http://rmarkdown.rstudio.com&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;You can embed an R code chunk like this:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(cars)
-##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00
-fit &amp;lt;- lm(dist ~ speed, data = cars)
-fit
-## 
-## Call:
-## lm(formula = dist ~ speed, data = cars)
-## 
-## Coefficients:
-## (Intercept)        speed  
-##     -17.579        3.932&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;including-plots&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Including Plots&lt;/h1&gt;
-&lt;p&gt;You can also embed plots. See Figure &lt;a href=&#34;#fig:pie&#34;&gt;1&lt;/a&gt; for example:&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c(&amp;#39;Sky&amp;#39;, &amp;#39;Sunny side of pyramid&amp;#39;, &amp;#39;Shady side of pyramid&amp;#39;),
-  col = c(&amp;#39;#0292D8&amp;#39;, &amp;#39;#F7EA39&amp;#39;, &amp;#39;#C4B632&amp;#39;),
-  init.angle = -50, border = NA
-)&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&#34;figure&#34;&gt;&lt;span style=&#34;display:block;&#34; id=&#34;fig:pie&#34;&gt;&lt;/span&gt;
-&lt;img src=&#34;https://debruine.github.io/post/2020-12-01-r-rmarkdown/index.en_files/figure-html/pie-1.png&#34; alt=&#34;A fancy pie chart.&#34; width=&#34;672&#34; /&gt;
-&lt;p class=&#34;caption&#34;&gt;
-Figure 1: A fancy pie chart.
-&lt;/p&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>

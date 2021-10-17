@@ -1,9 +1,11 @@
 ---
 title: Data from Images
-author: Lisa DeBruine
+author: ~
 date: '2021-10-17'
 slug: data-from-images
 lastmod: '2021-10-17T11:22:13+01:00'
+categories: ["rstats"]
+tags: ["r", "data", "wrangling"]
 ---
 
 ```{r setup, include = FALSE}
