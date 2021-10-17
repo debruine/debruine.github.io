@@ -3,37 +3,13 @@
   font-size: 1.5rem;
 }
 
-body {
-  font-family: Verdana;
+.dark table {
+  color: #CCCCCC !important;
 }
 
-code {
-  background-color: inherit;
-}
-
-p code, ul code, ol code {
-  color: #339;
-  font-weight: 500;
-  font-size: 1.1em;
-}
-
-pre {
-  border: 1px solid grey;
-  background-color: #FFF;
-}
-
-table {
-  font-family: 'Source Code Pro', 'Lucida Console', monospace;
-  border: 3px solid black;
-  background-color: hsla(204, 100%, 50%, 5%);
-}
-
-thead {
-  color: white;
-  background-color: #1565C0;
-}
-
-table td, table th { padding: 0.25em 0.5em; }
+.dark .table td { border-top: 1px solid #444; }
+.dark .table thead th { border-bottom: 2px solid #666; }
+.dark .table tbody + tbody { border-top-: 2px solid #444; }
 
 p.error, p.warning, p.info {
   padding: 0.5em;

@@ -1,0 +1,191 @@
+---
+title: Data from Images
+author: Lisa DeBruine
+date: '2021-10-17'
+slug: data-from-images
+lastmod: '2021-10-17T11:22:13+01:00'
+---
+
+```{r setup, include = FALSE}
+library(kableExtra)
+library(glossary)
+```
+
+I saw this a few days ago and sympathised, because I've often wanted to use data that is trapped in images or PDFs. If it's not too much, I'll manually transcribe it, but that's so tedious!
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">crucial data being published as images ... 😭😭😭😭 <a href="https://t.co/9CKg9NhYtA">https://t.co/9CKg9NhYtA</a></p>&mdash; Shel 🇰🇪 (@Shel_Kariuki) <a href="https://twitter.com/Shel_Kariuki/status/1449029768763084814?ref_src=twsrc%5Etfw">October 15, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+
+A tweet by [Abiyu Giday](https://twitter.com/abiyugiday/status/1449257787821789184?s=20) reminded me that the `magick` package has OCR (optical character recognition), so I decided to try it out.
+
+
+```{r, message=FALSE, warning=FALSE}
+library(magick)    # for image processing
+library(tesseract) # for OCR image reading
+library(dplyr)     # for data wrangling and pipes
+library(tidyr)     # for data wrangling
+library(stringr)   # for string manipulation
+library(ggplot2)   # for plots
+```
+
+First, you need to read in the image and convert it to text using two functions from the [`magick`](https://cran.r-project.org/web/packages/magick/vignettes/intro.html) package. 
+
+I use [ImageMagick](https://imagemagick.org/) for webmorph development, so had it installed previously. I'm not sure if installing the R package also sets up the ImageMagick installation. If you're on a Windows machine, the easiest way is to use `installr::install.imagemagick()`. On a Mac, you can install it with [Homebrew](https://brew.sh/) using `brew install imagemagick@6`.
+
+Now You can read in the image with `image_read()` and run OCR on it with `image_ocr()`. If you haven't installed the `tesseract` package yet, the second function will prompt you to.
+
+```{r}
+# original image source:
+# https://pbs.twimg.com/media/FBv8P8XXEBgCBvS?format=jpg&name=medium
+imgtext <- magick::image_read("data_image.jpg") %>%
+  magick::image_ocr()
+```
+
+The result is a single `r glossary("character")` string that looks like this, so we're going to need to do quite a bit of processing to get it into a `r glossary("tabular data", "tabular")` format.
+
+<pre>
+`r imgtext`
+</pre>
+
+
+First, I'll get rid of the first three lines.
+
+You need to put two backslashes before the `\\|` to mark it as a literal `|`, since `|` has a special meaning in regular expressions (it means "or"). This is called `r glossary("escape", "escaping")` the character. The combination `\n` represents a line break.
+
+
+```{r}
+trimmed <- gsub("rs\nCOUNTY VACCINES AL \\|\n\n", "", imgtext)
+
+trimmed
+```
+
+Since there are two rows of data on each row, I'll convert all of the line breaks (`\n`) into spaces and then split the result wherever there is 0 or 1 spaces (` ?`), followed by 1 or more digits (`[0-9]+`), followed by a full stop and a space (`\\. `).
+
+```{r}
+split_base <- gsub("\n", " ", trimmed) %>%
+  strsplit(" ?[0-9]+\\. ")
+```
+
+If you prefer `stringr` functions to base functions, you can do it this way:
+
+```{r}
+split_stringr <- trimmed %>%
+  stringr::str_replace("\n", " ") %>%
+  stringr::str_split(" ?s[0-9]+\\. ")
+```
+
+Make sure you look through all of your data at this point. The first time I did this, I didn't notice that `11.` got read in as `ll.`, so line 21 didn't split.
+
+```{r}
+split_base[[1]][21]
+```
+
+You can fix that by replacing `ll. ` with `11. ` before you split the data.
+
+```{r}
+split_base <- trimmed %>%
+  gsub("ll. ", "11. ", .) %>%
+  gsub("\n", " ", .) %>%
+  strsplit(" ?[0-9]+\\. ")
+```
+
+Now we need to get this into a tabular format. The objects `split_base` and `split_stringr` are 1-item `r glossary("list", "lists")` where the first item contains the `r glossary("vector")` of our rows. The first row is blank (the content before the first split at `1. `) so we have to omit that. The code below creates a data frame.
+
+```{r}
+data1 <- data.frame(x = split_base[[1]][-1]) 
+```
+
+```{r, echo = FALSE, results='asis'}
+kable(head(data1)) %>%
+  kable_styling(position = "center", full_width = FALSE)
+```
+
+Now we have to separate the columns out. There are several ways to do this. Using `gsub()` to create new columns by replacing parts of the original column is a straightforward way (HT [Tan Ho](https://twitter.com/_TanHo)).
+
+Create the `county` column by replacing all characters from the space before the first digit (` [0-9]`) plus any characters after that (`.*`) until the end of the string (`$`). Create the `number` column by replacing from the start of the string (`^`) plus any non-numbers (`[^0-9]+`) that follow it.
+
+```{r}
+data2 <- data1 %>%
+  mutate(county = gsub(" [0-9].*$", "", x),
+         number = gsub("^[^0-9]+", "", x))
+```
+
+```{r, echo = FALSE, results='asis'}
+kable(head(data2)) %>%
+  kable_styling(position = "center", full_width = FALSE)
+```
+
+The `county` column looks fine, but the `number` column needs to be split into the number of vaccinations and the percent. Use the `separate()` function to split this column on the left parenthesis (remember to escape the parenthesis).
+
+
+```{r}
+data3 <- data2 %>%
+  separate(col = number, 
+           into = c("number", "percent"), 
+           sep = "\\(",
+           extra = "drop") 
+```
+
+```{r, echo = FALSE, results='asis'}
+kable(head(data3)) %>%
+  kable_styling(position = "center", full_width = FALSE)
+```
+
+Now we just need to clean up some extra characters in the `number` and `percent` columns. Get rid of the comma in the `number column and the `%)` in the `percent` column (remember to escape the parenthesis).
+
+```{r}
+data4 <- data3 %>%
+  mutate(number = gsub(",", "", number),
+         percent = gsub("%\\)", "", percent)) %>%
+  select(-x)
+```
+
+```{r, echo = FALSE, results='asis'}
+kable(head(data4)) %>%
+  kable_styling(position = "center", 
+                full_width = FALSE)
+```
+
+This looks good, but there is still a problem. We can't do anything useful with this data set because the `number` and `percent` columns are actually still character ` r glossary("data type", "data types")`.
+
+```{r}
+summary(data4)
+m <- mean(data4$number)
+```
+
+Convert the `number` column to an `r glossary("integer")` and the `percent` column to a `r glossary("double")`.
+
+```{r}
+data <- data4 %>%
+  mutate(number = as.integer(number),
+         percent = as.double(percent))
+```
+
+```{r, echo = FALSE, results='asis'}
+kable(head(data)) %>%
+  kable_styling(position = "center", full_width = FALSE)
+```
+
+Now you're ready to plot the data or use it in analyses.
+
+```{r}
+ggplot(data, aes(x = number, y = percent)) +
+  geom_point(color = "dodgerblue") +
+  scale_x_continuous("Number of Vaccinated People",
+                     breaks = seq(0, 1e6, 2e5),
+                     labels = c(paste0(seq(0, 800, 200), "K"), "1M"),
+                     limits = c(0, 1e6)) +
+  scale_y_continuous("Percent of County",
+                     breaks = seq(0, 40, 10),
+                     labels = paste0(seq(0, 40, 10), "%")) +
+  theme_bw()
+```
+
+### Glossary
+
+```{r, results='asis', echo = FALSE}
+glossary_table()
+```
+
+
+
