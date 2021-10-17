@@ -158,9 +158,9 @@ Kilifi 31,611 (4.0%)
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;div id=&#34;seaparate-columns&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Seaparate columns&lt;/h3&gt;
-&lt;p&gt;Now we have to separate the columns out. There are several ways to do this. Using &lt;code&gt;gsub()&lt;/code&gt; to create new columns by replacing parts of the original column is a straightforward way (HT &lt;a href=&#34;https://twitter.com/_TanHo&#34;&gt;Tan Ho&lt;/a&gt;).&lt;/p&gt;
+&lt;div id=&#34;separate-columns&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Separate columns&lt;/h3&gt;
+&lt;p&gt;Now we have to separate the columns out. There are several ways to do this. If you’re a regex wizard, you don’t need the rest of this tutorial, so I’m going to break it into smaller steps instead. Using &lt;code&gt;gsub()&lt;/code&gt; to create new columns by replacing parts of the original column is a straightforward way (HT &lt;a href=&#34;https://twitter.com/_TanHo&#34;&gt;Tan Ho&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Create the &lt;code&gt;county&lt;/code&gt; column by replacing all characters from the space before the first digit (&lt;code&gt;[0-9]&lt;/code&gt;) plus any characters after that (&lt;code&gt;.*&lt;/code&gt;) until the end of the string (&lt;code&gt;$&lt;/code&gt;). Create the &lt;code&gt;number&lt;/code&gt; column by replacing from the start of the string (&lt;code&gt;^&lt;/code&gt;) plus any non-numbers (&lt;code&gt;[^0-9]+&lt;/code&gt;) that follow it.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data2 &amp;lt;- data1 %&amp;gt;%
   mutate(county = gsub(&amp;quot; [0-9].*$&amp;quot;, &amp;quot;&amp;quot;, x),
@@ -248,7 +248,7 @@ Kilifi
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;The &lt;code&gt;county&lt;/code&gt; column looks fine, but the &lt;code&gt;number&lt;/code&gt; column needs to be split into the number of vaccinations and the percent. Use the &lt;code&gt;separate()&lt;/code&gt; function to split this column on the left parenthesis (remember to escape the parenthesis).&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;county&lt;/code&gt; column looks fine, but the &lt;code&gt;number&lt;/code&gt; column needs to be split into the number of vaccinations and the percent. Use the &lt;code&gt;separate()&lt;/code&gt; function to split this column on the left parenthesis (remember to &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;Include special characters like &#34; inside of a string by prefacing them with a backslash.&#39; href=&#39;https://psyteachr.github.io/glossary/e#escape&#39;&gt;escape&lt;/a&gt; it).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data3 &amp;lt;- data2 %&amp;gt;%
   separate(col = number, 
            into = c(&amp;quot;number&amp;quot;, &amp;quot;percent&amp;quot;), 
@@ -361,7 +361,7 @@ Kilifi
 &lt;/div&gt;
 &lt;div id=&#34;clean-up-the-data&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Clean up the data&lt;/h3&gt;
-&lt;p&gt;Now we just need to clean up some extra characters in the &lt;code&gt;number&lt;/code&gt; and &lt;code&gt;percent&lt;/code&gt; columns. Get rid of the comma in the &lt;code&gt;number&lt;/code&gt; column and the &lt;code&gt;&#34;%\\)&#34;&lt;/code&gt; in the &lt;code&gt;percent&lt;/code&gt; column (remember to escape the parenthesis).&lt;/p&gt;
+&lt;p&gt;Now we just need to clean up some extra characters in the &lt;code&gt;number&lt;/code&gt; and &lt;code&gt;percent&lt;/code&gt; columns. Get rid of the comma in the &lt;code&gt;number&lt;/code&gt; column and the percent sign and right parenthesis in the &lt;code&gt;percent&lt;/code&gt; column (remember to escape the parenthesis).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data4 &amp;lt;- data3 %&amp;gt;%
   mutate(number = gsub(&amp;quot;,&amp;quot;, &amp;quot;&amp;quot;, number),
          percent = gsub(&amp;quot;%\\)&amp;quot;, &amp;quot;&amp;quot;, percent)) %&amp;gt;%
@@ -452,7 +452,7 @@ Kilifi
 &lt;/div&gt;
 &lt;div id=&#34;check-data-types&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Check data types&lt;/h3&gt;
-&lt;p&gt;This looks good, but there is still a problem. We can’t do anything useful with this data set because the &lt;code&gt;number&lt;/code&gt; and &lt;code&gt;percent&lt;/code&gt; columns are actually still character &lt;code&gt;r glossary(&#34;data type&#34;, &#34;data types&#34;)&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;This looks good, but there is still a problem. We can’t do anything useful with this data set because the &lt;code&gt;number&lt;/code&gt; and &lt;code&gt;percent&lt;/code&gt; columns are actually still character &lt;a class=&#39;glossary&#39; target=&#39;_blank&#39; title=&#39;The kind of data represented by an object.&#39; href=&#39;https://psyteachr.github.io/glossary/d#data-type&#39;&gt;data types&lt;/a&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;summary(data4)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;##     county             number            percent         
 ##  Length:47          Length:47          Length:47         
@@ -581,6 +581,14 @@ definition
 &lt;/td&gt;
 &lt;td style=&#34;text-align:left;&#34;&gt;
 A data type representing strings of text.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;a href=&#34;https://psyteachr.github.io/glossary/d.html#data-type&#34; class=&#34;glossary&#34; target=&#34;_blank&#34;&gt;data type&lt;/a&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+The kind of data represented by an object.
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;

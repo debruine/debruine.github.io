@@ -114,9 +114,9 @@ kable(head(data1)) %>%
   kable_styling(position = "center", full_width = FALSE)
 ```
 
-### Seaparate columns
+### Separate columns
 
-Now we have to separate the columns out. There are several ways to do this. Using `gsub()` to create new columns by replacing parts of the original column is a straightforward way (HT [Tan Ho](https://twitter.com/_TanHo)).
+Now we have to separate the columns out. There are several ways to do this. If you're a regex wizard, you don't need the rest of this tutorial, so I'm going to break it into smaller steps instead. Using `gsub()` to create new columns by replacing parts of the original column is a straightforward way (HT [Tan Ho](https://twitter.com/_TanHo)).
 
 Create the `county` column by replacing all characters from the space before the first digit (` [0-9]`) plus any characters after that (`.*`) until the end of the string (`$`). Create the `number` column by replacing from the start of the string (`^`) plus any non-numbers (`[^0-9]+`) that follow it.
 
@@ -131,7 +131,7 @@ kable(head(data2)) %>%
   kable_styling(position = "center", full_width = FALSE)
 ```
 
-The `county` column looks fine, but the `number` column needs to be split into the number of vaccinations and the percent. Use the `separate()` function to split this column on the left parenthesis (remember to escape the parenthesis).
+The `county` column looks fine, but the `number` column needs to be split into the number of vaccinations and the percent. Use the `separate()` function to split this column on the left parenthesis (remember to `r glossary("escape")` it).
 
 
 ```{r}
@@ -149,7 +149,7 @@ kable(head(data3)) %>%
 
 ### Clean up the data
 
-Now we just need to clean up some extra characters in the `number` and `percent` columns. Get rid of the comma in the `number` column and the `"%\\)"` in the `percent` column (remember to escape the parenthesis).
+Now we just need to clean up some extra characters in the `number` and `percent` columns. Get rid of the comma in the `number` column and the percent sign and right parenthesis in the `percent` column (remember to escape the parenthesis).
 
 ```{r}
 data4 <- data3 %>%
@@ -166,7 +166,7 @@ kable(head(data4)) %>%
 
 ### Check data types
 
-This looks good, but there is still a problem. We can't do anything useful with this data set because the `number` and `percent` columns are actually still character ` r glossary("data type", "data types")`.
+This looks good, but there is still a problem. We can't do anything useful with this data set because the `number` and `percent` columns are actually still character `r glossary("data type", "data types")`. 
 
 ```{r}
 summary(data4)

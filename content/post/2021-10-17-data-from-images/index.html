@@ -148,9 +148,9 @@ Kilifi 31,611 (4.0%)
 </tbody>
 </table>
 </div>
-<div id="seaparate-columns" class="section level3">
-<h3>Seaparate columns</h3>
-<p>Now we have to separate the columns out. There are several ways to do this. Using <code>gsub()</code> to create new columns by replacing parts of the original column is a straightforward way (HT <a href="https://twitter.com/_TanHo">Tan Ho</a>).</p>
+<div id="separate-columns" class="section level3">
+<h3>Separate columns</h3>
+<p>Now we have to separate the columns out. There are several ways to do this. If you’re a regex wizard, you don’t need the rest of this tutorial, so I’m going to break it into smaller steps instead. Using <code>gsub()</code> to create new columns by replacing parts of the original column is a straightforward way (HT <a href="https://twitter.com/_TanHo">Tan Ho</a>).</p>
 <p>Create the <code>county</code> column by replacing all characters from the space before the first digit (<code>[0-9]</code>) plus any characters after that (<code>.*</code>) until the end of the string (<code>$</code>). Create the <code>number</code> column by replacing from the start of the string (<code>^</code>) plus any non-numbers (<code>[^0-9]+</code>) that follow it.</p>
 <pre class="r"><code>data2 &lt;- data1 %&gt;%
   mutate(county = gsub(&quot; [0-9].*$&quot;, &quot;&quot;, x),
@@ -238,7 +238,7 @@ Kilifi
 </tr>
 </tbody>
 </table>
-<p>The <code>county</code> column looks fine, but the <code>number</code> column needs to be split into the number of vaccinations and the percent. Use the <code>separate()</code> function to split this column on the left parenthesis (remember to escape the parenthesis).</p>
+<p>The <code>county</code> column looks fine, but the <code>number</code> column needs to be split into the number of vaccinations and the percent. Use the <code>separate()</code> function to split this column on the left parenthesis (remember to <a class='glossary' target='_blank' title='Include special characters like " inside of a string by prefacing them with a backslash.' href='https://psyteachr.github.io/glossary/e#escape'>escape</a> it).</p>
 <pre class="r"><code>data3 &lt;- data2 %&gt;%
   separate(col = number, 
            into = c(&quot;number&quot;, &quot;percent&quot;), 
@@ -351,7 +351,7 @@ Kilifi
 </div>
 <div id="clean-up-the-data" class="section level3">
 <h3>Clean up the data</h3>
-<p>Now we just need to clean up some extra characters in the <code>number</code> and <code>percent</code> columns. Get rid of the comma in the <code>number</code> column and the <code>"%\\)"</code> in the <code>percent</code> column (remember to escape the parenthesis).</p>
+<p>Now we just need to clean up some extra characters in the <code>number</code> and <code>percent</code> columns. Get rid of the comma in the <code>number</code> column and the percent sign and right parenthesis in the <code>percent</code> column (remember to escape the parenthesis).</p>
 <pre class="r"><code>data4 &lt;- data3 %&gt;%
   mutate(number = gsub(&quot;,&quot;, &quot;&quot;, number),
          percent = gsub(&quot;%\\)&quot;, &quot;&quot;, percent)) %&gt;%
@@ -442,7 +442,7 @@ Kilifi
 </div>
 <div id="check-data-types" class="section level3">
 <h3>Check data types</h3>
-<p>This looks good, but there is still a problem. We can’t do anything useful with this data set because the <code>number</code> and <code>percent</code> columns are actually still character <code>r glossary("data type", "data types")</code>.</p>
+<p>This looks good, but there is still a problem. We can’t do anything useful with this data set because the <code>number</code> and <code>percent</code> columns are actually still character <a class='glossary' target='_blank' title='The kind of data represented by an object.' href='https://psyteachr.github.io/glossary/d#data-type'>data types</a>.</p>
 <pre class="r"><code>summary(data4)</code></pre>
 <pre><code>##     county             number            percent         
 ##  Length:47          Length:47          Length:47         
@@ -571,6 +571,14 @@ definition
 </td>
 <td style="text-align:left;">
 A data type representing strings of text.
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<a href="https://psyteachr.github.io/glossary/d.html#data-type" class="glossary" target="_blank">data type</a>
+</td>
+<td style="text-align:left;">
+The kind of data represented by an object.
 </td>
 </tr>
 <tr>
