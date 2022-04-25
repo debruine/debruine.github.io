@@ -5,12 +5,21 @@
     <link>https://debruine.github.io/tag/dataviz/</link>
       <atom:link href="https://debruine.github.io/tag/dataviz/index.xml" rel="self" type="application/rss+xml" />
     <description>dataviz</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 01 Apr 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>dataviz</title>
       <link>https://debruine.github.io/tag/dataviz/</link>
     </image>
+    
+    <item>
+      <title>30 Day Chart Challenge</title>
+      <link>https://debruine.github.io/project/30dcc/</link>
+      <pubDate>Fri, 01 Apr 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/30dcc/</guid>
+      <description>&lt;p&gt;This is my first year participating in the 30-day chart challenge. I&amp;rsquo;m making a book of tutorials for each chart.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Plot Comparison</title>
