@@ -5,12 +5,20 @@
     <link>https://debruine.github.io/event/</link>
       <atom:link href="https://debruine.github.io/event/index.xml" rel="self" type="application/rss+xml" />
     <description>Recent &amp; Upcoming Talks</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 19 Oct 2021 16:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 27 Apr 2022 09:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Recent &amp; Upcoming Talks</title>
       <link>https://debruine.github.io/event/</link>
     </image>
+    
+    <item>
+      <title>Data Simulation Workshops</title>
+      <link>https://debruine.github.io/talk/data-simulation-workshops/</link>
+      <pubDate>Wed, 27 Apr 2022 09:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/data-simulation-workshops/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Everything is cool when you&#39;re part of a team</title>

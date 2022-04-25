@@ -5,7 +5,7 @@
     <link>https://debruine.github.io/tag/simulation/</link>
       <atom:link href="https://debruine.github.io/tag/simulation/index.xml" rel="self" type="application/rss+xml" />
     <description>simulation</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 05 Oct 2021 16:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 27 Apr 2022 09:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>simulation</title>
@@ -13,11 +13,28 @@
     </image>
     
     <item>
+      <title>Data Simulation Workshops</title>
+      <link>https://debruine.github.io/talk/data-simulation-workshops/</link>
+      <pubDate>Wed, 27 Apr 2022 09:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/data-simulation-workshops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Mixed effects models for designs with randomly sampled stimuli</title>
       <link>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</link>
       <pubDate>Tue, 05 Oct 2021 16:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/talk/mixed-effects-models-for-designs-with-randomly-sampled-stimuli/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Faux</title>
+      <link>https://debruine.github.io/project/faux/</link>
+      <pubDate>Tue, 05 Oct 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/faux/</guid>
+      <description>&lt;p&gt;It is useful to be able to simulate data with a specified structure. The faux package provides some functions to make this process easier for factorial designs and single- or multilevel data.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -1307,15 +1324,6 @@ df &amp;lt;- expand.grid(
 &lt;/table&gt;
 &lt;p&gt;With effect coding, the intercept coefficient is the same as sum coding and the effect of face sex is how much the two face sexes differ from each other (i.e., 5.94 - 5.114 = 0.826). Note that this coefficient is double that from the sum coding.&lt;/p&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Faux</title>
-      <link>https://debruine.github.io/project/faux/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/faux/</guid>
-      <description>&lt;p&gt;It is useful to be able to simulate data with a specified structure. The faux package provides some functions to make this process easier for factorial designs and single- or multilevel data.&lt;/p&gt;
 </description>
     </item>
     
