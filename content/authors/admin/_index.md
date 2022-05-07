@@ -1,6 +1,5 @@
 ---
 bio: Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility.
-  matter.
 education:
   courses:
   - course: PhD in Psychology
@@ -58,5 +57,5 @@ superuser: true
 title: Lisa DeBruine
 ---
 
-Lisa DeBruine is a professor of psychology at the University of Glasgow School of Psychology and Neuroscience. She is a founding member and current Associate Director of the <a href="https://psysciacc.org/">Psychological Science Accelerator</a>, a member of the <a href="https://www.apa.org/pubs/journals/resources/open-science">APA Open Science and Methodology Committee</a>, a local lead for the <a href="https://www.ukrn.org/">UK Reproducibility Network</a>, a member of the <a href="https://orcid.org/">ORCiD Researcher Advisory Council</a>, and a member of the <a href="https://psyteachr.github.io/">psyTeachR</a> team for reproducible research educational resources. Follow me on <a rel="me" href="https://tech.lgbt/@debruine">Mastodon</a>.
+Lisa DeBruine is a professor of psychology at the University of Glasgow School of Psychology and Neuroscience. She is a founding member and current Associate Director of the <a href="https://psysciacc.org/">Psychological Science Accelerator</a>, a member of the <a href="https://www.apa.org/pubs/journals/resources/open-science">APA Open Science and Methodology Committee</a>, a local lead for the <a href="https://www.ukrn.org/">UK Reproducibility Network</a>, a member of the <a href="https://orcid.org/">ORCiD Researcher Advisory Council</a>, and a member of the <a href="https://psyteachr.github.io/">psyTeachR</a> team for reproducible research educational resources. 
 

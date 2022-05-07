@@ -17,18 +17,18 @@ p.error, p.warning, p.info {
 }
 
 p.error {
-  border: 1px solid hsla(0, 100%, 50%, 100%);
-  /*background-color: hsla(0, 100%, 50%, 5%);*/
+  border: 1px solid hsla(0, 100%, 50%, 1);
+  /*background-color: hsla(0, 100%, 50%, .05);*/
 }
 
 p.warning {
-  border: 1px solid hsla(50, 100%, 50%, 100%);
-  /*background-color: hsla(50, 100%, 50%, 5%);*/
+  border: 1px solid hsla(50, 100%, 50%, 1);
+  /*background-color: hsla(50, 100%, 50%, .05);*/
 }
 
 p.info {
-  border: 1px solid hsla(80, 100%, 50%, 100%);
-  /*background-color: hsla(80, 100%, 50%, 5%);*/
+  border: 1px solid hsla(80, 100%, 50%, 1);
+  /*background-color: hsla(80, 100%, 50%, .05);*/
 }
 
 :root {
