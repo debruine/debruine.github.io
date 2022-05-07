@@ -7,6 +7,7 @@ theme: "starter-hugo-academic"
 title: Lisa DeBruine # Website name
 baseurl: 'https://debruine.github.io/' # Website URL
 copyright: '' # Footer text, e.g. '© {year} Me'
+publishDir: docs
 
 ############################
 ## LANGUAGE
