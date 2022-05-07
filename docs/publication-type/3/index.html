@@ -256,6 +256,45 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q0LBRCV4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-16Q0LBRCV4', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
   
 
   
@@ -306,7 +345,7 @@
     <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
   
     
-      <meta property="og:updated_time" content="2021-09-01T00:00:00&#43;00:00" />
+      <meta property="og:updated_time" content="2022-05-07T14:49:41&#43;01:00" />
     
   
 
@@ -687,6 +726,153 @@
   <div class="media-body">
 
     <div class="section-subheading article-title mb-0 mt-0">
+      <a href="/publication/ads/" >Applied Data Skills</a>
+    </div>
+
+    
+    <a href="/publication/ads/"  class="summary-link">
+      <div class="article-style">
+        This book provides an overview of the basic skills needed to turn raw data into informative summaries and visualisations presented in professional reports and presentations.
+      </div>
+    </a>
+    
+
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+      <div>
+        
+
+  <span >
+      <a href="/author/emily-nordmann/">Emily Nordmann</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>
+      </div>
+      
+    </div>
+
+    
+    <div class="btn-links">
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/ads/cite.bib">
+  Cite
+</a>
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="/project/psyteachr/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyteachr.github.io/ads" target="_blank" rel="noopener">
+    <i class="fa fa-book mr-1"></i>Book</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/psyteachr/ads-v1" target="_blank" rel="noopener">
+    <i class="fab fa-github mr-1"></i>Code</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.6365077" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+
+    </div>
+    
+
+  </div>
+  <div class="ml-3">
+    
+    
+    
+    <a href="/publication/ads/" >
+      <img src="/publication/ads/featured_hu77ec12d16f7255255266f3e6f4e0bb73_113913_150x0_resize_lanczos_3.png" alt="Applied Data Skills" loading="lazy">
+    </a>
+    
+  </div>
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+<div class="media stream-item">
+  <div class="media-body">
+
+    <div class="section-subheading article-title mb-0 mt-0">
       <a href="/publication/reprores/" >Data Skills for Reproducible Research</a>
     </div>
 
@@ -730,6 +916,11 @@
 
 
 
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/reprores/cite.bib">
+  Cite
+</a>
+
 
 
 
@@ -743,7 +934,7 @@
 
 
 
-  
+
 
 
 
@@ -784,7 +975,7 @@
   
     
   
-  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.3564555" target="_blank" rel="noopener">
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.6527195" target="_blank" rel="noopener">
     <i class="ai ai-doi mr-1"></i>DOI</a>
 
 
@@ -797,7 +988,7 @@
     
     
     <a href="/publication/reprores/" >
-      <img src="/publication/reprores/featured_hu094893260c24e3a25f191c718546da6c_173258_150x0_resize_lanczos_3.png" alt="Data Skills for Reproducible Research" loading="lazy">
+      <img src="/publication/reprores/featured_hufc076ed48d8737d3768a59390d853ae9_83137_150x0_resize_lanczos_3.png" alt="Data Skills for Reproducible Research" loading="lazy">
     </a>
     
   </div>

@@ -5,12 +5,36 @@
     <link>https://debruine.github.io/publication-type/2/</link>
       <atom:link href="https://debruine.github.io/publication-type/2/index.xml" rel="self" type="application/rss+xml" />
     <description>2</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 03 May 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>2</title>
       <link>https://debruine.github.io/publication-type/2/</link>
     </image>
+    
+    <item>
+      <title>Open-source tutorials benefit the field</title>
+      <link>https://debruine.github.io/publication/tutorials/</link>
+      <pubDate>Tue, 03 May 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/tutorials/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data visualisation using R, for researchers who don&#39;t use R</title>
+      <link>https://debruine.github.io/publication/dataviz/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/dataviz/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Improving Transparency, Falsifiability, and Rigor by Making Hypothesis Tests Machine-Readable</title>
+      <link>https://debruine.github.io/publication/scienceverse/</link>
+      <pubDate>Wed, 28 Apr 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/publication/scienceverse/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Understanding mixed effects models through data simulation</title>
