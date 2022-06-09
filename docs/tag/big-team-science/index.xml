@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Lisa DeBruine</title>
-    <link>https://debruine.github.io/author/lisa-debruine/</link>
-      <atom:link href="https://debruine.github.io/author/lisa-debruine/index.xml" rel="self" type="application/rss+xml" />
-    <description>Lisa DeBruine</description>
+    <title>big team science | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/big-team-science/</link>
+      <atom:link href="https://debruine.github.io/tag/big-team-science/index.xml" rel="self" type="application/rss+xml" />
+    <description>big team science</description>
     <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 23 Sep 2022 09:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
-      <title>Lisa DeBruine</title>
-      <link>https://debruine.github.io/author/lisa-debruine/</link>
+      <title>big team science</title>
+      <link>https://debruine.github.io/tag/big-team-science/</link>
     </image>
     
     <item>
@@ -17,14 +17,6 @@
       <link>https://debruine.github.io/talk/how-to-set-up-a-big-team-science-project/</link>
       <pubDate>Fri, 23 Sep 2022 09:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/talk/how-to-set-up-a-big-team-science-project/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Data Simulation Workshops</title>
-      <link>https://debruine.github.io/talk/data-simulation-workshops/</link>
-      <pubDate>Wed, 27 Apr 2022 09:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/talk/data-simulation-workshops/</guid>
       <description></description>
     </item>
     

@@ -5,12 +5,24 @@
     <link>https://debruine.github.io/project/</link>
       <atom:link href="https://debruine.github.io/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 01 Apr 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 25 May 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Projects</title>
       <link>https://debruine.github.io/project/</link>
     </image>
+    
+    <item>
+      <title>Data Simulation Workshops</title>
+      <link>https://debruine.github.io/project/datasim/</link>
+      <pubDate>Wed, 25 May 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/datasim/</guid>
+      <description>&lt;h2 id=&#34;data-simulation-for-factorial-designs&#34;&gt;Data simulation for factorial designs&lt;/h2&gt;
+&lt;p&gt;This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex} and {tidyverse}.&lt;/p&gt;
+&lt;h2 id=&#34;data-simulation-for-mixed-designs&#34;&gt;Data simulation for mixed designs&lt;/h2&gt;
+&lt;p&gt;This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don’t currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>30 Day Chart Challenge</title>
