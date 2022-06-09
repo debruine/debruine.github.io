@@ -22,7 +22,7 @@ twitter: '@lisadebruine'
 
 email: debruine@gmail.com
 office_hours:
-  - 'Thursday 10:00 to 11:00'
+  - 'Tuesdays 10:00 to 11:00'
 
 # Site header
 
@@ -116,7 +116,7 @@ map:
   api_key: ''
   zoom: 15
 marketing:
-  google_analytics: ''
+  google_analytics: 'G-16Q0LBRCV4'
   google_tag_manager: ''
   google_site_verification: ''
   baidu_site_verification: ''

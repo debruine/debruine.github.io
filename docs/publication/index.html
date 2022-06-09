@@ -73,7 +73,7 @@
   
     
     
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
     
 
     
@@ -256,6 +256,45 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q0LBRCV4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-16Q0LBRCV4', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
   
 
   
@@ -306,7 +345,7 @@
     <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
   
     
-      <meta property="og:updated_time" content="2021-09-01T00:00:00&#43;00:00" />
+      <meta property="og:updated_time" content="2022-05-07T14:49:41&#43;01:00" />
     
   
 
@@ -672,6 +711,18 @@
         
         
       
+        
+        
+      
+        
+        
+      
+        
+        
+      
+        
+        
+      
 
       <div class="form-row mb-4">
         <div class="col-auto">
@@ -687,8 +738,8 @@
               Journal article
             </option>
             
-            <option value=".pubtype-3">
-              Preprint
+            <option value=".pubtype-5">
+              Book
             </option>
             
           </select>
@@ -698,6 +749,10 @@
             <option value="*">Date</option>
             
             
+            
+            <option value=".year-2022">
+              2022
+            </option>
             
             <option value=".year-2021">
               2021
@@ -715,7 +770,372 @@
           
         
 
-        <div class="grid-sizer col-lg-12 isotope-item pubtype-3 year-2021">
+        <div class="grid-sizer col-lg-12 isotope-item pubtype-5 year-2022">
+          
+            
+
+<div class="pub-list-item" style="margin-bottom: 1rem">
+  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+
+  
+  
+
+  <span class="article-metadata li-cite-author">
+    
+
+  <span >
+      <a href="/author/emily-nordmann/">Emily Nordmann</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>
+  </span>
+  (2022).
+  <a href="/publication/ads/">Applied Data Skills</a>.
+  ADS-v1.
+  
+  <p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/ads/cite.bib">
+  Cite
+</a>
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="/project/psyteachr/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyteachr.github.io/ads" target="_blank" rel="noopener">
+    <i class="fa fa-book mr-1"></i>Book</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/psyteachr/ads-v1" target="_blank" rel="noopener">
+    <i class="fab fa-github mr-1"></i>Code</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.6365077" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+</p>
+
+  
+  
+</div>
+
+          
+        </div>
+
+        
+
+        
+          
+        
+
+        <div class="grid-sizer col-lg-12 isotope-item pubtype-2 year-2022">
+          
+            
+
+<div class="pub-list-item" style="margin-bottom: 1rem">
+  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+
+  
+  
+
+  <span class="article-metadata li-cite-author">
+    
+
+  <span >
+      <a href="/author/freda-wan/">Freda Wan</a></span>, <span >
+      <a href="/author/wilhelmiina-toivo/">Wilhelmiina Toivo</a></span>, <span >
+      <a href="/author/helena-m.-paterson/">Helena M. Paterson</a></span>, <span >
+      <a href="/author/emily-nordmann/">Emily Nordmann</a></span>, <span >
+      <a href="/author/phil-mcaleer/">Phil McAleer</a></span>, <span >
+      <a href="/author/kalliopi-mavromati/">Kalliopi Mavromati</a></span>, <span >
+      <a href="/author/rebecca-j.-lai/">Rebecca J. Lai</a></span>, <span >
+      <a href="/author/carolina-e.-kuepper-tetzel/">Carolina E. Kuepper-Tetzel</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>, <span >
+      <a href="/author/james-e.-bartlett/">James E. Bartlett</a></span>, <span >
+      <a href="/author/dale-j.-barr/">Dale J. Barr</a></span>
+  </span>
+  (2022).
+  <a href="/publication/tutorials/">Open-source tutorials benefit the field</a>.
+  NRP.
+  
+  <p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/tutorials/cite.bib">
+  Cite
+</a>
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="/project/psyteachr/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyteachr.github.io/tutorial-commentary/" target="_blank" rel="noopener">
+    <i class="fa fa-list-ol mr-1"></i>Supplemental Materials</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/psyteachr/tutorial-commentary" target="_blank" rel="noopener">
+    <i class="fab fa-github mr-1"></i>Code</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1038/s44159-022-00058-8" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+</p>
+
+  
+  
+</div>
+
+          
+        </div>
+
+        
+
+        
+          
+        
+
+        <div class="grid-sizer col-lg-12 isotope-item pubtype-2 year-2021">
+          
+            
+
+<div class="pub-list-item" style="margin-bottom: 1rem">
+  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+
+  
+  
+
+  <span class="article-metadata li-cite-author">
+    
+
+  <span >
+      <a href="/author/emily-nordmann/">Emily Nordmann</a></span>, <span >
+      <a href="/author/phil-mcaleer/">Phil McAleer</a></span>, <span >
+      <a href="/author/wilhelmiina-toivo/">Wilhelmiina Toivo</a></span>, <span >
+      <a href="/author/helena-paterson/">Helena Paterson</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>
+  </span>
+  (2021).
+  <a href="/publication/dataviz/">Data visualisation using R, for researchers who don&#39;t use R</a>.
+  AMPPS-dataviz.
+  
+  <p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/dataviz/cite.bib">
+  Cite
+</a>
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="/project/psyteachr/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyteachr.github.io/introdataviz" target="_blank" rel="noopener">
+    <i class="fa fa-book mr-1"></i>Book</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/psyteachr/introdataviz" target="_blank" rel="noopener">
+    <i class="fab fa-github mr-1"></i>Code</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyarxiv.com/4huvw" target="_blank" rel="noopener">
+    <i class="fas fa-file mr-1"></i>Preprint</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1177/25152459221074654" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+</p>
+
+  
+  
+</div>
+
+          
+        </div>
+
+        
+
+        
+          
+        
+
+        <div class="grid-sizer col-lg-12 isotope-item pubtype-5 year-2021">
           
             
 
@@ -734,6 +1154,7 @@
   </span>
   (2021).
   <a href="/publication/reprores/">Data Skills for Reproducible Research</a>.
+  reprores-v2.
   
   <p>
 
@@ -750,6 +1171,11 @@
 
 
 
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/reprores/cite.bib">
+  Cite
+</a>
+
 
 
 
@@ -763,7 +1189,7 @@
 
 
 
-  
+
 
 
 
@@ -804,7 +1230,129 @@
   
     
   
-  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.3564555" target="_blank" rel="noopener">
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.6527195" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+</p>
+
+  
+  
+</div>
+
+          
+        </div>
+
+        
+
+        
+          
+        
+
+        <div class="grid-sizer col-lg-12 isotope-item pubtype-2 year-2021">
+          
+            
+
+<div class="pub-list-item" style="margin-bottom: 1rem">
+  <i class="far fa-file-alt pub-icon" aria-hidden="true"></i>
+
+  
+  
+
+  <span class="article-metadata li-cite-author">
+    
+
+  <span >
+      <a href="/author/daniel-lakens/">Daniël Lakens</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>
+  </span>
+  (2021).
+  <a href="/publication/scienceverse/">Improving Transparency, Falsifiability, and Rigor by Making Hypothesis Tests Machine-Readable</a>.
+  scienceverse.
+  
+  <p>
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyarxiv.com/5xcda/" target="_blank" rel="noopener">
+    <i class="fas fa-psyarxiv mr-1"></i>Preprint</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://scienceverse.github.io/scienceverse/" target="_blank" rel="noopener">
+    <i class="fas fa-code mr-1"></i>R Package</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://shiny.ieis.tue.nl/scienceverse/" target="_blank" rel="noopener">
+    <i class="fas fa-laptop-code mr-1"></i>Shiny App</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1177/2515245920970949" target="_blank" rel="noopener">
     <i class="ai ai-doi mr-1"></i>DOI</a>
 
 </p>
@@ -841,7 +1389,7 @@
   </span>
   (2021).
   <a href="/publication/lmem-ampps/">Understanding mixed effects models through data simulation</a>.
-  <em>Advances in Methods and Practices in Psychological Science, 4</em>(1).
+  AMPPS-lmem.
   
   <p>
 
@@ -921,6 +1469,18 @@
   
   <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://shiny.psy.gla.ac.uk/lmem_sim/" target="_blank" rel="noopener">
     <i class="fas fa-laptop-code mr-1"></i>Shiny App</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1177/2515245920965119" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
 
 </p>
 

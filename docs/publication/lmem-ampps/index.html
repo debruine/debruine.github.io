@@ -30,7 +30,7 @@
   
     
   
-  <meta name="description" content="How to simulate data with random-effects structure and analyze the data using linear mixed-effects regression, with a focus on interpreting the output in light of the simulated parameters.." />
+  <meta name="description" content="How to simulate data with random-effects structure and analyze the data using linear mixed-effects regression, with a focus on interpreting the output in light of the simulated parameters." />
 
   
   <link rel="alternate" hreflang="en-us" href="https://debruine.github.io/publication/lmem-ampps/" />
@@ -73,7 +73,7 @@
   
     
     
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
     
 
     
@@ -256,6 +256,45 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q0LBRCV4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-16Q0LBRCV4', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
   
 
   
@@ -300,7 +339,7 @@
   <meta property="og:site_name" content="Lisa DeBruine" />
   <meta property="og:url" content="https://debruine.github.io/publication/lmem-ampps/" />
   <meta property="og:title" content="Understanding mixed effects models through data simulation | Lisa DeBruine" />
-  <meta property="og:description" content="How to simulate data with random-effects structure and analyze the data using linear mixed-effects regression, with a focus on interpreting the output in light of the simulated parameters.." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
+  <meta property="og:description" content="How to simulate data with random-effects structure and analyze the data using linear mixed-effects regression, with a focus on interpreting the output in light of the simulated parameters." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
     <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
   
     
@@ -351,7 +390,7 @@
       "url": "https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_192x192_fill_lanczos_center_3.png"
     }
   },
-  "description": "How to simulate data with random-effects structure and analyze the data using linear mixed-effects regression, with a focus on interpreting the output in light of the simulated parameters.."
+  "description": "How to simulate data with random-effects structure and analyze the data using linear mixed-effects regression, with a focus on interpreting the output in light of the simulated parameters."
 }
 </script>
 
@@ -839,6 +878,18 @@
   <a class="btn btn-outline-primary btn-page-header" href="https://shiny.psy.gla.ac.uk/lmem_sim/" target="_blank" rel="noopener">
     <i class="fas fa-laptop-code mr-1"></i>Shiny App</a>
 
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header" href="https://doi.org/10.1177/2515245920965119" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
 
 </div>
 
@@ -880,7 +931,7 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col-12 col-md-3 pub-row-heading">Publication</div>
-          <div class="col-12 col-md-9"><em>Advances in Methods and Practices in Psychological Science, 4</em>(1)</div>
+          <div class="col-12 col-md-9">DeBruine, L. M., &amp; Barr, D. J. (2021). Understanding Mixed-Effects Models Through Data Simulation. Advances in Methods and Practices in Psychological Science. <a href="https://doi.org/10.1177/2515245920965119">https://doi.org/10.1177/2515245920965119</a></div>
         </div>
       </div>
       <div class="col-md-1"></div>
@@ -1029,7 +1080,7 @@
     <div class="media-body">
       <h5 class="card-title"><a href="https://debruine.github.io/">Lisa DeBruine</a></h5>
       <h6 class="card-subtitle">Professor of Psychology</h6>
-      <p class="card-text">Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility. matter.</p>
+      <p class="card-text">Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility.</p>
       <ul class="network-icon" aria-hidden="true">
   
     

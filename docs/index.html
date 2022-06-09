@@ -73,7 +73,7 @@
   
     
     
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
     
 
     
@@ -286,6 +286,45 @@
 
   
 
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q0LBRCV4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-16Q0LBRCV4', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
 
 
   
@@ -939,7 +978,7 @@
     <h1>Biography</h1>
 
     <div class="article-style">
-      <p>Lisa DeBruine is a professor of psychology at the University of Glasgow School of Psychology and Neuroscience. She is a founding member and current Associate Director of the <a href="https://psysciacc.org/">Psychological Science Accelerator</a>, a member of the <a href="https://www.apa.org/pubs/journals/resources/open-science">APA Open Science and Methodology Committee</a>, a local lead for the <a href="https://www.ukrn.org/">UK Reproducibility Network</a>, a member of the <a href="https://orcid.org/">ORCiD Researcher Advisory Council</a>, and a member of the <a href="https://psyteachr.github.io/">psyTeachR</a> team for reproducible research educational resources. Follow me on <a rel="me" href="https://tech.lgbt/@debruine">Mastodon</a>.</p>
+      <p>Lisa DeBruine is a professor of psychology at the University of Glasgow School of Psychology and Neuroscience. She is a founding member and current Associate Director of the <a href="https://psysciacc.org/">Psychological Science Accelerator</a>, a member of the <a href="https://www.apa.org/pubs/journals/resources/open-science">APA Open Science and Methodology Committee</a>, a local lead for the <a href="https://www.ukrn.org/">UK Reproducibility Network</a>, a member of the <a href="https://orcid.org/">ORCiD Researcher Advisory Council</a>, and a member of the <a href="https://psyteachr.github.io/">psyTeachR</a> team for reproducible research educational resources.</p>
 
     </div>
 
@@ -1067,632 +1106,6 @@
   
 
   
-  <section id="posts" class="home-section wg-pages  "  >
-   <div class="home-section-bg " >
-     
-   </div>
-    <div class="container">
-
-    
-      <div class="row  ">
-      
-        
-          <div class="section-heading col-12 col-lg-4 mb-3 mb-lg-0 d-flex flex-column align-items-center align-items-lg-start">
-            <h1 class="mb-0">Recent Posts</h1>
-            
-          </div>
-        
-      
-    
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-<div class="col-12 col-lg-8">
-
-  
-
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <div class="section-subheading article-title mb-0 mt-0">
-      <a href="/post/data-from-images/" >Data from Images</a>
-    </div>
-
-    
-    <a href="/post/data-from-images/"  class="summary-link">
-      <div class="article-style">
-        I saw this a few days ago and sympathised, because I’ve often wanted to use data that is trapped in images or PDFs. If it’s not too much, I’ll manually transcribe it, but that’s so tedious!
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-          Last updated on
-      
-    
-    2021-10-17
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    8 min read
-  </span>
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <div class="section-subheading article-title mb-0 mt-0">
-      <a href="/post/normality/" >Testing for normality</a>
-    </div>
-
-    
-    <a href="/post/normality/"  class="summary-link">
-      <div class="article-style">
-        You’ve probably been directed here because you asked someone about how to test the normality of predictors in an analysis. However, statistical tests like t-tests, ANOVAs, and other GLM-based tests assume that the residuals will be normally distributed and it doesn’t matter at all if the predictors and even the dependent variable aren’t.
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    2021-02-01
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    8 min read
-  </span>
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <div class="section-subheading article-title mb-0 mt-0">
-      <a href="/post/experimentum-data/" >Experimentum Data Wrangling Demo</a>
-    </div>
-
-    
-    <a href="/post/experimentum-data/"  class="summary-link">
-      <div class="article-style">
-        (updated 2021-01-21)
-Experimentum studies require that you download data from questionnaires and experiments separately, since the data have different formats. You can participate anonymously in the demo study (the median completion time is 3.
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    2021-01-20
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    17 min read
-  </span>
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <div class="section-subheading article-title mb-0 mt-0">
-      <a href="/post/function-tips/" >Function Tips</a>
-    </div>
-
-    
-    <a href="/post/function-tips/"  class="summary-link">
-      <div class="article-style">
-        I see a lot of functions from people new to coding that look like this and I want to point out a few common conceptual mistakes with writing functions.
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    2020-12-17
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    8 min read
-  </span>
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/stats/">stats</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-    
-      
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<div class="media stream-item">
-  <div class="media-body">
-
-    <div class="section-subheading article-title mb-0 mt-0">
-      <a href="/post/mann-whitney/" >Mann-Whitney False Positives</a>
-    </div>
-
-    
-    <a href="/post/mann-whitney/"  class="summary-link">
-      <div class="article-style">
-        One of my favourite colleagues, Phil McAleer, asked about unequal sample sizes for Mann-Whitney tests on our group chat today. I had no idea, so, as always, I thought “This is a job for simulations!
-      </div>
-    </a>
-    
-
-    <div class="stream-meta article-metadata">
-
-      
-
-      
-        
-
-
-<div class="article-metadata">
-
-  
-  
-
-  
-  <span class="article-date">
-    
-    
-      
-    
-    2020-09-03
-  </span>
-  
-
-  
-
-  
-  <span class="middot-divider"></span>
-  <span class="article-reading-time">
-    5 min read
-  </span>
-  
-
-  
-  
-  
-  
-  
-  
-
-  
-  
-  <span class="middot-divider"></span>
-  <span class="article-categories">
-    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
-  
-
-</div>
-
-      
-    </div>
-
-    
-
-  </div>
-  <div class="ml-3">
-    
-    
-  </div>
-</div>
-
-    
-  
-
-  
-  
-  
-
-    
-    
-      
-    
-
-    
-
-    <div class="see-all">
-      <a href="/post/">
-        See all posts
-        <i class="fas fa-angle-right"></i>
-      </a>
-    </div>
-  
-
-</div>
-
-
-    
-      </div>
-    
-
-    </div>
-  </section>
-
-  
-  
-  
-  
-
-  
-
-  
-
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-
-  
-  
-
-  
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-  
-
-  
-
-  
-  
-
-  
-  
-
-  
   <section id="projects" class="home-section wg-portfolio  "  >
    <div class="home-section-bg " >
      
@@ -1700,10 +1113,10 @@ Experimentum studies require that you download data from questionnaires and expe
     <div class="container">
 
     
-      <div class="row  ">
+      <div class="row  justify-content-center">
       
         
-          <div class="section-heading col-12 col-lg-4 mb-3 mb-lg-0 d-flex flex-column align-items-center align-items-lg-start">
+          <div class="section-heading col-12 mb-3 text-center">
             <h1 class="mb-0">Projects</h1>
             
           </div>
@@ -1719,7 +1132,7 @@ Experimentum studies require that you download data from questionnaires and expe
 
 
 
-<div class="col-12 col-lg-8">
+<div class="col-12 ">
 
   
 
@@ -1731,10 +1144,8 @@ Experimentum studies require that you download data from questionnaires and expe
     
     
     
-      
-    
 
-    <span class="d-none default-project-filter">*</span>
+    <span class="d-none default-project-filter">.js-id-simulation</span>
 
     
     
@@ -1746,14 +1157,29 @@ Experimentum studies require that you download data from questionnaires and expe
               
               
               
-                
+              <a href="#" data-filter=".js-id-simulation" class="btn btn-primary btn-lg active">simulation</a>
+            
               
-              <a href="#" data-filter="*" class="btn btn-primary btn-lg active">All</a>
+              
+              
+              <a href="#" data-filter=".js-id-dataviz" class="btn btn-primary btn-lg">dataviz</a>
+            
+              
+              
+              
+              <a href="#" data-filter=".js-id-shiny" class="btn btn-primary btn-lg">shiny</a>
             
               
               
               
               <a href="#" data-filter=".js-id-R" class="btn btn-primary btn-lg">R</a>
+            
+              
+              
+              
+                
+              
+              <a href="#" data-filter="*" class="btn btn-primary btn-lg">All</a>
             
           </div>
         </div>
@@ -2912,6 +2338,304 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
   
 
   
+  <section id="posts" class="home-section wg-pages  "  >
+   <div class="home-section-bg " >
+     
+   </div>
+    <div class="container">
+
+    
+      <div class="row  ">
+      
+        
+          <div class="section-heading col-12 col-lg-4 mb-3 mb-lg-0 d-flex flex-column align-items-center align-items-lg-start">
+            <h1 class="mb-0">Recent Posts</h1>
+            
+          </div>
+        
+      
+    
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+<div class="col-12 col-lg-8">
+
+  
+
+  
+    
+      
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<div class="view-list-item">
+  <i class="far fa-newspaper pub-icon" aria-hidden="true"></i>
+  <a href="/post/data-from-images/" >Data from Images</a>
+
+  
+
+  
+
+  
+
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<div class="view-list-item">
+  <i class="far fa-newspaper pub-icon" aria-hidden="true"></i>
+  <a href="/post/normality/" >Testing for normality</a>
+
+  
+
+  
+
+  
+
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<div class="view-list-item">
+  <i class="far fa-newspaper pub-icon" aria-hidden="true"></i>
+  <a href="/post/experimentum-data/" >Experimentum Data Wrangling Demo</a>
+
+  
+
+  
+
+  
+
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<div class="view-list-item">
+  <i class="far fa-newspaper pub-icon" aria-hidden="true"></i>
+  <a href="/post/function-tips/" >Function Tips</a>
+
+  
+
+  
+
+  
+
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+<div class="view-list-item">
+  <i class="far fa-newspaper pub-icon" aria-hidden="true"></i>
+  <a href="/post/mann-whitney/" >Mann-Whitney False Positives</a>
+
+  
+
+  
+
+  
+
+</div>
+
+    
+  
+
+  
+  
+  
+
+    
+    
+      
+    
+
+    
+
+    <div class="see-all">
+      <a href="/post/">
+        See all posts
+        <i class="fas fa-angle-right"></i>
+      </a>
+    </div>
+  
+
+</div>
+
+
+    
+      </div>
+    
+
+    </div>
+  </section>
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
   <section id="talks" class="home-section wg-pages  "  >
    <div class="home-section-bg " >
      
@@ -3626,6 +3350,304 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
   <div class="media-body">
 
     <div class="section-subheading article-title mb-0 mt-0">
+      <a href="/publication/ads/" >Applied Data Skills</a>
+    </div>
+
+    
+    <a href="/publication/ads/"  class="summary-link">
+      <div class="article-style">
+        This book provides an overview of the basic skills needed to turn raw data into informative summaries and visualisations presented in professional reports and presentations.
+      </div>
+    </a>
+    
+
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+      <div>
+        
+
+  <span >
+      <a href="/author/emily-nordmann/">Emily Nordmann</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>
+      </div>
+      
+    </div>
+
+    
+    <div class="btn-links">
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/ads/cite.bib">
+  Cite
+</a>
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="/project/psyteachr/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyteachr.github.io/ads" target="_blank" rel="noopener">
+    <i class="fa fa-book mr-1"></i>Book</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/psyteachr/ads-v1" target="_blank" rel="noopener">
+    <i class="fab fa-github mr-1"></i>Code</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.6365077" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+
+    </div>
+    
+
+  </div>
+  <div class="ml-3">
+    
+    
+    
+    <a href="/publication/ads/" >
+      <img src="/publication/ads/featured_hu77ec12d16f7255255266f3e6f4e0bb73_113913_150x0_resize_lanczos_3.png" alt="Applied Data Skills" loading="lazy">
+    </a>
+    
+  </div>
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+<div class="media stream-item">
+  <div class="media-body">
+
+    <div class="section-subheading article-title mb-0 mt-0">
+      <a href="/publication/tutorials/" >Open-source tutorials benefit the field</a>
+    </div>
+
+    
+    <a href="/publication/tutorials/"  class="summary-link">
+      <div class="article-style">
+        Open research is increasingly required by journals and funders but involves many new skills. Creating open-source tutorials is useful to the field and personally rewarding, but these efforts must be credited accordingly.
+      </div>
+    </a>
+    
+
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+      <div>
+        
+
+  <span >
+      <a href="/author/freda-wan/">Freda Wan</a></span>, <span >
+      <a href="/author/wilhelmiina-toivo/">Wilhelmiina Toivo</a></span>, <span >
+      <a href="/author/helena-m.-paterson/">Helena M. Paterson</a></span>, <span >
+      <a href="/author/emily-nordmann/">Emily Nordmann</a></span>, <span >
+      <a href="/author/phil-mcaleer/">Phil McAleer</a></span>, <span >
+      <a href="/author/kalliopi-mavromati/">Kalliopi Mavromati</a></span>, <span >
+      <a href="/author/rebecca-j.-lai/">Rebecca J. Lai</a></span>, <span >
+      <a href="/author/carolina-e.-kuepper-tetzel/">Carolina E. Kuepper-Tetzel</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>, <span >
+      <a href="/author/james-e.-bartlett/">James E. Bartlett</a></span>, <span >
+      <a href="/author/dale-j.-barr/">Dale J. Barr</a></span>
+      </div>
+      
+    </div>
+
+    
+    <div class="btn-links">
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/tutorials/cite.bib">
+  Cite
+</a>
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="/project/psyteachr/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyteachr.github.io/tutorial-commentary/" target="_blank" rel="noopener">
+    <i class="fa fa-list-ol mr-1"></i>Supplemental Materials</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/psyteachr/tutorial-commentary" target="_blank" rel="noopener">
+    <i class="fab fa-github mr-1"></i>Code</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1038/s44159-022-00058-8" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+
+    </div>
+    
+
+  </div>
+  <div class="ml-3">
+    
+    
+  </div>
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+<div class="media stream-item">
+  <div class="media-body">
+
+    <div class="section-subheading article-title mb-0 mt-0">
       <a href="/publication/reprores/" >Data Skills for Reproducible Research</a>
     </div>
 
@@ -3669,6 +3691,11 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
 
 
 
+<a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
+        data-filename="/publication/reprores/cite.bib">
+  Cite
+</a>
+
 
 
 
@@ -3682,7 +3709,7 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
 
 
 
-  
+
 
 
 
@@ -3723,7 +3750,7 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
   
     
   
-  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.3564555" target="_blank" rel="noopener">
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.5281/zenodo.6527195" target="_blank" rel="noopener">
     <i class="ai ai-doi mr-1"></i>DOI</a>
 
 
@@ -3736,7 +3763,7 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
     
     
     <a href="/publication/reprores/" >
-      <img src="/publication/reprores/featured_hu094893260c24e3a25f191c718546da6c_173258_150x0_resize_lanczos_3.png" alt="Data Skills for Reproducible Research" loading="lazy">
+      <img src="/publication/reprores/featured_hufc076ed48d8737d3768a59390d853ae9_83137_150x0_resize_lanczos_3.png" alt="Data Skills for Reproducible Research" loading="lazy">
     </a>
     
   </div>
@@ -3768,13 +3795,13 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
   <div class="media-body">
 
     <div class="section-subheading article-title mb-0 mt-0">
-      <a href="/publication/lmem-ampps/" >Understanding mixed effects models through data simulation</a>
+      <a href="/publication/dataviz/" >Data visualisation using R, for researchers who don&#39;t use R</a>
     </div>
 
     
-    <a href="/publication/lmem-ampps/"  class="summary-link">
+    <a href="/publication/dataviz/"  class="summary-link">
       <div class="article-style">
-        How to simulate data with random-effects structure and analyze the data using linear mixed-effects regression, with a focus on interpreting the output in light of the simulated parameters..
+        In this tutorial, we provide a practical introduction to data visualization using R specifically aimed at researchers who have little to no prior experience of using R.
       </div>
     </a>
     
@@ -3787,9 +3814,12 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
       <div>
         
 
-  <span class="author-highlighted">
-      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>, <span >
-      <a href="/author/dale-j-barr/">Dale J Barr</a></span>
+  <span >
+      <a href="/author/emily-nordmann/">Emily Nordmann</a></span>, <span >
+      <a href="/author/phil-mcaleer/">Phil McAleer</a></span>, <span >
+      <a href="/author/wilhelmiina-toivo/">Wilhelmiina Toivo</a></span>, <span >
+      <a href="/author/helena-paterson/">Helena Paterson</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>
       </div>
       
     </div>
@@ -3812,7 +3842,7 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
 
 
 <a href="#" class="btn btn-outline-primary btn-page-header btn-sm js-cite-modal"
-        data-filename="/publication/lmem-ampps/cite.bib">
+        data-filename="/publication/dataviz/cite.bib">
   Cite
 </a>
 
@@ -3820,6 +3850,11 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
 
 
 
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="/project/psyteachr/">
+    Project
+  </a>
+  
 
 
 
@@ -3828,10 +3863,19 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
 
 
 
-<a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1177/2515245920965119" target="_blank" rel="noopener">
-  DOI
-</a>
 
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyteachr.github.io/introdataviz" target="_blank" rel="noopener">
+    <i class="fa fa-book mr-1"></i>Book</a>
 
   
   
@@ -3844,36 +3888,34 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
   
     
   
-  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyarxiv.com/xp5cy" target="_blank" rel="noopener">
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://github.com/psyteachr/introdataviz" target="_blank" rel="noopener">
+    <i class="fab fa-github mr-1"></i>Code</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyarxiv.com/4huvw" target="_blank" rel="noopener">
     <i class="fas fa-file mr-1"></i>Preprint</a>
 
   
   
   
-    
-  
-  
-  
-  
-  
-    
-  
-  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://debruine.github.io/lmem_sim/articles/" target="_blank" rel="noopener">
-    <i class="fas fa-code mr-1"></i>Code</a>
-
-  
-  
-  
-    
-  
   
   
   
   
     
   
-  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://shiny.psy.gla.ac.uk/lmem_sim/" target="_blank" rel="noopener">
-    <i class="fas fa-laptop-code mr-1"></i>Shiny App</a>
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1177/25152459221074654" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
 
 
     </div>
@@ -3883,6 +3925,167 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
   <div class="ml-3">
     
     
+    
+    <a href="/publication/dataviz/" >
+      <img src="/publication/dataviz/featured_hu33f7167cf37ad43aa7bb98d06a730996_149288_150x0_resize_lanczos_3.png" alt="Data visualisation using R, for researchers who don&#39;t use R" loading="lazy">
+    </a>
+    
+  </div>
+</div>
+
+    
+  
+    
+      
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  
+
+
+<div class="media stream-item">
+  <div class="media-body">
+
+    <div class="section-subheading article-title mb-0 mt-0">
+      <a href="/publication/scienceverse/" >Improving Transparency, Falsifiability, and Rigor by Making Hypothesis Tests Machine-Readable</a>
+    </div>
+
+    
+    <a href="/publication/scienceverse/"  class="summary-link">
+      <div class="article-style">
+        We examine what a machine-readable hypothesis test should look like and demonstrate the feasibility of machine-readable hypothesis tests in a real-life example using the fully operational prototype R package scienceverse.
+      </div>
+    </a>
+    
+
+    <div class="stream-meta article-metadata">
+
+      
+
+      
+      <div>
+        
+
+  <span >
+      <a href="/author/daniel-lakens/">Daniël Lakens</a></span>, <span class="author-highlighted">
+      <a href="/author/lisa-debruine/">Lisa DeBruine</a></span>
+      </div>
+      
+    </div>
+
+    
+    <div class="btn-links">
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+    
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://psyarxiv.com/5xcda/" target="_blank" rel="noopener">
+    <i class="fas fa-psyarxiv mr-1"></i>Preprint</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://scienceverse.github.io/scienceverse/" target="_blank" rel="noopener">
+    <i class="fas fa-code mr-1"></i>R Package</a>
+
+  
+  
+  
+    
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://shiny.ieis.tue.nl/scienceverse/" target="_blank" rel="noopener">
+    <i class="fas fa-laptop-code mr-1"></i>Shiny App</a>
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  <a class="btn btn-outline-primary btn-page-header btn-sm" href="https://doi.org/10.1177/2515245920970949" target="_blank" rel="noopener">
+    <i class="ai ai-doi mr-1"></i>DOI</a>
+
+
+    </div>
+    
+
+  </div>
+  <div class="ml-3">
+    
+    
+    
+    <a href="/publication/scienceverse/" >
+      <img src="/publication/scienceverse/featured_hu5d707dec8d27587b03820a74fbe29112_27629_150x0_resize_lanczos_3.png" alt="Improving Transparency, Falsifiability, and Rigor by Making Hypothesis Tests Machine-Readable" loading="lazy">
+    </a>
+    
   </div>
 </div>
 
@@ -3891,6 +4094,21 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
 
   
   
+  
+
+    
+    
+      
+    
+
+    
+
+    <div class="see-all">
+      <a href="/publication/">
+        See all publications
+        <i class="fas fa-angle-right"></i>
+      </a>
+    </div>
   
 
 </div>
@@ -4011,7 +4229,7 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
         
         
         
-        <a href="/tag/alpha/" style="font-size:0.9514543247024521rem">alpha</a>
+        <a href="/tag/alpha/" style="font-size:0.9477168361548054rem">alpha</a>
       
         
         
@@ -4026,82 +4244,82 @@ We&rsquo;ll be starting from the very basics to use the shiny R package to creat
         
         
         
-        <a href="/tag/categorical/" style="font-size:0.7rem">categorical</a>
+        <a href="/tag/cronbach/" style="font-size:0.9477168361548054rem">cronbach</a>
       
         
         
         
-        <a href="/tag/coding/" style="font-size:0.7rem">coding</a>
+        <a href="/tag/data/" style="font-size:0.9477168361548054rem">data</a>
       
         
         
         
-        <a href="/tag/cronbach/" style="font-size:0.9514543247024521rem">cronbach</a>
+        <a href="/tag/data-skills/" style="font-size:0.9477168361548054rem">data skills</a>
       
         
         
         
-        <a href="/tag/data/" style="font-size:0.9514543247024521rem">data</a>
+        <a href="/tag/dataviz/" style="font-size:1.0926218961026533rem">dataviz</a>
       
         
         
         
-        <a href="/tag/dataviz/" style="font-size:0.9514543247024521rem">dataviz</a>
+        <a href="/tag/faux/" style="font-size:1.1954336723096108rem">faux</a>
       
         
         
         
-        <a href="/tag/faux/" style="font-size:1.202908649404904rem">faux</a>
+        <a href="/tag/lme4/" style="font-size:0.9477168361548054rem">lme4</a>
       
         
         
         
-        <a href="/tag/lme4/" style="font-size:0.9514543247024521rem">lme4</a>
+        <a href="/tag/lmer/" style="font-size:1.1954336723096108rem">lmer</a>
       
         
         
         
-        <a href="/tag/lmer/" style="font-size:1.202908649404904rem">lmer</a>
+        <a href="/tag/mixed-effects/" style="font-size:1.0926218961026533rem">mixed effects</a>
       
         
         
         
-        <a href="/tag/mixed-effects/" style="font-size:1.098545675297548rem">mixed effects</a>
+        <a href="/tag/pedagogy/" style="font-size:0.9477168361548054rem">pedagogy</a>
       
         
         
         
-        <a href="/tag/pedagogy/" style="font-size:0.9514543247024521rem">pedagogy</a>
+        <a href="/tag/power/" style="font-size:0.9477168361548054rem">power</a>
       
         
         
         
-        <a href="/tag/power/" style="font-size:0.9514543247024521rem">power</a>
+        <a href="/tag/psyteachr/" style="font-size:1.1954336723096108rem">psyTeachR</a>
       
         
         
         
-        <a href="/tag/r/" style="font-size:1.9897803972336523rem">R</a>
+        <a href="/tag/r/" style="font-size:1.9904693058296061rem">R</a>
       
         
         
         
-        <a href="/tag/simulation/" style="font-size:1.7058172988098081rem">simulation</a>
+        <a href="/tag/simulation/" style="font-size:1.6908673446192215rem">simulation</a>
       
         
         
         
-        <a href="/tag/teaching/" style="font-size:1.098545675297548rem">teaching</a>
+        <a href="/tag/teaching/" style="font-size:1.3403387322574587rem">teaching</a>
       
         
         
         
-        <a href="/tag/team-science/" style="font-size:0.9514543247024521rem">team science</a>
+        <a href="/tag/team-science/" style="font-size:0.9477168361548054rem">team science</a>
       
         
         
         
-        <a href="/tag/tidyverse/" style="font-size:1.2838588611075528rem">tidyverse</a>
+        <a href="/tag/tidyverse/" style="font-size:1.2751806814444522rem">tidyverse</a>
       
     </div>
   
