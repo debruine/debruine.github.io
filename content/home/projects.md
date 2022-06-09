@@ -20,6 +20,8 @@ content:
   filter_default: 0
 
   filter_button:
+  - name: All
+    tag: '*'
   - name: simulation
     tag: simulation
   - name: dataviz
@@ -28,8 +30,6 @@ content:
     tag: shiny
   - name: R
     tag: R
-  - name: All
-    tag: '*'
 
 design:
   # Choose how many columns the section has. Valid values: '1' or '2'.
