@@ -2720,6 +2720,19 @@ names(all_data)&lt;/code&gt;&lt;/pre&gt;
     </item>
     
     <item>
+      <title>WebMorph</title>
+      <link>https://debruine.github.io/project/webmorph/</link>
+      <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/webmorph/</guid>
+      <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+webmorphR is now on CRAN!
+&lt;/p&gt;
+&lt;p&gt;This development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Mann-Whitney False Positives</title>
       <link>https://debruine.github.io/post/mann-whitney/</link>
       <pubDate>Thu, 03 Sep 2020 00:00:00 +0000</pubDate>
@@ -6357,19 +6370,6 @@ df.s&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/psyteachr/</guid>
       <description>&lt;p&gt;The psyTeachR team at the University of Glasgow School of Psychology and Institute of Neuroscience and Psychology has successfully made the transition to teaching reproducible research using R across all undergraduate and postgraduate levels. Our curriculum now emphasizes essential ‘data science’ graduate skills that have been overlooked in traditional approaches to teaching, including programming skills, data visualisation, data wrangling and reproducible reports. Students learn about probability and inference through data simulation as well as by working with real datasets.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>WebMorph</title>
-      <link>https://debruine.github.io/project/webmorph/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/webmorph/</guid>
-      <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
-&lt;p class=&#34;info&#34;&gt;
-webmorphR is now on CRAN!
-&lt;/p&gt;
-&lt;p&gt;This development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
 </description>
     </item>
     

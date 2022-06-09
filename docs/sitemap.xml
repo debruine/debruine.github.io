@@ -116,13 +116,16 @@
     <loc>https://debruine.github.io/tag/dataviz/</loc>
     <lastmod>2022-04-01T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/project/manyfaces/</loc>
+    <lastmod>2022-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/team-science/</loc>
+    <lastmod>2022-01-05T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</loc>
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/psa/</loc>
-    <lastmod>2021-10-19T16:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/team-science/</loc>
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/categories/</loc>
@@ -229,6 +232,18 @@
   </url><url>
     <loc>https://debruine.github.io/tag/tidyverse/</loc>
     <lastmod>2021-01-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/faces/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/kinship/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/reproducibility/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/project/webmorph/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/function-tips/</loc>
     <lastmod>2020-12-17T00:00:00+00:00</lastmod>
@@ -457,10 +472,6 @@
   </url><url>
     <loc>https://debruine.github.io/project/experimentum/</loc>
   </url><url>
-    <loc>https://debruine.github.io/tag/faces/</loc>
-  </url><url>
-    <loc>https://debruine.github.io/tag/kinship/</loc>
-  </url><url>
     <loc>https://debruine.github.io/tag/open-research/</loc>
   </url><url>
     <loc>https://debruine.github.io/tag/open-science/</loc>
@@ -471,10 +482,6 @@
   </url><url>
     <loc>https://debruine.github.io/project/psyteachr/</loc>
   </url><url>
-    <loc>https://debruine.github.io/tag/reproducibility/</loc>
-  </url><url>
     <loc>https://debruine.github.io/tag/shiny/</loc>
-  </url><url>
-    <loc>https://debruine.github.io/project/webmorph/</loc>
   </url>
 </urlset>

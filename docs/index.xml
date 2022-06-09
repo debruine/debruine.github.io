@@ -161,6 +161,16 @@ The variance of the distribution is $\sigma^{2}$.
     </item>
     
     <item>
+      <title>ManyFaces</title>
+      <link>https://debruine.github.io/project/manyfaces/</link>
+      <pubDate>Wed, 05 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/manyfaces/</guid>
+      <description>&lt;p&gt;ManyFaces is a new big team science group of face researchers working on collaborative projects. The first two working groups are focussing on building a database of face stimuli and developing protocols for face image capture to facilitate collaborative image sets. There are also topic groups that discuss things like ethics in face research and mixed model methodology.&lt;/p&gt;
+&lt;p&gt;See the &lt;a href=&#34;https://docs.google.com/document/d/1X6b3am7zwDYXT2-TUR-a85-xG-cdrE8_vz9GICbwAl0/edit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;brainstorming doc&lt;/a&gt; for more info and how to join the Slack.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Everything is cool when you&#39;re part of a team</title>
       <link>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</link>
       <pubDate>Tue, 19 Oct 2021 16:00:00 +0000</pubDate>
@@ -2851,6 +2861,19 @@ names(all_data)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Now go explore your data!&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/demodata_files/figure-html/unnamed-chunk-27-1.png&#34; width=&#34;100%&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>WebMorph</title>
+      <link>https://debruine.github.io/project/webmorph/</link>
+      <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/webmorph/</guid>
+      <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+webmorphR is now on CRAN!
+&lt;/p&gt;
+&lt;p&gt;This development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
 </description>
     </item>
     
@@ -7427,19 +7450,6 @@ df.s&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/psyteachr/</guid>
       <description>&lt;p&gt;The psyTeachR team at the University of Glasgow School of Psychology and Institute of Neuroscience and Psychology has successfully made the transition to teaching reproducible research using R across all undergraduate and postgraduate levels. Our curriculum now emphasizes essential ‘data science’ graduate skills that have been overlooked in traditional approaches to teaching, including programming skills, data visualisation, data wrangling and reproducible reports. Students learn about probability and inference through data simulation as well as by working with real datasets.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>WebMorph</title>
-      <link>https://debruine.github.io/project/webmorph/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/webmorph/</guid>
-      <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
-&lt;p class=&#34;info&#34;&gt;
-webmorphR is now on CRAN!
-&lt;/p&gt;
-&lt;p&gt;This development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
 </description>
     </item>
     
