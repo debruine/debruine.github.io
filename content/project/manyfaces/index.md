@@ -6,7 +6,7 @@ image:
   focal_point: Smart
 links:
 - icon: twitter
-  icon_pack: fa
+  icon_pack: fab
   name: Twitter
   url: https://twitter.com/ManyFacesTeam
 summary: A consortium of face researchers.
