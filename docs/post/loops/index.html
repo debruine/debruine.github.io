@@ -30,7 +30,8 @@
   
     
   
-  <meta name="description" content="library(tidyverse) library(tictoc) library(foreach) library(doParallel) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ." />
+  <meta name="description" content="library(tidyverse) library(tictoc) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.
+Task specifics Let’s say you want to do a power analysis by simulation." />
 
   
   <link rel="alternate" hreflang="en-us" href="https://debruine.github.io/post/loops/" />
@@ -339,7 +340,8 @@
   <meta property="og:site_name" content="Lisa DeBruine" />
   <meta property="og:url" content="https://debruine.github.io/post/loops/" />
   <meta property="og:title" content="Loops | Lisa DeBruine" />
-  <meta property="og:description" content="library(tidyverse) library(tictoc) library(foreach) library(doParallel) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
+  <meta property="og:description" content="library(tidyverse) library(tictoc) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.
+Task specifics Let’s say you want to do a power analysis by simulation." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
     <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
   
     
@@ -392,7 +394,7 @@
       "url": "https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_192x192_fill_lanczos_center_3.png"
     }
   },
-  "description": "library(tidyverse) library(tictoc) library(foreach) library(doParallel) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ."
+  "description": "library(tidyverse) library(tictoc) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.\nTask specifics Let’s say you want to do a power analysis by simulation."
 }
 </script>
 
@@ -801,9 +803,7 @@
 
 
 <pre class="r"><code>library(tidyverse)
-library(tictoc)
-library(foreach)
-library(doParallel)</code></pre>
+library(tictoc)</code></pre>
 <p>This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.</p>
 <div id="task-specifics" class="section level2">
 <h2>Task specifics</h2>
@@ -836,7 +836,7 @@ test &lt;- t.test(data1, data2)
 
 # get the relevant p-value
 test$p.value</code></pre>
-<pre><code>## [1] 0.1723799</code></pre>
+<pre><code>## [1] 0.004554475</code></pre>
 </div>
 <div id="for-loop" class="section level2">
 <h2>For loop</h2>
@@ -855,10 +855,10 @@ for (i in 1:n_reps) {
 }
 
 # calculcate power as % &lt; alpha
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6308</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## for loop: 1.786 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## for loop: 1.574 sec elapsed</code></pre>
 <p>If you pre-allocate the vector <code>p</code>, this can speed up your loops. This means defining an empty vector with a length of <code>n_reps</code> before you start the loop. This saves the time it takes to delete the vector and make a new, larger one on each iteration. It doesn’t really make much difference for our simple code here.</p>
 <pre class="r"><code>tic(&quot;pre-allocate&quot;)
 
@@ -874,10 +874,10 @@ for (i in 1:n_reps) {
   p[i] &lt;- test$p.value
 }
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6231</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## pre-allocate: 1.937 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## pre-allocate: 1.519 sec elapsed</code></pre>
 </div>
 <div id="replicate" class="section level2">
 <h2>replicate</h2>
@@ -893,10 +893,10 @@ p &lt;- replicate(n_reps, {
   test$p.value
 })
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6219</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## replicate: 1.92 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## replicate: 1.599 sec elapsed</code></pre>
 <p>You can enclose the relevant code in a named function and replicate that. This can be useful if you need to run different values.</p>
 <pre class="r"><code>tic(&quot;replicate-function&quot;)
 
@@ -913,10 +913,10 @@ sim_func &lt;- function(n1, m1, sd1, n2, m2, sd2) {
 # repeat the sim function with different sd1 and m2 values
 p &lt;- replicate(n_reps, sim_func(50, 100, 9.5, 45, 102, 11))
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.1585</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## replicate-function: 1.573 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## replicate-function: 1.564 sec elapsed</code></pre>
 </div>
 <div id="apply" class="section level2">
 <h2>apply</h2>
@@ -931,10 +931,10 @@ p &lt;- sapply(1:n_reps, function(i) {
   test$p.value
 })
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6267</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## apply: 1.5 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply: 1.593 sec elapsed</code></pre>
 <p>If you want to use the apply functions with a function that takes arguments, either the first argument should be <code>i</code> for the replication index, or you can repeat the first argument <code>n_reps</code> times.</p>
 <pre class="r"><code>tic(&quot;apply-function&quot;)
 
@@ -953,10 +953,10 @@ p &lt;- sapply(1:n_reps, sim_func,
             n1 = 50, m1 = 100, sd1 = 9.5, 
             n2 = 45, m2 = 102, sd2 = 11)
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.1509</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## apply-function: 1.59 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply-function: 1.604 sec elapsed</code></pre>
 <p>You can also split up the data simulation and analysis steps into two different apply functions. In the first one, you iterate over the vector <code>1:n_reps</code> and in the second, you iterate over each item in the <code>data</code> list.</p>
 <pre class="r"><code>tic(&quot;apply2&quot;)
 
@@ -975,10 +975,10 @@ p &lt;- sapply(data, function(d) {
   test$p.value
 })
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6293</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## apply2: 1.902 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply2: 1.943 sec elapsed</code></pre>
 <p>If you use <code>sapply()</code> for the data simulation, it will simplify the result into a matrix. Then you need to use <code>apply()</code> to iterate over the columns of the matrix.</p>
 <pre class="r"><code>tic(&quot;apply3&quot;)
 
@@ -997,10 +997,10 @@ p &lt;- apply(data, MARGIN = 2, function(d) {
   test$p.value
 })
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6275</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## apply3: 1.876 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply3: 1.824 sec elapsed</code></pre>
 <p>The <code>mapply()</code> function takes any number of arguments (the function goes first). You can use this to iterate over different values of the arguments, but this can get a little tricky to keep track of, so I like to organise each iteration in a row of a data frame first.</p>
 <pre class="r"><code>tic(&quot;mapply&quot;)
 
@@ -1029,7 +1029,7 @@ p &lt;- mapply(sim_func,
             n2 = params$n2, m2 = params$m2, sd2 = params$sd2)
 
 toc()</code></pre>
-<pre><code>## mapply: 3.197 sec elapsed</code></pre>
+<pre><code>## mapply: 3.194 sec elapsed</code></pre>
 <pre class="r"><code># add p to the params table and 
 # calculate power for each param combo
 power &lt;- params |&gt;
@@ -1061,10 +1061,10 @@ p &lt;- map_dbl(1:n_reps, function(i) {
   test$p.value
 })
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6266</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## map: 1.558 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## map: 1.698 sec elapsed</code></pre>
 <p>You can also split up the data simulation and analysis like above. The <code>map()</code> function returns a list.</p>
 <pre class="r"><code>tic(&quot;map-split&quot;)
 
@@ -1083,10 +1083,10 @@ p &lt;- map_dbl(data, function(d) {
   test$p.value
 })
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6309</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## map-split: 1.895 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## map-split: 1.892 sec elapsed</code></pre>
 <p>The <code>pmap()</code> function is really useful if you want to run a simulation across a lot of different parameters. Use <code>tidyr::crossing()</code> to make a data frame with one row for each replicate. Add <code>...</code> to the arguments in the function inside <code>pmap()</code> so it can ignore any unused columns in the <code>params</code> table (e.g., <code>rep</code>).</p>
 <pre class="r"><code>tic(&quot;pmap&quot;)
 
@@ -1116,10 +1116,10 @@ p &lt;- map_dbl(data, function(d) {
   test$p.value
 })
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6317</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## pmap: 1.946 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## pmap: 1.964 sec elapsed</code></pre>
 <p>In this way, we could explore a range of values, such as how the results change as m2 varies from 100 to 110.</p>
 <pre class="r"><code># make a data frame with 1 row for each replicate
 params &lt;- tidyr::crossing(
@@ -1162,7 +1162,14 @@ ggplot(power, aes(x = m2 - m1, y = power)) +
 <div id="foreach" class="section level2">
 <h2>foreach</h2>
 <p>If you have a ton of iterations or each is slow, you might want to run the iterations in parallel. These functions use the {foreach} package.</p>
-<p>First, set up the basic loop using teh <code>foreach()</code> funciton and <code>%do%</code> syntax.</p>
+<p>First, set up the basic loop using the <code>foreach()</code> function and <code>%do%</code> syntax. We’ll up the number of replications to 1e5.</p>
+<pre class="r"><code>library(foreach)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;foreach&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
+## 
+##     accumulate, when</code></pre>
+<pre class="r"><code>n_reps &lt;- 1e5</code></pre>
 <pre class="r"><code>tic(&quot;foreach&quot;)
 
 sim_func &lt;- function(i) {
@@ -1176,13 +1183,16 @@ sim_func &lt;- function(i) {
 
 p &lt;- foreach(i= 1:n_reps) %do% sim_func(i)
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6291</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## foreach: 4.434 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## foreach: 45.026 sec elapsed</code></pre>
 <p>Than change <code>%do%</code> to <code>%dopar%</code> to take advantage of parallelisation if your computer has the capacity.</p>
 <pre class="r"><code># set up parallelisation
-registerDoParallel()
+library(doParallel)</code></pre>
+<pre><code>## Loading required package: iterators</code></pre>
+<pre><code>## Loading required package: parallel</code></pre>
+<pre class="r"><code>registerDoParallel()
 getDoParWorkers() # find out how many workers</code></pre>
 <pre><code>## [1] 4</code></pre>
 <pre class="r"><code>tic(&quot;foreach-parallel&quot;)
@@ -1198,10 +1208,10 @@ sim_func &lt;- function(i) {
 
 p &lt;- foreach(i= 1:n_reps) %dopar% sim_func(i)
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6252</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## foreach-parallel: 2.473 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## foreach-parallel: 23.962 sec elapsed</code></pre>
 <p>Alternatively, you can use <code>times()</code> like <code>replicate()</code>.</p>
 <pre class="r"><code>tic(&quot;times-parallel&quot;)
 
@@ -1216,10 +1226,10 @@ sim_func &lt;- function() {
 
 p &lt;- times(n_reps) %dopar% sim_func()
 
-power &lt;- mean(p &lt; alpha) |&gt; print()</code></pre>
-<pre><code>## [1] 0.6265</code></pre>
-<pre class="r"><code>toc()</code></pre>
-<pre><code>## times-parallel: 2.924 sec elapsed</code></pre>
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## times-parallel: 18.012 sec elapsed</code></pre>
 </div>
 
     </div>

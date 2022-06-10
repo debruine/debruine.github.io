@@ -32,6 +32,30 @@
     <loc>https://debruine.github.io/tags/</loc>
     <lastmod>2022-09-23T09:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/tag/apply/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/categories/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/post/loops/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/map/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/post/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/r/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/category/rstats/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/simulation/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/project/datasim/</loc>
     <lastmod>2022-05-25T00:00:00+00:00</lastmod>
   </url><url>
@@ -39,12 +63,6 @@
     <lastmod>2022-05-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/project/</loc>
-    <lastmod>2022-05-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/r/</loc>
-    <lastmod>2022-05-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/simulation/</loc>
     <lastmod>2022-05-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/publication-type/5/</loc>
@@ -128,19 +146,10 @@
     <loc>https://debruine.github.io/tag/psa/</loc>
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/categories/</loc>
-    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/tag/data/</loc>
     <lastmod>2021-10-17T11:22:13+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/data-from-images/</loc>
-    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/post/</loc>
-    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/category/rstats/</loc>
     <lastmod>2021-10-17T11:22:13+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/wrangling/</loc>

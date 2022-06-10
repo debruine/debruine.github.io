@@ -21,9 +21,7 @@
 
 
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
-library(tictoc)
-library(foreach)
-library(doParallel)&lt;/code&gt;&lt;/pre&gt;
+library(tictoc)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.&lt;/p&gt;
 &lt;div id=&#34;task-specifics&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Task specifics&lt;/h2&gt;
@@ -56,7 +54,7 @@ test &amp;lt;- t.test(data1, data2)
 
 # get the relevant p-value
 test$p.value&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.1723799&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.004554475&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;for-loop&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;For loop&lt;/h2&gt;
@@ -75,10 +73,10 @@ for (i in 1:n_reps) {
 }
 
 # calculcate power as % &amp;lt; alpha
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6308&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## for loop: 1.786 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## for loop: 1.574 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you pre-allocate the vector &lt;code&gt;p&lt;/code&gt;, this can speed up your loops. This means defining an empty vector with a length of &lt;code&gt;n_reps&lt;/code&gt; before you start the loop. This saves the time it takes to delete the vector and make a new, larger one on each iteration. It doesn’t really make much difference for our simple code here.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;pre-allocate&amp;quot;)
 
@@ -94,10 +92,10 @@ for (i in 1:n_reps) {
   p[i] &amp;lt;- test$p.value
 }
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6231&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## pre-allocate: 1.937 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## pre-allocate: 1.519 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;replicate&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;replicate&lt;/h2&gt;
@@ -113,10 +111,10 @@ p &amp;lt;- replicate(n_reps, {
   test$p.value
 })
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6219&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## replicate: 1.92 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## replicate: 1.599 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;You can enclose the relevant code in a named function and replicate that. This can be useful if you need to run different values.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;replicate-function&amp;quot;)
 
@@ -133,10 +131,10 @@ sim_func &amp;lt;- function(n1, m1, sd1, n2, m2, sd2) {
 # repeat the sim function with different sd1 and m2 values
 p &amp;lt;- replicate(n_reps, sim_func(50, 100, 9.5, 45, 102, 11))
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.1585&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## replicate-function: 1.573 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## replicate-function: 1.564 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;apply&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;apply&lt;/h2&gt;
@@ -151,10 +149,10 @@ p &amp;lt;- sapply(1:n_reps, function(i) {
   test$p.value
 })
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6267&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## apply: 1.5 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply: 1.593 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you want to use the apply functions with a function that takes arguments, either the first argument should be &lt;code&gt;i&lt;/code&gt; for the replication index, or you can repeat the first argument &lt;code&gt;n_reps&lt;/code&gt; times.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;apply-function&amp;quot;)
 
@@ -173,10 +171,10 @@ p &amp;lt;- sapply(1:n_reps, sim_func,
             n1 = 50, m1 = 100, sd1 = 9.5, 
             n2 = 45, m2 = 102, sd2 = 11)
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.1509&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## apply-function: 1.59 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply-function: 1.604 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;You can also split up the data simulation and analysis steps into two different apply functions. In the first one, you iterate over the vector &lt;code&gt;1:n_reps&lt;/code&gt; and in the second, you iterate over each item in the &lt;code&gt;data&lt;/code&gt; list.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;apply2&amp;quot;)
 
@@ -195,10 +193,10 @@ p &amp;lt;- sapply(data, function(d) {
   test$p.value
 })
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6293&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## apply2: 1.902 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply2: 1.943 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;If you use &lt;code&gt;sapply()&lt;/code&gt; for the data simulation, it will simplify the result into a matrix. Then you need to use &lt;code&gt;apply()&lt;/code&gt; to iterate over the columns of the matrix.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;apply3&amp;quot;)
 
@@ -217,10 +215,10 @@ p &amp;lt;- apply(data, MARGIN = 2, function(d) {
   test$p.value
 })
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6275&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## apply3: 1.876 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply3: 1.824 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;mapply()&lt;/code&gt; function takes any number of arguments (the function goes first). You can use this to iterate over different values of the arguments, but this can get a little tricky to keep track of, so I like to organise each iteration in a row of a data frame first.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;mapply&amp;quot;)
 
@@ -249,7 +247,7 @@ p &amp;lt;- mapply(sim_func,
             n2 = params$n2, m2 = params$m2, sd2 = params$sd2)
 
 toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## mapply: 3.197 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## mapply: 3.194 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# add p to the params table and 
 # calculate power for each param combo
 power &amp;lt;- params |&amp;gt;
@@ -281,10 +279,10 @@ p &amp;lt;- map_dbl(1:n_reps, function(i) {
   test$p.value
 })
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6266&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## map: 1.558 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## map: 1.698 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;You can also split up the data simulation and analysis like above. The &lt;code&gt;map()&lt;/code&gt; function returns a list.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;map-split&amp;quot;)
 
@@ -303,10 +301,10 @@ p &amp;lt;- map_dbl(data, function(d) {
   test$p.value
 })
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6309&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## map-split: 1.895 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## map-split: 1.892 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The &lt;code&gt;pmap()&lt;/code&gt; function is really useful if you want to run a simulation across a lot of different parameters. Use &lt;code&gt;tidyr::crossing()&lt;/code&gt; to make a data frame with one row for each replicate. Add &lt;code&gt;...&lt;/code&gt; to the arguments in the function inside &lt;code&gt;pmap()&lt;/code&gt; so it can ignore any unused columns in the &lt;code&gt;params&lt;/code&gt; table (e.g., &lt;code&gt;rep&lt;/code&gt;).&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;pmap&amp;quot;)
 
@@ -336,10 +334,10 @@ p &amp;lt;- map_dbl(data, function(d) {
   test$p.value
 })
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6317&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## pmap: 1.946 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## pmap: 1.964 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In this way, we could explore a range of values, such as how the results change as m2 varies from 100 to 110.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# make a data frame with 1 row for each replicate
 params &amp;lt;- tidyr::crossing(
@@ -382,7 +380,14 @@ ggplot(power, aes(x = m2 - m1, y = power)) +
 &lt;div id=&#34;foreach&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;foreach&lt;/h2&gt;
 &lt;p&gt;If you have a ton of iterations or each is slow, you might want to run the iterations in parallel. These functions use the {foreach} package.&lt;/p&gt;
-&lt;p&gt;First, set up the basic loop using teh &lt;code&gt;foreach()&lt;/code&gt; funciton and &lt;code&gt;%do%&lt;/code&gt; syntax.&lt;/p&gt;
+&lt;p&gt;First, set up the basic loop using the &lt;code&gt;foreach()&lt;/code&gt; function and &lt;code&gt;%do%&lt;/code&gt; syntax. We’ll up the number of replications to 1e5.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(foreach)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;foreach&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:purrr&amp;#39;:
+## 
+##     accumulate, when&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_reps &amp;lt;- 1e5&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;foreach&amp;quot;)
 
 sim_func &amp;lt;- function(i) {
@@ -396,13 +401,16 @@ sim_func &amp;lt;- function(i) {
 
 p &amp;lt;- foreach(i= 1:n_reps) %do% sim_func(i)
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6291&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## foreach: 4.434 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## foreach: 45.026 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Than change &lt;code&gt;%do%&lt;/code&gt; to &lt;code&gt;%dopar%&lt;/code&gt; to take advantage of parallelisation if your computer has the capacity.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# set up parallelisation
-registerDoParallel()
+library(doParallel)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: iterators&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: parallel&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;registerDoParallel()
 getDoParWorkers() # find out how many workers&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## [1] 4&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;foreach-parallel&amp;quot;)
@@ -418,10 +426,10 @@ sim_func &amp;lt;- function(i) {
 
 p &amp;lt;- foreach(i= 1:n_reps) %dopar% sim_func(i)
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6252&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## foreach-parallel: 2.473 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## foreach-parallel: 23.962 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Alternatively, you can use &lt;code&gt;times()&lt;/code&gt; like &lt;code&gt;replicate()&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;times-parallel&amp;quot;)
 
@@ -436,10 +444,10 @@ sim_func &amp;lt;- function() {
 
 p &amp;lt;- times(n_reps) %dopar% sim_func()
 
-power &amp;lt;- mean(p &amp;lt; alpha) |&amp;gt; print()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 0.6265&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;toc()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## times-parallel: 2.924 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## times-parallel: 18.012 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 </description>
     </item>
