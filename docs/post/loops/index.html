@@ -836,7 +836,7 @@ test &lt;- t.test(data1, data2)
 
 # get the relevant p-value
 test$p.value</code></pre>
-<pre><code>## [1] 0.004554475</code></pre>
+<pre><code>## [1] 0.000158984</code></pre>
 </div>
 <div id="for-loop" class="section level2">
 <h2>For loop</h2>
@@ -858,7 +858,7 @@ for (i in 1:n_reps) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## for loop: 1.574 sec elapsed</code></pre>
+<pre><code>## for loop: 1.456 sec elapsed</code></pre>
 <p>If you pre-allocate the vector <code>p</code>, this can speed up your loops. This means defining an empty vector with a length of <code>n_reps</code> before you start the loop. This saves the time it takes to delete the vector and make a new, larger one on each iteration. It doesn’t really make much difference for our simple code here.</p>
 <pre class="r"><code>tic(&quot;pre-allocate&quot;)
 
@@ -877,7 +877,7 @@ for (i in 1:n_reps) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## pre-allocate: 1.519 sec elapsed</code></pre>
+<pre><code>## pre-allocate: 1.399 sec elapsed</code></pre>
 </div>
 <div id="replicate" class="section level2">
 <h2>replicate</h2>
@@ -896,7 +896,7 @@ p &lt;- replicate(n_reps, {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## replicate: 1.599 sec elapsed</code></pre>
+<pre><code>## replicate: 1.499 sec elapsed</code></pre>
 <p>You can enclose the relevant code in a named function and replicate that. This can be useful if you need to run different values.</p>
 <pre class="r"><code>tic(&quot;replicate-function&quot;)
 
@@ -916,7 +916,7 @@ p &lt;- replicate(n_reps, sim_func(50, 100, 9.5, 45, 102, 11))
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## replicate-function: 1.564 sec elapsed</code></pre>
+<pre><code>## replicate-function: 1.676 sec elapsed</code></pre>
 </div>
 <div id="apply" class="section level2">
 <h2>apply</h2>
@@ -934,7 +934,7 @@ p &lt;- sapply(1:n_reps, function(i) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## apply: 1.593 sec elapsed</code></pre>
+<pre><code>## apply: 1.756 sec elapsed</code></pre>
 <p>If you want to use the apply functions with a function that takes arguments, either the first argument should be <code>i</code> for the replication index, or you can repeat the first argument <code>n_reps</code> times.</p>
 <pre class="r"><code>tic(&quot;apply-function&quot;)
 
@@ -956,7 +956,7 @@ p &lt;- sapply(1:n_reps, sim_func,
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## apply-function: 1.604 sec elapsed</code></pre>
+<pre><code>## apply-function: 1.687 sec elapsed</code></pre>
 <p>You can also split up the data simulation and analysis steps into two different apply functions. In the first one, you iterate over the vector <code>1:n_reps</code> and in the second, you iterate over each item in the <code>data</code> list.</p>
 <pre class="r"><code>tic(&quot;apply2&quot;)
 
@@ -978,7 +978,7 @@ p &lt;- sapply(data, function(d) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## apply2: 1.943 sec elapsed</code></pre>
+<pre><code>## apply2: 2.098 sec elapsed</code></pre>
 <p>If you use <code>sapply()</code> for the data simulation, it will simplify the result into a matrix. Then you need to use <code>apply()</code> to iterate over the columns of the matrix.</p>
 <pre class="r"><code>tic(&quot;apply3&quot;)
 
@@ -1000,7 +1000,7 @@ p &lt;- apply(data, MARGIN = 2, function(d) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## apply3: 1.824 sec elapsed</code></pre>
+<pre><code>## apply3: 1.908 sec elapsed</code></pre>
 <p>The <code>mapply()</code> function takes any number of arguments (the function goes first). You can use this to iterate over different values of the arguments, but this can get a little tricky to keep track of, so I like to organise each iteration in a row of a data frame first.</p>
 <pre class="r"><code>tic(&quot;mapply&quot;)
 
@@ -1029,7 +1029,7 @@ p &lt;- mapply(sim_func,
             n2 = params$n2, m2 = params$m2, sd2 = params$sd2)
 
 toc()</code></pre>
-<pre><code>## mapply: 3.194 sec elapsed</code></pre>
+<pre><code>## mapply: 3.284 sec elapsed</code></pre>
 <pre class="r"><code># add p to the params table and 
 # calculate power for each param combo
 power &lt;- params |&gt;
@@ -1064,7 +1064,7 @@ p &lt;- map_dbl(1:n_reps, function(i) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## map: 1.698 sec elapsed</code></pre>
+<pre><code>## map: 2.142 sec elapsed</code></pre>
 <p>You can also split up the data simulation and analysis like above. The <code>map()</code> function returns a list.</p>
 <pre class="r"><code>tic(&quot;map-split&quot;)
 
@@ -1086,7 +1086,7 @@ p &lt;- map_dbl(data, function(d) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## map-split: 1.892 sec elapsed</code></pre>
+<pre><code>## map-split: 1.763 sec elapsed</code></pre>
 <p>The <code>pmap()</code> function is really useful if you want to run a simulation across a lot of different parameters. Use <code>tidyr::crossing()</code> to make a data frame with one row for each replicate. Add <code>...</code> to the arguments in the function inside <code>pmap()</code> so it can ignore any unused columns in the <code>params</code> table (e.g., <code>rep</code>).</p>
 <pre class="r"><code>tic(&quot;pmap&quot;)
 
@@ -1119,7 +1119,7 @@ p &lt;- map_dbl(data, function(d) {
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## pmap: 1.964 sec elapsed</code></pre>
+<pre><code>## pmap: 1.826 sec elapsed</code></pre>
 <p>In this way, we could explore a range of values, such as how the results change as m2 varies from 100 to 110.</p>
 <pre class="r"><code># make a data frame with 1 row for each replicate
 params &lt;- tidyr::crossing(
@@ -1186,7 +1186,7 @@ p &lt;- foreach(i= 1:n_reps) %do% sim_func(i)
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## foreach: 45.026 sec elapsed</code></pre>
+<pre><code>## foreach: 49.59 sec elapsed</code></pre>
 <p>Than change <code>%do%</code> to <code>%dopar%</code> to take advantage of parallelisation if your computer has the capacity.</p>
 <pre class="r"><code># set up parallelisation
 library(doParallel)</code></pre>
@@ -1211,7 +1211,7 @@ p &lt;- foreach(i= 1:n_reps) %dopar% sim_func(i)
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## foreach-parallel: 23.962 sec elapsed</code></pre>
+<pre><code>## foreach-parallel: 26.711 sec elapsed</code></pre>
 <p>Alternatively, you can use <code>times()</code> like <code>replicate()</code>.</p>
 <pre class="r"><code>tic(&quot;times-parallel&quot;)
 
@@ -1229,7 +1229,7 @@ p &lt;- times(n_reps) %dopar% sim_func()
 power &lt;- mean(p &lt; alpha)
 
 toc()</code></pre>
-<pre><code>## times-parallel: 18.012 sec elapsed</code></pre>
+<pre><code>## times-parallel: 20.183 sec elapsed</code></pre>
 </div>
 
     </div>
