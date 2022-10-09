@@ -12,7 +12,31 @@
     <lastmod>2021-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/</loc>
-    <lastmod>2022-05-07T14:49:41+01:00</lastmod>
+    <lastmod>2022-10-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/project/coding-club/</loc>
+    <lastmod>2022-10-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/project/</loc>
+    <lastmod>2022-10-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/r/</loc>
+    <lastmod>2022-10-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/shiny/</loc>
+    <lastmod>2022-10-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tags/</loc>
+    <lastmod>2022-10-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/project/datasim/</loc>
+    <lastmod>2022-05-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/faux/</loc>
+    <lastmod>2022-05-25T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/simulation/</loc>
+    <lastmod>2022-05-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/publication-type/5/</loc>
     <lastmod>2022-05-07T14:49:41+01:00</lastmod>
@@ -39,12 +63,6 @@
     <lastmod>2022-05-07T14:49:41+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/publication/</loc>
-    <lastmod>2022-05-07T14:49:41+01:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/r/</loc>
-    <lastmod>2022-05-07T14:49:41+01:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tags/</loc>
     <lastmod>2022-05-07T14:49:41+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/teaching/</loc>
@@ -92,16 +110,10 @@
     <loc>https://debruine.github.io/event/</loc>
     <lastmod>2022-04-27T09:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/tag/simulation/</loc>
-    <lastmod>2022-04-27T09:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/project/30dcc/</loc>
     <lastmod>2022-04-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/dataviz/</loc>
-    <lastmod>2022-04-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/project/</loc>
     <lastmod>2022-04-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</loc>
@@ -155,6 +167,9 @@
     <loc>https://debruine.github.io/tag/research/</loc>
     <lastmod>2021-10-13T15:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/project/shiny/</loc>
+    <lastmod>2021-10-10T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/tag/mixed-effects/</loc>
     <lastmod>2021-10-05T16:00:00+00:00</lastmod>
   </url><url>
@@ -162,9 +177,6 @@
     <lastmod>2021-10-05T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/project/faux/</loc>
-    <lastmod>2021-10-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/faux/</loc>
     <lastmod>2021-10-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/publication/reprores/</loc>
@@ -451,8 +463,6 @@
   </url><url>
     <loc>https://debruine.github.io/admin/</loc>
   </url><url>
-    <loc>https://debruine.github.io/project/shiny/</loc>
-  </url><url>
     <loc>https://debruine.github.io/tag/experiment/</loc>
   </url><url>
     <loc>https://debruine.github.io/project/experimentum/</loc>
@@ -470,8 +480,6 @@
     <loc>https://debruine.github.io/project/psyteachr/</loc>
   </url><url>
     <loc>https://debruine.github.io/tag/reproducibility/</loc>
-  </url><url>
-    <loc>https://debruine.github.io/tag/shiny/</loc>
   </url><url>
     <loc>https://debruine.github.io/project/webmorph/</loc>
   </url>

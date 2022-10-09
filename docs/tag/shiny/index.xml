@@ -5,7 +5,7 @@
     <link>https://debruine.github.io/tag/shiny/</link>
       <atom:link href="https://debruine.github.io/tag/shiny/index.xml" rel="self" type="application/rss+xml" />
     <description>shiny</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 05 Oct 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>shiny</title>
@@ -14,21 +14,23 @@
     
     <item>
       <title>Coding Club</title>
+      <link>https://debruine.github.io/project/coding-club/</link>
+      <pubDate>Wed, 05 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/coding-club/</guid>
+      <description>&lt;p&gt;Making an R package develops generic coding skills and gives you valuable insight to how R works. We’ll cover setting up a package project, creating functions, documenting them with roxygen, creating vignettes, unit testing, package testing, version control with git, and distribution with github.&lt;/p&gt;
+&lt;p&gt;Sessions run Wednesdays from 16:05 to 17:00 UK time from October 5 to December 7, 2022.&lt;/p&gt;
+&lt;p&gt;Register for free at &lt;a href=&#34;https://coding-club-packages.eventbrite.co.uk/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;EventBrite&lt;/a&gt; to help us keep organised and let us know a little bit about your experience. Space is unlimited, so don’t worry if you can’t make all of the dates. We’ll record the sessions and make them public ASAP so you can catch up if you miss the live session.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Shiny</title>
       <link>https://debruine.github.io/project/shiny/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 10 Oct 2021 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/shiny/</guid>
-      <description>&lt;p&gt;Do you want to take your R coding skills to the next level in a fun atmosphere where we learn by doing? Join the Coding Club!&lt;/p&gt;
-&lt;p&gt;We&amp;rsquo;ll be starting from the very basics to use the shiny R package to create an interactive web app that can read from a Google Form and display tables and plots describing your data.&lt;/p&gt;
-&lt;p&gt;When: Every other Wednesday 14:00-15:00, starting 6 October 2021.&lt;/p&gt;
-&lt;h3 id=&#34;faq&#34;&gt;FAQ&lt;/h3&gt;
-&lt;h4 id=&#34;do-i-have-enough-experience&#34;&gt;Do I have enough experience?&lt;/h4&gt;
-&lt;p&gt;Don&amp;rsquo;t worry if you&amp;rsquo;re new to R coding; as long as you can open RStudio and load the shiny package, you&amp;rsquo;ll be able to participate. All levels are welcome, including undergraduate students and staff.&lt;/p&gt;
-&lt;h4 id=&#34;will-it-be-recorded&#34;&gt;Will it be recorded?&lt;/h4&gt;
-&lt;p&gt;Yes, if you&amp;rsquo;re staff or a student at the University of Glasgow, join the Methods &amp;amp; Metascience Team with the code j2z7m4w in Teams to access recordings on the Coding Club channel.&lt;/p&gt;
-&lt;h4 id=&#34;what-computing-resources-do-i-need&#34;&gt;What computing resources do I need?&lt;/h4&gt;
-&lt;p&gt;You need to have access to R and RStudio. We will use these packages to start: shiny, shinydashboard, tidyverse. See &lt;a href=&#34;https://psyteachr.github.io/reprores-v2/installingr.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;instructions for installing on your own computer&lt;/a&gt; or use a university computer or &lt;a href=&#34;https://rstudio.cloud/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RStudio Cloud&lt;/a&gt;.&lt;/p&gt;
-&lt;h4 id=&#34;i-have-more-questions&#34;&gt;I have more questions&lt;/h4&gt;
-&lt;p&gt;Join the Methods &amp;amp; MetaScience Team (it&amp;rsquo;s open to all at UofG) with the join code j2z7m4w in Teams and post questions in the Coding Club channel or email &lt;a href=&#34;mailto:Lisa.DeBruine@glasgow.ac.uk&#34;&gt;Lisa.DeBruine@glasgow.ac.uk&lt;/a&gt;&lt;/p&gt;
+      <description>&lt;p&gt;Shiny lets you make web applications that do anything you can code in R. For example, you can share your data analysis in a dynamic way with people who don&amp;rsquo;t use R, collect and visualize data, or even make data aRt.&lt;/p&gt;
+&lt;p&gt;While there is a wealth of material available on the internet to help you get started with Shiny, it can be difficult to see how everything fits together. This class will take a predominantly live coding approach, rather than a lecture-only approach, so you can code along with the instructor and deal with the inevitable bugs and roadblocks together.&lt;/p&gt;
+&lt;p&gt;This class will teach you the basics of Shiny app programming, giving you skills that will form the basis of almost any app you want to build. By the end of the class, you will have created a custom app that collects and saves data, allows users to dynamically visualize the data, and produces downloadable reports.&lt;/p&gt;
 </description>
     </item>
     

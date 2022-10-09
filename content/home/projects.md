@@ -20,16 +20,21 @@ content:
   filter_default: 0
 
   filter_button:
+  - name: All
+    tag: '*'
   - name: simulation
     tag: simulation
   - name: dataviz
     tag: dataviz
-  - name: shiny
-    tag: shiny
+  - name: teaching
+    tag: teaching
   - name: R
     tag: R
-  - name: All
-    tag: '*'
+  - name: shiny
+    tag: shiny
+  - name: team science
+    tag: team science
+  
 
 design:
   # Choose how many columns the section has. Valid values: '1' or '2'.
@@ -40,7 +45,7 @@ design:
   #   2 = Compact
   #   3 = Card
   #   5 = Showcase
-  view: 5
+  view: 2
 
   # For Showcase view, flip alternate rows?
   flip_alt_rows: true

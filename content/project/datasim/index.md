@@ -14,6 +14,7 @@ tags:
 - R
 - faux
 - simulation
+- teaching
 title: Data Simulation Workshops
 url_code: ""
 url_pdf: ""
