@@ -12,6 +12,7 @@
     <lastmod>2021-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/</loc>
+<<<<<<< HEAD
     <lastmod>2022-10-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/project/coding-club/</loc>
@@ -28,6 +29,51 @@
   </url><url>
     <loc>https://debruine.github.io/tags/</loc>
     <lastmod>2022-10-05T00:00:00+00:00</lastmod>
+=======
+    <lastmod>2022-09-23T09:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/authors/</loc>
+    <lastmod>2022-09-23T09:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/big-team-science/</loc>
+    <lastmod>2022-09-23T09:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/how-to-set-up-a-big-team-science-project/</loc>
+    <lastmod>2022-09-23T09:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/lisa-debruine/</loc>
+    <lastmod>2022-09-23T09:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/event/</loc>
+    <lastmod>2022-09-23T09:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tags/</loc>
+    <lastmod>2022-09-23T09:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/apply/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/categories/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/post/loops/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/map/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/post/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/r/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/category/rstats/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/simulation/</loc>
+    <lastmod>2022-06-10T00:00:00+00:00</lastmod>
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
   </url><url>
     <loc>https://debruine.github.io/project/datasim/</loc>
     <lastmod>2022-05-25T00:00:00+00:00</lastmod>
@@ -35,16 +81,17 @@
     <loc>https://debruine.github.io/tag/faux/</loc>
     <lastmod>2022-05-25T00:00:00+00:00</lastmod>
   </url><url>
+<<<<<<< HEAD
     <loc>https://debruine.github.io/tag/simulation/</loc>
+=======
+    <loc>https://debruine.github.io/project/</loc>
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
     <lastmod>2022-05-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/publication-type/5/</loc>
     <lastmod>2022-05-07T14:49:41+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/publication/ads/</loc>
-    <lastmod>2022-05-07T14:49:41+01:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/authors/</loc>
     <lastmod>2022-05-07T14:49:41+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/data-skills/</loc>
@@ -104,49 +151,40 @@
     <loc>https://debruine.github.io/talk/data-simulation-workshops/</loc>
     <lastmod>2022-04-27T09:00:00+00:00</lastmod>
   </url><url>
+<<<<<<< HEAD
     <loc>https://debruine.github.io/author/lisa-debruine/</loc>
     <lastmod>2022-04-27T09:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/event/</loc>
     <lastmod>2022-04-27T09:00:00+00:00</lastmod>
   </url><url>
+=======
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
     <loc>https://debruine.github.io/project/30dcc/</loc>
     <lastmod>2022-04-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/dataviz/</loc>
     <lastmod>2022-04-01T00:00:00+00:00</lastmod>
   </url><url>
+<<<<<<< HEAD
+=======
+    <loc>https://debruine.github.io/project/manyfaces/</loc>
+    <lastmod>2022-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/team-science/</loc>
+    <lastmod>2022-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
     <loc>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</loc>
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/psa/</loc>
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/tag/team-science/</loc>
-    <lastmod>2021-10-19T16:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/author/dale-barr/</loc>
-    <lastmod>2021-10-19T13:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/open-science/</loc>
-    <lastmod>2021-10-19T13:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/talk/open-science-practices-in-the-school-of-psychology-and-neuroscience/</loc>
-    <lastmod>2021-10-19T13:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/categories/</loc>
-    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/tag/data/</loc>
     <lastmod>2021-10-17T11:22:13+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/data-from-images/</loc>
-    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/post/</loc>
-    <lastmod>2021-10-17T11:22:13+01:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/category/rstats/</loc>
     <lastmod>2021-10-17T11:22:13+01:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/wrangling/</loc>
@@ -241,6 +279,18 @@
   </url><url>
     <loc>https://debruine.github.io/tag/tidyverse/</loc>
     <lastmod>2021-01-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/faces/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/kinship/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/reproducibility/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/project/webmorph/</loc>
+    <lastmod>2021-01-05T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/function-tips/</loc>
     <lastmod>2020-12-17T00:00:00+00:00</lastmod>
@@ -467,11 +517,9 @@
   </url><url>
     <loc>https://debruine.github.io/project/experimentum/</loc>
   </url><url>
-    <loc>https://debruine.github.io/tag/faces/</loc>
-  </url><url>
-    <loc>https://debruine.github.io/tag/kinship/</loc>
-  </url><url>
     <loc>https://debruine.github.io/tag/open-research/</loc>
+  </url><url>
+    <loc>https://debruine.github.io/tag/open-science/</loc>
   </url><url>
     <loc>https://debruine.github.io/project/psa/</loc>
   </url><url>
@@ -479,8 +527,12 @@
   </url><url>
     <loc>https://debruine.github.io/project/psyteachr/</loc>
   </url><url>
+<<<<<<< HEAD
     <loc>https://debruine.github.io/tag/reproducibility/</loc>
   </url><url>
     <loc>https://debruine.github.io/project/webmorph/</loc>
+=======
+    <loc>https://debruine.github.io/tag/shiny/</loc>
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
   </url>
 </urlset>

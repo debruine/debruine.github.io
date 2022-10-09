@@ -12,7 +12,7 @@ abstract: This workshop will cover power analyses across a wide range of statist
 #address:
 all_day: false
 authors: [Lisa DeBruine]
-#event_url: https://example.org
+event_url: https://reproducibilitea.org/journal-clubs/#York
 featured: false
 image:
   caption: ''

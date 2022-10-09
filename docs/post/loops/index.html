@@ -1,0 +1,1757 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Lisa DeBruine" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="library(tidyverse) library(tictoc) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.
+Task specifics Let’s say you want to do a power analysis by simulation." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://debruine.github.io/post/loops/" />
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.b1dff6f85aae5097c42eda0896577563.css" />
+
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q0LBRCV4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-16Q0LBRCV4', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://debruine.github.io/post/loops/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary" />
+  
+    <meta property="twitter:site" content="@@lisadebruine" />
+    <meta property="twitter:creator" content="@@lisadebruine" />
+  
+  <meta property="og:site_name" content="Lisa DeBruine" />
+  <meta property="og:url" content="https://debruine.github.io/post/loops/" />
+  <meta property="og:title" content="Loops | Lisa DeBruine" />
+  <meta property="og:description" content="library(tidyverse) library(tictoc) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.
+Task specifics Let’s say you want to do a power analysis by simulation." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2022-06-10T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2022-06-10T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://debruine.github.io/post/loops/"
+  },
+  "headline": "Loops",
+  
+  "datePublished": "2022-06-10T00:00:00Z",
+  "dateModified": "2022-06-10T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Lisa DeBruine"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Lisa DeBruine",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "library(tidyverse) library(tictoc) This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.\nTask specifics Let’s say you want to do a power analysis by simulation."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+  <title>Loops | Lisa DeBruine</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="0272625535df039450373b9dbdae618d" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8988fb2a4bba758785868cfcb5244555.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="/"  aria-label="">
+              <i class="fas fa-" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Loops</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    2022-06-10
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    9 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<pre class="r"><code>library(tidyverse)
+library(tictoc)</code></pre>
+<p>This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.</p>
+<div id="task-specifics" class="section level2">
+<h2>Task specifics</h2>
+<p>Let’s say you want to do a power analysis by simulation. You’ll need to simulate some data, run the analysis, and record the relevant p-value. And you’ll need to repeat this procedure a number of times.</p>
+<p>Here are all of the simulation parameters you will need for the examples.</p>
+<pre class="r"><code># predicted data parameters
+n1 &lt;- 50
+m1 &lt;- 100
+sd1 &lt;- 10
+n2 &lt;- 45
+m2 &lt;- 105
+sd2 &lt;- 11
+
+# critical alpha for calculating power
+# doesn&#39;t always have to be 0.05 (justify your alpha)
+alpha &lt;- 0.05 
+
+# number of simulation replications
+n_reps &lt;- 10000</code></pre>
+</div>
+<div id="one-iteration" class="section level2">
+<h2>One iteration</h2>
+<p>Your first task when iterating is to sort out the code for a single iteration. Once that is bug-free and doing what you want, you can repeat it.</p>
+<pre class="r"><code># simulate data
+data1 &lt;- rnorm(n1, m1, sd1)
+data2 &lt;- rnorm(n2, m2, sd2)
+
+# analyse it  
+test &lt;- t.test(data1, data2)
+
+# get the relevant p-value
+test$p.value</code></pre>
+<pre><code>## [1] 0.000158984</code></pre>
+</div>
+<div id="for-loop" class="section level2">
+<h2>For loop</h2>
+<p>Repeat the code above <code>n_reps</code> times using a for loop. You have to assign the variable <code>i</code> (or whatever you want to call it) to each item in the vector <code>1:n_reps</code>, but you don’t necessarily have to use <code>i</code> in the code. Here, we use it to add the p-value to the vector <code>p</code>.</p>
+<pre class="r"><code>tic(&quot;for loop&quot;)
+
+p &lt;- c()
+
+for (i in 1:n_reps) {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  p[i] &lt;- test$p.value
+}
+
+# calculcate power as % &lt; alpha
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## for loop: 1.456 sec elapsed</code></pre>
+<p>If you pre-allocate the vector <code>p</code>, this can speed up your loops. This means defining an empty vector with a length of <code>n_reps</code> before you start the loop. This saves the time it takes to delete the vector and make a new, larger one on each iteration. It doesn’t really make much difference for our simple code here.</p>
+<pre class="r"><code>tic(&quot;pre-allocate&quot;)
+
+# pre-allocate vector for p-values
+p &lt;- vector(&quot;numeric&quot;, length = n_reps)
+
+for (i in 1:n_reps) {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  p[i] &lt;- test$p.value
+}
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## pre-allocate: 1.399 sec elapsed</code></pre>
+</div>
+<div id="replicate" class="section level2">
+<h2>replicate</h2>
+<p>The <code>replicate()</code> function lets you iterate the exact same code and collect the output.</p>
+<pre class="r"><code>tic(&quot;replicate&quot;)
+
+p &lt;- replicate(n_reps, {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## replicate: 1.499 sec elapsed</code></pre>
+<p>You can enclose the relevant code in a named function and replicate that. This can be useful if you need to run different values.</p>
+<pre class="r"><code>tic(&quot;replicate-function&quot;)
+
+# define a simulation function
+sim_func &lt;- function(n1, m1, sd1, n2, m2, sd2) {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+# repeat the sim function with different sd1 and m2 values
+p &lt;- replicate(n_reps, sim_func(50, 100, 9.5, 45, 102, 11))
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## replicate-function: 1.676 sec elapsed</code></pre>
+</div>
+<div id="apply" class="section level2">
+<h2>apply</h2>
+<p>The apply functions can be used to iterate over a vector or list. Here, we’re iterating over the vector <code>1:n_reps</code>. The function needs to have an argument <code>i</code> for these values, but we don’t actually need to use <code>i</code> in the function code. Here, we don’t assign the p-value to a vector <code>p</code> inside the function, but rather return the p-value from the function and the <code>sapply()</code> function simplifies this into a vector, which is then assigned to <code>p</code>.</p>
+<pre class="r"><code>tic(&quot;apply&quot;)
+p &lt;- sapply(1:n_reps, function(i) {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply: 1.756 sec elapsed</code></pre>
+<p>If you want to use the apply functions with a function that takes arguments, either the first argument should be <code>i</code> for the replication index, or you can repeat the first argument <code>n_reps</code> times.</p>
+<pre class="r"><code>tic(&quot;apply-function&quot;)
+
+sim_func &lt;- function(i, n1, m1, sd1, n2, m2, sd2) {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+# you can only iterate over 1 argument
+# the rest must be single values
+p &lt;- sapply(1:n_reps, sim_func, 
+            n1 = 50, m1 = 100, sd1 = 9.5, 
+            n2 = 45, m2 = 102, sd2 = 11)
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply-function: 1.687 sec elapsed</code></pre>
+<p>You can also split up the data simulation and analysis steps into two different apply functions. In the first one, you iterate over the vector <code>1:n_reps</code> and in the second, you iterate over each item in the <code>data</code> list.</p>
+<pre class="r"><code>tic(&quot;apply2&quot;)
+
+# simulate data as a list of lists
+data &lt;- lapply(1:n_reps, function(i) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over list items
+p &lt;- sapply(data, function(d) {
+  test &lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply2: 2.098 sec elapsed</code></pre>
+<p>If you use <code>sapply()</code> for the data simulation, it will simplify the result into a matrix. Then you need to use <code>apply()</code> to iterate over the columns of the matrix.</p>
+<pre class="r"><code>tic(&quot;apply3&quot;)
+
+# simulate data as a matrix
+data &lt;- sapply(1:n_reps, function(i) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over columns
+p &lt;- apply(data, MARGIN = 2, function(d) {
+  test &lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## apply3: 1.908 sec elapsed</code></pre>
+<p>The <code>mapply()</code> function takes any number of arguments (the function goes first). You can use this to iterate over different values of the arguments, but this can get a little tricky to keep track of, so I like to organise each iteration in a row of a data frame first.</p>
+<pre class="r"><code>tic(&quot;mapply&quot;)
+
+# make a data frame with 1 row for each replicate
+params &lt;- tidyr::crossing(
+  rep = 1:2000,
+  n1 = 50,
+  m1 = 100,
+  sd1 = 10,
+  n2 = 45,
+  m2 = 100:110,
+  sd2 = 11
+)
+
+sim_func &lt;- function(n1, m1, sd1, n2, m2, sd2) {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &lt;- mapply(sim_func, 
+            n1 = params$n1, m1 = params$m1, sd1 = params$sd1, 
+            n2 = params$n2, m2 = params$m2, sd2 = params$sd2)
+
+toc()</code></pre>
+<pre><code>## mapply: 3.284 sec elapsed</code></pre>
+<pre class="r"><code># add p to the params table and 
+# calculate power for each param combo
+power &lt;- params |&gt;
+  mutate(p = p) |&gt;
+  group_by(n1, n2, m1, m2, sd1, sd2) |&gt;
+  summarise(power = mean(p &lt; alpha),
+            .groups = &quot;drop&quot;)
+
+# plot power by m2 - m1
+ggplot(power, aes(x = m2 - m1, y = power)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(name = &quot;Raw Effect Size&quot;, breaks = 0:10) +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal(base_size = 14)</code></pre>
+<p><img src="/post/loops_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+</div>
+<div id="purrr" class="section level2">
+<h2>purrr</h2>
+<p>The {purrr} package has iteration functions that work a lot like the apply functions, with some extra helpful features (most of which we won’t explore here).</p>
+<p>The function <code>map_dbl()</code> is like <code>sapply()</code> in that it returns a vector, but more specific in that it requires the results of the function be a double.</p>
+<pre class="r"><code>tic(&quot;map&quot;)
+p &lt;- map_dbl(1:n_reps, function(i) {
+  data1 &lt;- rnorm(n1, m1, sd1)
+  data2 &lt;- rnorm(n2, m2, sd2)
+  
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## map: 2.142 sec elapsed</code></pre>
+<p>You can also split up the data simulation and analysis like above. The <code>map()</code> function returns a list.</p>
+<pre class="r"><code>tic(&quot;map-split&quot;)
+
+# simulate data as a list of lists
+data &lt;- map(1:n_reps, function(i) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over list items
+p &lt;- map_dbl(data, function(d) {
+  test &lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## map-split: 1.763 sec elapsed</code></pre>
+<p>The <code>pmap()</code> function is really useful if you want to run a simulation across a lot of different parameters. Use <code>tidyr::crossing()</code> to make a data frame with one row for each replicate. Add <code>...</code> to the arguments in the function inside <code>pmap()</code> so it can ignore any unused columns in the <code>params</code> table (e.g., <code>rep</code>).</p>
+<pre class="r"><code>tic(&quot;pmap&quot;)
+
+# make a data frame with 1 row for each replicate
+params &lt;- tidyr::crossing(
+  rep = 1:n_reps,
+  n1 = n1,
+  m1 = m1,
+  sd1 = sd1,
+  n2 = n2,
+  m2 = m2,
+  sd2 = sd2
+)
+
+# simulate data as a list of lists
+data &lt;- pmap(params, function(n1, m1, sd1, n2, m2, sd2, ...) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over list items
+p &lt;- map_dbl(data, function(d) {
+  test &lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## pmap: 1.826 sec elapsed</code></pre>
+<p>In this way, we could explore a range of values, such as how the results change as m2 varies from 100 to 110.</p>
+<pre class="r"><code># make a data frame with 1 row for each replicate
+params &lt;- tidyr::crossing(
+  rep = 1:2000,
+  n1 = 50,
+  m1 = 100,
+  sd1 = 10,
+  n2 = 45,
+  m2 = 100:110,
+  sd2 = 11
+)
+
+
+p &lt;- pmap_dbl(params, function(n1, m1, sd1, n2, m2, sd2,...) {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+# add p to the params table and 
+# calculate power for each param combo
+power &lt;- params |&gt;
+  mutate(p = p) |&gt;
+  group_by(n1, n2, m1, m2, sd1, sd2) |&gt;
+  summarise(power = mean(p &lt; alpha),
+            .groups = &quot;drop&quot;)
+
+# plot power by m2 - m1
+ggplot(power, aes(x = m2 - m1, y = power)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(name = &quot;Raw Effect Size&quot;, breaks = 0:10) +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal(base_size = 14)</code></pre>
+<p><img src="/post/loops_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="foreach" class="section level2">
+<h2>foreach</h2>
+<p>If you have a ton of iterations or each is slow, you might want to run the iterations in parallel. These functions use the {foreach} package.</p>
+<p>First, set up the basic loop using the <code>foreach()</code> function and <code>%do%</code> syntax. We’ll up the number of replications to 1e5.</p>
+<pre class="r"><code>library(foreach)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;foreach&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:purrr&#39;:
+## 
+##     accumulate, when</code></pre>
+<pre class="r"><code>n_reps &lt;- 1e5</code></pre>
+<pre class="r"><code>tic(&quot;foreach&quot;)
+
+sim_func &lt;- function(i) {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &lt;- foreach(i= 1:n_reps) %do% sim_func(i)
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## foreach: 49.59 sec elapsed</code></pre>
+<p>Than change <code>%do%</code> to <code>%dopar%</code> to take advantage of parallelisation if your computer has the capacity.</p>
+<pre class="r"><code># set up parallelisation
+library(doParallel)</code></pre>
+<pre><code>## Loading required package: iterators</code></pre>
+<pre><code>## Loading required package: parallel</code></pre>
+<pre class="r"><code>registerDoParallel()
+getDoParWorkers() # find out how many workers</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>tic(&quot;foreach-parallel&quot;)
+
+sim_func &lt;- function(i) {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &lt;- foreach(i= 1:n_reps) %dopar% sim_func(i)
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## foreach-parallel: 26.711 sec elapsed</code></pre>
+<p>Alternatively, you can use <code>times()</code> like <code>replicate()</code>.</p>
+<pre class="r"><code>tic(&quot;times-parallel&quot;)
+
+sim_func &lt;- function() {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &lt;- times(n_reps) %dopar% sim_func()
+
+power &lt;- mean(p &lt; alpha)
+
+toc()</code></pre>
+<pre><code>## times-parallel: 20.183 sec elapsed</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r/">R</a>
+  
+  <a class="badge badge-light" href="/tag/apply/">apply</a>
+  
+  <a class="badge badge-light" href="/tag/map/">map</a>
+  
+  <a class="badge badge-light" href="/tag/simulation/">simulation</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://debruine.github.io/post/loops/&amp;text=Loops" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://debruine.github.io/post/loops/&amp;t=Loops" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Loops&amp;body=https://debruine.github.io/post/loops/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://debruine.github.io/post/loops/&amp;title=Loops" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Loops%20https://debruine.github.io/post/loops/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://debruine.github.io/post/loops/&amp;title=Loops" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://debruine.github.io/"><img class="avatar mr-3 avatar-circle" src="/author/lisa-debruine/avatar_huc4546377bde55ecd47b44f619a7a66e6_608544_270x270_fill_q75_lanczos_center.jpg" alt="Lisa DeBruine"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://debruine.github.io/">Lisa DeBruine</a></h5>
+      <h6 class="card-subtitle">Professor of Psychology</h6>
+      <p class="card-text">Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/" >
+        <i class="fas fa-"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/debruine" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/LisaDeBruine" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://osf.io/4i578/" target="_blank" rel="noopener">
+        <i class="ai ai-osf"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://figshare.com/authors/Lisa_DeBruine/3235773" target="_blank" rel="noopener">
+        <i class="ai ai-figshare"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="http://orcid.org/0000-0002-7523-5539" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:lisa.debruine@glasgow.ac.uk" >
+        <i class="far fa-paper-plane"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/mann-whitney/">Mann-Whitney False Positives</a></li>
+      
+      <li><a href="/post/how-many-sims/">How many simulations in my power analysis?</a></li>
+      
+      <li><a href="/post/pmap_df/">Inputting data table rows as function arguments</a></li>
+      
+      <li><a href="/post/aggregating/">What&#39;s wrong with aggregating data?</a></li>
+      
+      <li><a href="/post/simulating-random-slopes/">Simulating Random Slopes</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+  
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.d68ecd57c0ec1f1f61d65fd568f1c3a0.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

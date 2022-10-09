@@ -5,7 +5,11 @@
     <link>https://debruine.github.io/project/</link>
       <atom:link href="https://debruine.github.io/project/index.xml" rel="self" type="application/rss+xml" />
     <description>Projects</description>
+<<<<<<< HEAD
     <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 05 Oct 2022 00:00:00 +0000</lastBuildDate>
+=======
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 25 May 2022 00:00:00 +0000</lastBuildDate>
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Projects</title>
@@ -13,6 +17,7 @@
     </image>
     
     <item>
+<<<<<<< HEAD
       <title>Coding Club</title>
       <link>https://debruine.github.io/project/coding-club/</link>
       <pubDate>Wed, 05 Oct 2022 00:00:00 +0000</pubDate>
@@ -24,6 +29,8 @@
     </item>
     
     <item>
+=======
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
       <title>Data Simulation Workshops</title>
       <link>https://debruine.github.io/project/datasim/</link>
       <pubDate>Wed, 25 May 2022 00:00:00 +0000</pubDate>
@@ -45,6 +52,7 @@
     </item>
     
     <item>
+<<<<<<< HEAD
       <title>Shiny</title>
       <link>https://debruine.github.io/project/shiny/</link>
       <pubDate>Sun, 10 Oct 2021 00:00:00 +0000</pubDate>
@@ -52,6 +60,14 @@
       <description>&lt;p&gt;Shiny lets you make web applications that do anything you can code in R. For example, you can share your data analysis in a dynamic way with people who don&amp;rsquo;t use R, collect and visualize data, or even make data aRt.&lt;/p&gt;
 &lt;p&gt;While there is a wealth of material available on the internet to help you get started with Shiny, it can be difficult to see how everything fits together. This class will take a predominantly live coding approach, rather than a lecture-only approach, so you can code along with the instructor and deal with the inevitable bugs and roadblocks together.&lt;/p&gt;
 &lt;p&gt;This class will teach you the basics of Shiny app programming, giving you skills that will form the basis of almost any app you want to build. By the end of the class, you will have created a custom app that collects and saves data, allows users to dynamically visualize the data, and produces downloadable reports.&lt;/p&gt;
+=======
+      <title>ManyFaces</title>
+      <link>https://debruine.github.io/project/manyfaces/</link>
+      <pubDate>Wed, 05 Jan 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/manyfaces/</guid>
+      <description>&lt;p&gt;ManyFaces is a new big team science group of face researchers working on collaborative projects. The first two working groups are focussing on building a database of face stimuli and developing protocols for face image capture to facilitate collaborative image sets. There are also topic groups that discuss things like ethics in face research and mixed model methodology.&lt;/p&gt;
+&lt;p&gt;See the &lt;a href=&#34;https://docs.google.com/document/d/1X6b3am7zwDYXT2-TUR-a85-xG-cdrE8_vz9GICbwAl0/edit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;brainstorming doc&lt;/a&gt; for more info and how to join the Slack.&lt;/p&gt;
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
 </description>
     </item>
     
@@ -65,6 +81,42 @@
     </item>
     
     <item>
+<<<<<<< HEAD
+=======
+      <title>WebMorph</title>
+      <link>https://debruine.github.io/project/webmorph/</link>
+      <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/webmorph/</guid>
+      <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+webmorphR is now on CRAN!
+&lt;/p&gt;
+&lt;p&gt;This development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Coding Club</title>
+      <link>https://debruine.github.io/project/shiny/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/shiny/</guid>
+      <description>&lt;p&gt;Do you want to take your R coding skills to the next level in a fun atmosphere where we learn by doing? Join the Coding Club!&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll be starting from the very basics to use the shiny R package to create an interactive web app that can read from a Google Form and display tables and plots describing your data.&lt;/p&gt;
+&lt;p&gt;When: Every other Wednesday 14:00-15:00, starting 6 October 2021.&lt;/p&gt;
+&lt;h3 id=&#34;faq&#34;&gt;FAQ&lt;/h3&gt;
+&lt;h4 id=&#34;do-i-have-enough-experience&#34;&gt;Do I have enough experience?&lt;/h4&gt;
+&lt;p&gt;Don&amp;rsquo;t worry if you&amp;rsquo;re new to R coding; as long as you can open RStudio and load the shiny package, you&amp;rsquo;ll be able to participate. All levels are welcome, including undergraduate students and staff.&lt;/p&gt;
+&lt;h4 id=&#34;will-it-be-recorded&#34;&gt;Will it be recorded?&lt;/h4&gt;
+&lt;p&gt;Yes, if you&amp;rsquo;re staff or a student at the University of Glasgow, join the Methods &amp;amp; Metascience Team with the code j2z7m4w in Teams to access recordings on the Coding Club channel.&lt;/p&gt;
+&lt;h4 id=&#34;what-computing-resources-do-i-need&#34;&gt;What computing resources do I need?&lt;/h4&gt;
+&lt;p&gt;You need to have access to R and RStudio. We will use these packages to start: shiny, shinydashboard, tidyverse. See &lt;a href=&#34;https://psyteachr.github.io/reprores-v2/installingr.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;instructions for installing on your own computer&lt;/a&gt; or use a university computer or &lt;a href=&#34;https://rstudio.cloud/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;RStudio Cloud&lt;/a&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;i-have-more-questions&#34;&gt;I have more questions&lt;/h4&gt;
+&lt;p&gt;Join the Methods &amp;amp; MetaScience Team (it&amp;rsquo;s open to all at UofG) with the join code j2z7m4w in Teams and post questions in the Coding Club channel or email &lt;a href=&#34;mailto:Lisa.DeBruine@glasgow.ac.uk&#34;&gt;Lisa.DeBruine@glasgow.ac.uk&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
       <title>Experimentum</title>
       <link>https://debruine.github.io/project/experimentum/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
@@ -90,19 +142,6 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/psyteachr/</guid>
       <description>&lt;p&gt;The psyTeachR team at the University of Glasgow School of Psychology and Institute of Neuroscience and Psychology has successfully made the transition to teaching reproducible research using R across all undergraduate and postgraduate levels. Our curriculum now emphasizes essential ‘data science’ graduate skills that have been overlooked in traditional approaches to teaching, including programming skills, data visualisation, data wrangling and reproducible reports. Students learn about probability and inference through data simulation as well as by working with real datasets.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>WebMorph</title>
-      <link>https://debruine.github.io/project/webmorph/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/webmorph/</guid>
-      <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
-&lt;p class=&#34;warning&#34;&gt;
-WebMorph is currently down while I file data protection paperwork.
-&lt;/p&gt;
-&lt;p&gt;This development of this package was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
 </description>
     </item>
     

@@ -5,7 +5,11 @@
     <link>https://debruine.github.io/tags/</link>
       <atom:link href="https://debruine.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <description>Tags</description>
+<<<<<<< HEAD
     <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 05 Oct 2022 00:00:00 +0000</lastBuildDate>
+=======
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 23 Sep 2022 09:00:00 +0000</lastBuildDate>
+>>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Tags</title>

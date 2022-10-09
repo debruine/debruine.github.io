@@ -5,12 +5,452 @@
     <link>https://debruine.github.io/category/rstats/</link>
       <atom:link href="https://debruine.github.io/category/rstats/index.xml" rel="self" type="application/rss+xml" />
     <description>rstats</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 17 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 10 Jun 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>rstats</title>
       <link>https://debruine.github.io/category/rstats/</link>
     </image>
+    
+    <item>
+      <title>Loops</title>
+      <link>https://debruine.github.io/post/loops/</link>
+      <pubDate>Fri, 10 Jun 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/loops/</guid>
+      <description>
+
+
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse)
+library(tictoc)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This tutorial will introduce a few ways you can iterate your code. We’ll use the {tictoc} package to time each method to show how they differ.&lt;/p&gt;
+&lt;div id=&#34;task-specifics&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Task specifics&lt;/h2&gt;
+&lt;p&gt;Let’s say you want to do a power analysis by simulation. You’ll need to simulate some data, run the analysis, and record the relevant p-value. And you’ll need to repeat this procedure a number of times.&lt;/p&gt;
+&lt;p&gt;Here are all of the simulation parameters you will need for the examples.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# predicted data parameters
+n1 &amp;lt;- 50
+m1 &amp;lt;- 100
+sd1 &amp;lt;- 10
+n2 &amp;lt;- 45
+m2 &amp;lt;- 105
+sd2 &amp;lt;- 11
+
+# critical alpha for calculating power
+# doesn&amp;#39;t always have to be 0.05 (justify your alpha)
+alpha &amp;lt;- 0.05 
+
+# number of simulation replications
+n_reps &amp;lt;- 10000&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;one-iteration&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;One iteration&lt;/h2&gt;
+&lt;p&gt;Your first task when iterating is to sort out the code for a single iteration. Once that is bug-free and doing what you want, you can repeat it.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# simulate data
+data1 &amp;lt;- rnorm(n1, m1, sd1)
+data2 &amp;lt;- rnorm(n2, m2, sd2)
+
+# analyse it  
+test &amp;lt;- t.test(data1, data2)
+
+# get the relevant p-value
+test$p.value&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0.000158984&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;for-loop&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;For loop&lt;/h2&gt;
+&lt;p&gt;Repeat the code above &lt;code&gt;n_reps&lt;/code&gt; times using a for loop. You have to assign the variable &lt;code&gt;i&lt;/code&gt; (or whatever you want to call it) to each item in the vector &lt;code&gt;1:n_reps&lt;/code&gt;, but you don’t necessarily have to use &lt;code&gt;i&lt;/code&gt; in the code. Here, we use it to add the p-value to the vector &lt;code&gt;p&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;for loop&amp;quot;)
+
+p &amp;lt;- c()
+
+for (i in 1:n_reps) {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  p[i] &amp;lt;- test$p.value
+}
+
+# calculcate power as % &amp;lt; alpha
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## for loop: 1.456 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you pre-allocate the vector &lt;code&gt;p&lt;/code&gt;, this can speed up your loops. This means defining an empty vector with a length of &lt;code&gt;n_reps&lt;/code&gt; before you start the loop. This saves the time it takes to delete the vector and make a new, larger one on each iteration. It doesn’t really make much difference for our simple code here.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;pre-allocate&amp;quot;)
+
+# pre-allocate vector for p-values
+p &amp;lt;- vector(&amp;quot;numeric&amp;quot;, length = n_reps)
+
+for (i in 1:n_reps) {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  p[i] &amp;lt;- test$p.value
+}
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## pre-allocate: 1.399 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;replicate&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;replicate&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;replicate()&lt;/code&gt; function lets you iterate the exact same code and collect the output.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;replicate&amp;quot;)
+
+p &amp;lt;- replicate(n_reps, {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## replicate: 1.499 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can enclose the relevant code in a named function and replicate that. This can be useful if you need to run different values.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;replicate-function&amp;quot;)
+
+# define a simulation function
+sim_func &amp;lt;- function(n1, m1, sd1, n2, m2, sd2) {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+# repeat the sim function with different sd1 and m2 values
+p &amp;lt;- replicate(n_reps, sim_func(50, 100, 9.5, 45, 102, 11))
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## replicate-function: 1.676 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;apply&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;apply&lt;/h2&gt;
+&lt;p&gt;The apply functions can be used to iterate over a vector or list. Here, we’re iterating over the vector &lt;code&gt;1:n_reps&lt;/code&gt;. The function needs to have an argument &lt;code&gt;i&lt;/code&gt; for these values, but we don’t actually need to use &lt;code&gt;i&lt;/code&gt; in the function code. Here, we don’t assign the p-value to a vector &lt;code&gt;p&lt;/code&gt; inside the function, but rather return the p-value from the function and the &lt;code&gt;sapply()&lt;/code&gt; function simplifies this into a vector, which is then assigned to &lt;code&gt;p&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;apply&amp;quot;)
+p &amp;lt;- sapply(1:n_reps, function(i) {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply: 1.756 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you want to use the apply functions with a function that takes arguments, either the first argument should be &lt;code&gt;i&lt;/code&gt; for the replication index, or you can repeat the first argument &lt;code&gt;n_reps&lt;/code&gt; times.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;apply-function&amp;quot;)
+
+sim_func &amp;lt;- function(i, n1, m1, sd1, n2, m2, sd2) {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+# you can only iterate over 1 argument
+# the rest must be single values
+p &amp;lt;- sapply(1:n_reps, sim_func, 
+            n1 = 50, m1 = 100, sd1 = 9.5, 
+            n2 = 45, m2 = 102, sd2 = 11)
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply-function: 1.687 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can also split up the data simulation and analysis steps into two different apply functions. In the first one, you iterate over the vector &lt;code&gt;1:n_reps&lt;/code&gt; and in the second, you iterate over each item in the &lt;code&gt;data&lt;/code&gt; list.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;apply2&amp;quot;)
+
+# simulate data as a list of lists
+data &amp;lt;- lapply(1:n_reps, function(i) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over list items
+p &amp;lt;- sapply(data, function(d) {
+  test &amp;lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply2: 2.098 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you use &lt;code&gt;sapply()&lt;/code&gt; for the data simulation, it will simplify the result into a matrix. Then you need to use &lt;code&gt;apply()&lt;/code&gt; to iterate over the columns of the matrix.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;apply3&amp;quot;)
+
+# simulate data as a matrix
+data &amp;lt;- sapply(1:n_reps, function(i) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over columns
+p &amp;lt;- apply(data, MARGIN = 2, function(d) {
+  test &amp;lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## apply3: 1.908 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;mapply()&lt;/code&gt; function takes any number of arguments (the function goes first). You can use this to iterate over different values of the arguments, but this can get a little tricky to keep track of, so I like to organise each iteration in a row of a data frame first.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;mapply&amp;quot;)
+
+# make a data frame with 1 row for each replicate
+params &amp;lt;- tidyr::crossing(
+  rep = 1:2000,
+  n1 = 50,
+  m1 = 100,
+  sd1 = 10,
+  n2 = 45,
+  m2 = 100:110,
+  sd2 = 11
+)
+
+sim_func &amp;lt;- function(n1, m1, sd1, n2, m2, sd2) {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &amp;lt;- mapply(sim_func, 
+            n1 = params$n1, m1 = params$m1, sd1 = params$sd1, 
+            n2 = params$n2, m2 = params$m2, sd2 = params$sd2)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## mapply: 3.284 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# add p to the params table and 
+# calculate power for each param combo
+power &amp;lt;- params |&amp;gt;
+  mutate(p = p) |&amp;gt;
+  group_by(n1, n2, m1, m2, sd1, sd2) |&amp;gt;
+  summarise(power = mean(p &amp;lt; alpha),
+            .groups = &amp;quot;drop&amp;quot;)
+
+# plot power by m2 - m1
+ggplot(power, aes(x = m2 - m1, y = power)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(name = &amp;quot;Raw Effect Size&amp;quot;, breaks = 0:10) +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal(base_size = 14)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/loops_files/figure-html/unnamed-chunk-12-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;purrr&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;purrr&lt;/h2&gt;
+&lt;p&gt;The {purrr} package has iteration functions that work a lot like the apply functions, with some extra helpful features (most of which we won’t explore here).&lt;/p&gt;
+&lt;p&gt;The function &lt;code&gt;map_dbl()&lt;/code&gt; is like &lt;code&gt;sapply()&lt;/code&gt; in that it returns a vector, but more specific in that it requires the results of the function be a double.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;map&amp;quot;)
+p &amp;lt;- map_dbl(1:n_reps, function(i) {
+  data1 &amp;lt;- rnorm(n1, m1, sd1)
+  data2 &amp;lt;- rnorm(n2, m2, sd2)
+  
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## map: 2.142 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can also split up the data simulation and analysis like above. The &lt;code&gt;map()&lt;/code&gt; function returns a list.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;map-split&amp;quot;)
+
+# simulate data as a list of lists
+data &amp;lt;- map(1:n_reps, function(i) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over list items
+p &amp;lt;- map_dbl(data, function(d) {
+  test &amp;lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## map-split: 1.763 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;pmap()&lt;/code&gt; function is really useful if you want to run a simulation across a lot of different parameters. Use &lt;code&gt;tidyr::crossing()&lt;/code&gt; to make a data frame with one row for each replicate. Add &lt;code&gt;...&lt;/code&gt; to the arguments in the function inside &lt;code&gt;pmap()&lt;/code&gt; so it can ignore any unused columns in the &lt;code&gt;params&lt;/code&gt; table (e.g., &lt;code&gt;rep&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;pmap&amp;quot;)
+
+# make a data frame with 1 row for each replicate
+params &amp;lt;- tidyr::crossing(
+  rep = 1:n_reps,
+  n1 = n1,
+  m1 = m1,
+  sd1 = sd1,
+  n2 = n2,
+  m2 = m2,
+  sd2 = sd2
+)
+
+# simulate data as a list of lists
+data &amp;lt;- pmap(params, function(n1, m1, sd1, n2, m2, sd2, ...) {
+  list(
+    data1 = rnorm(n1, m1, sd1), 
+    data2 = rnorm(n2, m2, sd2)
+  )
+})
+
+# iterate over list items
+p &amp;lt;- map_dbl(data, function(d) {
+  test &amp;lt;- t.test(d$data1, d$data2)
+  
+  test$p.value
+})
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## pmap: 1.826 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this way, we could explore a range of values, such as how the results change as m2 varies from 100 to 110.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# make a data frame with 1 row for each replicate
+params &amp;lt;- tidyr::crossing(
+  rep = 1:2000,
+  n1 = 50,
+  m1 = 100,
+  sd1 = 10,
+  n2 = 45,
+  m2 = 100:110,
+  sd2 = 11
+)
+
+
+p &amp;lt;- pmap_dbl(params, function(n1, m1, sd1, n2, m2, sd2,...) {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+})
+
+# add p to the params table and 
+# calculate power for each param combo
+power &amp;lt;- params |&amp;gt;
+  mutate(p = p) |&amp;gt;
+  group_by(n1, n2, m1, m2, sd1, sd2) |&amp;gt;
+  summarise(power = mean(p &amp;lt; alpha),
+            .groups = &amp;quot;drop&amp;quot;)
+
+# plot power by m2 - m1
+ggplot(power, aes(x = m2 - m1, y = power)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(name = &amp;quot;Raw Effect Size&amp;quot;, breaks = 0:10) +
+  scale_y_continuous(limits = c(0, 1)) +
+  theme_minimal(base_size = 14)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://debruine.github.io/post/loops_files/figure-html/unnamed-chunk-16-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;foreach&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;foreach&lt;/h2&gt;
+&lt;p&gt;If you have a ton of iterations or each is slow, you might want to run the iterations in parallel. These functions use the {foreach} package.&lt;/p&gt;
+&lt;p&gt;First, set up the basic loop using the &lt;code&gt;foreach()&lt;/code&gt; function and &lt;code&gt;%do%&lt;/code&gt; syntax. We’ll up the number of replications to 1e5.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(foreach)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Attaching package: &amp;#39;foreach&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## The following objects are masked from &amp;#39;package:purrr&amp;#39;:
+## 
+##     accumulate, when&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;n_reps &amp;lt;- 1e5&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;foreach&amp;quot;)
+
+sim_func &amp;lt;- function(i) {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &amp;lt;- foreach(i= 1:n_reps) %do% sim_func(i)
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## foreach: 49.59 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Than change &lt;code&gt;%do%&lt;/code&gt; to &lt;code&gt;%dopar%&lt;/code&gt; to take advantage of parallelisation if your computer has the capacity.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# set up parallelisation
+library(doParallel)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: iterators&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Loading required package: parallel&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;registerDoParallel()
+getDoParWorkers() # find out how many workers&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 4&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;foreach-parallel&amp;quot;)
+
+sim_func &amp;lt;- function(i) {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &amp;lt;- foreach(i= 1:n_reps) %dopar% sim_func(i)
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## foreach-parallel: 26.711 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Alternatively, you can use &lt;code&gt;times()&lt;/code&gt; like &lt;code&gt;replicate()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tic(&amp;quot;times-parallel&amp;quot;)
+
+sim_func &amp;lt;- function() {
+  data1 = rnorm(n1, m1, sd1)
+  data2 = rnorm(n2, m2, sd2)
+
+  test &amp;lt;- t.test(data1, data2)
+  
+  test$p.value
+}
+
+p &amp;lt;- times(n_reps) %dopar% sim_func()
+
+power &amp;lt;- mean(p &amp;lt; alpha)
+
+toc()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## times-parallel: 20.183 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Data from Images</title>

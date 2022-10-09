@@ -1,5 +1,5 @@
 ---
-date: "2021-010-05T00:00:00Z"
+date: "2021-01-05T00:00:00Z"
 external_link: ""
 image:
   caption: WebMorph
@@ -32,8 +32,8 @@ url_video: ""
 
 The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.
 
-<p class="warning">
-WebMorph is currently down while I file data protection paperwork.
+<p class="info">
+webmorphR is now on CRAN!
 </p>
 
-This development of this package was funded by ERC grant #647910 (KINSHIP).
+This development of these tools was funded by ERC grant #647910 (KINSHIP).

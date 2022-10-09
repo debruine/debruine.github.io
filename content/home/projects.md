@@ -34,7 +34,6 @@ content:
     tag: shiny
   - name: team science
     tag: team science
-  
 
 design:
   # Choose how many columns the section has. Valid values: '1' or '2'.

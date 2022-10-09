@@ -20,7 +20,7 @@ image:
 #links:
 #projects:
 #- internal-project
-publishDate: "2021-10-10T00:00:00Z"
+publishDate: "2025-10-10T00:00:00Z"
 #slides: example
 
 
