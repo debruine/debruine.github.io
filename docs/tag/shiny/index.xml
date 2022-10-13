@@ -5,23 +5,12 @@
     <link>https://debruine.github.io/tag/shiny/</link>
       <atom:link href="https://debruine.github.io/tag/shiny/index.xml" rel="self" type="application/rss+xml" />
     <description>shiny</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 05 Oct 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 10 Oct 2021 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>shiny</title>
       <link>https://debruine.github.io/tag/shiny/</link>
     </image>
-    
-    <item>
-      <title>Coding Club</title>
-      <link>https://debruine.github.io/project/coding-club/</link>
-      <pubDate>Wed, 05 Oct 2022 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/coding-club/</guid>
-      <description>&lt;p&gt;Making an R package develops generic coding skills and gives you valuable insight to how R works. We’ll cover setting up a package project, creating functions, documenting them with roxygen, creating vignettes, unit testing, package testing, version control with git, and distribution with github.&lt;/p&gt;
-&lt;p&gt;Sessions run Wednesdays from 16:05 to 17:00 UK time from October 5 to December 7, 2022.&lt;/p&gt;
-&lt;p&gt;Register for free at &lt;a href=&#34;https://coding-club-packages.eventbrite.co.uk/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;EventBrite&lt;/a&gt; to help us keep organised and let us know a little bit about your experience. Space is unlimited, so don’t worry if you can’t make all of the dates. We’ll record the sessions and make them public ASAP so you can catch up if you miss the live session.&lt;/p&gt;
-</description>
-    </item>
     
     <item>
       <title>Shiny</title>

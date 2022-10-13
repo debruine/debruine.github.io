@@ -5,11 +5,7 @@
     <link>https://debruine.github.io/</link>
       <atom:link href="https://debruine.github.io/index.xml" rel="self" type="application/rss+xml" />
     <description>Lisa DeBruine</description>
-<<<<<<< HEAD
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 05 Oct 2022 00:00:00 +0000</lastBuildDate>
-=======
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 23 Sep 2022 09:00:00 +0000</lastBuildDate>
->>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Oct 2022 18:15:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Lisa DeBruine</title>
@@ -112,7 +108,14 @@ The variance of the distribution is $\sigma^{2}$.
     </item>
     
     <item>
-<<<<<<< HEAD
+      <title>ManyFaces: A big team science approach to face perception and recognition</title>
+      <link>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</link>
+      <pubDate>Thu, 27 Oct 2022 18:15:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Coding Club</title>
       <link>https://debruine.github.io/project/coding-club/</link>
       <pubDate>Wed, 05 Oct 2022 00:00:00 +0000</pubDate>
@@ -120,12 +123,37 @@ The variance of the distribution is $\sigma^{2}$.
       <description>&lt;p&gt;Making an R package develops generic coding skills and gives you valuable insight to how R works. We’ll cover setting up a package project, creating functions, documenting them with roxygen, creating vignettes, unit testing, package testing, version control with git, and distribution with github.&lt;/p&gt;
 &lt;p&gt;Sessions run Wednesdays from 16:05 to 17:00 UK time from October 5 to December 7, 2022.&lt;/p&gt;
 &lt;p&gt;Register for free at &lt;a href=&#34;https://coding-club-packages.eventbrite.co.uk/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;EventBrite&lt;/a&gt; to help us keep organised and let us know a little bit about your experience. Space is unlimited, so don’t worry if you can’t make all of the dates. We’ll record the sessions and make them public ASAP so you can catch up if you miss the live session.&lt;/p&gt;
-=======
+</description>
+    </item>
+    
+    <item>
+      <title>Why Code?</title>
+      <link>https://debruine.github.io/talk/why-code/</link>
+      <pubDate>Wed, 28 Sep 2022 14:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/why-code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>How to set up a big team science project</title>
       <link>https://debruine.github.io/talk/how-to-set-up-a-big-team-science-project/</link>
       <pubDate>Fri, 23 Sep 2022 09:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/talk/how-to-set-up-a-big-team-science-project/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Code Check</title>
+      <link>https://debruine.github.io/project/code-check/</link>
+      <pubDate>Mon, 05 Sep 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/code-check/</guid>
+      <description>&lt;p&gt;This project aims to make code review easier and more common in research. The first project is to create a guide for research code review aimed at novice to intermediate coders. We are also interested in creating resources for starting code check clubs. This group is open to anyone who wants to join, at any level of expertise.&lt;/p&gt;
+&lt;p&gt;🧠 &lt;a href=&#34;https://docs.google.com/document/d/1cqrRDEYkhtZT9QRruZmUnPPN00VEo0fKV7cEyoluMnU/edit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Brainstorming Doc&lt;/a&gt;&lt;br&gt;
+📝 &lt;a href=&#34;https://docs.google.com/document/d/1oU_wcxo4RQXvG72szW5H26VmAeJJhytjsw0UcQzV_l8/edit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Draft Paper&lt;/a&gt; - currently in progress, come claim a section!&lt;br&gt;
+🙋🏾 &lt;a href=&#34;https://docs.google.com/spreadsheets/d/1NJY-jt2T1MlWYiJ5P1sL8aGscYYzrCuZ1ThXFbdFWKI/edit#gid=0&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Contributor Tracking&lt;/a&gt;&lt;br&gt;
+💬 &lt;a href=&#34;https://github.com/orgs/code-check-club/discussions&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Discussions&lt;/a&gt; (replacing the &lt;a href=&#34;https://join.slack.com/t/codereviewguide/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Slack&lt;/a&gt;)&lt;br&gt;
+📖 &lt;a href=&#34;https://code-check-club.github.io/code-review-guide/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Guide&lt;/a&gt; (just in outline form for now)&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -565,7 +593,6 @@ power &amp;lt;- mean(p &amp;lt; alpha)
 toc()&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## times-parallel: 20.183 sec elapsed&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
->>>>>>> c53d17bb9c9866fff72e0c253ff83adf2acc90fc
 </description>
     </item>
     
@@ -599,6 +626,14 @@ toc()&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Data Simulation Workshops</title>
+      <link>https://debruine.github.io/project/manyfaces/</link>
+      <pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/manyfaces/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Simulation Workshops</title>
       <link>https://debruine.github.io/talk/data-simulation-workshops/</link>
       <pubDate>Wed, 27 Apr 2022 09:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/talk/data-simulation-workshops/</guid>
@@ -611,16 +646,6 @@ toc()&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Fri, 01 Apr 2022 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/30dcc/</guid>
       <description>&lt;p&gt;This is my first year participating in the 30-day chart challenge. I&amp;rsquo;m making a book of tutorials for each chart.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>ManyFaces</title>
-      <link>https://debruine.github.io/project/manyfaces/</link>
-      <pubDate>Wed, 05 Jan 2022 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/manyfaces/</guid>
-      <description>&lt;p&gt;ManyFaces is a new big team science group of face researchers working on collaborative projects. The first two working groups are focussing on building a database of face stimuli and developing protocols for face image capture to facilitate collaborative image sets. There are also topic groups that discuss things like ethics in face research and mixed model methodology.&lt;/p&gt;
-&lt;p&gt;See the &lt;a href=&#34;https://docs.google.com/document/d/1X6b3am7zwDYXT2-TUR-a85-xG-cdrE8_vz9GICbwAl0/edit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;brainstorming doc&lt;/a&gt; for more info and how to join the Slack.&lt;/p&gt;
 </description>
     </item>
     

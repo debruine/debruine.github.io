@@ -5,12 +5,20 @@
     <link>https://debruine.github.io/tag/faces/</link>
       <atom:link href="https://debruine.github.io/tag/faces/index.xml" rel="self" type="application/rss+xml" />
     <description>faces</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 05 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Oct 2022 18:15:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>faces</title>
       <link>https://debruine.github.io/tag/faces/</link>
     </image>
+    
+    <item>
+      <title>ManyFaces: A big team science approach to face perception and recognition</title>
+      <link>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</link>
+      <pubDate>Thu, 27 Oct 2022 18:15:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>WebMorph</title>

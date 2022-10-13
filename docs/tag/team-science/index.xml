@@ -5,7 +5,7 @@
     <link>https://debruine.github.io/tag/team-science/</link>
       <atom:link href="https://debruine.github.io/tag/team-science/index.xml" rel="self" type="application/rss+xml" />
     <description>team science</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 05 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Oct 2022 18:15:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>team science</title>
@@ -13,13 +13,27 @@
     </image>
     
     <item>
-      <title>ManyFaces</title>
+      <title>ManyFaces: A big team science approach to face perception and recognition</title>
+      <link>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</link>
+      <pubDate>Thu, 27 Oct 2022 18:15:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>How to set up a big team science project</title>
+      <link>https://debruine.github.io/talk/how-to-set-up-a-big-team-science-project/</link>
+      <pubDate>Fri, 23 Sep 2022 09:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/how-to-set-up-a-big-team-science-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Simulation Workshops</title>
       <link>https://debruine.github.io/project/manyfaces/</link>
-      <pubDate>Wed, 05 Jan 2022 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 01 May 2022 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/manyfaces/</guid>
-      <description>&lt;p&gt;ManyFaces is a new big team science group of face researchers working on collaborative projects. The first two working groups are focussing on building a database of face stimuli and developing protocols for face image capture to facilitate collaborative image sets. There are also topic groups that discuss things like ethics in face research and mixed model methodology.&lt;/p&gt;
-&lt;p&gt;See the &lt;a href=&#34;https://docs.google.com/document/d/1X6b3am7zwDYXT2-TUR-a85-xG-cdrE8_vz9GICbwAl0/edit&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;brainstorming doc&lt;/a&gt; for more info and how to join the Slack.&lt;/p&gt;
-</description>
+      <description></description>
     </item>
     
     <item>
