@@ -5,7 +5,7 @@
     <link>https://debruine.github.io/</link>
       <atom:link href="https://debruine.github.io/index.xml" rel="self" type="application/rss+xml" />
     <description>Lisa DeBruine</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Oct 2022 18:15:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 01 Nov 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Lisa DeBruine</title>
@@ -105,6 +105,15 @@ The variance of the distribution is $\sigma^{2}$.
   &lt;summary&gt;What is the parameter $\mu$?&lt;/summary&gt;
   &lt;p&gt;The parameter $\mu$ is the mean or expectation of the distribution.&lt;/p&gt;
 &lt;/details&gt;</description>
+    </item>
+    
+    <item>
+      <title>30 Day Map Challenge</title>
+      <link>https://debruine.github.io/project/30dmc/</link>
+      <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/30dmc/</guid>
+      <description>&lt;p&gt;This is my first year participating in the 30-day map challenge. I&amp;rsquo;m making a book of tutorials for each map.&lt;/p&gt;
+</description>
     </item>
     
     <item>
