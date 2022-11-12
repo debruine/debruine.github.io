@@ -33,10 +33,14 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/debruine
-- icon: twitter
+# - icon: twitter
+#   icon_pack: fab
+#   label: Follow me on Twitter
+#   link: https://twitter.com/LisaDeBruine
+- icon: mastodon
   icon_pack: fab
-  label: Follow me on Twitter
-  link: https://twitter.com/LisaDeBruine
+  label: Follow me on Mastodon
+  link: https://tech.lgbt/@debruine
 - icon: graduation-cap
   icon_pack: fas
   link: https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ
