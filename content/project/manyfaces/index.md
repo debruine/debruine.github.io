@@ -5,9 +5,17 @@ image:
   caption: ManyFaces
   focal_point: Smart
 links:
+- icon: rss
+  icon_pack: fa
+  name: Website
+  url: https://manyfaces.team/
+- icon: mastodon
+  icon_pack: fab
+  name: "@ManyFaces@fosstodon.org"
+  url: https://fosstodon.org/@ManyFaces
 - icon: twitter
   icon_pack: fab
-  name: Twitter
+  name: "@ManyFacesTeam"
   url: https://twitter.com/ManyFacesTeam/
 - icon: google
   icon_pack: fab
