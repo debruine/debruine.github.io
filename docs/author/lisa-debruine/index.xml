@@ -5,12 +5,28 @@
     <link>https://debruine.github.io/author/lisa-debruine/</link>
       <atom:link href="https://debruine.github.io/author/lisa-debruine/index.xml" rel="self" type="application/rss+xml" />
     <description>Lisa DeBruine</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Oct 2022 18:15:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 26 Apr 2023 16:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>Lisa DeBruine</title>
       <link>https://debruine.github.io/author/lisa-debruine/</link>
     </image>
+    
+    <item>
+      <title>STORK: Why Code?</title>
+      <link>https://debruine.github.io/talk/stork-why-code/</link>
+      <pubDate>Wed, 26 Apr 2023 16:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/stork-why-code/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Bath R Launch: Why Code?</title>
+      <link>https://debruine.github.io/talk/bath-r-launch-why-code/</link>
+      <pubDate>Thu, 30 Mar 2023 14:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/bath-r-launch-why-code/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ManyFaces: A big team science approach to face perception and recognition</title>

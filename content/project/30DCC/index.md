@@ -24,4 +24,6 @@ url_slides: ""
 url_video: ""
 ---
 
-This is my first year participating in the 30-day chart challenge. I'm making a book of tutorials for each chart.
+This is my first year participating in the 30-day chart challenge. I made a book of tutorials for each chart.
+
+![](30DCC.png)

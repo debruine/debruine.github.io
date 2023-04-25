@@ -5,7 +5,7 @@
     <link>https://debruine.github.io/tag/dataviz/</link>
       <atom:link href="https://debruine.github.io/tag/dataviz/index.xml" rel="self" type="application/rss+xml" />
     <description>dataviz</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 01 Nov 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 01 Apr 2022 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>dataviz</title>
@@ -13,20 +13,39 @@
     </image>
     
     <item>
-      <title>30 Day Map Challenge</title>
-      <link>https://debruine.github.io/project/30dmc/</link>
-      <pubDate>Tue, 01 Nov 2022 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/30dmc/</guid>
-      <description>&lt;p&gt;This is my first year participating in the 30-day map challenge. I&amp;rsquo;m making a book of tutorials for each map.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>30 Day Chart Challenge</title>
       <link>https://debruine.github.io/project/30dcc/</link>
       <pubDate>Fri, 01 Apr 2022 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/30dcc/</guid>
-      <description>&lt;p&gt;This is my first year participating in the 30-day chart challenge. I&amp;rsquo;m making a book of tutorials for each chart.&lt;/p&gt;
+      <description>&lt;p&gt;This is my first year participating in the 30-day chart challenge. I made a book of tutorials for each chart.&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /project/30dcc/30DCC_hu4b549ef084c1a92c12085aca1809039e_1213740_f91894936475eb39a2239ee779799c07.png 400w,
+               /project/30dcc/30DCC_hu4b549ef084c1a92c12085aca1809039e_1213740_c75aa08b5ba1698f7675e9b57db105e5.png 760w,
+               /project/30dcc/30DCC_hu4b549ef084c1a92c12085aca1809039e_1213740_1200x1200_fit_lanczos_3.png 1200w&#34;
+               src=&#34;https://debruine.github.io/project/30dcc/30DCC_hu4b549ef084c1a92c12085aca1809039e_1213740_f91894936475eb39a2239ee779799c07.png&#34;
+               width=&#34;760&#34;
+               height=&#34;428&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
 </description>
     </item>
     

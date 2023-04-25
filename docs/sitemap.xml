@@ -12,36 +12,39 @@
     <lastmod>2021-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/</loc>
-    <lastmod>2022-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/project/30dmc/</loc>
-    <lastmod>2022-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/dataviz/</loc>
-    <lastmod>2022-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/project/</loc>
-    <lastmod>2022-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/r/</loc>
-    <lastmod>2022-11-01T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tags/</loc>
-    <lastmod>2022-11-01T00:00:00+00:00</lastmod>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/authors/</loc>
-    <lastmod>2022-10-27T18:15:00+00:00</lastmod>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/lisa-debruine/</loc>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/r/</loc>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/event/</loc>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/simulation/</loc>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/stork-why-code/</loc>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tags/</loc>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/teaching/</loc>
+    <lastmod>2023-04-26T16:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/bath-r-launch-why-code/</loc>
+    <lastmod>2023-03-30T14:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/faces/</loc>
     <lastmod>2022-10-27T18:15:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/author/lisa-debruine/</loc>
-    <lastmod>2022-10-27T18:15:00+00:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</loc>
-    <lastmod>2022-10-27T18:15:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/event/</loc>
     <lastmod>2022-10-27T18:15:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/team-science/</loc>
@@ -56,11 +59,8 @@
     <loc>https://debruine.github.io/project/coding-club/</loc>
     <lastmod>2022-10-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/tag/teaching/</loc>
+    <loc>https://debruine.github.io/project/</loc>
     <lastmod>2022-10-05T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/simulation/</loc>
-    <lastmod>2022-09-28T14:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/why-code/</loc>
     <lastmod>2022-09-28T14:00:00+00:00</lastmod>
@@ -160,6 +160,12 @@
   </url><url>
     <loc>https://debruine.github.io/project/30dcc/</loc>
     <lastmod>2022-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/dataviz/</loc>
+    <lastmod>2022-04-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</loc>
+    <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</loc>
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
