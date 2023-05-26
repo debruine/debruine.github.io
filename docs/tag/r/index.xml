@@ -21,6 +21,16 @@
     </item>
     
     <item>
+      <title>Glossary</title>
+      <link>https://debruine.github.io/project/glossary/</link>
+      <pubDate>Thu, 25 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/glossary/</guid>
+      <description>&lt;p&gt;There is a lot of necessary jargon to learn for coding. The goal of glossary is to provide a lightweight solution for making glossaries in educational materials written in quarto or R Markdown. This package provides functions to link terms in text to their definitions in an external glossary file, as well as create a glossary table of all linked terms at the end of a section.&lt;/p&gt;
+&lt;p&gt;Hopefully on CRAN soon!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>STORK: Why Code?</title>
       <link>https://debruine.github.io/talk/stork-why-code/</link>
       <pubDate>Wed, 26 Apr 2023 16:00:00 +0000</pubDate>

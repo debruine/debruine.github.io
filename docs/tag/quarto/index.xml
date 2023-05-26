@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>quarto | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/quarto/</link>
+      <atom:link href="https://debruine.github.io/tag/quarto/index.xml" rel="self" type="application/rss+xml" />
+    <description>quarto</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 25 May 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>quarto</title>
+      <link>https://debruine.github.io/tag/quarto/</link>
+    </image>
+    
+    <item>
+      <title>Glossary</title>
+      <link>https://debruine.github.io/project/glossary/</link>
+      <pubDate>Thu, 25 May 2023 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/glossary/</guid>
+      <description>&lt;p&gt;There is a lot of necessary jargon to learn for coding. The goal of glossary is to provide a lightweight solution for making glossaries in educational materials written in quarto or R Markdown. This package provides functions to link terms in text to their definitions in an external glossary file, as well as create a glossary table of all linked terms at the end of a section.&lt;/p&gt;
+&lt;p&gt;Hopefully on CRAN soon!&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
