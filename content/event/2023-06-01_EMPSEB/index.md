@@ -1,7 +1,7 @@
 ---
 title: "Fake It Until You Make It: How and why to simulate research data"
-date: "2023-06-01T00:00:00Z"
-date_end: "2023-06-01T00:00:00Z"
+date: "2023-06-01T14:30:00Z"
+date_end: "2023-06-01T16:30:00Z"
 event: European Evolutionary Biology Conference
 location: Millport, Scotland
 
@@ -29,7 +29,7 @@ publishDate: "2023-05-02T00:00:00Z"
 
 url_code: "https://debruine.github.io/data-sim-workshops/articles/faux.html"
 #url_pdf: ""
-#url_slides: "https://debruine.github.io/"
+url_slides: "https://debruine.github.io/talks/EMPSEB-fake-it-2023/"
 #url_video: ""
 ---
 
