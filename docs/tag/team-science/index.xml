@@ -5,12 +5,20 @@
     <link>https://debruine.github.io/tag/team-science/</link>
       <atom:link href="https://debruine.github.io/tag/team-science/index.xml" rel="self" type="application/rss+xml" />
     <description>team science</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Oct 2022 18:15:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 23 Jul 2023 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>team science</title>
       <link>https://debruine.github.io/tag/team-science/</link>
     </image>
+    
+    <item>
+      <title>Plenary: Everything is cool when you’re part of a team</title>
+      <link>https://debruine.github.io/talk/plenary-everything-is-cool-when-youre-part-of-a-team/</link>
+      <pubDate>Sun, 23 Jul 2023 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/plenary-everything-is-cool-when-youre-part-of-a-team/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ManyFaces: A big team science approach to face perception and recognition</title>

@@ -5,12 +5,20 @@
     <link>https://debruine.github.io/tag/simulation/</link>
       <atom:link href="https://debruine.github.io/tag/simulation/index.xml" rel="self" type="application/rss+xml" />
     <description>simulation</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Jun 2023 14:30:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 09 Oct 2023 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>simulation</title>
       <link>https://debruine.github.io/tag/simulation/</link>
     </image>
+    
+    <item>
+      <title>Research software engineering with Julia: basics, visualization, and statistics</title>
+      <link>https://debruine.github.io/talk/research-software-engineering-with-julia-basics-visualization-and-statistics/</link>
+      <pubDate>Mon, 09 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/research-software-engineering-with-julia-basics-visualization-and-statistics/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Fake It Until You Make It: How and why to simulate research data</title>

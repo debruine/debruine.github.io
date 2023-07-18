@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PsyTeachR Team | Lisa DeBruine</title>
+    <link>https://debruine.github.io/author/psyteachr-team/</link>
+      <atom:link href="https://debruine.github.io/author/psyteachr-team/index.xml" rel="self" type="application/rss+xml" />
+    <description>PsyTeachR Team</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 24 Jun 2023 09:30:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>PsyTeachR Team</title>
+      <link>https://debruine.github.io/author/psyteachr-team/</link>
+    </image>
+    
+    <item>
+      <title>Creating Open Source Textbooks</title>
+      <link>https://debruine.github.io/talk/creating-open-source-textbooks/</link>
+      <pubDate>Sat, 24 Jun 2023 09:30:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/creating-open-source-textbooks/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

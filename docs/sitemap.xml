@@ -12,39 +12,60 @@
     <lastmod>2021-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/authors/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/talk/fake-it-until-you-make-it-how-and-why-to-simulate-research-data/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
+    <loc>https://debruine.github.io/tag/julia/</loc>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/author/lisa-debruine/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/r/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/event/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/research-software-engineering-with-julia-basics-visualization-and-statistics/</loc>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/simulation/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tags/</loc>
-    <lastmod>2023-06-01T14:30:00+00:00</lastmod>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/plenary-everything-is-cool-when-youre-part-of-a-team/</loc>
+    <lastmod>2023-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/psa/</loc>
+    <lastmod>2023-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/team-science/</loc>
+    <lastmod>2023-07-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/creating-open-source-textbooks/</loc>
+    <lastmod>2023-06-24T09:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/psyteachr-team/</loc>
+    <lastmod>2023-06-24T09:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/quarto/</loc>
+    <lastmod>2023-06-24T09:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/r/</loc>
+    <lastmod>2023-06-24T09:30:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/teaching/</loc>
+    <lastmod>2023-06-24T09:30:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/fake-it-until-you-make-it-how-and-why-to-simulate-research-data/</loc>
     <lastmod>2023-06-01T14:30:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/project/glossary/</loc>
     <lastmod>2023-05-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/project/</loc>
-    <lastmod>2023-05-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/quarto/</loc>
     <lastmod>2023-05-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/stork-why-code/</loc>
@@ -57,9 +78,6 @@
     <lastmod>2022-10-27T18:15:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</loc>
-    <lastmod>2022-10-27T18:15:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/team-science/</loc>
     <lastmod>2022-10-27T18:15:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/author/thora-bjornsdottir/</loc>
@@ -177,9 +195,6 @@
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/everything-is-cool-when-youre-part-of-a-team/</loc>
-    <lastmod>2021-10-19T16:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/psa/</loc>
     <lastmod>2021-10-19T16:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/data/</loc>
