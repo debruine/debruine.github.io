@@ -5,12 +5,20 @@
     <link>https://debruine.github.io/tag/faces/</link>
       <atom:link href="https://debruine.github.io/tag/faces/index.xml" rel="self" type="application/rss+xml" />
     <description>faces</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 27 Oct 2022 18:15:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 21 Sep 2023 15:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>faces</title>
       <link>https://debruine.github.io/tag/faces/</link>
     </image>
+    
+    <item>
+      <title>Replicability and Generalisability in Face Research</title>
+      <link>https://debruine.github.io/talk/replicability-and-generalisability-in-face-research/</link>
+      <pubDate>Thu, 21 Sep 2023 15:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/replicability-and-generalisability-in-face-research/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>ManyFaces: A big team science approach to face perception and recognition</title>
@@ -26,10 +34,13 @@
       <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/webmorph/</guid>
       <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
-&lt;p class=&#34;info&#34;&gt;
-webmorphR is now on CRAN!
+&lt;p class=&#34;error&#34;&gt;
+As of September 2023, webmorph.org is down following identification of a security vulnerability. I am working on moving all functions to webmorphR and removing the ability to store images online.
 &lt;/p&gt;
-&lt;p&gt;This development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+&lt;a href=&#34;https://cran.r-project.org/web/packages/webmorphR/index.html&#34;&gt;webmorphR&lt;/a&gt; is now on CRAN!
+&lt;/p&gt;
+&lt;p&gt;The development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
 </description>
     </item>
     

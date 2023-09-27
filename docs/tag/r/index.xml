@@ -54,6 +54,14 @@
     </item>
     
     <item>
+      <title>Code Review</title>
+      <link>https://debruine.github.io/talk/code-review/</link>
+      <pubDate>Mon, 21 Nov 2022 14:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/code-review/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Intro to R Packages</title>
       <link>https://debruine.github.io/project/coding-club/</link>
       <pubDate>Wed, 05 Oct 2022 00:00:00 +0000</pubDate>
@@ -3280,10 +3288,13 @@ names(all_data)&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/webmorph/</guid>
       <description>&lt;p&gt;The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.&lt;/p&gt;
-&lt;p class=&#34;info&#34;&gt;
-webmorphR is now on CRAN!
+&lt;p class=&#34;error&#34;&gt;
+As of September 2023, webmorph.org is down following identification of a security vulnerability. I am working on moving all functions to webmorphR and removing the ability to store images online.
 &lt;/p&gt;
-&lt;p&gt;This development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
+&lt;p class=&#34;info&#34;&gt;
+&lt;a href=&#34;https://cran.r-project.org/web/packages/webmorphR/index.html&#34;&gt;webmorphR&lt;/a&gt; is now on CRAN!
+&lt;/p&gt;
+&lt;p&gt;The development of these tools was funded by ERC grant #647910 (KINSHIP).&lt;/p&gt;
 </description>
     </item>
     
@@ -3937,6 +3948,14 @@ Wolsiefer, Katie, Jacob Westfall, and Charles M. Judd. 2017. &lt;span&gt;“Mode
 &lt;/div&gt;
 &lt;/div&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>Large-scale collaborative science (with Lisa DeBruine)</title>
+      <link>https://debruine.github.io/talk/large-scale-collaborative-science-with-lisa-debruine/</link>
+      <pubDate>Sun, 17 Feb 2019 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/large-scale-collaborative-science-with-lisa-debruine/</guid>
+      <description></description>
     </item>
     
     <item>

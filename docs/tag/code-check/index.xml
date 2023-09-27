@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>code check | Lisa DeBruine</title>
+    <link>https://debruine.github.io/tag/code-check/</link>
+      <atom:link href="https://debruine.github.io/tag/code-check/index.xml" rel="self" type="application/rss+xml" />
+    <description>code check</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 21 Nov 2022 14:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>code check</title>
+      <link>https://debruine.github.io/tag/code-check/</link>
+    </image>
+    
+    <item>
+      <title>Code Review</title>
+      <link>https://debruine.github.io/talk/code-review/</link>
+      <pubDate>Mon, 21 Nov 2022 14:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/code-review/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -17,10 +17,25 @@
     <loc>https://debruine.github.io/authors/</loc>
     <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://debruine.github.io/author/benedikt-ehinger/</loc>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/benjamin-uekermann/</loc>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/doug-bates/</loc>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/hendrik-ranocha/</loc>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://debruine.github.io/tag/julia/</loc>
     <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/author/lisa-debruine/</loc>
+    <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/marco-oesting/</loc>
     <lastmod>2023-10-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/event/</loc>
@@ -34,6 +49,21 @@
   </url><url>
     <loc>https://debruine.github.io/tags/</loc>
     <lastmod>2023-10-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/coding/</loc>
+    <lastmod>2023-09-21T15:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/faces/</loc>
+    <lastmod>2023-09-21T15:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/methods/</loc>
+    <lastmod>2023-09-21T15:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/replicability-and-generalisability-in-face-research/</loc>
+    <lastmod>2023-09-21T15:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/tag/replication/</loc>
+    <lastmod>2023-09-21T15:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/plenary-everything-is-cool-when-youre-part-of-a-team/</loc>
     <lastmod>2023-07-23T00:00:00+00:00</lastmod>
@@ -74,8 +104,11 @@
     <loc>https://debruine.github.io/talk/bath-r-launch-why-code/</loc>
     <lastmod>2023-03-30T14:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/tag/faces/</loc>
-    <lastmod>2022-10-27T18:15:00+00:00</lastmod>
+    <loc>https://debruine.github.io/tag/code-check/</loc>
+    <lastmod>2022-11-21T14:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/code-review/</loc>
+    <lastmod>2022-11-21T14:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/talk/manyfaces-a-big-team-science-approach-to-face-perception-and-recognition/</loc>
     <lastmod>2022-10-27T18:15:00+00:00</lastmod>
@@ -365,9 +398,6 @@
     <loc>https://debruine.github.io/post/composite-images/</loc>
     <lastmod>2020-01-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://debruine.github.io/tag/methods/</loc>
-    <lastmod>2020-01-31T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://debruine.github.io/category/methods/</loc>
     <lastmod>2020-01-31T00:00:00+00:00</lastmod>
   </url><url>
@@ -382,6 +412,15 @@
   </url><url>
     <loc>https://debruine.github.io/post/aggregating/</loc>
     <lastmod>2019-03-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/daniel-s.-quintana/</loc>
+    <lastmod>2019-02-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/author/james-a.-j.-heathers/</loc>
+    <lastmod>2019-02-17T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://debruine.github.io/talk/large-scale-collaborative-science-with-lisa-debruine/</loc>
+    <lastmod>2019-02-17T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/tag/lme4/</loc>
     <lastmod>2019-01-09T00:00:00+00:00</lastmod>
@@ -502,9 +541,6 @@
   </url><url>
     <loc>https://debruine.github.io/tag/psych/</loc>
     <lastmod>2017-06-26T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://debruine.github.io/tag/coding/</loc>
-    <lastmod>2017-06-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://debruine.github.io/post/coding-schemes/</loc>
     <lastmod>2017-06-23T00:00:00+00:00</lastmod>

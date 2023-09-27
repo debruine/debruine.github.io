@@ -9,10 +9,10 @@ links:
   icon_pack: fab
   name: R Package
   url: https://debruine.github.io/webmorphR/
-- icon: laptop-code
-  icon_pack: fa
-  name: WebApp
-  url: https://webmorph.org/
+# - icon: laptop-code
+#   icon_pack: fa
+#   name: WebApp
+#   url: https://webmorph.org/
 - icon: doi
   icon_pack: ai
   name: DOI
@@ -32,8 +32,12 @@ url_video: ""
 
 The goal of WebMorph and the associated R package, webmorphR, is to make the construction of image stimuli more reproducible, with a focus on face stimuli.
 
-<p class="info">
-webmorphR is now on CRAN!
+<p class="error">
+As of September 2023, webmorph.org is down following identification of a security vulnerability. I am working on moving all functions to webmorphR and removing the ability to store images online.
 </p>
 
-This development of these tools was funded by ERC grant #647910 (KINSHIP).
+<p class="info">
+<a href="https://cran.r-project.org/web/packages/webmorphR/index.html">webmorphR</a> is now on CRAN!
+</p>
+
+The development of these tools was funded by ERC grant #647910 (KINSHIP).

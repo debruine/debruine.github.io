@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Marco Oesting | Lisa DeBruine</title>
+    <link>https://debruine.github.io/author/marco-oesting/</link>
+      <atom:link href="https://debruine.github.io/author/marco-oesting/index.xml" rel="self" type="application/rss+xml" />
+    <description>Marco Oesting</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Mon, 09 Oct 2023 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
+      <title>Marco Oesting</title>
+      <link>https://debruine.github.io/author/marco-oesting/</link>
+    </image>
+    
+    <item>
+      <title>Research software engineering with Julia: basics, visualization, and statistics</title>
+      <link>https://debruine.github.io/talk/research-software-engineering-with-julia-basics-visualization-and-statistics/</link>
+      <pubDate>Mon, 09 Oct 2023 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/research-software-engineering-with-julia-basics-visualization-and-statistics/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
