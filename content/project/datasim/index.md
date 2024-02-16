@@ -1,5 +1,5 @@
 ---
-date: "2022-05-25T00:00:00Z"
+date: "2024-02-01T00:00:00Z"
 external_link: ""
 image:
   caption: Data Simulation Workshops

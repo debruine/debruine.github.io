@@ -1,0 +1,332 @@
+---
+title: "Recoding with case_match and case_when"
+author: "Lisa DeBruine"
+date: "2024-02-16"
+slug: case_functions
+categories: ["rstats"]
+tags: ["r", "tidyverse", "recoding", "categorical"]
+---
+
+I wrote previously about recoding characters into numbers using various [coding schemes](coding.html) and about [recoding numeric values into characters](recode.html) in 2017, where I covered, the `recode()` function. In this tutorial, I will compare recoding methods with `ifelse()`, `recode()`, `case_when()` and `case_match()`.
+
+We'll just be using {dplyr}.
+
+```{r setup, message=FALSE}
+library(dplyr)
+```
+
+
+First, let's create a demo data frame. In this example, the 4 subjects are in 4 `group`s (1A, 1B, 2A or 2B), and they complete a task under two `condition`s (ctl or exp). The `cb` column gives the counterbalancing group (1 = ctl first, 2 = exp first). A few values are set to `NA` to demonstrate how the different methods deal with missing values.
+
+```{r}
+df <- data.frame(
+  id = rep(1:4, each = 2),
+  condition = rep(c("ctl", "exp"), 4),
+  group = rep(c("1A", "1B", "2A", "2B"), each = 2),
+  cb = rep(1:2, each = 2, times = 2)
+)
+
+df$condition[8] <- NA
+df$group[7] <- NA
+
+df
+```
+
+Our task here is to do both simple and complex recoding. 
+
+The conditions should be changed to more descriptive labels: `ctl` = "Control" and `exp` = "Experimental. This is an example of *one-to-one* recoding.
+
+There are 4 groups, but we want to recode them into two labels: `1A` and `1B` = "Easy", `2A` and `2B` = "Hard". This is an example of *many-to-one* recoding.
+
+Additionally, we want to create a new column called `first` that is `TRUE` if the condition was first, and `FALSE` if it was not. So it should be true if the condition is ctl and cb is 1, or if the condition is exp and cb is 2, and false otherwise. This is an example of *complex* recoding, since it requires evaluation of more than one column.
+
+This is what we want in the end:
+
+```{r, echo = FALSE}
+target <- data.frame(
+  id = rep(1:4, each = 2),
+  condition = rep(c("Control", "Experimental"), 4),
+  group = rep(c("Easy", "Hard"), each = 4),
+  cb = rep(1:2, each = 2, times = 2),
+  first = c(T, F, F, T, T, F, F, T)
+)
+
+target$condition[8] <- NA
+target$group[7] <- NA
+target$first[8] <- NA
+
+target
+```
+
+## Ifelse
+
+Beginners are often tempted to tackle problems like this with `ifelse()` statements.
+
+```{r}
+df |>
+  mutate(
+    condition = ifelse(condition == "ctl", "Control", "Experimental"),
+    group = ifelse(group %in% c("1A", "1B"), "Easy", "Hard"),
+    first = ifelse(condition == "Control",
+                   yes = ifelse(cb == 1, TRUE, FALSE),
+                    no = ifelse(cb == 2, TRUE, FALSE))
+  )
+```
+
+This isn't wrong, but can be really messy and hard to debug if you have missing values, many levels, or complex recoding. Notice above that the `%in%` statement recodes the missing value as `"Hard"` rather than `NA`. You can fix this like below, but this quickly becomes tedious.
+
+```{r}
+df |>
+  mutate(
+    group = ifelse(group %in% c("1A", "1B"), "Easy", 
+                   ifelse(group %in% c("2A", "2B"), "Hard", NA))
+  )
+```
+
+Especially if you have more than 2 groups or need to deal with missing values in a specific way.
+
+```{r}
+data.frame(x = c(1:5, NA)) |>
+  mutate(recode = ifelse(x == 1, "one",
+                         ifelse(x == "2", "two",
+                                ifelse(x == 3, "three",
+                                       ifelse(x == 4, "four",
+                                              ifelse(x == 5, "five", 
+                                                     "missing"))))))
+```
+
+
+## Recode
+
+The `recode()` function is a good choice if you have a simple one-to-one mapping of values. 
+
+The general syntax is:
+
+``` r
+recode(vector_to_recode, 
+       `old value 1` = "new value 1", 
+       `old value 2` = "new value 2",
+       .default = "default value")
+```
+
+```{r}
+df |>
+  mutate(
+    condition = recode(condition, 
+                       ctl = "Control", 
+                       exp = "Experimental"),
+    group = recode(group, 
+                   `1A` = "Easy", `1B` = "Easy", 
+                   `2A` = "Hard", `2B` = "Hard"),
+  )
+```
+
+You don't *have* to put the old values inside backticks (or quotes) if they only contain letters, numbers, underscores, and full stops, and don't start with a number (like a valid object name). But if it's easier for you to just consistently always put all the values in quotes, that's fine.
+
+You can also set the recodings with a named vector and the tripple bang (`!!!`), like below.
+
+```{r, eval = FALSE}
+
+condition_recode <- c(
+  "ctl" = "Control", 
+  "exp" = "Experimental"
+)
+
+group_recode <- c(
+  "1A" = "Easy", 
+  "1B" = "Easy", 
+  "2A" = "Hard", 
+  "2B" = "Hard"
+)
+
+df |>
+  mutate(
+    condition = recode(condition, !!!condition_recode),
+    group = recode(group, !!!group_recode),
+  )
+```
+
+## Case Match
+
+The `case_match()` function is similar to recode, with a slightly different syntax involving tildes instead of equal signs, and the ability to put a vector of values on the left-hand side. The left-hand side *has* to be a character vector, or an object that represents a character vector.
+
+``` r
+case_match(vector_to_recode, 
+       "old value 1" ~ "new value 1", 
+       c("old value 2a", "old value 2b") ~ "new value 2",
+       .default = "default value")
+```
+
+```{r}
+easy_groups <- c("1A", "1B")
+hard_groups <- c("2A", "2B")
+
+df |>
+  mutate(
+    condition = case_match(condition, 
+                           "ctl" ~ "Control", 
+                           "exp" ~ "Experimental"),
+    group = case_match(group, 
+                       easy_groups ~ "Easy", 
+                       hard_groups ~ "Hard")
+  )
+```
+
+## Case When
+
+The `case_when()` function is required for more complex recoding, but can also be used for simple recoding. The left-hand side of the tilde is any statement that creates a logical vector. If it is TRUE, then the value is replaced with the one on the right-hand side. If it is FALSE, the next logical statement is checked. If all statements are false, it will get the `.default` value (which defaults to `NA`). 
+
+``` r
+case_when(vector_to_recode, 
+       (logical statement) ~ "new value 1", 
+       (logical statement) ~ "new value 2",
+       .default = "default value")
+```
+
+```{r}
+df |>
+  mutate(
+    condition = case_when(condition == "ctl" ~ "Control", 
+                          condition == "exp" ~ "Experimental"),
+    group = case_when(group %in% c("1A", "1B") ~ "Easy", 
+                      group %in% c("2A", "2B") ~ "Hard"),
+    
+    first = case_when(
+      condition == "Control" & cb == 1 ~ TRUE,
+      condition == "Control" & cb == 2 ~ FALSE,
+      condition == "Experimental" & cb == 1 ~ FALSE,
+      condition == "Experimental" & cb == 2 ~ TRUE
+    )
+  )
+```
+
+After the first TRUE statement is found, the latter statements are not checked, so values will be replaced by the first match, even if more than one logical statement is true.
+
+```{r}
+# 1 and 2 are both < 3 and < 5
+data.frame(x = 1:5) |>
+  mutate(size = case_when(
+    x < 3 ~ "< 3",
+    x < 5 ~ "< 5"
+  ))
+```
+
+Of course you are free to mix and match recoding functions. I'd recommend prioritising clarity over conciseness, so it is as easy as possible to look at the code and see how values are being recoded (both other peole and future you will thank you).
+
+```{r}
+df |>
+  mutate(
+    condition = recode(condition, 
+                       ctl = "Control", 
+                       exp = "Experimental"),
+    group = case_match(group, 
+                       c("1A", "1B") ~ "Easy", 
+                       c("2A", "2B") ~ "Hard"),
+    first = case_when(
+      condition == "Control" & cb == 1 ~ TRUE,
+      condition == "Control" & cb == 2 ~ FALSE,
+      condition == "Experimental" & cb == 1 ~ FALSE,
+      condition == "Experimental" & cb == 2 ~ TRUE
+    )
+  )
+```
+## Testing
+
+No matter what method you use, you need to test your recoding to make sure you haven't introduced errors. You can use the `count()` function to check that your recodings look like you expect.
+
+```{r}
+# original data
+orig <- data.frame(
+  group = sample(LETTERS[1:4], 200, T)
+)
+
+# recoding vector
+group_recode <- c(
+  A = "control 1", 
+  B = "control 2",
+  C = "experimental 1",
+  C = "experimental 2" # intentional error here :)
+)
+```
+
+First, save the recoded value in either a different column in the original data frame or a different data frame.
+
+
+```{r}
+# recoded data in original data frame
+orig$group2 <- recode(orig$group, !!!group_recode)
+
+# recoded data in new data frame
+new <- orig |>
+  mutate(group = recode(group, !!!group_recode))
+```
+
+If they are in the same data frame, the checking code is very simple, just count the values in both columns. You should have only as many rows as the original number of levels, and the recoded values should be correct.
+
+```{r}
+# check recoding with count()
+count(orig, group, group2)
+```
+
+If they are in different data frames, combine then and count.
+
+```{r}
+data.frame(
+  orig = orig$group,
+  new = new$group
+) |>
+  count(orig, new)
+```
+
+
+## Common Errors
+
+### Combining different data types
+
+If the new values are not the same data type (e.g., all characters or all numeric), you will get an error. 
+
+```{r, error = TRUE}
+recode(c("A", "B"), A = 1, B = "b")
+```
+
+The error will be different depending on what the data type of the first new value is. 
+
+```{r, error = TRUE}
+recode(c("A", "B"), A = "a", B = 2)
+```
+
+You get a similar error for the same reason with `case_match()` and `case_when()`.
+
+```{r, error = TRUE}
+case_match(c("A", "B"), "A" ~ "a", "B" ~ 2)
+```
+### Can't recycle ...
+
+If your logical statements result in vectors that are different lengths, you will get the following error.
+
+```{r, error = TRUE}
+case_when(
+  1:6 < 10 ~ "less than 10",
+  1:2 < 20 ~ "less than 20"
+)
+```
+
+### Unexpected '='
+
+If you are trying to recode numbers, you may be tempted to write code like this: 
+
+```{r, error = TRUE}
+recode(1:2, 1 = "A", 2 = "B")
+```
+
+However, you need to put the left-hand side in backticks or quotes if it is a number:
+
+```{r, error = TRUE}
+recode(1:2, `1` = "A", `2` = "B")
+```
+
+This will work with `case_match()`, though. The `recode()` function reads in the old values as function arguments, which have certain rules, while `case_match()` reads in old values as the left-hand side of an equation (hence the `~`), which has different rules.
+
+```{r, error = TRUE}
+case_match(1:2, 1 ~ "A", 2 ~ "B")
+```

@@ -5,12 +5,340 @@
     <link>https://debruine.github.io/category/rstats/</link>
       <atom:link href="https://debruine.github.io/category/rstats/index.xml" rel="self" type="application/rss+xml" />
     <description>rstats</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 10 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Fri, 16 Feb 2024 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>rstats</title>
       <link>https://debruine.github.io/category/rstats/</link>
     </image>
+    
+    <item>
+      <title>Recoding with case_match and case_when</title>
+      <link>https://debruine.github.io/post/case_functions/</link>
+      <pubDate>Fri, 16 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/post/case_functions/</guid>
+      <description>
+
+
+&lt;p&gt;I wrote previously about recoding characters into numbers using various &lt;a href=&#34;coding.html&#34;&gt;coding schemes&lt;/a&gt; and about &lt;a href=&#34;recode.html&#34;&gt;recoding numeric values into characters&lt;/a&gt; in 2017, where I covered, the &lt;code&gt;recode()&lt;/code&gt; function. In this tutorial, I will compare recoding methods with &lt;code&gt;ifelse()&lt;/code&gt;, &lt;code&gt;recode()&lt;/code&gt;, &lt;code&gt;case_when()&lt;/code&gt; and &lt;code&gt;case_match()&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;We’ll just be using {dplyr}.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(dplyr)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;First, let’s create a demo data frame. In this example, the 4 subjects are in 4 &lt;code&gt;group&lt;/code&gt;s (1A, 1B, 2A or 2B), and they complete a task under two &lt;code&gt;condition&lt;/code&gt;s (ctl or exp). The &lt;code&gt;cb&lt;/code&gt; column gives the counterbalancing group (1 = ctl first, 2 = exp first). A few values are set to &lt;code&gt;NA&lt;/code&gt; to demonstrate how the different methods deal with missing values.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df &amp;lt;- data.frame(
+  id = rep(1:4, each = 2),
+  condition = rep(c(&amp;quot;ctl&amp;quot;, &amp;quot;exp&amp;quot;), 4),
+  group = rep(c(&amp;quot;1A&amp;quot;, &amp;quot;1B&amp;quot;, &amp;quot;2A&amp;quot;, &amp;quot;2B&amp;quot;), each = 2),
+  cb = rep(1:2, each = 2, times = 2)
+)
+
+df$condition[8] &amp;lt;- NA
+df$group[7] &amp;lt;- NA
+
+df&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id condition group cb
+## 1  1       ctl    1A  1
+## 2  1       exp    1A  1
+## 3  2       ctl    1B  2
+## 4  2       exp    1B  2
+## 5  3       ctl    2A  1
+## 6  3       exp    2A  1
+## 7  4       ctl  &amp;lt;NA&amp;gt;  2
+## 8  4      &amp;lt;NA&amp;gt;    2B  2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our task here is to do both simple and complex recoding.&lt;/p&gt;
+&lt;p&gt;The conditions should be changed to more descriptive labels: &lt;code&gt;ctl&lt;/code&gt; = “Control” and &lt;code&gt;exp&lt;/code&gt; = “Experimental. This is an example of &lt;em&gt;one-to-one&lt;/em&gt; recoding.&lt;/p&gt;
+&lt;p&gt;There are 4 groups, but we want to recode them into two labels: &lt;code&gt;1A&lt;/code&gt; and &lt;code&gt;1B&lt;/code&gt; = “Easy”, &lt;code&gt;2A&lt;/code&gt; and &lt;code&gt;2B&lt;/code&gt; = “Hard”. This is an example of &lt;em&gt;many-to-one&lt;/em&gt; recoding.&lt;/p&gt;
+&lt;p&gt;Additionally, we want to create a new column called &lt;code&gt;first&lt;/code&gt; that is &lt;code&gt;TRUE&lt;/code&gt; if the condition was first, and &lt;code&gt;FALSE&lt;/code&gt; if it was not. So it should be true if the condition is ctl and cb is 1, or if the condition is exp and cb is 2, and false otherwise. This is an example of &lt;em&gt;complex&lt;/em&gt; recoding, since it requires evaluation of more than one column.&lt;/p&gt;
+&lt;p&gt;This is what we want in the end:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &amp;lt;NA&amp;gt;  2 FALSE
+## 8  4         &amp;lt;NA&amp;gt;  Hard  2    NA&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;ifelse&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Ifelse&lt;/h2&gt;
+&lt;p&gt;Beginners are often tempted to tackle problems like this with &lt;code&gt;ifelse()&lt;/code&gt; statements.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df |&amp;gt;
+  mutate(
+    condition = ifelse(condition == &amp;quot;ctl&amp;quot;, &amp;quot;Control&amp;quot;, &amp;quot;Experimental&amp;quot;),
+    group = ifelse(group %in% c(&amp;quot;1A&amp;quot;, &amp;quot;1B&amp;quot;), &amp;quot;Easy&amp;quot;, &amp;quot;Hard&amp;quot;),
+    first = ifelse(condition == &amp;quot;Control&amp;quot;,
+                   yes = ifelse(cb == 1, TRUE, FALSE),
+                    no = ifelse(cb == 2, TRUE, FALSE))
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  Hard  2 FALSE
+## 8  4         &amp;lt;NA&amp;gt;  Hard  2    NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This isn’t wrong, but can be really messy and hard to debug if you have missing values, many levels, or complex recoding. Notice above that the &lt;code&gt;%in%&lt;/code&gt; statement recodes the missing value as &lt;code&gt;&#34;Hard&#34;&lt;/code&gt; rather than &lt;code&gt;NA&lt;/code&gt;. You can fix this like below, but this quickly becomes tedious.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df |&amp;gt;
+  mutate(
+    group = ifelse(group %in% c(&amp;quot;1A&amp;quot;, &amp;quot;1B&amp;quot;), &amp;quot;Easy&amp;quot;, 
+                   ifelse(group %in% c(&amp;quot;2A&amp;quot;, &amp;quot;2B&amp;quot;), &amp;quot;Hard&amp;quot;, NA))
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id condition group cb
+## 1  1       ctl  Easy  1
+## 2  1       exp  Easy  1
+## 3  2       ctl  Easy  2
+## 4  2       exp  Easy  2
+## 5  3       ctl  Hard  1
+## 6  3       exp  Hard  1
+## 7  4       ctl  &amp;lt;NA&amp;gt;  2
+## 8  4      &amp;lt;NA&amp;gt;  Hard  2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Especially if you have more than 2 groups or need to deal with missing values in a specific way.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.frame(x = c(1:5, NA)) |&amp;gt;
+  mutate(recode = ifelse(x == 1, &amp;quot;one&amp;quot;,
+                         ifelse(x == &amp;quot;2&amp;quot;, &amp;quot;two&amp;quot;,
+                                ifelse(x == 3, &amp;quot;three&amp;quot;,
+                                       ifelse(x == 4, &amp;quot;four&amp;quot;,
+                                              ifelse(x == 5, &amp;quot;five&amp;quot;, 
+                                                     &amp;quot;missing&amp;quot;))))))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    x recode
+## 1  1    one
+## 2  2    two
+## 3  3  three
+## 4  4   four
+## 5  5   five
+## 6 NA   &amp;lt;NA&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;recode&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Recode&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;recode()&lt;/code&gt; function is a good choice if you have a simple one-to-one mapping of values.&lt;/p&gt;
+&lt;p&gt;The general syntax is:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;recode(vector_to_recode, 
+       `old value 1` = &amp;quot;new value 1&amp;quot;, 
+       `old value 2` = &amp;quot;new value 2&amp;quot;,
+       .default = &amp;quot;default value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df |&amp;gt;
+  mutate(
+    condition = recode(condition, 
+                       ctl = &amp;quot;Control&amp;quot;, 
+                       exp = &amp;quot;Experimental&amp;quot;),
+    group = recode(group, 
+                   `1A` = &amp;quot;Easy&amp;quot;, `1B` = &amp;quot;Easy&amp;quot;, 
+                   `2A` = &amp;quot;Hard&amp;quot;, `2B` = &amp;quot;Hard&amp;quot;),
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id    condition group cb
+## 1  1      Control  Easy  1
+## 2  1 Experimental  Easy  1
+## 3  2      Control  Easy  2
+## 4  2 Experimental  Easy  2
+## 5  3      Control  Hard  1
+## 6  3 Experimental  Hard  1
+## 7  4      Control  &amp;lt;NA&amp;gt;  2
+## 8  4         &amp;lt;NA&amp;gt;  Hard  2&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You don’t &lt;em&gt;have&lt;/em&gt; to put the old values inside backticks (or quotes) if they only contain letters, numbers, underscores, and full stops, and don’t start with a number (like a valid object name). But if it’s easier for you to just consistently always put all the values in quotes, that’s fine.&lt;/p&gt;
+&lt;p&gt;You can also set the recodings with a named vector and the tripple bang (&lt;code&gt;!!!&lt;/code&gt;), like below.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;condition_recode &amp;lt;- c(
+  &amp;quot;ctl&amp;quot; = &amp;quot;Control&amp;quot;, 
+  &amp;quot;exp&amp;quot; = &amp;quot;Experimental&amp;quot;
+)
+
+group_recode &amp;lt;- c(
+  &amp;quot;1A&amp;quot; = &amp;quot;Easy&amp;quot;, 
+  &amp;quot;1B&amp;quot; = &amp;quot;Easy&amp;quot;, 
+  &amp;quot;2A&amp;quot; = &amp;quot;Hard&amp;quot;, 
+  &amp;quot;2B&amp;quot; = &amp;quot;Hard&amp;quot;
+)
+
+df |&amp;gt;
+  mutate(
+    condition = recode(condition, !!!condition_recode),
+    group = recode(group, !!!group_recode),
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;case-match&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Case Match&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;case_match()&lt;/code&gt; function is similar to recode, with a slightly different syntax involving tildes instead of equal signs, and the ability to put a vector of values on the left-hand side. The left-hand side &lt;em&gt;has&lt;/em&gt; to be a character vector, or an object that represents a character vector.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;case_match(vector_to_recode, 
+       &amp;quot;old value 1&amp;quot; ~ &amp;quot;new value 1&amp;quot;, 
+       c(&amp;quot;old value 2a&amp;quot;, &amp;quot;old value 2b&amp;quot;) ~ &amp;quot;new value 2&amp;quot;,
+       .default = &amp;quot;default value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;easy_groups &amp;lt;- c(&amp;quot;1A&amp;quot;, &amp;quot;1B&amp;quot;)
+hard_groups &amp;lt;- c(&amp;quot;2A&amp;quot;, &amp;quot;2B&amp;quot;)
+
+df |&amp;gt;
+  mutate(
+    condition = case_match(condition, 
+                           &amp;quot;ctl&amp;quot; ~ &amp;quot;Control&amp;quot;, 
+                           &amp;quot;exp&amp;quot; ~ &amp;quot;Experimental&amp;quot;),
+    group = case_match(group, 
+                       easy_groups ~ &amp;quot;Easy&amp;quot;, 
+                       hard_groups ~ &amp;quot;Hard&amp;quot;)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id    condition group cb
+## 1  1      Control  Easy  1
+## 2  1 Experimental  Easy  1
+## 3  2      Control  Easy  2
+## 4  2 Experimental  Easy  2
+## 5  3      Control  Hard  1
+## 6  3 Experimental  Hard  1
+## 7  4      Control  &amp;lt;NA&amp;gt;  2
+## 8  4         &amp;lt;NA&amp;gt;  Hard  2&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;case-when&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Case When&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;case_when()&lt;/code&gt; function is required for more complex recoding, but can also be used for simple recoding. The left-hand side of the tilde is any statement that creates a logical vector. If it is TRUE, then the value is replaced with the one on the right-hand side. If it is FALSE, the next logical statement is checked. If all statements are false, it will get the &lt;code&gt;.default&lt;/code&gt; value (which defaults to &lt;code&gt;NA&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;case_when(vector_to_recode, 
+       (logical statement) ~ &amp;quot;new value 1&amp;quot;, 
+       (logical statement) ~ &amp;quot;new value 2&amp;quot;,
+       .default = &amp;quot;default value&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df |&amp;gt;
+  mutate(
+    condition = case_when(condition == &amp;quot;ctl&amp;quot; ~ &amp;quot;Control&amp;quot;, 
+                          condition == &amp;quot;exp&amp;quot; ~ &amp;quot;Experimental&amp;quot;),
+    group = case_when(group %in% c(&amp;quot;1A&amp;quot;, &amp;quot;1B&amp;quot;) ~ &amp;quot;Easy&amp;quot;, 
+                      group %in% c(&amp;quot;2A&amp;quot;, &amp;quot;2B&amp;quot;) ~ &amp;quot;Hard&amp;quot;),
+    
+    first = case_when(
+      condition == &amp;quot;Control&amp;quot; &amp;amp; cb == 1 ~ TRUE,
+      condition == &amp;quot;Control&amp;quot; &amp;amp; cb == 2 ~ FALSE,
+      condition == &amp;quot;Experimental&amp;quot; &amp;amp; cb == 1 ~ FALSE,
+      condition == &amp;quot;Experimental&amp;quot; &amp;amp; cb == 2 ~ TRUE
+    )
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &amp;lt;NA&amp;gt;  2 FALSE
+## 8  4         &amp;lt;NA&amp;gt;  Hard  2    NA&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After the first TRUE statement is found, the latter statements are not checked, so values will be replaced by the first match, even if more than one logical statement is true.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# 1 and 2 are both &amp;lt; 3 and &amp;lt; 5
+data.frame(x = 1:5) |&amp;gt;
+  mutate(size = case_when(
+    x &amp;lt; 3 ~ &amp;quot;&amp;lt; 3&amp;quot;,
+    x &amp;lt; 5 ~ &amp;quot;&amp;lt; 5&amp;quot;
+  ))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   x size
+## 1 1  &amp;lt; 3
+## 2 2  &amp;lt; 3
+## 3 3  &amp;lt; 5
+## 4 4  &amp;lt; 5
+## 5 5 &amp;lt;NA&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Of course you are free to mix and match recoding functions. I’d recommend prioritising clarity over conciseness, so it is as easy as possible to look at the code and see how values are being recoded (both other peole and future you will thank you).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df |&amp;gt;
+  mutate(
+    condition = recode(condition, 
+                       ctl = &amp;quot;Control&amp;quot;, 
+                       exp = &amp;quot;Experimental&amp;quot;),
+    group = case_match(group, 
+                       c(&amp;quot;1A&amp;quot;, &amp;quot;1B&amp;quot;) ~ &amp;quot;Easy&amp;quot;, 
+                       c(&amp;quot;2A&amp;quot;, &amp;quot;2B&amp;quot;) ~ &amp;quot;Hard&amp;quot;),
+    first = case_when(
+      condition == &amp;quot;Control&amp;quot; &amp;amp; cb == 1 ~ TRUE,
+      condition == &amp;quot;Control&amp;quot; &amp;amp; cb == 2 ~ FALSE,
+      condition == &amp;quot;Experimental&amp;quot; &amp;amp; cb == 1 ~ FALSE,
+      condition == &amp;quot;Experimental&amp;quot; &amp;amp; cb == 2 ~ TRUE
+    )
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &amp;lt;NA&amp;gt;  2 FALSE
+## 8  4         &amp;lt;NA&amp;gt;  Hard  2    NA&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;testing&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Testing&lt;/h2&gt;
+&lt;p&gt;No matter what method you use, you need to test your recoding to make sure you haven’t introduced errors. You can use the &lt;code&gt;count()&lt;/code&gt; function to check that your recodings look like you expect.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# original data
+orig &amp;lt;- data.frame(
+  group = sample(LETTERS[1:4], 200, T)
+)
+
+# recoding vector
+group_recode &amp;lt;- c(
+  A = &amp;quot;control 1&amp;quot;, 
+  B = &amp;quot;control 2&amp;quot;,
+  C = &amp;quot;experimental 1&amp;quot;,
+  C = &amp;quot;experimental 2&amp;quot; # intentional error here :)
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;First, save the recoded value in either a different column in the original data frame or a different data frame.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# recoded data in original data frame
+orig$group2 &amp;lt;- recode(orig$group, !!!group_recode)
+
+# recoded data in new data frame
+new &amp;lt;- orig |&amp;gt;
+  mutate(group = recode(group, !!!group_recode))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If they are in the same data frame, the checking code is very simple, just count the values in both columns. You should have only as many rows as the original number of levels, and the recoded values should be correct.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# check recoding with count()
+count(orig, group, group2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   group         group2  n
+## 1     A      control 1 47
+## 2     B      control 2 54
+## 3     C experimental 1 52
+## 4     D              D 47&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If they are in different data frames, combine then and count.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data.frame(
+  orig = orig$group,
+  new = new$group
+) |&amp;gt;
+  count(orig, new)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   orig            new  n
+## 1    A      control 1 47
+## 2    B      control 2 54
+## 3    C experimental 1 52
+## 4    D              D 47&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;common-errors&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Common Errors&lt;/h2&gt;
+&lt;div id=&#34;combining-different-data-types&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Combining different data types&lt;/h3&gt;
+&lt;p&gt;If the new values are not the same data type (e.g., all characters or all numeric), you will get an error.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;recode(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;), A = 1, B = &amp;quot;b&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in `recode()`:
+## ! `B` must be a double vector, not the string &amp;quot;b&amp;quot;.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The error will be different depending on what the data type of the first new value is.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;recode(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;), A = &amp;quot;a&amp;quot;, B = 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in `recode()`:
+## ! `B` must be a character vector, not the number 2.&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You get a similar error for the same reason with &lt;code&gt;case_match()&lt;/code&gt; and &lt;code&gt;case_when()&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;case_match(c(&amp;quot;A&amp;quot;, &amp;quot;B&amp;quot;), &amp;quot;A&amp;quot; ~ &amp;quot;a&amp;quot;, &amp;quot;B&amp;quot; ~ 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in `case_match()`:
+## ! Can&amp;#39;t combine `..1 (right)` &amp;lt;character&amp;gt; and `..2 (right)` &amp;lt;double&amp;gt;.&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cant-recycle&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Can’t recycle …&lt;/h3&gt;
+&lt;p&gt;If your logical statements result in vectors that are different lengths, you will get the following error.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;case_when(
+  1:6 &amp;lt; 10 ~ &amp;quot;less than 10&amp;quot;,
+  1:2 &amp;lt; 20 ~ &amp;quot;less than 20&amp;quot;
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error in `case_when()`:
+## ! Can&amp;#39;t recycle `..1 (left)` (size 6) to match `..2 (left)` (size 2).&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;unexpected&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Unexpected ‘=’&lt;/h3&gt;
+&lt;p&gt;If you are trying to recode numbers, you may be tempted to write code like this:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;recode(1:2, 1 = &amp;quot;A&amp;quot;, 2 = &amp;quot;B&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Error: &amp;lt;text&amp;gt;:1:15: unexpected &amp;#39;=&amp;#39;
+## 1: recode(1:2, 1 =
+##                   ^&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;However, you need to put the left-hand side in backticks or quotes if it is a number:&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;recode(1:2, `1` = &amp;quot;A&amp;quot;, `2` = &amp;quot;B&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;A&amp;quot; &amp;quot;B&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This will work with &lt;code&gt;case_match()&lt;/code&gt;, though. The &lt;code&gt;recode()&lt;/code&gt; function reads in the old values as function arguments, which have certain rules, while &lt;code&gt;case_match()&lt;/code&gt; reads in old values as the left-hand side of an equation (hence the &lt;code&gt;~&lt;/code&gt;), which has different rules.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;case_match(1:2, 1 ~ &amp;quot;A&amp;quot;, 2 ~ &amp;quot;B&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;A&amp;quot; &amp;quot;B&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Loops</title>

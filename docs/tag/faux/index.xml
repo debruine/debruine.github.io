@@ -5,7 +5,7 @@
     <link>https://debruine.github.io/tag/faux/</link>
       <atom:link href="https://debruine.github.io/tag/faux/index.xml" rel="self" type="application/rss+xml" />
     <description>faux</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 25 May 2022 00:00:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Feb 2024 00:00:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>faux</title>
@@ -15,7 +15,7 @@
     <item>
       <title>Data Simulation Workshops</title>
       <link>https://debruine.github.io/project/datasim/</link>
-      <pubDate>Wed, 25 May 2022 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
       <guid>https://debruine.github.io/project/datasim/</guid>
       <description>&lt;h2 id=&#34;data-simulation-for-factorial-designs&#34;&gt;Data simulation for factorial designs&lt;/h2&gt;
 &lt;p&gt;This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex} and {tidyverse}.&lt;/p&gt;

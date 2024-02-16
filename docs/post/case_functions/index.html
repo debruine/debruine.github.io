@@ -1,0 +1,1643 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Lisa DeBruine" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="I wrote previously about recoding characters into numbers using various coding schemes and about recoding numeric values into characters in 2017, where I covered, the recode() function. In this tutorial, I will compare recoding methods with ifelse(), recode(), case_when() and case_match()." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://debruine.github.io/post/case_functions/" />
+
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.2/css/academicons.min.css" integrity="sha512-KlJCpRsLf+KKu2VQa5vmRuClRFjxc5lXO03ixZt82HZUk41+1I0bD8KBSA0fY290ayMfWYI9udIqeOWSu1/uZg==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.b1dff6f85aae5097c42eda0896577563.css" />
+
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-16Q0LBRCV4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-16Q0LBRCV4', {});
+  gtag('set', {'cookie_flags': 'SameSite=None;Secure'});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://debruine.github.io/post/case_functions/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+  <meta property="twitter:card" content="summary" />
+  
+    <meta property="twitter:site" content="@@lisadebruine" />
+    <meta property="twitter:creator" content="@@lisadebruine" />
+  
+  <meta property="og:site_name" content="Lisa DeBruine" />
+  <meta property="og:url" content="https://debruine.github.io/post/case_functions/" />
+  <meta property="og:title" content="Recoding with case_match and case_when | Lisa DeBruine" />
+  <meta property="og:description" content="I wrote previously about recoding characters into numbers using various coding schemes and about recoding numeric values into characters in 2017, where I covered, the recode() function. In this tutorial, I will compare recoding methods with ifelse(), recode(), case_when() and case_match()." /><meta property="og:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2024-02-16T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2024-02-16T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://debruine.github.io/post/case_functions/"
+  },
+  "headline": "Recoding with case_match and case_when",
+  
+  "datePublished": "2024-02-16T00:00:00Z",
+  "dateModified": "2024-02-16T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Lisa DeBruine"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Lisa DeBruine",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "I wrote previously about recoding characters into numbers using various coding schemes and about recoding numeric values into characters in 2017, where I covered, the recode() function. In this tutorial, I will compare recoding methods with ifelse(), recode(), case_when() and case_match()."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+  <title>Recoding with case_match and case_when | Lisa DeBruine</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="6b908a4fa6e57272c0b5e0b28568272f" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8988fb2a4bba758785868cfcb5244555.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Lisa DeBruine</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#publications"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#talks"><span>Talks</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+          
+          <li class="nav-item d-none d-lg-inline-flex">
+            <a class="nav-link" href="/"  aria-label="">
+              <i class="fas fa-" aria-hidden="true"></i>
+            </a>
+          </li>
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Recoding with case_match and case_when</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    2024-02-16
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/rstats/">rstats</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<p>I wrote previously about recoding characters into numbers using various <a href="coding.html">coding schemes</a> and about <a href="recode.html">recoding numeric values into characters</a> in 2017, where I covered, the <code>recode()</code> function. In this tutorial, I will compare recoding methods with <code>ifelse()</code>, <code>recode()</code>, <code>case_when()</code> and <code>case_match()</code>.</p>
+<p>We’ll just be using {dplyr}.</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<p>First, let’s create a demo data frame. In this example, the 4 subjects are in 4 <code>group</code>s (1A, 1B, 2A or 2B), and they complete a task under two <code>condition</code>s (ctl or exp). The <code>cb</code> column gives the counterbalancing group (1 = ctl first, 2 = exp first). A few values are set to <code>NA</code> to demonstrate how the different methods deal with missing values.</p>
+<pre class="r"><code>df &lt;- data.frame(
+  id = rep(1:4, each = 2),
+  condition = rep(c(&quot;ctl&quot;, &quot;exp&quot;), 4),
+  group = rep(c(&quot;1A&quot;, &quot;1B&quot;, &quot;2A&quot;, &quot;2B&quot;), each = 2),
+  cb = rep(1:2, each = 2, times = 2)
+)
+
+df$condition[8] &lt;- NA
+df$group[7] &lt;- NA
+
+df</code></pre>
+<pre><code>##   id condition group cb
+## 1  1       ctl    1A  1
+## 2  1       exp    1A  1
+## 3  2       ctl    1B  2
+## 4  2       exp    1B  2
+## 5  3       ctl    2A  1
+## 6  3       exp    2A  1
+## 7  4       ctl  &lt;NA&gt;  2
+## 8  4      &lt;NA&gt;    2B  2</code></pre>
+<p>Our task here is to do both simple and complex recoding.</p>
+<p>The conditions should be changed to more descriptive labels: <code>ctl</code> = “Control” and <code>exp</code> = “Experimental. This is an example of <em>one-to-one</em> recoding.</p>
+<p>There are 4 groups, but we want to recode them into two labels: <code>1A</code> and <code>1B</code> = “Easy”, <code>2A</code> and <code>2B</code> = “Hard”. This is an example of <em>many-to-one</em> recoding.</p>
+<p>Additionally, we want to create a new column called <code>first</code> that is <code>TRUE</code> if the condition was first, and <code>FALSE</code> if it was not. So it should be true if the condition is ctl and cb is 1, or if the condition is exp and cb is 2, and false otherwise. This is an example of <em>complex</em> recoding, since it requires evaluation of more than one column.</p>
+<p>This is what we want in the end:</p>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &lt;NA&gt;  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+<div id="ifelse" class="section level2">
+<h2>Ifelse</h2>
+<p>Beginners are often tempted to tackle problems like this with <code>ifelse()</code> statements.</p>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = ifelse(condition == &quot;ctl&quot;, &quot;Control&quot;, &quot;Experimental&quot;),
+    group = ifelse(group %in% c(&quot;1A&quot;, &quot;1B&quot;), &quot;Easy&quot;, &quot;Hard&quot;),
+    first = ifelse(condition == &quot;Control&quot;,
+                   yes = ifelse(cb == 1, TRUE, FALSE),
+                    no = ifelse(cb == 2, TRUE, FALSE))
+  )</code></pre>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  Hard  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+<p>This isn’t wrong, but can be really messy and hard to debug if you have missing values, many levels, or complex recoding. Notice above that the <code>%in%</code> statement recodes the missing value as <code>"Hard"</code> rather than <code>NA</code>. You can fix this like below, but this quickly becomes tedious.</p>
+<pre class="r"><code>df |&gt;
+  mutate(
+    group = ifelse(group %in% c(&quot;1A&quot;, &quot;1B&quot;), &quot;Easy&quot;, 
+                   ifelse(group %in% c(&quot;2A&quot;, &quot;2B&quot;), &quot;Hard&quot;, NA))
+  )</code></pre>
+<pre><code>##   id condition group cb
+## 1  1       ctl  Easy  1
+## 2  1       exp  Easy  1
+## 3  2       ctl  Easy  2
+## 4  2       exp  Easy  2
+## 5  3       ctl  Hard  1
+## 6  3       exp  Hard  1
+## 7  4       ctl  &lt;NA&gt;  2
+## 8  4      &lt;NA&gt;  Hard  2</code></pre>
+<p>Especially if you have more than 2 groups or need to deal with missing values in a specific way.</p>
+<pre class="r"><code>data.frame(x = c(1:5, NA)) |&gt;
+  mutate(recode = ifelse(x == 1, &quot;one&quot;,
+                         ifelse(x == &quot;2&quot;, &quot;two&quot;,
+                                ifelse(x == 3, &quot;three&quot;,
+                                       ifelse(x == 4, &quot;four&quot;,
+                                              ifelse(x == 5, &quot;five&quot;, 
+                                                     &quot;missing&quot;))))))</code></pre>
+<pre><code>##    x recode
+## 1  1    one
+## 2  2    two
+## 3  3  three
+## 4  4   four
+## 5  5   five
+## 6 NA   &lt;NA&gt;</code></pre>
+</div>
+<div id="recode" class="section level2">
+<h2>Recode</h2>
+<p>The <code>recode()</code> function is a good choice if you have a simple one-to-one mapping of values.</p>
+<p>The general syntax is:</p>
+<pre class="r"><code>recode(vector_to_recode, 
+       `old value 1` = &quot;new value 1&quot;, 
+       `old value 2` = &quot;new value 2&quot;,
+       .default = &quot;default value&quot;)</code></pre>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = recode(condition, 
+                       ctl = &quot;Control&quot;, 
+                       exp = &quot;Experimental&quot;),
+    group = recode(group, 
+                   `1A` = &quot;Easy&quot;, `1B` = &quot;Easy&quot;, 
+                   `2A` = &quot;Hard&quot;, `2B` = &quot;Hard&quot;),
+  )</code></pre>
+<pre><code>##   id    condition group cb
+## 1  1      Control  Easy  1
+## 2  1 Experimental  Easy  1
+## 3  2      Control  Easy  2
+## 4  2 Experimental  Easy  2
+## 5  3      Control  Hard  1
+## 6  3 Experimental  Hard  1
+## 7  4      Control  &lt;NA&gt;  2
+## 8  4         &lt;NA&gt;  Hard  2</code></pre>
+<p>You don’t <em>have</em> to put the old values inside backticks (or quotes) if they only contain letters, numbers, underscores, and full stops, and don’t start with a number (like a valid object name). But if it’s easier for you to just consistently always put all the values in quotes, that’s fine.</p>
+<p>You can also set the recodings with a named vector and the tripple bang (<code>!!!</code>), like below.</p>
+<pre class="r"><code>condition_recode &lt;- c(
+  &quot;ctl&quot; = &quot;Control&quot;, 
+  &quot;exp&quot; = &quot;Experimental&quot;
+)
+
+group_recode &lt;- c(
+  &quot;1A&quot; = &quot;Easy&quot;, 
+  &quot;1B&quot; = &quot;Easy&quot;, 
+  &quot;2A&quot; = &quot;Hard&quot;, 
+  &quot;2B&quot; = &quot;Hard&quot;
+)
+
+df |&gt;
+  mutate(
+    condition = recode(condition, !!!condition_recode),
+    group = recode(group, !!!group_recode),
+  )</code></pre>
+</div>
+<div id="case-match" class="section level2">
+<h2>Case Match</h2>
+<p>The <code>case_match()</code> function is similar to recode, with a slightly different syntax involving tildes instead of equal signs, and the ability to put a vector of values on the left-hand side. The left-hand side <em>has</em> to be a character vector, or an object that represents a character vector.</p>
+<pre class="r"><code>case_match(vector_to_recode, 
+       &quot;old value 1&quot; ~ &quot;new value 1&quot;, 
+       c(&quot;old value 2a&quot;, &quot;old value 2b&quot;) ~ &quot;new value 2&quot;,
+       .default = &quot;default value&quot;)</code></pre>
+<pre class="r"><code>easy_groups &lt;- c(&quot;1A&quot;, &quot;1B&quot;)
+hard_groups &lt;- c(&quot;2A&quot;, &quot;2B&quot;)
+
+df |&gt;
+  mutate(
+    condition = case_match(condition, 
+                           &quot;ctl&quot; ~ &quot;Control&quot;, 
+                           &quot;exp&quot; ~ &quot;Experimental&quot;),
+    group = case_match(group, 
+                       easy_groups ~ &quot;Easy&quot;, 
+                       hard_groups ~ &quot;Hard&quot;)
+  )</code></pre>
+<pre><code>##   id    condition group cb
+## 1  1      Control  Easy  1
+## 2  1 Experimental  Easy  1
+## 3  2      Control  Easy  2
+## 4  2 Experimental  Easy  2
+## 5  3      Control  Hard  1
+## 6  3 Experimental  Hard  1
+## 7  4      Control  &lt;NA&gt;  2
+## 8  4         &lt;NA&gt;  Hard  2</code></pre>
+</div>
+<div id="case-when" class="section level2">
+<h2>Case When</h2>
+<p>The <code>case_when()</code> function is required for more complex recoding, but can also be used for simple recoding. The left-hand side of the tilde is any statement that creates a logical vector. If it is TRUE, then the value is replaced with the one on the right-hand side. If it is FALSE, the next logical statement is checked. If all statements are false, it will get the <code>.default</code> value (which defaults to <code>NA</code>).</p>
+<pre class="r"><code>case_when(vector_to_recode, 
+       (logical statement) ~ &quot;new value 1&quot;, 
+       (logical statement) ~ &quot;new value 2&quot;,
+       .default = &quot;default value&quot;)</code></pre>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = case_when(condition == &quot;ctl&quot; ~ &quot;Control&quot;, 
+                          condition == &quot;exp&quot; ~ &quot;Experimental&quot;),
+    group = case_when(group %in% c(&quot;1A&quot;, &quot;1B&quot;) ~ &quot;Easy&quot;, 
+                      group %in% c(&quot;2A&quot;, &quot;2B&quot;) ~ &quot;Hard&quot;),
+    
+    first = case_when(
+      condition == &quot;Control&quot; &amp; cb == 1 ~ TRUE,
+      condition == &quot;Control&quot; &amp; cb == 2 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 1 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 2 ~ TRUE
+    )
+  )</code></pre>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &lt;NA&gt;  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+<p>After the first TRUE statement is found, the latter statements are not checked, so values will be replaced by the first match, even if more than one logical statement is true.</p>
+<pre class="r"><code># 1 and 2 are both &lt; 3 and &lt; 5
+data.frame(x = 1:5) |&gt;
+  mutate(size = case_when(
+    x &lt; 3 ~ &quot;&lt; 3&quot;,
+    x &lt; 5 ~ &quot;&lt; 5&quot;
+  ))</code></pre>
+<pre><code>##   x size
+## 1 1  &lt; 3
+## 2 2  &lt; 3
+## 3 3  &lt; 5
+## 4 4  &lt; 5
+## 5 5 &lt;NA&gt;</code></pre>
+<p>Of course you are free to mix and match recoding functions. I’d recommend prioritising clarity over conciseness, so it is as easy as possible to look at the code and see how values are being recoded (both other peole and future you will thank you).</p>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = recode(condition, 
+                       ctl = &quot;Control&quot;, 
+                       exp = &quot;Experimental&quot;),
+    group = case_match(group, 
+                       c(&quot;1A&quot;, &quot;1B&quot;) ~ &quot;Easy&quot;, 
+                       c(&quot;2A&quot;, &quot;2B&quot;) ~ &quot;Hard&quot;),
+    first = case_when(
+      condition == &quot;Control&quot; &amp; cb == 1 ~ TRUE,
+      condition == &quot;Control&quot; &amp; cb == 2 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 1 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 2 ~ TRUE
+    )
+  )</code></pre>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &lt;NA&gt;  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+</div>
+<div id="testing" class="section level2">
+<h2>Testing</h2>
+<p>No matter what method you use, you need to test your recoding to make sure you haven’t introduced errors. You can use the <code>count()</code> function to check that your recodings look like you expect.</p>
+<pre class="r"><code># original data
+orig &lt;- data.frame(
+  group = sample(LETTERS[1:4], 200, T)
+)
+
+# recoding vector
+group_recode &lt;- c(
+  A = &quot;control 1&quot;, 
+  B = &quot;control 2&quot;,
+  C = &quot;experimental 1&quot;,
+  C = &quot;experimental 2&quot; # intentional error here :)
+)</code></pre>
+<p>First, save the recoded value in either a different column in the original data frame or a different data frame.</p>
+<pre class="r"><code># recoded data in original data frame
+orig$group2 &lt;- recode(orig$group, !!!group_recode)
+
+# recoded data in new data frame
+new &lt;- orig |&gt;
+  mutate(group = recode(group, !!!group_recode))</code></pre>
+<p>If they are in the same data frame, the checking code is very simple, just count the values in both columns. You should have only as many rows as the original number of levels, and the recoded values should be correct.</p>
+<pre class="r"><code># check recoding with count()
+count(orig, group, group2)</code></pre>
+<pre><code>##   group         group2  n
+## 1     A      control 1 47
+## 2     B      control 2 54
+## 3     C experimental 1 52
+## 4     D              D 47</code></pre>
+<p>If they are in different data frames, combine then and count.</p>
+<pre class="r"><code>data.frame(
+  orig = orig$group,
+  new = new$group
+) |&gt;
+  count(orig, new)</code></pre>
+<pre><code>##   orig            new  n
+## 1    A      control 1 47
+## 2    B      control 2 54
+## 3    C experimental 1 52
+## 4    D              D 47</code></pre>
+</div>
+<div id="common-errors" class="section level2">
+<h2>Common Errors</h2>
+<div id="combining-different-data-types" class="section level3">
+<h3>Combining different data types</h3>
+<p>If the new values are not the same data type (e.g., all characters or all numeric), you will get an error.</p>
+<pre class="r"><code>recode(c(&quot;A&quot;, &quot;B&quot;), A = 1, B = &quot;b&quot;)</code></pre>
+<pre><code>## Error in `recode()`:
+## ! `B` must be a double vector, not the string &quot;b&quot;.</code></pre>
+<p>The error will be different depending on what the data type of the first new value is.</p>
+<pre class="r"><code>recode(c(&quot;A&quot;, &quot;B&quot;), A = &quot;a&quot;, B = 2)</code></pre>
+<pre><code>## Error in `recode()`:
+## ! `B` must be a character vector, not the number 2.</code></pre>
+<p>You get a similar error for the same reason with <code>case_match()</code> and <code>case_when()</code>.</p>
+<pre class="r"><code>case_match(c(&quot;A&quot;, &quot;B&quot;), &quot;A&quot; ~ &quot;a&quot;, &quot;B&quot; ~ 2)</code></pre>
+<pre><code>## Error in `case_match()`:
+## ! Can&#39;t combine `..1 (right)` &lt;character&gt; and `..2 (right)` &lt;double&gt;.</code></pre>
+</div>
+<div id="cant-recycle" class="section level3">
+<h3>Can’t recycle …</h3>
+<p>If your logical statements result in vectors that are different lengths, you will get the following error.</p>
+<pre class="r"><code>case_when(
+  1:6 &lt; 10 ~ &quot;less than 10&quot;,
+  1:2 &lt; 20 ~ &quot;less than 20&quot;
+)</code></pre>
+<pre><code>## Error in `case_when()`:
+## ! Can&#39;t recycle `..1 (left)` (size 6) to match `..2 (left)` (size 2).</code></pre>
+</div>
+<div id="unexpected" class="section level3">
+<h3>Unexpected ‘=’</h3>
+<p>If you are trying to recode numbers, you may be tempted to write code like this:</p>
+<pre class="r"><code>recode(1:2, 1 = &quot;A&quot;, 2 = &quot;B&quot;)</code></pre>
+<pre><code>## Error: &lt;text&gt;:1:15: unexpected &#39;=&#39;
+## 1: recode(1:2, 1 =
+##                   ^</code></pre>
+<p>However, you need to put the left-hand side in backticks or quotes if it is a number:</p>
+<pre class="r"><code>recode(1:2, `1` = &quot;A&quot;, `2` = &quot;B&quot;)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot;</code></pre>
+<p>This will work with <code>case_match()</code>, though. The <code>recode()</code> function reads in the old values as function arguments, which have certain rules, while <code>case_match()</code> reads in old values as the left-hand side of an equation (hence the <code>~</code>), which has different rules.</p>
+<pre class="r"><code>case_match(1:2, 1 ~ &quot;A&quot;, 2 ~ &quot;B&quot;)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot;</code></pre>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r/">R</a>
+  
+  <a class="badge badge-light" href="/tag/tidyverse/">tidyverse</a>
+  
+  <a class="badge badge-light" href="/tag/recoding/">recoding</a>
+  
+  <a class="badge badge-light" href="/tag/categorical/">categorical</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://debruine.github.io/post/case_functions/&amp;text=Recoding%20with%20case_match%20and%20case_when" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://debruine.github.io/post/case_functions/&amp;t=Recoding%20with%20case_match%20and%20case_when" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Recoding%20with%20case_match%20and%20case_when&amp;body=https://debruine.github.io/post/case_functions/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://debruine.github.io/post/case_functions/&amp;title=Recoding%20with%20case_match%20and%20case_when" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Recoding%20with%20case_match%20and%20case_when%20https://debruine.github.io/post/case_functions/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://debruine.github.io/post/case_functions/&amp;title=Recoding%20with%20case_match%20and%20case_when" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://debruine.github.io/"><img class="avatar mr-3 avatar-circle" src="/author/lisa-debruine/avatar_huc377f31d86b0555d6e6ef77d249d1895_1222505_270x270_fill_q75_lanczos_center.jpg" alt="Lisa DeBruine"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://debruine.github.io/">Lisa DeBruine</a></h5>
+      <h6 class="card-subtitle">Professor of Psychology</h6>
+      <p class="card-text">Lisa DeBruine is a professor of psychology at the University of Glasgow. Her substantive research is on the social perception of faces and kinship. Her meta-science interests include team science (especially the Psychological Science Accelerator), open documentation, data simulation, web-based tools for data collection and stimulus generation, and teaching computational reproducibility.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="/" >
+        <i class="fas fa-"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/debruine" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://tech.lgbt/@debruine" target="_blank" rel="noopener">
+        <i class="fab fa-mastodon"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://osf.io/4i578/" target="_blank" rel="noopener">
+        <i class="ai ai-osf"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://figshare.com/authors/Lisa_DeBruine/3235773" target="_blank" rel="noopener">
+        <i class="ai ai-figshare"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="http://orcid.org/0000-0002-7523-5539" target="_blank" rel="noopener">
+        <i class="ai ai-orcid"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:lisa.debruine@glasgow.ac.uk" >
+        <i class="far fa-paper-plane"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/recode/">recode()</a></li>
+      
+      <li><a href="/post/experimentum-data/">Experimentum Data Wrangling Demo</a></li>
+      
+      <li><a href="/post/pipes/">Pipes</a></li>
+      
+      <li><a href="/post/plot-comparison/">Plot Comparison</a></li>
+      
+      <li><a href="/post/nest/">nest() and irr::icc()</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+  
+  
+  
+  
+
+  
+  
+  
+    
+  
+
+  
+
+  
+  <p class="powered-by copyright-license-text">
+    This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank">CC BY SA 4.0</a>
+  </p>
+  
+
+  <p class="powered-by footer-license-icons">
+    <a href="https://creativecommons.org/licenses/by-sa/4.0" rel="noopener noreferrer" target="_blank" aria-label="Creative Commons">
+      <i class="fab fa-creative-commons fa-2x" aria-hidden="true"></i>
+      <i class="fab fa-creative-commons-by fa-2x" aria-hidden="true"></i>
+      
+      
+        <i class="fab fa-creative-commons-sa fa-2x" aria-hidden="true"></i>
+      
+    </a>
+  </p>
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-modules" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.d68ecd57c0ec1f1f61d65fd568f1c3a0.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

@@ -7,7 +7,7 @@ categories: ["rstats"]
 tags: ["r", "tidyverse", "recoding", "categorical"]
 ---
 
-I often find myself needing to recode variables. I wrote previously about recoding a characters into a numbers using various [coding schemes](coding.html). But sometimes I want to recode numeric values into characters; this is particularly useful for graphing and for double-checking the meaning of your variable levels.
+I often find myself needing to recode variables. I wrote previously about recoding characters into numbers using various [coding schemes](coding.html). But sometimes I want to recode numeric values into characters; this is particularly useful for graphing and for double-checking the meaning of your variable levels.
 
 First, I'll create a data frame with 50 subjects and randomly choose their genders from a list of 4 possibilities with the population proportions 40% male, 40% female, 10% non-binary, and 10% missing data.
 

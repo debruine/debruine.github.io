@@ -1,0 +1,328 @@
+---
+title: "Recoding with case_match and case_when"
+author: "Lisa DeBruine"
+date: "2024-02-16"
+slug: case_functions
+categories: ["rstats"]
+tags: ["r", "tidyverse", "recoding", "categorical"]
+---
+
+
+
+<p>I wrote previously about recoding characters into numbers using various <a href="coding.html">coding schemes</a> and about <a href="recode.html">recoding numeric values into characters</a> in 2017, where I covered, the <code>recode()</code> function. In this tutorial, I will compare recoding methods with <code>ifelse()</code>, <code>recode()</code>, <code>case_when()</code> and <code>case_match()</code>.</p>
+<p>We’ll just be using {dplyr}.</p>
+<pre class="r"><code>library(dplyr)</code></pre>
+<p>First, let’s create a demo data frame. In this example, the 4 subjects are in 4 <code>group</code>s (1A, 1B, 2A or 2B), and they complete a task under two <code>condition</code>s (ctl or exp). The <code>cb</code> column gives the counterbalancing group (1 = ctl first, 2 = exp first). A few values are set to <code>NA</code> to demonstrate how the different methods deal with missing values.</p>
+<pre class="r"><code>df &lt;- data.frame(
+  id = rep(1:4, each = 2),
+  condition = rep(c(&quot;ctl&quot;, &quot;exp&quot;), 4),
+  group = rep(c(&quot;1A&quot;, &quot;1B&quot;, &quot;2A&quot;, &quot;2B&quot;), each = 2),
+  cb = rep(1:2, each = 2, times = 2)
+)
+
+df$condition[8] &lt;- NA
+df$group[7] &lt;- NA
+
+df</code></pre>
+<pre><code>##   id condition group cb
+## 1  1       ctl    1A  1
+## 2  1       exp    1A  1
+## 3  2       ctl    1B  2
+## 4  2       exp    1B  2
+## 5  3       ctl    2A  1
+## 6  3       exp    2A  1
+## 7  4       ctl  &lt;NA&gt;  2
+## 8  4      &lt;NA&gt;    2B  2</code></pre>
+<p>Our task here is to do both simple and complex recoding.</p>
+<p>The conditions should be changed to more descriptive labels: <code>ctl</code> = “Control” and <code>exp</code> = “Experimental. This is an example of <em>one-to-one</em> recoding.</p>
+<p>There are 4 groups, but we want to recode them into two labels: <code>1A</code> and <code>1B</code> = “Easy”, <code>2A</code> and <code>2B</code> = “Hard”. This is an example of <em>many-to-one</em> recoding.</p>
+<p>Additionally, we want to create a new column called <code>first</code> that is <code>TRUE</code> if the condition was first, and <code>FALSE</code> if it was not. So it should be true if the condition is ctl and cb is 1, or if the condition is exp and cb is 2, and false otherwise. This is an example of <em>complex</em> recoding, since it requires evaluation of more than one column.</p>
+<p>This is what we want in the end:</p>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &lt;NA&gt;  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+<div id="ifelse" class="section level2">
+<h2>Ifelse</h2>
+<p>Beginners are often tempted to tackle problems like this with <code>ifelse()</code> statements.</p>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = ifelse(condition == &quot;ctl&quot;, &quot;Control&quot;, &quot;Experimental&quot;),
+    group = ifelse(group %in% c(&quot;1A&quot;, &quot;1B&quot;), &quot;Easy&quot;, &quot;Hard&quot;),
+    first = ifelse(condition == &quot;Control&quot;,
+                   yes = ifelse(cb == 1, TRUE, FALSE),
+                    no = ifelse(cb == 2, TRUE, FALSE))
+  )</code></pre>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  Hard  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+<p>This isn’t wrong, but can be really messy and hard to debug if you have missing values, many levels, or complex recoding. Notice above that the <code>%in%</code> statement recodes the missing value as <code>"Hard"</code> rather than <code>NA</code>. You can fix this like below, but this quickly becomes tedious.</p>
+<pre class="r"><code>df |&gt;
+  mutate(
+    group = ifelse(group %in% c(&quot;1A&quot;, &quot;1B&quot;), &quot;Easy&quot;, 
+                   ifelse(group %in% c(&quot;2A&quot;, &quot;2B&quot;), &quot;Hard&quot;, NA))
+  )</code></pre>
+<pre><code>##   id condition group cb
+## 1  1       ctl  Easy  1
+## 2  1       exp  Easy  1
+## 3  2       ctl  Easy  2
+## 4  2       exp  Easy  2
+## 5  3       ctl  Hard  1
+## 6  3       exp  Hard  1
+## 7  4       ctl  &lt;NA&gt;  2
+## 8  4      &lt;NA&gt;  Hard  2</code></pre>
+<p>Especially if you have more than 2 groups or need to deal with missing values in a specific way.</p>
+<pre class="r"><code>data.frame(x = c(1:5, NA)) |&gt;
+  mutate(recode = ifelse(x == 1, &quot;one&quot;,
+                         ifelse(x == &quot;2&quot;, &quot;two&quot;,
+                                ifelse(x == 3, &quot;three&quot;,
+                                       ifelse(x == 4, &quot;four&quot;,
+                                              ifelse(x == 5, &quot;five&quot;, 
+                                                     &quot;missing&quot;))))))</code></pre>
+<pre><code>##    x recode
+## 1  1    one
+## 2  2    two
+## 3  3  three
+## 4  4   four
+## 5  5   five
+## 6 NA   &lt;NA&gt;</code></pre>
+</div>
+<div id="recode" class="section level2">
+<h2>Recode</h2>
+<p>The <code>recode()</code> function is a good choice if you have a simple one-to-one mapping of values.</p>
+<p>The general syntax is:</p>
+<pre class="r"><code>recode(vector_to_recode, 
+       `old value 1` = &quot;new value 1&quot;, 
+       `old value 2` = &quot;new value 2&quot;,
+       .default = &quot;default value&quot;)</code></pre>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = recode(condition, 
+                       ctl = &quot;Control&quot;, 
+                       exp = &quot;Experimental&quot;),
+    group = recode(group, 
+                   `1A` = &quot;Easy&quot;, `1B` = &quot;Easy&quot;, 
+                   `2A` = &quot;Hard&quot;, `2B` = &quot;Hard&quot;),
+  )</code></pre>
+<pre><code>##   id    condition group cb
+## 1  1      Control  Easy  1
+## 2  1 Experimental  Easy  1
+## 3  2      Control  Easy  2
+## 4  2 Experimental  Easy  2
+## 5  3      Control  Hard  1
+## 6  3 Experimental  Hard  1
+## 7  4      Control  &lt;NA&gt;  2
+## 8  4         &lt;NA&gt;  Hard  2</code></pre>
+<p>You don’t <em>have</em> to put the old values inside backticks (or quotes) if they only contain letters, numbers, underscores, and full stops, and don’t start with a number (like a valid object name). But if it’s easier for you to just consistently always put all the values in quotes, that’s fine.</p>
+<p>You can also set the recodings with a named vector and the tripple bang (<code>!!!</code>), like below.</p>
+<pre class="r"><code>condition_recode &lt;- c(
+  &quot;ctl&quot; = &quot;Control&quot;, 
+  &quot;exp&quot; = &quot;Experimental&quot;
+)
+
+group_recode &lt;- c(
+  &quot;1A&quot; = &quot;Easy&quot;, 
+  &quot;1B&quot; = &quot;Easy&quot;, 
+  &quot;2A&quot; = &quot;Hard&quot;, 
+  &quot;2B&quot; = &quot;Hard&quot;
+)
+
+df |&gt;
+  mutate(
+    condition = recode(condition, !!!condition_recode),
+    group = recode(group, !!!group_recode),
+  )</code></pre>
+</div>
+<div id="case-match" class="section level2">
+<h2>Case Match</h2>
+<p>The <code>case_match()</code> function is similar to recode, with a slightly different syntax involving tildes instead of equal signs, and the ability to put a vector of values on the left-hand side. The left-hand side <em>has</em> to be a character vector, or an object that represents a character vector.</p>
+<pre class="r"><code>case_match(vector_to_recode, 
+       &quot;old value 1&quot; ~ &quot;new value 1&quot;, 
+       c(&quot;old value 2a&quot;, &quot;old value 2b&quot;) ~ &quot;new value 2&quot;,
+       .default = &quot;default value&quot;)</code></pre>
+<pre class="r"><code>easy_groups &lt;- c(&quot;1A&quot;, &quot;1B&quot;)
+hard_groups &lt;- c(&quot;2A&quot;, &quot;2B&quot;)
+
+df |&gt;
+  mutate(
+    condition = case_match(condition, 
+                           &quot;ctl&quot; ~ &quot;Control&quot;, 
+                           &quot;exp&quot; ~ &quot;Experimental&quot;),
+    group = case_match(group, 
+                       easy_groups ~ &quot;Easy&quot;, 
+                       hard_groups ~ &quot;Hard&quot;)
+  )</code></pre>
+<pre><code>##   id    condition group cb
+## 1  1      Control  Easy  1
+## 2  1 Experimental  Easy  1
+## 3  2      Control  Easy  2
+## 4  2 Experimental  Easy  2
+## 5  3      Control  Hard  1
+## 6  3 Experimental  Hard  1
+## 7  4      Control  &lt;NA&gt;  2
+## 8  4         &lt;NA&gt;  Hard  2</code></pre>
+</div>
+<div id="case-when" class="section level2">
+<h2>Case When</h2>
+<p>The <code>case_when()</code> function is required for more complex recoding, but can also be used for simple recoding. The left-hand side of the tilde is any statement that creates a logical vector. If it is TRUE, then the value is replaced with the one on the right-hand side. If it is FALSE, the next logical statement is checked. If all statements are false, it will get the <code>.default</code> value (which defaults to <code>NA</code>).</p>
+<pre class="r"><code>case_when(vector_to_recode, 
+       (logical statement) ~ &quot;new value 1&quot;, 
+       (logical statement) ~ &quot;new value 2&quot;,
+       .default = &quot;default value&quot;)</code></pre>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = case_when(condition == &quot;ctl&quot; ~ &quot;Control&quot;, 
+                          condition == &quot;exp&quot; ~ &quot;Experimental&quot;),
+    group = case_when(group %in% c(&quot;1A&quot;, &quot;1B&quot;) ~ &quot;Easy&quot;, 
+                      group %in% c(&quot;2A&quot;, &quot;2B&quot;) ~ &quot;Hard&quot;),
+    
+    first = case_when(
+      condition == &quot;Control&quot; &amp; cb == 1 ~ TRUE,
+      condition == &quot;Control&quot; &amp; cb == 2 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 1 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 2 ~ TRUE
+    )
+  )</code></pre>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &lt;NA&gt;  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+<p>After the first TRUE statement is found, the latter statements are not checked, so values will be replaced by the first match, even if more than one logical statement is true.</p>
+<pre class="r"><code># 1 and 2 are both &lt; 3 and &lt; 5
+data.frame(x = 1:5) |&gt;
+  mutate(size = case_when(
+    x &lt; 3 ~ &quot;&lt; 3&quot;,
+    x &lt; 5 ~ &quot;&lt; 5&quot;
+  ))</code></pre>
+<pre><code>##   x size
+## 1 1  &lt; 3
+## 2 2  &lt; 3
+## 3 3  &lt; 5
+## 4 4  &lt; 5
+## 5 5 &lt;NA&gt;</code></pre>
+<p>Of course you are free to mix and match recoding functions. I’d recommend prioritising clarity over conciseness, so it is as easy as possible to look at the code and see how values are being recoded (both other peole and future you will thank you).</p>
+<pre class="r"><code>df |&gt;
+  mutate(
+    condition = recode(condition, 
+                       ctl = &quot;Control&quot;, 
+                       exp = &quot;Experimental&quot;),
+    group = case_match(group, 
+                       c(&quot;1A&quot;, &quot;1B&quot;) ~ &quot;Easy&quot;, 
+                       c(&quot;2A&quot;, &quot;2B&quot;) ~ &quot;Hard&quot;),
+    first = case_when(
+      condition == &quot;Control&quot; &amp; cb == 1 ~ TRUE,
+      condition == &quot;Control&quot; &amp; cb == 2 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 1 ~ FALSE,
+      condition == &quot;Experimental&quot; &amp; cb == 2 ~ TRUE
+    )
+  )</code></pre>
+<pre><code>##   id    condition group cb first
+## 1  1      Control  Easy  1  TRUE
+## 2  1 Experimental  Easy  1 FALSE
+## 3  2      Control  Easy  2 FALSE
+## 4  2 Experimental  Easy  2  TRUE
+## 5  3      Control  Hard  1  TRUE
+## 6  3 Experimental  Hard  1 FALSE
+## 7  4      Control  &lt;NA&gt;  2 FALSE
+## 8  4         &lt;NA&gt;  Hard  2    NA</code></pre>
+</div>
+<div id="testing" class="section level2">
+<h2>Testing</h2>
+<p>No matter what method you use, you need to test your recoding to make sure you haven’t introduced errors. You can use the <code>count()</code> function to check that your recodings look like you expect.</p>
+<pre class="r"><code># original data
+orig &lt;- data.frame(
+  group = sample(LETTERS[1:4], 200, T)
+)
+
+# recoding vector
+group_recode &lt;- c(
+  A = &quot;control 1&quot;, 
+  B = &quot;control 2&quot;,
+  C = &quot;experimental 1&quot;,
+  C = &quot;experimental 2&quot; # intentional error here :)
+)</code></pre>
+<p>First, save the recoded value in either a different column in the original data frame or a different data frame.</p>
+<pre class="r"><code># recoded data in original data frame
+orig$group2 &lt;- recode(orig$group, !!!group_recode)
+
+# recoded data in new data frame
+new &lt;- orig |&gt;
+  mutate(group = recode(group, !!!group_recode))</code></pre>
+<p>If they are in the same data frame, the checking code is very simple, just count the values in both columns. You should have only as many rows as the original number of levels, and the recoded values should be correct.</p>
+<pre class="r"><code># check recoding with count()
+count(orig, group, group2)</code></pre>
+<pre><code>##   group         group2  n
+## 1     A      control 1 47
+## 2     B      control 2 54
+## 3     C experimental 1 52
+## 4     D              D 47</code></pre>
+<p>If they are in different data frames, combine then and count.</p>
+<pre class="r"><code>data.frame(
+  orig = orig$group,
+  new = new$group
+) |&gt;
+  count(orig, new)</code></pre>
+<pre><code>##   orig            new  n
+## 1    A      control 1 47
+## 2    B      control 2 54
+## 3    C experimental 1 52
+## 4    D              D 47</code></pre>
+</div>
+<div id="common-errors" class="section level2">
+<h2>Common Errors</h2>
+<div id="combining-different-data-types" class="section level3">
+<h3>Combining different data types</h3>
+<p>If the new values are not the same data type (e.g., all characters or all numeric), you will get an error.</p>
+<pre class="r"><code>recode(c(&quot;A&quot;, &quot;B&quot;), A = 1, B = &quot;b&quot;)</code></pre>
+<pre><code>## Error in `recode()`:
+## ! `B` must be a double vector, not the string &quot;b&quot;.</code></pre>
+<p>The error will be different depending on what the data type of the first new value is.</p>
+<pre class="r"><code>recode(c(&quot;A&quot;, &quot;B&quot;), A = &quot;a&quot;, B = 2)</code></pre>
+<pre><code>## Error in `recode()`:
+## ! `B` must be a character vector, not the number 2.</code></pre>
+<p>You get a similar error for the same reason with <code>case_match()</code> and <code>case_when()</code>.</p>
+<pre class="r"><code>case_match(c(&quot;A&quot;, &quot;B&quot;), &quot;A&quot; ~ &quot;a&quot;, &quot;B&quot; ~ 2)</code></pre>
+<pre><code>## Error in `case_match()`:
+## ! Can&#39;t combine `..1 (right)` &lt;character&gt; and `..2 (right)` &lt;double&gt;.</code></pre>
+</div>
+<div id="cant-recycle" class="section level3">
+<h3>Can’t recycle …</h3>
+<p>If your logical statements result in vectors that are different lengths, you will get the following error.</p>
+<pre class="r"><code>case_when(
+  1:6 &lt; 10 ~ &quot;less than 10&quot;,
+  1:2 &lt; 20 ~ &quot;less than 20&quot;
+)</code></pre>
+<pre><code>## Error in `case_when()`:
+## ! Can&#39;t recycle `..1 (left)` (size 6) to match `..2 (left)` (size 2).</code></pre>
+</div>
+<div id="unexpected" class="section level3">
+<h3>Unexpected ‘=’</h3>
+<p>If you are trying to recode numbers, you may be tempted to write code like this:</p>
+<pre class="r"><code>recode(1:2, 1 = &quot;A&quot;, 2 = &quot;B&quot;)</code></pre>
+<pre><code>## Error: &lt;text&gt;:1:15: unexpected &#39;=&#39;
+## 1: recode(1:2, 1 =
+##                   ^</code></pre>
+<p>However, you need to put the left-hand side in backticks or quotes if it is a number:</p>
+<pre class="r"><code>recode(1:2, `1` = &quot;A&quot;, `2` = &quot;B&quot;)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot;</code></pre>
+<p>This will work with <code>case_match()</code>, though. The <code>recode()</code> function reads in the old values as function arguments, which have certain rules, while <code>case_match()</code> reads in old values as the left-hand side of an equation (hence the <code>~</code>), which has different rules.</p>
+<pre class="r"><code>case_match(1:2, 1 ~ &quot;A&quot;, 2 ~ &quot;B&quot;)</code></pre>
+<pre><code>## [1] &quot;A&quot; &quot;B&quot;</code></pre>
+</div>
+</div>

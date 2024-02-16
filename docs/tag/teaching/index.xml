@@ -5,12 +5,46 @@
     <link>https://debruine.github.io/tag/teaching/</link>
       <atom:link href="https://debruine.github.io/tag/teaching/index.xml" rel="self" type="application/rss+xml" />
     <description>teaching</description>
-    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sat, 24 Jun 2023 09:30:00 +0000</lastBuildDate>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Thu, 01 Feb 2024 09:30:00 +0000</lastBuildDate>
     <image>
       <url>https://debruine.github.io/media/icon_hud41de7153c7fa400a999f8d222dc5c78_8091_512x512_fill_lanczos_center_3.png</url>
       <title>teaching</title>
       <link>https://debruine.github.io/tag/teaching/</link>
     </image>
+    
+    <item>
+      <title>Data simulation with {faux} and data simulation for mixed designs</title>
+      <link>https://debruine.github.io/talk/data-simulation-with-faux-and-data-simulation-for-mixed-designs/</link>
+      <pubDate>Thu, 01 Feb 2024 09:30:00 +0000</pubDate>
+      <guid>https://debruine.github.io/talk/data-simulation-with-faux-and-data-simulation-for-mixed-designs/</guid>
+      <description>&lt;h3 id=&#34;data-simulation-with-faux&#34;&gt;Data Simulation with {faux}&lt;/h3&gt;
+&lt;p&gt;This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex}, {broom} and {tidyverse}.&lt;/p&gt;
+&lt;h4 id=&#34;prep&#34;&gt;Prep&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Install R packages from CRAN: &lt;code&gt;tidyverse&lt;/code&gt;, &lt;code&gt;afex&lt;/code&gt;, &lt;code&gt;faux&lt;/code&gt;, and &lt;code&gt;broom&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Download files:  &lt;a href=&#34;https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/faux-stub.Rmd&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;faux-stub.Rmd&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;data-simulation-for-mixed-designs&#34;&gt;Data simulation for mixed designs&lt;/h3&gt;
+&lt;p&gt;This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don&amp;rsquo;t currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.&lt;/p&gt;
+&lt;h4 id=&#34;prep-1&#34;&gt;Prep&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Install R packages from CRAN: &lt;code&gt;tidyverse&lt;/code&gt;, &lt;code&gt;afex&lt;/code&gt;, &lt;code&gt;lme4&lt;/code&gt;, &lt;code&gt;broom&lt;/code&gt;, &lt;code&gt;broom.mixed&lt;/code&gt;, &lt;code&gt;faux&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Download files: &lt;a href=&#34;https://raw.githubusercontent.com/debruine/data-sim-workshops/master/inst/stubs/mixed-stub.Rmd&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;mixed-stub.Rmd&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Data Simulation Workshops</title>
+      <link>https://debruine.github.io/project/datasim/</link>
+      <pubDate>Thu, 01 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>https://debruine.github.io/project/datasim/</guid>
+      <description>&lt;h2 id=&#34;data-simulation-for-factorial-designs&#34;&gt;Data simulation for factorial designs&lt;/h2&gt;
+&lt;p&gt;This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex} and {tidyverse}.&lt;/p&gt;
+&lt;h2 id=&#34;data-simulation-for-mixed-designs&#34;&gt;Data simulation for mixed designs&lt;/h2&gt;
+&lt;p&gt;This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don’t currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Creating Open Source Textbooks</title>
@@ -84,18 +118,6 @@ Register for free at [EventBrite](https://coding-club-packages.eventbrite.co.uk/
 🙋🏾 &lt;a href=&#34;https://docs.google.com/spreadsheets/d/1NJY-jt2T1MlWYiJ5P1sL8aGscYYzrCuZ1ThXFbdFWKI/edit#gid=0&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Contributor Tracking&lt;/a&gt;&lt;br&gt;
 💬 &lt;a href=&#34;https://github.com/orgs/code-check-club/discussions&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Discussions&lt;/a&gt; (replacing the &lt;a href=&#34;https://join.slack.com/t/codereviewguide/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Slack&lt;/a&gt;)&lt;br&gt;
 📖 &lt;a href=&#34;https://code-check-club.github.io/code-review-guide/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Guide&lt;/a&gt; (just in outline form for now)&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Data Simulation Workshops</title>
-      <link>https://debruine.github.io/project/datasim/</link>
-      <pubDate>Wed, 25 May 2022 00:00:00 +0000</pubDate>
-      <guid>https://debruine.github.io/project/datasim/</guid>
-      <description>&lt;h2 id=&#34;data-simulation-for-factorial-designs&#34;&gt;Data simulation for factorial designs&lt;/h2&gt;
-&lt;p&gt;This session will cover the basics of simulation using {faux}. We will simulate data with factorial designs by specifying the within and between-subjects factor structure, each cell mean and standard deviation, and correlations between cells where appropriate. This can be used to create simulated data sets to be used in preparing the analysis code for pre-registrations or registered reports. We will also create data sets for simulation-based power analyses. Students will need to have very basic knowledge of R and R Markdown, and have installed {faux}, {afex} and {tidyverse}.&lt;/p&gt;
-&lt;h2 id=&#34;data-simulation-for-mixed-designs&#34;&gt;Data simulation for mixed designs&lt;/h2&gt;
-&lt;p&gt;This session will cover simulating data for a mixed design, where trials are crossed with subjects. We will learn how to analyse this using {lme4}, with a focus on understanding how the simulation parameters correspond to the output. Finally, we will learn how to use simulation to calculate power. Students will need to have basic knowledge of R and R Markdown, some familiarity with mixed designs (even if they don’t currently analyse them with mixed models) and have installed {faux}, {afex}, {tidyverse}, and {lme4}.&lt;/p&gt;
 </description>
     </item>
     
