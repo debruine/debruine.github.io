@@ -1,0 +1,17 @@
+{
+  "hash": "ff993aaa653e23b842f7d11219aeca47",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: How many simulations in my power analysis?\ndate: '2020-08-17'\nslug: how-many-sims\ncategories: [\"simulation\", \"R\", \"power\"]\n---\n\n\n\n\nToday I was trying to figure out how to advise on the number of simulations to run when calculating power by simulation.\n\nI tackled this question by running a simulation (of course).\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(ggplot2)\nlibrary(dplyr) # I love pipes\nset.seed(8675309)\n```\n:::\n\n\n\n\n\nI wanted to figure out how close to the true power was the calculated power from a simulation where the number of replications ranges from 100 to 10K (in steps of 100) and power ranges from 0.5 to 1 in steps of .05 (the result is symmetric around 50%, so the figures below for 80% power also apply to 20% power)..\n\nFirst, I made all possible combinations of replications and power.\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nx <- expand.grid(\n  reps = seq(100, 1e4, 100),\n  power = seq(0.5, 1, .05)\n)\n```\n:::\n\n\n\n\nThen, for each combination, I calculated the proportion of significant analyses in 10K simulations. I assumed this would have a binomial distribution where size is the number of replications in each simulation and probability is the true power. I then calculated the absolute difference from the true value of power and reported the mean (I find it more intuitive than SD or variance).\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nx$diff <- mapply(function(size, prob) {\n  sig <- rbinom(1e4, size, prob) / size\n  diff <- abs(sig - prob)\n  mean(diff)\n}, size = x$reps, prob = x$power)\n```\n:::\n\n\n\n\nI plotted the results to see if they make sense. As the number of replications per simulation increases, the mean difference from the true power decreases. Accuracy is higher for larger values of power.\n\n\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](how-many-sims_files/figure-html/unnamed-chunk-4-1.png){width=672}\n:::\n:::\n\n\n\n\nI also calculated the minimum number of replications to get a result that is, on average, less than 1% off from a power of 80%\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nfilter(x, power == .8, diff < .01) %>% \n  pull(reps) %>%  min()\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 1100\n```\n\n\n:::\n:::\n\n\n\n\nI also calculated the .95 quantile to see how many replications you need to run to get within 1% of the true value.\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nx$q95 <- mapply(function(size, prob) {\n  sig <- rbinom(1e4, size, prob) / size\n  diff <- abs(sig - prob)\n  quantile(diff, .95)\n}, size = x$reps, prob = x$power)\n```\n:::\n\n::: {.cell}\n::: {.cell-output-display}\n![](how-many-sims_files/figure-html/unnamed-chunk-7-1.png){width=672}\n:::\n:::\n\n\n\n\nTurns out you need a lot more.\n\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nfilter(x, power == .8, q95 < .01) %>% \n  pull(reps) %>%  min()\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 6300\n```\n\n\n:::\n:::\n",
+    "supporting": [
+      "how-many-sims_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

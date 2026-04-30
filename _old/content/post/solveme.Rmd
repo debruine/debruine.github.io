@@ -1,0 +1,193 @@
+---
+title: "Solution Feedback"
+author: ~
+date: "2017-11-15"
+slug: solution-feedback
+categories: ["rstats"]
+tags: ["R", "pedagogy"]
+---
+
+Download a simple demo [.rmd](/files/solveme_demo.Rmd)/[.html](/files/solveme_demo.html).
+
+I'd noticed that students were tending to just look at the [hidden solutions](hidden_solutions.html) and not try very hard to understand the exercises, so I wanted a way for them to check if they're right, but not give them the answer immediately. I made a quick way to set up an input box that turns blue when you type in the right answer.
+
+What is 2 + 2? <input class="solveme" size="3" answer="4">
+
+Setting this up requires a few lines at the beginning and end of each file, plus surrounding your solutions with a line of html.
+
+## Put this at the beginning of your file 
+
+If you're making your website in RMarkdown, put it after the second `---` in the yml header. If you're writing html directly, put it inside the `<head>` element.
+
+You can use different colours or line types by changing the border styles.
+
+```
+<style>
+  /* styles for solveme */
+  .solveme { border: 2px dotted red; }
+  .solveme.correct { border: 2px solid blue; }
+</style>
+```
+
+If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put these lines of css into an external stylesheet linked in your `_site.yml` file (e.g., [rguppies.css](rguppies.css)).
+
+## Put this at the end of your file
+
+```
+<script>
+  tc = function() {
+    if (t = document.getElementById("total_correct")) {
+      t.innerHTML =       
+        document.getElementsByClassName("correct").length + " of " +
+        document.getElementsByClassName("solveme").length + " correct";
+    }
+  }
+  window.onload = function() {
+    tc();
+    var solveme = document.getElementsByClassName("solveme");
+    for (var i = 0; i < solveme.length; i++) {
+      solveme[i].setAttribute("autocomplete","off");
+      solveme[i].value = "";
+      solveme[i].onkeyup = function(e) {
+        var real_answer = this.getAttribute("answer").trim();
+        var my_answer = this.value;
+        var cl = this.classList;
+        if (cl.contains("nospaces")) {
+          real_answer = real_answer.replace(/ /g, "");
+          my_answer = my_answer.replace(/ /g, "");
+        }
+        if (cl.contains("ignorecase")) {
+          real_answer = real_answer.toLowerCase();
+          my_answer = my_answer.toLowerCase();
+        }
+        var linend = new RegExp(/\s*(:or:)\s*/, 'g')
+        real_answer = real_answer.split(linend);
+        if (my_answer !== "" & real_answer.includes(my_answer)) {
+          cl.add("correct");
+        } else {
+          cl.remove("correct");
+        }
+        tc();
+      }
+      solveme[i].onchange = function() {
+        this.onkeyup();
+      }
+    }
+  }
+</script>
+```
+
+If you're using [RMarkdown Websites](http://rmarkdown.rstudio.com/rmarkdown_websites.html), you can just put this script into an external footer or script file linked in your `_site.yml` file (e.g., [rguppies.js](rguppies.js)).
+
+## Set up the input boxes
+
+* Set up a basic input box like below. It needs to have `solveme` as the class and the correct answer in `answer`.
+
+    What is $5 + 5$?
+    <input class="solveme" answer="10" >
+  
+    ```
+    <input class="solveme" answer="10" >
+    ```
+
+
+* If you don't care about uppercase vs lowercase letters, add `ignorecase` to the input style. You can also change the width of theinput box with `size`.
+
+    What is the letter after B? 
+    <input class="solveme ignorecase" size="1" answer="c" >
+  
+    ```
+    <input class="solveme ignorecase" size="1" answer="c" >
+    ```
+
+* You can also put multiple correct answer possibilities separated by `:or:`.
+  
+    Type a vowel
+    <input class="solveme ignorecase" size="1" 
+           answer="a :or: e :or: i :or: o :or: u" >
+    
+    ```
+    <input class="solveme ignorecase" size="1" 
+           answer="a :or: e :or: i :or: o :or: u" >
+    ```
+
+* If you're asking for simple code where the spaces don't matter, add the class `nospaces`.
+
+    Draw 10 random numbers from a normal distribution with a mean of 3 and SD of 2:
+    
+    <input class="solveme nospaces" 
+      size="30"
+      answer="rnorm(10, 3, 2) :or:
+              rnorm(10, mean = 3, sd = 2) :or:
+              rnorm(10, 3, sd = 2) :or:
+              rnorm(10, sd = 2, mean = 3) :or:
+              rnorm(x = 10, mean = 3, sd = 2)" >
+      
+    ```
+    <input class="solveme nospaces" 
+      size="30"
+      answer="rnorm(10, 3, 2) :or:
+      rnorm(10, mean = 3, sd = 2) :or:
+      rnorm(10, 3, sd = 2) :or:
+      rnorm(10, sd = 2, mean = 3) :or:
+      rnorm(x = 10, mean = 3, sd = 2)" >
+    ```
+    
+    <p class="alert alert-info">You can also skip a line after `:or:`. Whitespace before and after your answer is trimmed off, so your coprrect answer can't require that the student start or end with spaces.</p>
+
+* This can't handle multiple-line answers, but you can embed several input boxes in a paragraph. The formatting can get tricky, though:
+
+    Complete the following function for returning the scaled values of a vector, `v`. 
+    
+    <pre>
+    scale_function <- function(v) { 
+      the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme" size = "2" answer="v">)
+      the_sd <- sd(<input class="solveme" size="1" answer="v">)
+      
+      (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
+    }
+    </pre>
+    
+    ```
+    <pre>
+    scale_function <- function(v) { 
+      the_mean <- <input class="solveme" size="6" answer="mean">(<input class="solveme"  size = "2" answer="v">)
+      the_sd <- sd(<input class="solveme" size="1" answer="v">)
+      
+      (v <input class="solveme" size = "1" answer="-"> the_mean ) <input class="solveme" size = "1" answer="/"> the_sd
+    }
+    </pre>
+    ```
+    
+    <p class="alert alert-info">I wrapped the text in `<pre>` tags to format it like code, while still rendering the input boxes. If you surround it with three backticks, it will just display the code for the input boxes, not the actual boxes.</p>
+
+* You can also use this for a multiple choice drop-down menu.
+
+    How would you model a distribution of coin flips?
+    
+    <select class="solveme" answer="rbinom">
+      <option></option>
+      <option>rnorm</option>
+      <option>runif</option>
+      <option>rpois</option>
+      <option>rbinom</option>
+    </select>
+    
+    ```
+    <select class="solveme" answer="rbinom">
+      <option></option>
+      <option>rnorm</option>
+      <option>runif</option>
+      <option>rpois</option>
+      <option>rbinom</option>
+    </select>
+    ```
+    
+* You can include a line with automatically updating total correct using the following code:
+
+    <span id="total_correct"></span>
+    
+    ```
+    <span id="total_correct"></span>
+    ```
+    

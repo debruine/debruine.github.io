@@ -1,0 +1,12 @@
+---
+title: "MetaScience Unconference"
+date: 2025-07-02
+author: [Lisa DeBruine]
+categories: [workshop, metacheck]
+image: ../images/metascience.png
+image-alt: The metascience logo -- a abstract red and orange shape
+---
+
+Lisa DeBruine gave an impromptu Papercheck workshop in the unconference section of the [MetaScience](https://metascience.info/) conference at UCL in London.
+
+About a dozen people attended and we discussed how Papercheck could help with their metascientific resaerch workflows.

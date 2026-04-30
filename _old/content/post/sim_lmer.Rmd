@@ -1,0 +1,10 @@
+---
+title: Simulating Mixed Effects
+author: ~
+date: "2018-12-26"
+slug: simulating-mixed-effects
+categories: ["rstats"]
+tags: ["R", "simulation", "lmer", "lme4"]
+---
+
+This tutorial has been moved to the [tutorials](/tutorials/) section.

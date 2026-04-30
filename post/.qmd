@@ -1,0 +1,14 @@
+---
+title: "Posts"
+listing:
+  contents: "."
+  sort: "date desc"
+  type: grid
+  categories: true
+  sort-ui: false
+  filter-ui: true
+  date-format: iso
+  fields: [date, title, description, categories]
+page-layout: full
+title-block-banner: false
+---

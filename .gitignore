@@ -7,3 +7,8 @@
 Thumbs.db
 /public/
 /resources/
+
+/.quarto/
+.positai
+
+**/*.quarto_ipynb

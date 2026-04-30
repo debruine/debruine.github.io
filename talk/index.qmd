@@ -1,0 +1,14 @@
+---
+title: "Talks"
+listing:
+  contents: .
+  date-format: iso
+  type: default
+  sort: "date desc"
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  image-placeholder: "../images/darwin_oy.png"
+page-layout: full
+title-block-banner: false
+---

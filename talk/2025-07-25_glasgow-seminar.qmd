@@ -1,0 +1,19 @@
+---
+title: "Glasgow Seminar on Papercheck"
+date: 2025-07-25
+author: [Lisa DeBruine]
+categories: [metacheck]
+image: ../images/glasgow.png
+image-alt: The University of Glasgow crest - blue with a bird, tree, book, bell and fish
+---
+
+Lisa DeBruine presented Papercheck in a talk for the University of Glasgow [School of Psychology & Neuroscience](https://www.gla.ac.uk/schools/psychologyneuroscience/) summer seminar series.
+
+Access the [slides](https://scienceverse.github.io/talks/2025-papercheck-intro/)
+
+## Abstract
+
+In this talk, I will introduce Papercheck, a new tool that leverages text search, code, and large language models to extract and supplement information from scientific documents (including manuscripts, submitted or published articles, or preregistration documents) and provides automated suggestions for improvement.
+
+Inspired by practices in software development, where automated checks (e.g., CRAN checks for R packages) are used to identify issues before release, Papercheck aims to screen scientific manuscripts to identify potential issues or areas for improvement and guide researchers in adopting best practices. It can also assist with processing large numbers of papers for metascientific enquiry.
+

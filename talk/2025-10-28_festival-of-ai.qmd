@@ -1,0 +1,12 @@
+---
+title: "Research Literature Demonstration: Festival of Data Science and AI"
+date: 2025-10-28
+author: [Lisa DeBruine]
+categories: [workshop, metacheck]
+image: ../images/metacheck.png
+image-alt: Green hexagon with the words META CHECK
+---
+
+Lisa DeBruine gave a Papercheck workshop at the [Festival of Data Science and AI](https://www.gla.ac.uk/research/az/datascience/events/festival/#1.30-5pm%3Aresearchliteraturedemonstration) at the University of Glasgow in Scotland.
+
+We had an in-depth demonstration of how Papercheck might be useful for systematic reviews.  

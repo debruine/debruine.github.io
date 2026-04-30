@@ -1,0 +1,8 @@
+---
+title: Simulating Random Slopes
+date: "2019-01-09"
+slug: simulating-random-slopes
+categories: ["R", "simulation", "lmer", "lme4"]
+---
+
+This tutorial has been moved to the [tutorials](/tutorials/) section.

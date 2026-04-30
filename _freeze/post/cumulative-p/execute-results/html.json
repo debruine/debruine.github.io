@@ -1,0 +1,17 @@
+{
+  "hash": "8f92ffefe691a05947c404efc34981c6",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: Cumulative p\ndate: '2017-07-27'\nslug: cumulative-p\ncategories: [\"stats\", \"p-value\"]\n---\n\n\n\n\n\nEJ Wagenmakers started an interesting debate last night with a [twitter poll on p-values](https://twitter.com/EJWagenmakers/status/889987997046910978). Some responses suggested you can multiply p-values from several tests to create a sort of [cumulative p-value](https://twitter.com/VladMalik/status/890246773515722752) that is the joint probability of the null hypothesis.\n\nI also used to believe that you could multiply p-values, but am now a bit embarassed at my misunderstanding, common as it is. The p-value is *not* the probability that the null hypothesis is true, it is the probability of obtaining the current (or more extreme) values under the null hypothesis. This important distinction means you cannot multiply p-values to obtain the joint probability of several tests.\n\nFirst, I'll write a simple function to generate two sets of `n` samples from a normal distribution with the same mean and SD, then return the p-value for a t-test.\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nnullp <- function(n) {\n  a = rnorm(n)\n  b = rnorm(n)\n  t = t.test(a, b)\n  t$p.value\n}\n```\n:::\n\n\n\nI'll run this simulation 10000 times with samples of n = 1000 to get a good distribution of p-values under the null hypothesis. The histogram shows that this is a unifrom distribution.\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\nps <- replicate(10000, nullp(1000))\n\nhist(ps)\n```\n\n::: {.cell-output-display}\n![](cumulative-p_files/figure-html/unnamed-chunk-2-1.png){width=672}\n:::\n:::\n\n\n\nThen sample 1000 p-values from this distributions once, twice, thrice, and whatever the word is for four times. This should convince you that the cumulative p-value cannot provide the joint probability of the null hypothesis for multiple tests.\n\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntibble(\n  x1 = sample(ps, 1000),\n  x2 = sample(ps, 1000) * sample(ps, 1000),\n  x3 = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000),\n  x4 = sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000) * sample(ps, 1000)\n) %>%\n  gather(\"n_tests\", \"cum_p\", x1:x4) %>%\n  ggplot(aes(cum_p, fill=n_tests)) +\n  geom_density(alpha = 0.5) +\n  labs(x =\"Cumulative p-value\")\n```\n\n::: {.cell-output-display}\n![Cumulative p-value distribution under the null hypothesis](cumulative-p_files/figure-html/unnamed-chunk-3-1.png){width=672}\n:::\n:::\n",
+    "supporting": [
+      "cumulative-p_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

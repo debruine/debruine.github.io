@@ -1,0 +1,65 @@
+---
+title: Simulating Multiple Vectors
+author: ~
+date: '2018-12-22'
+slug: rnorm_multi
+categories: ["rstats"]
+tags: ["R", "correlated data", "simulation", "faux"]
+---
+
+```{r load-libraries, message = FALSE}
+library(tidyverse)
+library(faux)
+```
+
+I'm working on a package for simulations called [faux](https://github.com/debruine/faux). (Update: faux is now on CRAN!)
+
+The first function, `rnorm_multi`, makes multiple normally distributed vectors with specified relationships and takes the following arguments:
+
+* `n` = the number of samples required (required)
+* `vars` = the number of variables to return (default = `3`)
+* `cors` = the correlations among the variables (can be a single number, vars\*vars matrix, vars\*vars vector, or a vars\*(vars-1)/2 vector; default = `0`)
+* `mu` = a vector giving the means of the variables (numeric vector of length 1 or vars; default = `0`)
+* `sd` = the standard deviations of the variables (numeric vector of length 1 or vars; default = `1`)
+* `varnames` = optional names for the variables (string vector of length vars; default = `NULL`)
+* `empirical` = logical. If true, mu, sd and cors specify the empirical not population mean, sd and covariance (default = `FALSE`)
+
+
+## Example 1
+
+The following example creates a 100-row dataframe of 3 columns names `A`, `B`, and `C`, with means = 0, SDs = 1, and where r~AB~ = 0.2, r~AC~ = -0.5, and r~BC~ = 0.5.
+
+```{r}
+ex1 <- rnorm_multi(100, 3, c(0.2, -0.5, 0.5), varnames=c("A", "B", "C"))
+```
+
+### Correlation Matrix of Sample Data
+
+`r cor(ex1) %>% knitr::kable()`
+
+## Example 2
+
+The following example calculates the correlation matrix, means, and SDs from the `iris` dataset and uses them to simulate a dataset of 100 rows with the same parameters.
+
+```{r}
+
+dat <- select_if(iris, is.numeric)
+
+iris_sim <- rnorm_multi(
+  n = 100, 
+  vars = ncol(dat), 
+  r = cor(dat),
+  mu = summarise_all(dat, mean) %>% t(), 
+  sd = summarise_all(dat, sd) %>% t(), 
+  varnames = names(dat)
+)
+
+```
+
+### Correlation Matrix of Original Data
+
+`r cor(dat) %>% knitr::kable()`
+
+### Correlation Matrix of Sample Data
+
+`r cor(iris_sim) %>% knitr::kable()`

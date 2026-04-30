@@ -1,0 +1,66 @@
+project:
+  type: website
+  output-dir: docs
+
+execute: 
+  freeze: auto
+
+website:
+  title: "Lisa DeBruine"
+  site-url: https://debruine.github.io
+  repo-url: https://github.com/debruine/debruine.github.io
+  image: images/favicon.png
+  favicon: images/favicon.png
+  # google-analytics:
+  #   tracking-id: ""
+  #   storage: cookies
+  #   anonymize-ip: true
+  navbar:
+    # logo: /images/lisa.jpg
+    # logo-alt: "A person with blue hair"
+    toggle-position: "right"
+    right: # https://icons.getbootstrap.com/
+      - text: "Posts"
+        href: post/index.qmd
+      - text: "Talks"
+        href: talk/index.qmd
+      - text: " "
+        icon: github
+        aria-label: GitHub
+        href: https://github.com/debruine
+      - text: " "
+        icon: bluesky
+        aria-label: BlueSky
+        href: https://bsky.app/profile/debruine.bsky.social
+      - text: "![](images/osf.svg){height='1em'}"
+        href: https://osf.io/4i578/
+        aria-label: OSF
+      - text: "![](images/figshare.svg){height='1em'}"
+        href: https://figshare.com/authors/Lisa_DeBruine/3235773
+      - text: "![](images/orcid.svg){height='1em'}"
+        aria-label: ORCiD
+        href: http://orcid.org/0000-0002-7523-5539
+      - text: " "
+        icon: mortarboard
+        aria-label: Google Scholar
+        href: https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ
+      - text: " "
+        icon: envelope
+        aria-label: Email
+        href: mailto:lisa.debruine@glasgow.ac.uk
+
+
+  page-footer:
+    background: primary
+    left: "[![](images/cc-by.svg)](https://creativecommons.org/licenses/by/4.0/legalcode.en)"
+    right:
+      - icon: github
+        aria-label: GitHub
+        href: https://github.com/debruine
+
+format:
+  html:
+    theme: 
+      light: [flatly, www/light.scss]
+      dark: [darkly, www/dark.scss]
+    css: www/style.css
