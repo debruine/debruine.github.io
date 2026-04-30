@@ -8,7 +8,9 @@ listing:
   categories: true
   sort-ui: false
   filter-ui: false
-  image-placeholder: "../images/darwin_oy.png"
+  image-placeholder: "../images/lisa-2026.png"
 page-layout: full
 title-block-banner: false
 ---
+
+See [Talks](https://debruine.github.io/talks/) for a list of slides.

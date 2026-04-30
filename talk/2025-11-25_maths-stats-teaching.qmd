@@ -1,0 +1,12 @@
+---
+title: "Teaching Reproducible Research"
+date: 2025-11-25
+author: [Lisa DeBruine]
+categories: [teaching]
+image: ../images/psyteachr.png
+image-alt: Rainbos-bordered hexagon with the word PsyTeachR
+---
+
+Lisa DeBruine spoke about [PsyTeachR](https://psyteachr.github.io) at the Maths and Stats seminar at the University of Glasgow in Scotland.
+
+[Slides](https://debruine.github.io/talks/teach-repro-2025/)

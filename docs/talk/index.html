@@ -88,7 +88,8 @@ ul.task-list li input[type="checkbox"] {
 
     const options = {
       valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
+      page: 25,
+    pagination: { item: "<li class='page-item'><a class='page page-link' href='#'></a></li>" },
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
     };
 
@@ -339,15 +340,15 @@ window.Quarto = {
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://osf.io/4i578/"> 
-<span class="menu-text"><img src="images/osf.svg" style="height:1em"></span></a>
+<span class="menu-text"><img src="../images/osf.svg" style="height:1em"></span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://figshare.com/authors/Lisa_DeBruine/3235773"> 
-<span class="menu-text"><img src="images/figshare.svg" style="height:1em"></span></a>
+<span class="menu-text"><img src="../images/figshare.svg" style="height:1em"></span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="http://orcid.org/0000-0002-7523-5539"> 
-<span class="menu-text"><img src="images/orcid.svg" style="height:1em"></span></a>
+<span class="menu-text"><img src="../images/orcid.svg" style="height:1em"></span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://scholar.google.co.uk/citations?user=oLHcVYUAAAAJ"> <i class="bi bi-mortarboard" role="img" aria-label="Google Scholar">
@@ -373,7 +374,7 @@ window.Quarto = {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(24)</span></div><div class="category" data-category="YWk=">ai <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kZSUyMGNoZWNr">code check <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kaW5n">coding <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZXRoaWNz">ethics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmFjZXM=">faces <span class="quarto-category-count">(2)</span></div><div class="category" data-category="anVsaWE=">julia <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bWV0YWNoZWNr">metacheck <span class="quarto-category-count">(3)</span></div><div class="category" data-category="bWV0aG9kcw==">methods <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bWl4ZWQlMjBlZmZlY3Rz">mixed effects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3BlbiUyMHJlc2VhcmNo">open research <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3BlbiUyMHNjaWVuY2U=">open science <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cGFuZWw=">panel <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHJvamVjdCUyMHBsYW5uaW5n">project planning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UFNB">PSA <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cHN5VGVhY2hS">psyTeachR <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cXVhcnRv">quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Ug==">R <span class="quarto-category-count">(10)</span></div><div class="category" data-category="cmVwbGljYXRpb24=">replication <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cmVzZWFyY2g=">research <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2ltdWxhdGlvbg==">simulation <span class="quarto-category-count">(9)</span></div><div class="category" data-category="dGVhY2hpbmc=">teaching <span class="quarto-category-count">(8)</span></div><div class="category" data-category="dGVhbSUyMHNjaWVuY2U=">team science <span class="quarto-category-count">(6)</span></div><div class="category" data-category="d29ya3Nob3A=">workshop <span class="quarto-category-count">(2)</span></div></div></div>
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(26)</span></div><div class="category" data-category="YWk=">ai <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kZSUyMGNoZWNr">code check <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Y29kaW5n">coding <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZXRoaWNz">ethics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZmFjZXM=">faces <span class="quarto-category-count">(2)</span></div><div class="category" data-category="anVsaWE=">julia <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bWV0YWNoZWNr">metacheck <span class="quarto-category-count">(3)</span></div><div class="category" data-category="bWV0aG9kcw==">methods <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bWl4ZWQlMjBlZmZlY3Rz">mixed effects <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3BlbiUyMHJlc2VhcmNo">open research <span class="quarto-category-count">(1)</span></div><div class="category" data-category="b3BlbiUyMHNjaWVuY2U=">open science <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cGFuZWw=">panel <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cHJvamVjdCUyMHBsYW5uaW5n">project planning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UFNB">PSA <span class="quarto-category-count">(3)</span></div><div class="category" data-category="cHN5VGVhY2hS">psyTeachR <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cXVhcnRv">quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Ug==">R <span class="quarto-category-count">(10)</span></div><div class="category" data-category="cmVwbGljYXRpb24=">replication <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cmVzZWFyY2g=">research <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c2ltdWxhdGlvbg==">simulation <span class="quarto-category-count">(10)</span></div><div class="category" data-category="dGVhY2hpbmc=">teaching <span class="quarto-category-count">(9)</span></div><div class="category" data-category="dGVhbSUyMHNjaWVuY2U=">team science <span class="quarto-category-count">(6)</span></div><div class="category" data-category="d29ya3Nob3A=">workshop <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content">
 
@@ -397,13 +398,74 @@ window.Quarto = {
 </header>
 
 
+<p>See <a href="https://debruine.github.io/talks/">Talks</a> for a list of slides.</p>
 
 
 
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="cGFuZWwlMkNhaQ==" data-listing-date-sort="1761609600000" data-listing-file-modified-sort="1762861140869" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="28">
+<div class="quarto-post image-right" data-index="0" data-categories="c2ltdWxhdGlvbg==" data-listing-date-sort="1787612400000" data-listing-file-modified-sort="1777560772355" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="28">
+<div class="thumbnail"><a href="../talk/2026-08-25_potsdam.html" class="no-external">
+
+<img loading="lazy" src="../images/faux.png" class="thumbnail-image" alt="Blue hexagon with the word FAUX">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../talk/2026-08-25_potsdam.html" class="no-external">Data Simulation Keynote</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('c2ltdWxhdGlvbg=='); return false;">simulation</div>
+
+</div>
+<div class="delink listing-description"><a href="../talk/2026-08-25_potsdam.html" class="no-external">
+Lisa DeBruine will give a keynote at the 10th annual Summer School on Statistical Methods for Linguistics and Psychology in Potsdam, Germany, on the topic of data simulation.
+</a></div>
+</div>
+<div class="metadata">
+<a href="../talk/2026-08-25_potsdam.html" class="no-external">
+<div class="listing-date">
+2026-08-25
+</div>
+<div class="listing-author">
+Lisa DeBruine
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="dGVhY2hpbmc=" data-listing-date-sort="1764028800000" data-listing-file-modified-sort="1777560826627" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="18">
+<div class="thumbnail"><a href="../talk/2025-11-25_maths-stats-teaching.html" class="no-external">
+
+<img loading="lazy" src="../images/psyteachr.png" class="thumbnail-image" alt="Rainbos-bordered hexagon with the word PsyTeachR">
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="../talk/2025-11-25_maths-stats-teaching.html" class="no-external">Teaching Reproducible Research</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('dGVhY2hpbmc='); return false;">teaching</div>
+
+</div>
+<div class="delink listing-description"><a href="../talk/2025-11-25_maths-stats-teaching.html" class="no-external">
+Lisa DeBruine spoke about PsyTeachR at the Maths and Stats seminar at the University of Glasgow in Scotland.
+</a></div>
+</div>
+<div class="metadata">
+<a href="../talk/2025-11-25_maths-stats-teaching.html" class="no-external">
+<div class="listing-date">
+2025-11-25
+</div>
+<div class="listing-author">
+Lisa DeBruine
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="cGFuZWwlMkNhaQ==" data-listing-date-sort="1761609600000" data-listing-file-modified-sort="1762861140869" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="28">
 <div class="thumbnail"><a href="../talk/2025-10-27_ai-ethics.html" class="no-external">
 
 <img loading="lazy" src="../images/metacheck.png" class="thumbnail-image" alt="Green hexagon with the words META CHECK">
@@ -435,7 +497,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="d29ya3Nob3AlMkNtZXRhY2hlY2s=" data-listing-date-sort="1761609600000" data-listing-file-modified-sort="1762861154470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="36">
+<div class="quarto-post image-right" data-index="3" data-categories="d29ya3Nob3AlMkNtZXRhY2hlY2s=" data-listing-date-sort="1761609600000" data-listing-file-modified-sort="1762861154470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="36">
 <div class="thumbnail"><a href="../talk/2025-10-28_festival-of-ai.html" class="no-external">
 
 <img loading="lazy" src="../images/metacheck.png" class="thumbnail-image" alt="Green hexagon with the words META CHECK">
@@ -467,7 +529,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="bWV0YWNoZWNr" data-listing-date-sort="1753398000000" data-listing-file-modified-sort="1762861346705" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="118">
+<div class="quarto-post image-right" data-index="4" data-categories="bWV0YWNoZWNr" data-listing-date-sort="1753398000000" data-listing-file-modified-sort="1762861346705" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="118">
 <div class="thumbnail"><a href="../talk/2025-07-25_glasgow-seminar.html" class="no-external">
 
 <img loading="lazy" src="../images/glasgow.png" class="thumbnail-image" alt="The University of Glasgow crest - blue with a bird, tree, book, bell and fish">
@@ -497,7 +559,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="d29ya3Nob3AlMkNtZXRhY2hlY2s=" data-listing-date-sort="1751410800000" data-listing-file-modified-sort="1762861076706" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="35">
+<div class="quarto-post image-right" data-index="5" data-categories="d29ya3Nob3AlMkNtZXRhY2hlY2s=" data-listing-date-sort="1751410800000" data-listing-file-modified-sort="1762861076706" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="35">
 <div class="thumbnail"><a href="../talk/2025-07-02_metascience-unconference.html" class="no-external">
 
 <img loading="lazy" src="../images/metascience.png" class="thumbnail-image" alt="The metascience logo -- a abstract red and orange shape">
@@ -529,7 +591,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1706779800000" data-listing-file-modified-sort="1746187860348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="208">
+<div class="quarto-post image-right" data-index="6" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1706779800000" data-listing-file-modified-sort="1746187860348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="208">
 <div class="thumbnail"><a href="../talk/2024-02-01_Bern.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/Bern.jpg" class="thumbnail-image">
@@ -560,7 +622,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="c2ltdWxhdGlvbiUyQ2p1bGlh" data-listing-date-sort="1696809600000" data-listing-file-modified-sort="1746187860347" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="7" data-categories="c2ltdWxhdGlvbiUyQ2p1bGlh" data-listing-date-sort="1696809600000" data-listing-file-modified-sort="1746187860347" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-10-09_SimTech.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/SimTech.png" class="thumbnail-image">
@@ -591,7 +653,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="b3BlbiUyMHJlc2VhcmNoJTJDZXRoaWNz" data-listing-date-sort="1696586400000" data-listing-file-modified-sort="1746187860346" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="8" data-categories="b3BlbiUyMHJlc2VhcmNoJTJDZXRoaWNz" data-listing-date-sort="1696586400000" data-listing-file-modified-sort="1746187860346" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-10-06_UG-ethics.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/UG-ethics.png" class="thumbnail-image">
@@ -620,7 +682,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="ZmFjZXMlMkNjb2RpbmclMkNyZXBsaWNhdGlvbiUyQ21ldGhvZHM=" data-listing-date-sort="1695308400000" data-listing-file-modified-sort="1746187860345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="9" data-categories="ZmFjZXMlMkNjb2RpbmclMkNyZXBsaWNhdGlvbiUyQ21ldGhvZHM=" data-listing-date-sort="1695308400000" data-listing-file-modified-sort="1746187860345" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-09-21_VU.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/VU.png" class="thumbnail-image">
@@ -653,7 +715,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="UFNBJTJDdGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1690070400000" data-listing-file-modified-sort="1746187860336" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="10" data-categories="UFNBJTJDdGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1690070400000" data-listing-file-modified-sort="1746187860336" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-07-23_ISHE.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/ISHE.png" class="thumbnail-image">
@@ -682,7 +744,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="UiUyQ3F1YXJ0byUyQ3RlYWNoaW5n" data-listing-date-sort="1687599000000" data-listing-file-modified-sort="1746187860331" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="11" data-categories="UiUyQ3F1YXJ0byUyQ3RlYWNoaW5n" data-listing-date-sort="1687599000000" data-listing-file-modified-sort="1746187860331" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-06-24_SIPS.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/SIPS.png" class="thumbnail-image">
@@ -714,7 +776,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1685629800000" data-listing-file-modified-sort="1746187860330" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="12" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1685629800000" data-listing-file-modified-sort="1746187860330" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-06-01_EMPSEB.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/EMPSEB.png" class="thumbnail-image">
@@ -745,7 +807,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1682524800000" data-listing-file-modified-sort="1746187860326" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="13" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1682524800000" data-listing-file-modified-sort="1746187860326" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-04-26_STORK.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/STORK.jpg" class="thumbnail-image">
@@ -776,10 +838,10 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1680184800000" data-listing-file-modified-sort="1746187860325" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="14" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1680184800000" data-listing-file-modified-sort="1777560952260" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-03-30_Bath.html" class="no-external">
 
-<img loading="lazy" src="../talk/images/Bath." class="thumbnail-image">
+<img loading="lazy" src="../images/pip_sticker.png" class="thumbnail-image">
 
 </a></div>
 <div class="body">
@@ -807,7 +869,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZyUyQ2NvZGUlMjBjaGVjaw==" data-listing-date-sort="1669039200000" data-listing-file-modified-sort="1746187960293" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="15" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZyUyQ2NvZGUlMjBjaGVjaw==" data-listing-date-sort="1669039200000" data-listing-file-modified-sort="1746187960293" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2022-11-21_RIOT.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/RIOT.png" class="thumbnail-image">
@@ -840,7 +902,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="dGVhbSUyMHNjaWVuY2UlMkNmYWNlcw==" data-listing-date-sort="1666894500000" data-listing-file-modified-sort="1746187860315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="16" data-categories="dGVhbSUyMHNjaWVuY2UlMkNmYWNlcw==" data-listing-date-sort="1666894500000" data-listing-file-modified-sort="1746187860315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2022-10-27_BTS.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/BTS.png" class="thumbnail-image">
@@ -873,7 +935,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="15" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1664373600000" data-listing-file-modified-sort="1746187860313" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="17" data-categories="UiUyQ3NpbXVsYXRpb24lMkN0ZWFjaGluZw==" data-listing-date-sort="1664373600000" data-listing-file-modified-sort="1746187860313" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2022-09-28_Lancaster.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/Lancaster.png" class="thumbnail-image">
@@ -904,7 +966,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="16" data-categories="dGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1663923600000" data-listing-file-modified-sort="1746187860312" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="18" data-categories="dGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1663923600000" data-listing-file-modified-sort="1746187860312" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2022-09-23_ABRIR.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/ABRIR.png" class="thumbnail-image">
@@ -931,7 +993,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="17" data-categories="c2ltdWxhdGlvbiUyQ1I=" data-listing-date-sort="1651050000000" data-listing-file-modified-sort="1746187860310" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="19" data-categories="c2ltdWxhdGlvbiUyQ1I=" data-listing-date-sort="1651050000000" data-listing-file-modified-sort="1746187860310" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2022-04-27_York-ReproTea.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/York-ReproTea.png" class="thumbnail-image">
@@ -960,7 +1022,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="18" data-categories="UFNBJTJDdGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1634659200000" data-listing-file-modified-sort="1746187860302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="20" data-categories="UFNBJTJDdGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1634659200000" data-listing-file-modified-sort="1746187860302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2021-10-19_York-OSS.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/York-OSS.png" class="thumbnail-image">
@@ -989,7 +1051,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="19" data-categories="UFNBJTJDdGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1634659200000" data-listing-file-modified-sort="1746187860321" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="21" data-categories="UFNBJTJDdGVhbSUyMHNjaWVuY2U=" data-listing-date-sort="1634659200000" data-listing-file-modified-sort="1746187860321" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2023-02-11_CSA.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/CSA.png" class="thumbnail-image">
@@ -1018,10 +1080,10 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="20" data-categories="b3BlbiUyMHNjaWVuY2U=" data-listing-date-sort="1634648400000" data-listing-file-modified-sort="1746188010602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="22" data-categories="b3BlbiUyMHNjaWVuY2U=" data-listing-date-sort="1634648400000" data-listing-file-modified-sort="1746188010602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2021-10-19_IHW.html" class="no-external">
 
-<p class="card-img-top"><img loading='lazy' src="../images/darwin_oy.png"  class="thumbnail-image card-img"/></p>
+<p class="card-img-top"><img loading='lazy' src="../images/lisa-2026.png"  class="thumbnail-image card-img"/></p>
 
 </a></div>
 <div class="body">
@@ -1045,7 +1107,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="21" data-categories="cmVzZWFyY2glMkN0ZWFjaGluZyUyQ3Byb2plY3QlMjBwbGFubmluZw==" data-listing-date-sort="1634137200000" data-listing-file-modified-sort="1746187860296" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="23" data-categories="cmVzZWFyY2glMkN0ZWFjaGluZyUyQ3Byb2plY3QlMjBwbGFubmluZw==" data-listing-date-sort="1634137200000" data-listing-file-modified-sort="1746187860296" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2021-10-13_projplan.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/projplan." class="thumbnail-image">
@@ -1076,7 +1138,7 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="22" data-categories="bWl4ZWQlMjBlZmZlY3RzJTJDc2ltdWxhdGlvbiUyQ1I=" data-listing-date-sort="1633449600000" data-listing-file-modified-sort="1746187860295" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="24" data-categories="bWl4ZWQlMjBlZmZlY3RzJTJDc2ltdWxhdGlvbiUyQ1I=" data-listing-date-sort="1633449600000" data-listing-file-modified-sort="1746187860295" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2021-10-05_princeton.html" class="no-external">
 
 <img loading="lazy" src="../talk/images/princeton.png" class="thumbnail-image">
@@ -1107,10 +1169,10 @@ Lisa DeBruine
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="23" data-categories="dGVhbSUyMHNjaWVuY2UlMkNwc3lUZWFjaFIlMkNS" data-listing-date-sort="1550361600000" data-listing-file-modified-sort="1746187860293" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="25" data-categories="dGVhbSUyMHNjaWVuY2UlMkNwc3lUZWFjaFIlMkNS" data-listing-date-sort="1550361600000" data-listing-file-modified-sort="1746187860293" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
 <div class="thumbnail"><a href="../talk/2019-02-17_Everything-Hertz.html" class="no-external">
 
-<img loading="lazy" src="../talk/images/Everything-Hertz.png" class="thumbnail-image">
+<img loading="lazy" data-src="../talk/images/Everything-Hertz.png" class="thumbnail-image">
 
 </a></div>
 <div class="body">
@@ -1140,6 +1202,9 @@ Lisa DeBruine
 </div>
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
+<nav id="listing-pagination" class="listing-pagination" aria-label="Page Navigation">
+  <ul class="pagination"></ul>
+</nav>
 </div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

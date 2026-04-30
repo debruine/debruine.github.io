@@ -1,0 +1,10 @@
+---
+title: "Data Simulation Keynote"
+date: 2026-08-25
+author: [Lisa DeBruine]
+categories: [simulation]
+image: ../images/faux.png
+image-alt: Blue hexagon with the word FAUX
+---
+
+Lisa DeBruine will give a keynote at the 10th annual [Summer School on Statistical Methods for Linguistics and Psychology](https://vasishth.github.io/smlp2026/) in Potsdam, Germany, on the topic of data simulation.

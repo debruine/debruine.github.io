@@ -32,12 +32,12 @@ website:
         icon: bluesky
         aria-label: BlueSky
         href: https://bsky.app/profile/debruine.bsky.social
-      - text: "![](images/osf.svg){height='1em'}"
+      - text: "![](/images/osf.svg){height='1em'}"
         href: https://osf.io/4i578/
         aria-label: OSF
-      - text: "![](images/figshare.svg){height='1em'}"
+      - text: "![](/images/figshare.svg){height='1em'}"
         href: https://figshare.com/authors/Lisa_DeBruine/3235773
-      - text: "![](images/orcid.svg){height='1em'}"
+      - text: "![](/images/orcid.svg){height='1em'}"
         aria-label: ORCiD
         href: http://orcid.org/0000-0002-7523-5539
       - text: " "

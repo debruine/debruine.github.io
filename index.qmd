@@ -1,4 +1,4 @@
-![](images/lisa-2026.jpg){style="width: 25%; float: left; margin-right: 1em; border-radius: 10%;"}
+![](images/lisa-2026.jpg){style="width: 33%; float: left; margin-right: 1em; border-radius: 10%;"}
 
 Lisa DeBruine is Academic Lead for Good Research Practice at the University of Glasgow and a professor in the [School of Psychology and Neuroscience](https://www.gla.ac.uk/schools/psychologyneuroscience/). They are also the institutional lead for the [UK Reproducibility Network](https://ukrn.org) and a member of the [psyTeachR team](https://psyteachr.github.io) for reproducible research educational resources. Their current research focuses on the development on [tools to improve scientific practice and reporting](https://scienceverse.github.io/). They were a founding member and former Associate Director of the [Psychological Science Accelerator](https://psysciacc.org/), founder of [ManyFaces](https://manyfaces.team), and chair of the [APA Open Science and Methodology Expert Panel](https://www.apa.org/pubs/journals/resources/open-science) from 2023-2025. 
 

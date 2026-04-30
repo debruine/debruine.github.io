@@ -14,7 +14,7 @@ all_day: false
 authors: [Lisa DeBruine]
 #event_url: https://example.org
 featured: false
-image: images/Bath.
+image: ../images/pip_sticker.png
 
 
 #links:
